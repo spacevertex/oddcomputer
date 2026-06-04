@@ -1,0 +1,8 @@
+baseURL = 'https://spacevertex.github.io'
+locale = 'en-us'
+title = 'oddComputer'
+
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true
