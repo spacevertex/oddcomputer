@@ -1,9 +1,21 @@
+@font-face {
+  font-family: "PressStart2P";
+  src: url("PressStart2P-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  background-color: #3d3d3d;
+  background-color: #292929;
   color: #e6e6e6;
-  font-family: "Spleen Mono", monospace;
+  font-family: "PressStart2P";
   line-height: 1.6;
   margin: 40px;
+}
+
+li a {
+  font-size: 1.2em;
+  color: #ffbb77;
 }
 
 a {
