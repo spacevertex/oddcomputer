@@ -1,6 +1,6 @@
 baseURL = "https://oddcomputer.com/"
 locale = 'en-us'
-title = 'oddComputer'
+title = 'oddComputer.com'
 
 [markup]
     [markup.goldmark]
