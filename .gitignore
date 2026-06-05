@@ -1,0 +1,14 @@
+# Hugo build output (NEVER commit this when using GitHub Actions)
+public/
+
+# Hugo cache / resources
+resources/
+.hugo_build.lock
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor noise
+.vscode/
+.idea/
