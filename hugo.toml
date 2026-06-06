@@ -1,6 +1,41 @@
 baseURL = "https://oddcomputer.com/"
 locale = 'en-us'
 title = 'oddComputer.com'
+theme = 'Terminal'
+
+[languages.en.params.logo]
+  logoText = "oddComputer.com"
+  logoHomeLink = "/"
+
+[[menu.main]]
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+name = "Testing"
+url = "/testing/"
+weight = 20
+
+[[menu.main]]
+name = "Cybersecurity"
+url = "/cybersecurity/"
+weight = 30
+
+[[menu.main]]
+name = "Electronics"
+url = "/electronics/"
+weight = 40
+
+[[menu.main]]
+name = "Math"
+url = "/math/"
+weight = 50
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+weight = 60
 
 [markup]
     [markup.goldmark]
