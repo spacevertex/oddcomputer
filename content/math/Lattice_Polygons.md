@@ -39,4 +39,6 @@ The same idea of having three starting points as before, but solutions mapped on
 ![starting with two points, the origin and x,y where gcd(x,y)=1](/images/LatticePolygons/08_most_general.png)
 This is a conjecture, but it seems likely that you can make a [4:1] starting with any segment that has an edge that is x,y if x and y are relatively prime. So the side touches only two lattice points. The graphs show 4 ways to solve for 23,31. The points on the graph represent the next integer up from the initial line. I don't have an algorithmic way to solve but it works for the 5 shapes shown. Try the 9,13 for yourself, graph provided.
 
-### Thanks for reading
+### Figure 11: Bonus figure - a picture of some [3:1] shapes
+![a double wedge shape of som [3:1] lattice polygons](/images/LatticePolygons/many_3_1.png)
+My original idea was to plot how many of each combination of B and I existed. For example, [3:5]->0, there are no shapes with 3 borders and 5 interiors. Except there are, and they are just as interesting as the [4:1] stuff. I don't think there are any combinations that aren't either zero or infinitely many solutions. Find some for yourself, it's another rabbit hole. As a parting thought, Figure 11 shows a few [3,1].
