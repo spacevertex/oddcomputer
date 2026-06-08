@@ -34,7 +34,7 @@ This figure pushes the boudary of what can be show legibly by having overlapping
 - I didn't bother marking the interior points in this figure
 ### Figure 9: Another attempt to show solutions
 ![starting with the three points 0,0 1,0 1,1 the infinite number of solutions are suggested by a starburst figure](/images/LatticePolygons/06_ugly_stretch.png)
-The same idea of having three starting points as before, but solutions mapped on a line laying parallel to two of the starting points. No attempt to draw all of the polygons. Note the one with the verticle line is just the starter pack diamond with the flexibilty shown in the animated Figure 5.
+The same idea of having three starting points as before, but solutions mapped on a line laying parallel to two of the starting points. No attempt to draw all of the polygons. Note the one with the verticle line is just the starter pack diamond with the flexibility shown in the animated Figure 5.
 ### Figure 10: What if we only had 2 starting points
 ![starting with two points, the origin and x,y where gcd(x,y)=1](/images/LatticePolygons/08_most_general.png)
 This is a conjecture, but it seems likely that you can make a [4:1] starting with any segment that has an edge that is x,y if x and y are relatively prime. So the side touches only two lattice points. The graphs show 4 ways to solve for 23,31. The points on the graph represent the next integer up from the initial line. I don't have an algorithmic way to solve but it works for the 5 shapes shown. Try the 9,13 for yourself, graph provided.
