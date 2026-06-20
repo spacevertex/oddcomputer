@@ -17,7 +17,7 @@ Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conject
 ![Cosine makes a sort of petal shaped figure around the origin, with the petals getting infinitely close to one another as m approaches -infinity and also positive infinity](/images/mdCoordinates/md_spring.png)
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
-![This figure is a slinky, or spring, with one end affixed below and one above the m = 0 axis](/images/LatticePolygons/Triangle_Flexible.gif)
+![This figure is a slinky, or spring, with one end affixed below and one above the m = 0 axis](/images/mdCoordinates/md_slinky.mp4)
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
 ### Figure 7: Polynomials make knots
 ![Sweeping curve passes through the origin three times, once for each solution to the cubic polynomial](/images/LatticePolygons/two_cool_ones.png)
