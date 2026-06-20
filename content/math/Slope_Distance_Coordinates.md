@@ -11,7 +11,7 @@ Coordinate system that locates a point by the slope of the line that would inter
 Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. It can get arbitrarily close, of course, but this graph's domain was -20 < m < 15
 
 ### Figure 3: d = m
-<video autoplay muted playsinline style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video muted playsinline controls poster="/images/mdCoordinates/md_d_eq_m.png" style="border: 10px solid #0d0;max-width:100%; height:auto;">
 <source src="/images/mdCoordinates/md_d_eq_m.mp4" type="video/mp4">
 </video>
 Where Figure 2 was maybe trivial but still instructive, the graph of d = m is less obvious. The next few figure will illustrate what happens when we show classic x,y graphs on this m,d graph paper.
@@ -28,7 +28,7 @@ Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conject
 </video>
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
-<video muted playsinline controls preload="none" style="border: 10px solid #060;max-width:100%; height:auto;">
+<video muted playsinline controls preload="none" poster="/images/mdCoordinates/md_slinky.png" style="border: 10px solid #060;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_slinky.mp4" type="video/mp4">
 </video>
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
