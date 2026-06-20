@@ -18,7 +18,7 @@ Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conject
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
 ![This figure is a slinky, or spring, with one end affixed below and one above the m = 0 axis](/images/mdCoordinates/md_slinky.mp4)
-<video autoplay loop muted playsinline controls style="border: 5px solid #0a0;">
+<video autoplay loop muted playsinline controls style="border: 10px solid #0f0;">
   <source src="/images/mdCoordinates/md_slinky.mp4" type="video/mp4">
 </video>
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
