@@ -28,12 +28,12 @@ Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conject
 </video>
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
-<video muted playsinline controls style="border: 10px solid #060;max-width:100%; height:auto;">
+<video muted playsinline controls preload="none" style="border: 10px solid #060;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_slinky.mp4" type="video/mp4">
 </video>
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
 ### Figure 7: Polynomials make knots
-<video muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video muted playsinline controls preload="none" style="border: 10px solid #060;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_polynom.mp4" type="video/mp4">
 </video>
 Lots of different polynomials look pretty cool, I chose this cubic. Note it passes through the origin three times, at the appropriate slope value.
