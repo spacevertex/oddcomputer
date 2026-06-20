@@ -28,7 +28,9 @@ This graph shows how more and more information is displayed as m -> infinity. It
 </video>
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
 ### Figure 7: Polynomials make knots
-![Sweeping curve passes through the origin three times, once for each solution to the cubic polynomial](/images/LatticePolygons/two_cool_ones.png)
+<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+  <source src="/images/mdCoordinates/md_polynom.mp4" type="video/mp4">
+</video>
 Lots of different polynomials look pretty cool, I chose this cubic. Note it passes through the origin three times, at the appropriate slope value.
 ### Figure 8: Drawing fake x,y graphs in m,d
 ![Figure shows a vertical straight line passing through the m axis at d = 3](/images/LatticePolygons/humble_right_angle.png)
