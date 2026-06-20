@@ -5,7 +5,7 @@ title: "Slope Distance Coordinates"
 ![Diagram illustrating, with the use of a right triangle, the simple way to calculate between x,y coordinates and m,d coordinates](/images/LatticePolygons/01_PicksTheorem.png "test")
 Coordinate system that locates a point by the slope of the line that would intersect it and the origin (m), and its distance from the origin (d). This is not much different from polar, just slope instead of angle. Function will be d as a function of m.   
 ### Figure 2: d = 10
-![First graph shows the md representation of d = 10, it winds up being the right half of a circle with radius 10, centered on the origin](/images/LatticePolygons/02_basic_square.png)
+![First graph shows the md representation of d = 10, it winds up being the right half of a circle with radius 10, centered on the origin](/images/mdCoordinates/md_d_eq_10.png)
 Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. 
 ### Figure 3: d = m
 ![Figure shows the graph of d = m, which turns out to be a U shape with vertically asymptotic sides going up to infinity](/images/LatticePolygons/03_first_finds.png)
