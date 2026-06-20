@@ -11,29 +11,29 @@ Coordinate system that locates a point by the slope of the line that would inter
 Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. It can get arbitrarily close, of course, but this graph's domain was -20 < m < 15
 
 ### Figure 3: d = m
-<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
 <source src="/images/mdCoordinates/md_d_eq_m.mp4" type="video/mp4">
 </video>
 Where Figure 2 was maybe trivial but still instructive, the graph of d = m is less obvious. The next few figure will illustrate what happens when we show classic x,y graphs on this m,d graph paper.
 
 ### Figure 4: d = m - 7
-<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_d_eq_mm7.mp4" type="video/mp4">
 </video>
 Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conjecture that it would make a good Formula 1 curve. The dotted line tracks with the value of m.
 
 ### Figure 5: d = cos(m)
-<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_d_eq_cosm.mp4" type="video/mp4">
 </video>
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
-<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_slinky.mp4" type="video/mp4">
 </video>
 Multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.
 ### Figure 7: Polynomials make knots
-<video autoplay loop muted playsinline controls style="border: 10px solid #0d0;max-width:100%; height:auto;">
+<video loop muted playsinline style="border: 10px solid #0d0;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_polynom.mp4" type="video/mp4">
 </video>
 Lots of different polynomials look pretty cool, I chose this cubic. Note it passes through the origin three times, at the appropriate slope value.
