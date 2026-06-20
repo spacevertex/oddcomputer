@@ -6,9 +6,11 @@ title: "Slope Distance Coordinates"
 Coordinate system that locates a point by the slope of the line that would intersect it and the origin (m), and its distance from the origin (d). This is not much different from polar, just slope instead of angle. Function will be d as a function of m.   
 ### Figure 2: d = 10
 ![First graph shows the md representation of d = 10, it winds up being the right half of a circle with radius 10, centered on the origin](/images/mdCoordinates/md_d_eq_10.png)
-Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. 
+Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. It can get arbitrarily close, of course, but this graph's domain was -20 < m < 15
 ### Figure 3: d = m
-![Figure shows the graph of d = m, which turns out to be a U shape with vertically asymptotic sides going up to infinity](/images/LatticePolygons/03_first_finds.png)
+<video autoplay loop muted playsinline controls style="border: 10px solid #0f0;max-width:100%; height:auto;">
+  <source src="/images/mdCoordinates/md_d_eq_m.mp4" type="video/mp4">
+</video>
 Where Figure 2 was maybe trivial but still instructive, the graph of d = m is less obvious. The next few figure will illustrate what happens when we show classic x,y graphs on this m,d graph paper.
 ### Figure 4: d = m - 7
 ![The infinitely tall U shape has sagged now in such a way that it crosses the origin where m = 7](/images/LatticePolygons/04_second_finds.png)
@@ -17,7 +19,6 @@ Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conject
 ![Cosine makes a sort of petal shaped figure around the origin, with the petals getting infinitely close to one another as m approaches -infinity and also positive infinity](/images/mdCoordinates/md_spring.png)
 This graph shows how more and more information is displayed as m -> infinity. It also shows the solutions where d < 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).
 ### Figure 6: Trigonometric functions look better when pushed away from the origin, so here's d = sin(5m) + 5
-![This figure is a slinky, or spring, with one end affixed below and one above the m = 0 axis](/images/mdCoordinates/md_slinky.mp4)
 <video autoplay loop muted playsinline controls style="border: 10px solid #0f0;max-width:100%; height:auto;">
   <source src="/images/mdCoordinates/md_slinky.mp4" type="video/mp4">
 </video>
