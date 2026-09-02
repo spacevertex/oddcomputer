@@ -111,6 +111,11 @@
     <input type="range" id="bobo-bounds" min="10" max="100" value="80" step="1">
     <span class="count-val" id="bobo-bounds-val">±80</span>
   </div>
+  <div id="speed-wrap">
+    <label>Initial speed</label>
+    <input type="range" id="init-speed" min="0" max="5" value="4" step="1">
+    <span class="count-val" id="init-speed-val">±4</span>
+  </div>
 </div>
 
 <script>
@@ -125,7 +130,7 @@
   let N_BOBO = 20;
   let SPAWN_MIN = -10, SPAWN_MAX = 10;        // nearest particle spawn range (symmetric, slider-driven)
   let BOBO_MIN = -80, BOBO_MAX = 80;          // bobo particle spawn range (symmetric, slider-driven)
-  const VEL_MIN = -4, VEL_MAX = 4;
+  let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
 
   let CELL; // px per world unit, fixed, no pan/zoom
 
@@ -191,17 +196,29 @@
 
   function sign(n){ return n > 0 ? 1 : (n < 0 ? -1 : 0); }
 
-  function nearestIndex(i){
-    let best = -1, bestDistSq = Infinity;
+  // Finds all neighbors tied for closest to particle i, sums each of their
+  // individual (sign(dx), sign(dy)) contributions, then takes sign() of the
+  // summed components. With a single closest neighbor this reduces to the
+  // original one-neighbor rule; with a tie it blends the tied directions.
+  function neighborDelta(i){
     const p = particles[i];
+    let bestDistSq = Infinity;
+    let tied = [];
     for (let j=0;j<particles.length;j++){
       if (j===i) continue;
       const q = particles[j];
       const dx = q.x - p.x, dy = q.y - p.y;
       const d2 = dx*dx + dy*dy;
-      if (d2 < bestDistSq){ bestDistSq = d2; best = j; }
+      if (d2 < bestDistSq){ bestDistSq = d2; tied = [j]; }
+      else if (d2 === bestDistSq){ tied.push(j); }
     }
-    return best;
+    let sumX = 0, sumY = 0;
+    tied.forEach(j=>{
+      const q = particles[j];
+      sumX += sign(q.x - p.x);
+      sumY += sign(q.y - p.y);
+    });
+    return { dvx: sign(sumX), dvy: sign(sumY), tieCount: tied.length };
   }
 
   function step(){
@@ -210,9 +227,7 @@
     // but remain valid candidates in the search above.
     const deltas = particles.map((p, i)=>{
       if (p.type !== 'nearest') return null;
-      const j = nearestIndex(i);
-      const other = particles[j];
-      return { dvx: sign(other.x - p.x), dvy: sign(other.y - p.y) };
+      return neighborDelta(i);
     });
     particles.forEach((p,i)=>{
       if (p.type !== 'nearest') return;
@@ -373,6 +388,14 @@
     const v = parseInt(boboBoundsEl.value, 10);
     BOBO_MIN = -v; BOBO_MAX = v;
     boboBoundsVal.textContent = '±' + v;
+  });
+
+  const initSpeedEl = document.getElementById('init-speed');
+  const initSpeedVal = document.getElementById('init-speed-val');
+  initSpeedEl.addEventListener('input', ()=>{
+    const v = parseInt(initSpeedEl.value, 10);
+    VEL_MIN = -v; VEL_MAX = v;
+    initSpeedVal.textContent = '±' + v;
   });
 
   reset();
