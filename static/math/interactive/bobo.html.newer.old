@@ -331,17 +331,8 @@
   }
   window.addEventListener('resize', resize);
 
-  // Golden-angle hue stepping: each new particle's hue is offset from the
-  // last by ~137.5°, which — thanks to the golden angle's well-known
-  // equidistribution property — keeps any two particles visually distinct
-  // no matter how many total particles exist. The old approach spaced hues
-  // based on the Nearest-count slider, so loading a 2-particle oscillator
-  // into a field expecting 20 particles packed them only ~10° apart,
-  // making them look almost identical.
-  let colorCounter = 0;
-  function colorFor(){
-    const hue = (150 + colorCounter * 137.508) % 360;
-    colorCounter++;
+  function colorFor(i){
+    const hue = (150 + (i * 360/N_NEAREST) * 0.55) % 360; // green→amber→teal range
     return `hsl(${hue}, 65%, 62%)`;
   }
 
@@ -379,7 +370,6 @@
 
   function spawn(){
     particles = [];
-    colorCounter = 0;
     for (let i=0;i<N_NEAREST;i++){
       particles.push({
         type: 'nearest',
@@ -387,7 +377,7 @@
         y: randInt(SPAWN_MIN, SPAWN_MAX),
         vx: randInt(VEL_MIN, VEL_MAX),
         vy: randInt(VEL_MIN, VEL_MAX),
-        color: colorFor(),
+        color: colorFor(i),
       });
     }
     for (let i=0;i<N_BOBO;i++){
@@ -630,20 +620,6 @@
     saveFilenameEl.addEventListener('keydown', onKeydown);
   }
 
-  // computed fresh every draw() call from whatever positions are currently
-  // displayed — not cached from the last tick's decision-making, which
-  // would show the bobo that *was* closest a moment ago rather than the
-  // one that *is* closest in the frozen frame you're actually looking at.
-  function computeActiveBobos(){
-    const set = new Set();
-    particles.forEach((p,i)=>{
-      if (p.type !== 'nearest') return;
-      const { tied } = neighborDelta(i);
-      tied.forEach(j=>{ if (particles[j].type === 'bobo') set.add(j); });
-    });
-    return set;
-  }
-
   function step(){
     // simultaneous update: compute deltas from current positions first.
     // only 'nearest' particles move; 'bobo' particles never change,
@@ -740,14 +716,11 @@
       ctx.globalAlpha = 1;
     });
 
-    // bobo particles: static squares, no glow. Slightly brighter grey when
-    // currently serving as a (tied-)nearest neighbor for some particle,
-    // computed fresh from the positions actually being drawn this frame.
-    const activeBobosNow = computeActiveBobos();
-    particles.forEach((p,i)=>{
+    // bobo particles: static squares, no glow
+    particles.forEach((p)=>{
       if (p.type !== 'bobo') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
-      ctx.fillStyle = activeBobosNow.has(i) ? '#c9d6dc' : p.color;
+      ctx.fillStyle = p.color;
       const s = 5;
       ctx.fillRect(sx-s/2, sy-s/2, s, s);
     });
@@ -921,8 +894,8 @@
   function deleteParticle(i){
     particles.splice(i, 1);
     trails.splice(i, 1);
-    // any stored indices in an active/found watch are now unsafe (splice
-    // shifts everything after i) — clear it, same as Reset/Load already do.
+    // any stored indices in an active/found watch are now unsafe — clear it,
+    // same as Reset/Load already do.
     watch = null;
     updateWatchPanel();
     draw();
@@ -1056,7 +1029,8 @@
     pendingPattern.nearestRel.forEach(p=>{
       const x = Math.round(centerX + p.x);
       const y = Math.round(centerY + p.y);
-      particles.push({ type:'nearest', x, y, vx:p.vx, vy:p.vy, color: colorFor() });
+      const idx = particles.filter(q=>q.type==='nearest').length;
+      particles.push({ type:'nearest', x, y, vx:p.vx, vy:p.vy, color: colorFor(idx) });
       trails.push([{x,y}]);
     });
     pendingPattern.boboRel.forEach(p=>{
@@ -1178,7 +1152,6 @@
     particles = [];
     trails = [];
     tick = 0;
-    colorCounter = 0;
     updateHud();
     draw();
   });
