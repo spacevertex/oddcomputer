@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nearest + Bobo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c1210;
+    --grid-line: #182420;
+    --axis-line: #233830;
+    --panel: #121c18;
+    --panel-line: #24352d;
+    --text: #dfe8e2;
+    --text-dim: #7f9089;
+    --bobo: #5c6f7a;
+  }
+  *{ box-sizing:border-box; }
+  html, body{
+    margin:0; height:100%; overflow:hidden;
+    background: var(--bg);
+    font-family:'Space Grotesk', sans-serif;
+    color: var(--text);
+  }
+  body{
+    display:flex;
+    flex-direction:column;
+  }
+  #stage{ position:relative; flex:1 1 auto; min-height:0; }
+  canvas{ display:block; width:100%; height:100%; }
+
+  #console{
+    flex:0 0 auto;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border-top:1px solid var(--panel-line);
+    padding:12px 16px;
+    display:flex; align-items:center; gap:10px;
+    flex-wrap:wrap;
+  }
+  .count-val{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:#8bf3c9;
+    min-width:22px; text-align:right;
+  }
+  .btn{
+    background: transparent;
+    border:1px solid var(--panel-line);
+    border-radius:3px;
+    color: var(--text-dim);
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px;
+    padding:8px 14px;
+    cursor:pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn:hover{ border-color:#4c6a5c; color: var(--text); }
+  .btn.primary{ border-color:#8bf3c9; color:#8bf3c9; }
+  .btn.primary:hover{ background: rgba(139,243,201,0.08); }
+
+  #speed-wrap{ display:flex; align-items:center; gap:8px; margin-left:4px; }
+  #speed-wrap label{ font-size:11px; color: var(--text-dim); white-space:nowrap; }
+  input[type=range]{
+    -webkit-appearance:none; appearance:none;
+    width:90px; height:2px;
+    background: var(--panel-line);
+    border-radius:1px;
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:11px; height:11px; border-radius:50%;
+    background:#8bf3c9;
+    border:2px solid #0f1815;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="canvas"></canvas>
+</div>
+
+<div id="console">
+  <button class="btn primary" id="btn-play">Play</button>
+  <button class="btn" id="btn-step">Step</button>
+  <button class="btn" id="btn-reset">Reset</button>
+  <div id="speed-wrap">
+    <label>Speed</label>
+    <input type="range" id="speed" min="1" max="20" value="4" step="1">
+  </div>
+  <div id="speed-wrap">
+    <label>Nearest</label>
+    <input type="range" id="count-nearest" min="1" max="100" value="20" step="1">
+    <span class="count-val" id="count-nearest-val">20</span>
+  </div>
+  <div id="speed-wrap">
+    <label>Nearest bounds</label>
+    <input type="range" id="nearest-bounds" min="1" max="100" value="10" step="1">
+    <span class="count-val" id="nearest-bounds-val">±10</span>
+  </div>
+  <div id="speed-wrap">
+    <label>Bobo</label>
+    <input type="range" id="count-bobo" min="0" max="100" value="20" step="1">
+    <span class="count-val" id="count-bobo-val">20</span>
+  </div>
+  <div id="speed-wrap">
+    <label>Bobo bounds</label>
+    <input type="range" id="bobo-bounds" min="10" max="100" value="80" step="1">
+    <span class="count-val" id="bobo-bounds-val">±80</span>
+  </div>
+  <div id="speed-wrap">
+    <label>Initial speed</label>
+    <input type="range" id="init-speed" min="0" max="5" value="4" step="1">
+    <span class="count-val" id="init-speed-val">±4</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const stage = document.getElementById('stage');
+  let W, H, DPR;
+
+  const WORLD_MIN = -100, WORLD_MAX = 100;
+  let N_NEAREST = 20;
+  let N_BOBO = 20;
+  let SPAWN_MIN = -10, SPAWN_MAX = 10;        // nearest particle spawn range (symmetric, slider-driven)
+  let BOBO_MIN = -80, BOBO_MAX = 80;          // bobo particle spawn range (symmetric, slider-driven)
+  let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
+
+  let CELL; // px per world unit, fixed, no pan/zoom
+
+  function computeCell(){
+    const span = WORLD_MAX - WORLD_MIN; // 200
+    CELL = Math.min(W, H) / span;
+  }
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = stage.clientWidth; H = stage.clientHeight;
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    computeCell();
+    draw();
+  }
+  window.addEventListener('resize', resize);
+
+  function colorFor(i){
+    const hue = (150 + (i * 360/N_NEAREST) * 0.55) % 360; // green→amber→teal range
+    return `hsl(${hue}, 65%, 62%)`;
+  }
+
+  function randInt(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // unified particle list: type 'nearest' (moves) or 'bobo' (static).
+  // both are valid nearest-neighbor candidates for 'nearest' particles.
+  let particles, tick, trails;
+
+  function spawn(){
+    particles = [];
+    for (let i=0;i<N_NEAREST;i++){
+      particles.push({
+        type: 'nearest',
+        x: randInt(SPAWN_MIN, SPAWN_MAX),
+        y: randInt(SPAWN_MIN, SPAWN_MAX),
+        vx: randInt(VEL_MIN, VEL_MAX),
+        vy: randInt(VEL_MIN, VEL_MAX),
+        color: colorFor(i),
+      });
+    }
+    for (let i=0;i<N_BOBO;i++){
+      particles.push({
+        type: 'bobo',
+        x: randInt(BOBO_MIN, BOBO_MAX),
+        y: randInt(BOBO_MIN, BOBO_MAX),
+        vx: 0,
+        vy: 0,
+        color: getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim(),
+      });
+    }
+  }
+
+  function reset(){
+    spawn();
+    trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
+    tick = 0;
+    updateHud();
+    draw();
+  }
+
+  function sign(n){ return n > 0 ? 1 : (n < 0 ? -1 : 0); }
+
+  // Finds all neighbors tied for closest to particle i, sums each of their
+  // individual (sign(dx), sign(dy)) contributions, then takes sign() of the
+  // summed components. With a single closest neighbor this reduces to the
+  // original one-neighbor rule; with a tie it blends the tied directions.
+  function neighborDelta(i){
+    const p = particles[i];
+    let bestDistSq = Infinity;
+    let tied = [];
+    for (let j=0;j<particles.length;j++){
+      if (j===i) continue;
+      const q = particles[j];
+      const dx = q.x - p.x, dy = q.y - p.y;
+      const d2 = dx*dx + dy*dy;
+      if (d2 < bestDistSq){ bestDistSq = d2; tied = [j]; }
+      else if (d2 === bestDistSq){ tied.push(j); }
+    }
+    let sumX = 0, sumY = 0;
+    tied.forEach(j=>{
+      const q = particles[j];
+      sumX += sign(q.x - p.x);
+      sumY += sign(q.y - p.y);
+    });
+    return { dvx: sign(sumX), dvy: sign(sumY), tieCount: tied.length };
+  }
+
+  function step(){
+    // simultaneous update: compute deltas from current positions first.
+    // only 'nearest' particles move; 'bobo' particles never change,
+    // but remain valid candidates in the search above.
+    const deltas = particles.map((p, i)=>{
+      if (p.type !== 'nearest') return null;
+      return neighborDelta(i);
+    });
+    particles.forEach((p,i)=>{
+      if (p.type !== 'nearest') return;
+      p.vx += deltas[i].dvx;
+      p.vy += deltas[i].dvy;
+      p.x += p.vx;
+      p.y += p.vy;
+    });
+    trails.forEach((t,i)=>{
+      if (!t) return;
+      t.push({x:particles[i].x, y:particles[i].y});
+      if (t.length > 500) t.shift();
+    });
+    tick++;
+    updateHud();
+  }
+
+  function updateHud(){
+    // tick display removed; kept as a no-op hook in case future state needs syncing
+  }
+
+  function worldToScreen(x, y){
+    return {
+      sx: W/2 + x * CELL,
+      sy: H/2 + y * CELL,
+    };
+  }
+
+  function draw(){
+    ctx.fillStyle = '#0c1210';
+    ctx.fillRect(0,0,W,H);
+
+    // grid every 10 world units
+    ctx.strokeStyle = '#182420';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let gx = WORLD_MIN; gx <= WORLD_MAX; gx += 10){
+      const {sx} = worldToScreen(gx, 0);
+      ctx.moveTo(sx+0.5, 0); ctx.lineTo(sx+0.5, H);
+    }
+    for (let gy = WORLD_MIN; gy <= WORLD_MAX; gy += 10){
+      const {sy} = worldToScreen(0, gy);
+      ctx.moveTo(0, sy+0.5); ctx.lineTo(W, sy+0.5);
+    }
+    ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = '#233830';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    const origin = worldToScreen(0,0);
+    ctx.moveTo(origin.sx+0.5, 0); ctx.lineTo(origin.sx+0.5, H);
+    ctx.moveTo(0, origin.sy+0.5); ctx.lineTo(W, origin.sy+0.5);
+    ctx.stroke();
+
+    // trails (nearest particles only)
+    particles.forEach((p, i)=>{
+      const t = trails[i];
+      if (!t) return;
+      ctx.strokeStyle = p.color;
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      t.forEach((pt, idx)=>{
+        const {sx, sy} = worldToScreen(pt.x, pt.y);
+        if (idx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+      });
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
+
+    // bobo particles: static squares, no glow
+    particles.forEach((p)=>{
+      if (p.type !== 'bobo') return;
+      const {sx, sy} = worldToScreen(p.x, p.y);
+      ctx.fillStyle = p.color;
+      const s = 5;
+      ctx.fillRect(sx-s/2, sy-s/2, s, s);
+    });
+
+    // nearest particles: glowing circles
+    particles.forEach((p)=>{
+      if (p.type !== 'nearest') return;
+      const {sx, sy} = worldToScreen(p.x, p.y);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 4, 0, Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+  }
+
+  // ---------- playback ----------
+  let playing = false;
+  let acc = 0;
+  let last = performance.now();
+  const speedEl = document.getElementById('speed');
+
+  function loop(now){
+    const dt = (now - last)/1000;
+    last = now;
+    if (playing){
+      acc += dt;
+      const ticksPerSec = parseInt(speedEl.value, 10);
+      const interval = 1/ticksPerSec;
+      while (acc >= interval){
+        step();
+        acc -= interval;
+      }
+      draw();
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  const playBtn = document.getElementById('btn-play');
+  playBtn.addEventListener('click', ()=>{
+    playing = !playing;
+    playBtn.textContent = playing ? 'Pause' : 'Play';
+    last = performance.now();
+  });
+  document.getElementById('btn-step').addEventListener('click', ()=>{
+    step(); draw();
+  });
+  document.getElementById('btn-reset').addEventListener('click', ()=>{
+    playing = false;
+    playBtn.textContent = 'Play';
+    reset();
+  });
+
+  const countNearestEl = document.getElementById('count-nearest');
+  const countNearestVal = document.getElementById('count-nearest-val');
+  countNearestEl.addEventListener('input', ()=>{
+    N_NEAREST = parseInt(countNearestEl.value, 10);
+    countNearestVal.textContent = N_NEAREST;
+  });
+
+  const nearestBoundsEl = document.getElementById('nearest-bounds');
+  const nearestBoundsVal = document.getElementById('nearest-bounds-val');
+  nearestBoundsEl.addEventListener('input', ()=>{
+    const v = parseInt(nearestBoundsEl.value, 10);
+    SPAWN_MIN = -v; SPAWN_MAX = v;
+    nearestBoundsVal.textContent = '±' + v;
+  });
+
+  const countBoboEl = document.getElementById('count-bobo');
+  const countBoboVal = document.getElementById('count-bobo-val');
+  countBoboEl.addEventListener('input', ()=>{
+    N_BOBO = parseInt(countBoboEl.value, 10);
+    countBoboVal.textContent = N_BOBO;
+  });
+
+  const boboBoundsEl = document.getElementById('bobo-bounds');
+  const boboBoundsVal = document.getElementById('bobo-bounds-val');
+  boboBoundsEl.addEventListener('input', ()=>{
+    const v = parseInt(boboBoundsEl.value, 10);
+    BOBO_MIN = -v; BOBO_MAX = v;
+    boboBoundsVal.textContent = '±' + v;
+  });
+
+  const initSpeedEl = document.getElementById('init-speed');
+  const initSpeedVal = document.getElementById('init-speed-val');
+  initSpeedEl.addEventListener('input', ()=>{
+    const v = parseInt(initSpeedEl.value, 10);
+    VEL_MIN = -v; VEL_MAX = v;
+    initSpeedVal.textContent = '±' + v;
+  });
+
+  reset();
+  resize();
+})();
+</script>
+
+</body>
+</html>

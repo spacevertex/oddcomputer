@@ -29,7 +29,156 @@
     flex-direction:column;
   }
   #stage{ position:relative; flex:1 1 auto; min-height:0; }
-  canvas{ display:block; width:100%; height:100%; }
+  canvas{ display:block; width:100%; height:100%; cursor:pointer; }
+  canvas.placing{ cursor: crosshair; }
+
+  #watch-panel{
+    position:absolute; top:14px; right:14px;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:12px 14px;
+    max-width:260px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color: var(--text-dim);
+    line-height:1.6;
+    display:none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  #watch-panel.visible{ display:block; }
+  #watch-panel .title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color: var(--text);
+    margin-bottom:6px;
+  }
+  #watch-panel .title.found{ color:#8bf3c9; }
+  #watch-panel .row-buttons{ display:flex; gap:8px; margin-top:10px; }
+  #watch-panel .btn{ font-size:11px; padding:6px 10px; flex:1; }
+
+  #context-menu{
+    position:absolute;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:4px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    z-index:10;
+  }
+  #context-menu.visible{ display:flex; }
+  #context-menu button{
+    background:none; border:none;
+    color: var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px;
+    padding:7px 16px;
+    text-align:left;
+    cursor:pointer;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  #context-menu button:hover{ background: rgba(139,243,201,0.1); color:#8bf3c9; }
+  #context-menu button.danger:hover{ background: rgba(232,163,61,0.12); color:#e8a33d; }
+
+  #save-dialog{
+    position:fixed; inset:0;
+    background: rgba(6,9,8,0.6);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index:20;
+  }
+  #save-dialog.visible{ display:flex; }
+  #save-dialog .panel{
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    padding:18px 20px;
+    width:min(90vw, 360px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  #save-dialog .title{
+    font-size:13px; font-weight:600; color: var(--text);
+    margin-bottom:12px;
+  }
+  #save-dialog .field-row{
+    display:flex; align-items:center;
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    overflow:hidden;
+    background: #0c1512;
+  }
+  #save-dialog input{
+    flex:1;
+    background:none; border:none; outline:none;
+    color: var(--text);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    padding:9px 10px;
+    min-width:0;
+  }
+  #save-dialog .ext{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color: var(--text-dim);
+    padding:9px 10px 9px 0;
+    white-space:nowrap;
+  }
+  #save-dialog .row-buttons{
+    display:flex; gap:8px; margin-top:14px;
+  }
+  #save-dialog .row-buttons .btn{ flex:1; font-size:12px; padding:8px; }
+
+  #placement-banner{
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:8px 16px;
+    font-size:12.5px; color: var(--text);
+    display:none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  #placement-banner.visible{ display:block; }
+  #placement-banner .hint{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; color: var(--text-dim);
+    margin-left:8px;
+  }
+
+  #coord-indicator{
+    position:absolute;
+    display:none;
+    pointer-events:none;
+    background: rgba(12,18,16,0.9);
+    border:1px solid var(--panel-line);
+    border-radius:3px;
+    padding:3px 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#8bf3c9;
+    transform: translate(12px, 12px);
+    z-index:5;
+  }
+  #coord-indicator.visible{ display:block; }
+
+  #btn-unzoom{
+    position:absolute; top:14px; left:14px;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    color: var(--text);
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px;
+    padding:8px 14px;
+    cursor:pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index:6;
+  }
+  #btn-unzoom:hover{ border-color:#4c6a5c; color:#8bf3c9; }
 
   #console{
     flex:0 0 auto;
@@ -56,6 +205,8 @@
     transition: border-color 0.15s, color 0.15s;
   }
   .btn:hover{ border-color:#4c6a5c; color: var(--text); }
+  .btn:disabled{ opacity:0.35; cursor:not-allowed; }
+  .btn:disabled:hover{ border-color: var(--panel-line); color: var(--text-dim); }
   .btn.primary{ border-color:#8bf3c9; color:#8bf3c9; }
   .btn.primary:hover{ background: rgba(139,243,201,0.08); }
 
@@ -81,16 +232,18 @@
 
 <div id="stage">
   <canvas id="canvas"></canvas>
+  <div id="watch-panel"></div>
+  <div id="context-menu"></div>
+  <div id="placement-banner"></div>
+  <div id="coord-indicator"></div>
+  <button id="btn-unzoom" style="display:none;">Unzoom</button>
 </div>
 
 <div id="console">
   <button class="btn primary" id="btn-play">Play</button>
   <button class="btn" id="btn-step">Step</button>
-  <button class="btn" id="btn-reset">Reset</button>
-  <div id="speed-wrap">
-    <label>Speed</label>
-    <input type="range" id="speed" min="1" max="20" value="4" step="1">
-  </div>
+  <button class="btn" id="btn-reset">New</button>
+  <button class="btn" id="btn-redo">Redo</button>
   <div id="speed-wrap">
     <label>Nearest</label>
     <input type="range" id="count-nearest" min="1" max="100" value="20" step="1">
@@ -116,6 +269,24 @@
     <input type="range" id="init-speed" min="0" max="5" value="4" step="1">
     <span class="count-val" id="init-speed-val">±4</span>
   </div>
+  <button class="btn" id="btn-save-full">Save</button>
+  <button class="btn" id="btn-load">Load</button>
+  <button class="btn" id="btn-clear">Clear</button>
+  <input type="file" id="file-load" accept=".json" style="display:none;">
+</div>
+
+<div id="save-dialog">
+  <div class="panel">
+    <div class="title">Save as</div>
+    <div class="field-row">
+      <input type="text" id="save-filename" spellcheck="false" autocomplete="off">
+      <span class="ext">.json</span>
+    </div>
+    <div class="row-buttons">
+      <button class="btn primary" id="save-confirm">Save</button>
+      <button class="btn" id="save-cancel">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -132,11 +303,22 @@
   let BOBO_MIN = -80, BOBO_MAX = 80;          // bobo particle spawn range (symmetric, slider-driven)
   let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
 
-  let CELL; // px per world unit, fixed, no pan/zoom
+  let CELL; // px per world unit, normal view
+  let ZOOM_CELL; // px per world unit, zoomed view (30 units visible across the screen)
+  let zoomed = false;
+  let zoomCenterX = 0, zoomCenterY = 0; // static snapshot of the clicked particle's position — not tracked
 
   function computeCell(){
     const span = WORLD_MAX - WORLD_MIN; // 200
     CELL = Math.min(W, H) / span;
+    ZOOM_CELL = Math.min(W, H) / 30;
+  }
+
+  function setZoom(active, cx, cy){
+    zoomed = active;
+    if (active){ zoomCenterX = cx; zoomCenterY = cy; }
+    document.getElementById('btn-unzoom').style.display = zoomed ? 'block' : 'none';
+    draw();
   }
 
   function resize(){
@@ -152,6 +334,30 @@
   function colorFor(i){
     const hue = (150 + (i * 360/N_NEAREST) * 0.55) % 360; // green→amber→teal range
     return `hsl(${hue}, 65%, 62%)`;
+  }
+
+  // pre-renders a small radial-gradient "glow" once per color and reuses
+  // it every frame via drawImage (cheap GPU blit) instead of recomputing
+  // ctx.shadowBlur — a real per-pixel blur convolution — on every particle
+  // on every single draw call.
+  const glowSpriteCache = new Map();
+  function getGlowSprite(color){
+    if (glowSpriteCache.has(color)) return glowSpriteCache.get(color);
+    const size = 32;
+    const off = document.createElement('canvas');
+    off.width = size; off.height = size;
+    const octx = off.getContext('2d');
+    const c = size/2;
+    const grad = octx.createRadialGradient(c, c, 0, c, c, c);
+    grad.addColorStop(0, color);
+    grad.addColorStop(0.4, color);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    octx.fillStyle = grad;
+    octx.beginPath();
+    octx.arc(c, c, c, 0, Math.PI*2);
+    octx.fill();
+    glowSpriteCache.set(color, off);
+    return off;
   }
 
   function randInt(min, max){
@@ -186,8 +392,31 @@
     }
   }
 
+  // snapshot of the exact particle state right after the last 'New' press,
+  // so 'Redo' can bring back conditions that led somewhere interesting
+  // before a nuisance particle (or a deletion) disrupted it.
+  let lastNewSnapshot = null;
+
   function reset(){
     spawn();
+    lastNewSnapshot = particles.map(p => ({...p}));
+    trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
+    tick = 0;
+    watch = null;
+    updateWatchPanel();
+    if (typeof hideContextMenu === 'function') hideContextMenu();
+    updateHud();
+    draw();
+  }
+
+  function redo(){
+    if (!lastNewSnapshot) return;
+    playing = false;
+    playBtn.textContent = 'Play';
+    watch = null;
+    updateWatchPanel();
+    hideContextMenu();
+    particles = lastNewSnapshot.map(p => ({...p}));
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     updateHud();
@@ -218,7 +447,177 @@
       sumX += sign(q.x - p.x);
       sumY += sign(q.y - p.y);
     });
-    return { dvx: sign(sumX), dvy: sign(sumY), tieCount: tied.length };
+    return { dvx: sign(sumX), dvy: sign(sumY), tieCount: tied.length, tied };
+  }
+
+  // ---------- oscillator watch ----------
+  // Click a nearest particle to start watching it. We hash the exact
+  // (position, velocity) state of the growing dependency cluster every
+  // tick; a repeated hash means a true cycle (deterministic + integer
+  // state means "repeats exactly" implies "repeats forever"). Once found,
+  // we walk one full period and union every bobo that ever appeared in a
+  // tied-neighbor group for any cluster member — that's the minimal set
+  // required to reproduce the pattern.
+  let watch = null;
+
+  function startWatch(particleIndex){
+    watch = {
+      cluster: new Set([particleIndex]),
+      seenHashes: new Map(),
+      history: [],
+      ticksWatched: 0,
+      active: true,
+      result: null,
+    };
+    updateWatchPanel();
+  }
+  function cancelWatch(){
+    watch = null;
+    updateWatchPanel();
+  }
+
+  function clusterHash(sortedIdx){
+    return sortedIdx.map(i=>{
+      const p = particles[i];
+      return `${p.x},${p.y},${p.vx},${p.vy}`;
+    }).join('|') + '::' + sortedIdx.join(',');
+  }
+
+  function observeWatch(deltas){
+    if (!watch || !watch.active) return;
+    const sortedIdx = [...watch.cluster].sort((a,b)=>a-b);
+    const hash = clusterHash(sortedIdx);
+
+    if (watch.seenHashes.has(hash)){
+      const cycleStart = watch.seenHashes.get(hash);
+      const cycleEnd = watch.history.length;
+      finishWatch(cycleStart, cycleEnd, sortedIdx);
+      return;
+    }
+
+    watch.seenHashes.set(hash, watch.history.length);
+    const tiedRecord = {};
+    sortedIdx.forEach(i=>{
+      const tied = deltas[i] ? deltas[i].tied : [];
+      tiedRecord[i] = tied;
+      tied.forEach(j=>{
+        if (particles[j].type === 'nearest' && !watch.cluster.has(j)){
+          watch.cluster.add(j);
+        }
+      });
+    });
+    watch.history.push(tiedRecord);
+    watch.ticksWatched++;
+  }
+
+  function finishWatch(cycleStart, cycleEnd, sortedIdx){
+    const usedBobos = new Set();
+    for (let t=cycleStart; t<cycleEnd; t++){
+      const rec = watch.history[t];
+      Object.keys(rec).forEach(key=>{
+        rec[key].forEach(j=>{
+          if (particles[j].type === 'bobo') usedBobos.add(j);
+        });
+      });
+    }
+    // current pre-step state of the cluster IS the repeating state
+    // (that's exactly what the matching hash means).
+    const nearestOut = sortedIdx.map(i=>{
+      const p = particles[i];
+      return { x:p.x, y:p.y, vx:p.vx, vy:p.vy };
+    });
+    const boboOut = [...usedBobos].map(j=>({ x:particles[j].x, y:particles[j].y }));
+    watch.active = false;
+    watch.result = {
+      period: cycleEnd - cycleStart,
+      clusterIndices: sortedIdx,
+      boboIndices: [...usedBobos],
+      nearest: nearestOut,
+      bobo: boboOut,
+    };
+    updateWatchPanel();
+  }
+
+  function updateWatchPanel(){
+    const panel = document.getElementById('watch-panel');
+    if (!watch){
+      panel.classList.remove('visible');
+      panel.innerHTML = '';
+      return;
+    }
+    panel.classList.add('visible');
+    if (watch.active){
+      panel.innerHTML = `
+        <div class="title">Watching\u2026</div>
+        <div>cluster size: ${watch.cluster.size}</div>
+        <div>ticks watched: ${watch.ticksWatched}</div>
+        <div class="row-buttons"><button class="btn" id="btn-watch-cancel">Cancel</button></div>
+      `;
+      document.getElementById('btn-watch-cancel').addEventListener('click', cancelWatch);
+    } else if (watch.result){
+      const r = watch.result;
+      panel.innerHTML = `
+        <div class="title found">Oscillator found</div>
+        <div>period: ${r.period} ticks</div>
+        <div>particles: ${r.nearest.length}</div>
+        <div>bobos retained: ${r.bobo.length}</div>
+        <div class="row-buttons">
+          <button class="btn primary" id="btn-watch-save">Save oscillator</button>
+          <button class="btn" id="btn-watch-dismiss">Dismiss</button>
+        </div>
+      `;
+      document.getElementById('btn-watch-save').addEventListener('click', ()=>{
+        const defaultName = `osc_n${r.nearest.length}_b${r.bobo.length}_p${r.period}`;
+        openSaveDialog(defaultName, (name)=>{
+          saveJSON({ version: 1, type: 'oscillator', period: r.period, nearest: r.nearest, bobo: r.bobo }, name);
+        });
+      });
+      document.getElementById('btn-watch-dismiss').addEventListener('click', cancelWatch);
+    }
+  }
+
+  function saveJSON(obj, filename){
+    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename.toLowerCase().endsWith('.json') ? filename : filename + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  const saveDialogEl = document.getElementById('save-dialog');
+  const saveFilenameEl = document.getElementById('save-filename');
+  function openSaveDialog(defaultName, onConfirm){
+    saveFilenameEl.value = defaultName;
+    saveDialogEl.classList.add('visible');
+    saveFilenameEl.focus();
+    saveFilenameEl.select();
+
+    const confirmBtn = document.getElementById('save-confirm');
+    const cancelBtn = document.getElementById('save-cancel');
+
+    function cleanup(){
+      saveDialogEl.classList.remove('visible');
+      confirmBtn.removeEventListener('click', onConfirmClick);
+      cancelBtn.removeEventListener('click', onCancelClick);
+      saveFilenameEl.removeEventListener('keydown', onKeydown);
+    }
+    function onConfirmClick(){
+      const name = saveFilenameEl.value.trim() || defaultName;
+      cleanup();
+      onConfirm(name);
+    }
+    function onCancelClick(){ cleanup(); }
+    function onKeydown(e){
+      if (e.key === 'Enter') onConfirmClick();
+      if (e.key === 'Escape') onCancelClick();
+    }
+    confirmBtn.addEventListener('click', onConfirmClick);
+    cancelBtn.addEventListener('click', onCancelClick);
+    saveFilenameEl.addEventListener('keydown', onKeydown);
   }
 
   function step(){
@@ -229,6 +628,9 @@
       if (p.type !== 'nearest') return null;
       return neighborDelta(i);
     });
+
+    observeWatch(deltas); // uses pre-mutation state; must run before the mutate loop below
+
     particles.forEach((p,i)=>{
       if (p.type !== 'nearest') return;
       p.vx += deltas[i].dvx;
@@ -250,9 +652,22 @@
   }
 
   function worldToScreen(x, y){
+    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cx = zoomed ? zoomCenterX : 0;
+    const cy = zoomed ? zoomCenterY : 0;
     return {
-      sx: W/2 + x * CELL,
-      sy: H/2 + y * CELL,
+      sx: W/2 + (x - cx) * cell,
+      sy: H/2 - (y - cy) * cell, // flipped: positive y is up, negative y is down
+    };
+  }
+
+  function screenToWorld(sx, sy){
+    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cx = zoomed ? zoomCenterX : 0;
+    const cy = zoomed ? zoomCenterY : 0;
+    return {
+      x: (sx - W/2) / cell + cx,
+      y: (H/2 - sy) / cell + cy,
     };
   }
 
@@ -260,15 +675,17 @@
     ctx.fillStyle = '#0c1210';
     ctx.fillRect(0,0,W,H);
 
-    // grid every 10 world units
+    // grid: every 10 world units normally, every 1 unit when zoomed
+    // (so individual lattice points are visible)
+    const gridStep = zoomed ? 1 : 10;
     ctx.strokeStyle = '#182420';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    for (let gx = WORLD_MIN; gx <= WORLD_MAX; gx += 10){
+    for (let gx = WORLD_MIN; gx <= WORLD_MAX; gx += gridStep){
       const {sx} = worldToScreen(gx, 0);
       ctx.moveTo(sx+0.5, 0); ctx.lineTo(sx+0.5, H);
     }
-    for (let gy = WORLD_MIN; gy <= WORLD_MAX; gy += 10){
+    for (let gy = WORLD_MIN; gy <= WORLD_MAX; gy += gridStep){
       const {sy} = worldToScreen(0, gy);
       ctx.moveTo(0, sy+0.5); ctx.lineTo(W, sy+0.5);
     }
@@ -308,38 +725,112 @@
       ctx.fillRect(sx-s/2, sy-s/2, s, s);
     });
 
-    // nearest particles: glowing circles
+    // nearest particles: glowing circles, drawn from a pre-rendered sprite
+    // per color instead of recomputing shadowBlur (an expensive per-pixel
+    // blur convolution) on every particle, every frame.
+    const glowSize = 18;
     particles.forEach((p)=>{
       if (p.type !== 'nearest') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
-      ctx.fillStyle = p.color;
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur = 8;
-      ctx.beginPath();
-      ctx.arc(sx, sy, 4, 0, Math.PI*2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
+      const sprite = getGlowSprite(p.color);
+      ctx.drawImage(sprite, sx-glowSize/2, sy-glowSize/2, glowSize, glowSize);
     });
+
+    // watch highlights: active cluster gets a pulsing-free ring; a found
+    // result highlights both the cluster and the retained bobos in gold
+    if (watch){
+      if (watch.active){
+        watch.cluster.forEach(i=>{
+          const p = particles[i];
+          const {sx,sy} = worldToScreen(p.x, p.y);
+          ctx.strokeStyle = '#8bf3c9';
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.stroke();
+        });
+      } else if (watch.result){
+        watch.result.clusterIndices.forEach(i=>{
+          const p = particles[i];
+          const {sx,sy} = worldToScreen(p.x, p.y);
+          ctx.strokeStyle = '#e8a33d';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.stroke();
+        });
+        watch.result.boboIndices.forEach(j=>{
+          const p = particles[j];
+          const {sx,sy} = worldToScreen(p.x, p.y);
+          ctx.strokeStyle = '#e8a33d';
+          ctx.lineWidth = 1.6;
+          ctx.strokeRect(sx-7, sy-7, 14, 14);
+        });
+      }
+    }
+
+    // pending-pattern ghost preview: bounding box + translucent particles,
+    // shown at whatever the current candidate center is (set by mouse or
+    // by ijkl), never the real particle field.
+    if (placementActive && pendingPattern){
+      const boxTL = worldToScreen(
+        placementCenterX - pendingPattern.width/2,
+        placementCenterY + pendingPattern.height/2
+      );
+      const boxBR = worldToScreen(
+        placementCenterX + pendingPattern.width/2,
+        placementCenterY - pendingPattern.height/2
+      );
+      ctx.save();
+      ctx.strokeStyle = '#8bf3c9';
+      ctx.globalAlpha = 0.5;
+      ctx.setLineDash([4,4]);
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(
+        Math.min(boxTL.sx, boxBR.sx), Math.min(boxTL.sy, boxBR.sy),
+        Math.abs(boxBR.sx-boxTL.sx), Math.abs(boxBR.sy-boxTL.sy)
+      );
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 0.5;
+      pendingPattern.nearestRel.forEach(p=>{
+        const x = Math.round(placementCenterX + p.x);
+        const y = Math.round(placementCenterY + p.y);
+        const {sx,sy} = worldToScreen(x,y);
+        ctx.fillStyle = '#8bf3c9';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 4, 0, Math.PI*2);
+        ctx.fill();
+      });
+      pendingPattern.boboRel.forEach(p=>{
+        const x = Math.round(placementCenterX + p.x);
+        const y = Math.round(placementCenterY + p.y);
+        const {sx,sy} = worldToScreen(x,y);
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
+        ctx.fillRect(sx-2.5, sy-2.5, 5, 5);
+      });
+      ctx.restore();
+    }
   }
 
   // ---------- playback ----------
   let playing = false;
   let acc = 0;
   let last = performance.now();
-  const speedEl = document.getElementById('speed');
+  const TICKS_PER_SEC = 20; // was the slider's max
 
   function loop(now){
     const dt = (now - last)/1000;
     last = now;
     if (playing){
       acc += dt;
-      const ticksPerSec = parseInt(speedEl.value, 10);
-      const interval = 1/ticksPerSec;
+      const interval = 1/TICKS_PER_SEC;
+      let stepped = false;
       while (acc >= interval){
         step();
         acc -= interval;
+        stepped = true;
       }
-      draw();
+      if (stepped) draw(); // only repaint when the scene actually changed
     }
     requestAnimationFrame(loop);
   }
@@ -348,7 +839,7 @@
   const playBtn = document.getElementById('btn-play');
   playBtn.addEventListener('click', ()=>{
     playing = !playing;
-    playBtn.textContent = playing ? 'Pause' : 'Play';
+    playBtn.textContent = playing ? 'Stop' : 'Play';
     last = performance.now();
   });
   document.getElementById('btn-step').addEventListener('click', ()=>{
@@ -359,6 +850,7 @@
     playBtn.textContent = 'Play';
     reset();
   });
+  document.getElementById('btn-redo').addEventListener('click', redo);
 
   const countNearestEl = document.getElementById('count-nearest');
   const countNearestVal = document.getElementById('count-nearest-val');
@@ -397,6 +889,274 @@
     VEL_MIN = -v; VEL_MAX = v;
     initSpeedVal.textContent = '±' + v;
   });
+
+  // click any particle to open a small menu (Watch for nearest, Delete for either)
+  function deleteParticle(i){
+    particles.splice(i, 1);
+    trails.splice(i, 1);
+    // any stored indices in an active/found watch are now unsafe — clear it,
+    // same as Reset/Load already do.
+    watch = null;
+    updateWatchPanel();
+    draw();
+  }
+
+  const contextMenuEl = document.getElementById('context-menu');
+  function hideContextMenu(){
+    contextMenuEl.classList.remove('visible');
+    contextMenuEl.innerHTML = '';
+  }
+  function showContextMenu(index, sx, sy){
+    const p = particles[index];
+    let html = '';
+    if (p.type === 'nearest'){
+      html += `<button id="ctx-watch">Watch</button>`;
+    }
+    html += `<button id="ctx-zoom">Zoom</button>`;
+    html += `<button id="ctx-delete" class="danger">Delete</button>`;
+    contextMenuEl.innerHTML = html;
+
+    const menuX = Math.min(sx + 10, W - 100);
+    const menuY = Math.min(sy + 10, H - 70);
+    contextMenuEl.style.left = menuX + 'px';
+    contextMenuEl.style.top = menuY + 'px';
+    contextMenuEl.classList.add('visible');
+
+    const watchBtn = document.getElementById('ctx-watch');
+    if (watchBtn){
+      watchBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        hideContextMenu();
+        startWatch(index);
+      });
+    }
+    document.getElementById('ctx-zoom').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      hideContextMenu();
+      setZoom(true, particles[index].x, particles[index].y);
+    });
+    document.getElementById('ctx-delete').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      hideContextMenu();
+      deleteParticle(index);
+    });
+  }
+
+  // ---------- pattern placement (click-to-position a loaded file) ----------
+  // Loading a file no longer clears or immediately inserts the field. It
+  // stages the pattern (translated so its bounding-box center is the
+  // origin), then waits for you to say where that center should land —
+  // by mouse click or by ijkl + Enter. Nothing from the pending pattern is
+  // drawn until placement mode starts positioning it (the ghost preview).
+  let placementActive = false;
+  let pendingPattern = null;
+  let placementCenterX = 0;
+  let placementCenterY = 0;
+
+  function updatePlacementUI(){
+    const banner = document.getElementById('placement-banner');
+    const stepBtn = document.getElementById('btn-step');
+    const playBtnEl = document.getElementById('btn-play');
+    if (placementActive){
+      banner.classList.add('visible');
+      banner.innerHTML = 'Click, or ijkl + Enter, to place pattern <span class="hint">(Esc to cancel)</span>';
+      canvas.classList.add('placing');
+      stepBtn.disabled = true;
+      playBtnEl.disabled = true;
+    } else {
+      banner.classList.remove('visible');
+      canvas.classList.remove('placing');
+      stepBtn.disabled = false;
+      playBtnEl.disabled = false;
+      document.getElementById('coord-indicator').classList.remove('visible');
+    }
+  }
+
+  function beginPlacement(data){
+    playing = false;
+    playBtn.textContent = 'Play';
+    watch = null;
+    updateWatchPanel();
+    hideContextMenu();
+
+    const nearestIn = data.nearest || [];
+    const boboIn = data.bobo || [];
+    const allPoints = nearestIn.concat(boboIn);
+    if (allPoints.length === 0){
+      alert('That file has no particles to place.');
+      return;
+    }
+    const minX = Math.min(...allPoints.map(p=>p.x));
+    let maxX = Math.max(...allPoints.map(p=>p.x));
+    const minY = Math.min(...allPoints.map(p=>p.y));
+    let maxY = Math.max(...allPoints.map(p=>p.y));
+    // pad the reference box (not the actual points) by 1 on any axis whose
+    // span is odd, so min+max is always even and the center is always an
+    // exact integer — never a half-integer that would round-stretch the
+    // pattern when it's placed.
+    if ((maxX - minX) % 2 !== 0) maxX += 1;
+    if ((maxY - minY) % 2 !== 0) maxY += 1;
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+
+    pendingPattern = {
+      nearestRel: nearestIn.map(p => ({ x: p.x - cx, y: p.y - cy, vx: p.vx, vy: p.vy })),
+      boboRel: boboIn.map(p => ({ x: p.x - cx, y: p.y - cy })),
+      width: maxX - minX,
+      height: maxY - minY,
+    };
+    placementActive = true;
+    placementCenterX = 0;
+    placementCenterY = 0;
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    updatePlacementUI();
+    updatePlacementIndicator();
+  }
+
+  function updatePlacementIndicator(){
+    const indicator = document.getElementById('coord-indicator');
+    const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
+    indicator.textContent = `(${placementCenterX}, ${placementCenterY})`;
+    indicator.style.left = sx + 'px';
+    indicator.style.top = sy + 'px';
+    indicator.classList.add('visible');
+    draw(); // canvas repaints only on step() while paused, so drive it manually here
+  }
+
+  function commitPlacement(centerX, centerY){
+    if (!pendingPattern) return;
+    const boboColor = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
+    pendingPattern.nearestRel.forEach(p=>{
+      const x = Math.round(centerX + p.x);
+      const y = Math.round(centerY + p.y);
+      const idx = particles.filter(q=>q.type==='nearest').length;
+      particles.push({ type:'nearest', x, y, vx:p.vx, vy:p.vy, color: colorFor(idx) });
+      trails.push([{x,y}]);
+    });
+    pendingPattern.boboRel.forEach(p=>{
+      const x = Math.round(centerX + p.x);
+      const y = Math.round(centerY + p.y);
+      particles.push({ type:'bobo', x, y, vx:0, vy:0, color: boboColor });
+      trails.push(null);
+    });
+    pendingPattern = null;
+    placementActive = false;
+    updatePlacementUI();
+    updateHud();
+    draw();
+  }
+
+  function cancelPlacement(){
+    pendingPattern = null;
+    placementActive = false;
+    updatePlacementUI();
+    draw();
+  }
+
+  // ijkl nudges the candidate position (shift = 10 at a time); Enter
+  // confirms wherever it currently sits; Escape cancels. ijkl has no
+  // browser default behavior, so there's nothing to hijack or preventDefault.
+  window.addEventListener('keydown', (e)=>{
+    if (!placementActive) return;
+    const key = e.key.toLowerCase();
+    if (key === 'escape'){ e.preventDefault(); cancelPlacement(); return; }
+    if (key === 'enter'){ e.preventDefault(); commitPlacement(placementCenterX, placementCenterY); return; }
+    if (!['i','j','k','l'].includes(key)) return;
+    e.preventDefault();
+    const step = e.shiftKey ? 10 : 1;
+    if (key === 'i'){ placementCenterY += step; updatePlacementIndicator(); }
+    else if (key === 'k'){ placementCenterY -= step; updatePlacementIndicator(); }
+    else if (key === 'j'){ placementCenterX -= step; updatePlacementIndicator(); }
+    else if (key === 'l'){ placementCenterX += step; updatePlacementIndicator(); }
+  });
+
+  canvas.addEventListener('mousemove', (e)=>{
+    if (!placementActive){
+      document.getElementById('coord-indicator').classList.remove('visible');
+      return;
+    }
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const w = screenToWorld(mx, my);
+    placementCenterX = Math.round(w.x);
+    placementCenterY = Math.round(w.y);
+    updatePlacementIndicator();
+  });
+
+  canvas.addEventListener('click', (e)=>{
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    if (placementActive){
+      const w = screenToWorld(clickX, clickY);
+      commitPlacement(Math.round(w.x), Math.round(w.y));
+      return;
+    }
+
+    let bestI = -1, bestD = Infinity;
+    particles.forEach((p,i)=>{
+      const {sx,sy} = worldToScreen(p.x, p.y);
+      const d = Math.hypot(sx-clickX, sy-clickY);
+      if (d < bestD){ bestD = d; bestI = i; }
+    });
+    hideContextMenu();
+    if (bestI !== -1 && bestD <= 14){
+      showContextMenu(bestI, clickX, clickY);
+    }
+  });
+  window.addEventListener('click', (e)=>{
+    if (e.target === canvas) return; // canvas handles its own open/close above
+    if (e.target.closest && e.target.closest('#context-menu')) return;
+    hideContextMenu();
+  });
+
+  document.getElementById('btn-save-full').addEventListener('click', ()=>{
+    const nearestOut = particles.filter(p=>p.type==='nearest').map(p=>({x:p.x,y:p.y,vx:p.vx,vy:p.vy}));
+    const boboOut = particles.filter(p=>p.type==='bobo').map(p=>({x:p.x,y:p.y}));
+    const defaultName = `full_n${nearestOut.length}_b${boboOut.length}`;
+    openSaveDialog(defaultName, (name)=>{
+      saveJSON({ version:1, type:'full', nearest:nearestOut, bobo:boboOut }, name);
+    });
+  });
+
+  const fileInput = document.getElementById('file-load');
+  document.getElementById('btn-load').addEventListener('click', ()=>{
+    playing = false;
+    playBtn.textContent = 'Play';
+    fileInput.click();
+  });
+  fileInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt)=>{
+      try{
+        const data = JSON.parse(evt.target.result);
+        beginPlacement(data);
+      } catch(err){
+        alert('Could not read that file as a Nearest pattern: ' + err.message);
+      }
+      fileInput.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById('btn-clear').addEventListener('click', ()=>{
+    playing = false;
+    playBtn.textContent = 'Play';
+    watch = null;
+    updateWatchPanel();
+    hideContextMenu();
+    cancelPlacement();
+    particles = [];
+    trails = [];
+    tick = 0;
+    updateHud();
+    draw();
+  });
+
+  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom(false));
 
   reset();
   resize();
