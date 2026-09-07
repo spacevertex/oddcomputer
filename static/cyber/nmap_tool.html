@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scan Response Visualizer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-app: #070c14;
+    --bg-panel: #0d1826;
+    --bg-canvas: #0a1420;
+    --line: #1c2c40;
+    --cyan: #57d0e0;
+    --cyan-dim: #2c5b66;
+    --text: #dce8f2;
+    --text-muted: #7189a3;
+    --screen-green: #39ff6a;
+    --state-open: #34d399;
+    --state-open-glow: rgba(52,211,153,0.30);
+    --state-closed: #f2545b;
+    --state-closed-glow: rgba(242,84,91,0.30);
+    --state-filtered: #f2c14e;
+    --state-filtered-glow: rgba(242,193,78,0.30);
+    --state-unfiltered: #7c9cbf;
+    --state-unfiltered-glow: rgba(124,156,191,0.28);
+    --state-idle: #33445a;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin:0; padding:0;
+    background: var(--bg-app);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app{ display:grid; grid-template-columns: 260px 1fr; grid-template-rows: 1fr; height: 100vh; }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    background: var(--bg-panel);
+    border-right: 1px solid var(--line);
+    padding: 16px 15px;
+    display:flex; flex-direction:column; gap: 15px;
+    overflow-y: auto; min-height: 0;
+  }
+
+  .brand{ display:flex; flex-direction:column; gap: 2px; }
+  .brand .title{ font-weight:600; font-size: 14px; letter-spacing: 0.2px; }
+  .brand .subtitle{ font-size: 10.5px; color: var(--text-muted); font-family: 'IBM Plex Mono', monospace; }
+
+  .attacker-node{
+    display:flex; align-items:center; gap:9px;
+    padding: 10px; border: 1px solid var(--line); border-radius: 3px;
+    background: linear-gradient(180deg, rgba(87,208,224,0.06), transparent);
+    position: relative;
+  }
+  .attacker-node::before, .attacker-node::after{
+    content:""; position:absolute; width:6px; height:6px; border: 1px solid var(--cyan-dim);
+  }
+  .attacker-node::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .attacker-node::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .attacker-node svg{ flex-shrink:0; }
+  .attacker-node .label{ font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height:1.35; }
+  .attacker-node .label .name{ color: var(--cyan); font-weight:500; }
+  .attacker-node .label .ip{ color: var(--text-muted); }
+
+  .section-label{
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--text-muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .section-label::after{ content:""; flex:1; height:1px; background: var(--line); }
+
+  .scan-list{ display:grid; grid-template-columns: 1fr 1fr; gap:6px; }
+
+  .scan-btn{
+    text-align:left; background: var(--bg-canvas); border: 1px solid var(--line);
+    border-radius: 3px; padding: 7px 8px; cursor:pointer; color: var(--text);
+    transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
+    font-family:'IBM Plex Sans', sans-serif; min-height: 48px;
+  }
+  .scan-btn:hover:not(:disabled){ border-color: var(--cyan-dim); background: rgba(87,208,224,0.05); }
+  .scan-btn:active:not(:disabled){ transform: scale(0.99); }
+  .scan-btn:disabled{ opacity:0.45; cursor:not-allowed; }
+  .scan-btn.running{ border-color: var(--cyan); background: rgba(87,208,224,0.09); }
+  .scan-btn .flag{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--cyan); font-weight:500; }
+  .scan-btn .name{ font-size: 9.5px; color: var(--text-muted); margin-top:2px; line-height:1.25; }
+
+  .legend{ display:flex; flex-direction:column; gap:6px; font-family:'IBM Plex Mono', monospace; font-size: 10.5px; }
+  .legend-row{ display:flex; align-items:flex-start; gap:8px; color: var(--text-muted); }
+  .swatch{ width:9px; height:9px; border-radius:2px; flex-shrink:0; margin-top:2px; }
+  .legend-note{ font-size: 10px; color: var(--text-muted); border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 2px; line-height:1.5; }
+  .legend-note b{ color: var(--text); }
+  .legend-note + .legend-note{ border-top:none; padding-top:0; margin-top:-2px; }
+
+  /* ---------- CANVAS (full right side) ---------- */
+  .canvas-wrap{
+    position:relative; height:100%; min-height:0;
+    background: radial-gradient(circle at 12% 15%, rgba(87,208,224,0.05), transparent 40%), var(--bg-canvas);
+    overflow:hidden;
+  }
+  .canvas-wrap svg{ width:100%; height:100%; display:block; }
+
+  .device-tag{ font-family:'IBM Plex Mono', monospace; fill: var(--text-muted); font-size: 12px; }
+  .device-tag.emph{ fill: var(--cyan); font-size: 13.5px; }
+
+  .port-chip-bg{ stroke-width: 1.3; transition: stroke 0.35s ease; cursor: help; }
+  .port-hit{ fill: transparent; cursor: help; }
+
+  .port-num{ font-family:'IBM Plex Mono', monospace; font-size: 15px; font-weight:600; fill: #ffffff; }
+  .port-service{ font-family:'IBM Plex Mono', monospace; font-size: 13.5px; font-weight:500; fill: #ffffff; }
+  .rlabel{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2px; }
+
+  .resp-label{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; fill: var(--text-muted); }
+  .resp-label.active{ fill: #ffffff; font-weight: 600; }
+
+  .laptop-screen-text{
+    font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight:600;
+    fill: var(--screen-green); filter: drop-shadow(0 0 5px rgba(57,255,106,0.6));
+  }
+  .laptop-screen-text.idle{ fill: var(--text-muted); font-weight:400; filter:none; }
+
+  .flags-header{ font-family:'IBM Plex Mono', monospace; font-size: 13px; fill: var(--text-muted); font-weight:500; }
+  .flags-value{
+    font-family:'IBM Plex Mono', monospace; font-size: 18px; font-weight:700;
+    fill: var(--screen-green); filter: drop-shadow(0 0 4px rgba(57,255,106,0.55));
+  }
+  .flags-value.na{ fill: var(--text-muted); font-weight:400; filter:none; }
+  .flags-note{ font-family:'IBM Plex Mono', monospace; font-size: 10px; fill: var(--text-muted); font-style: italic; }
+
+  /* Spinner animation only runs while a port is actively being probed —
+     no continuously-running animation sitting idle in the background. */
+  .port-spin-group{ opacity:0; transition: opacity 0.1s ease; }
+  .port-spin-group.probing{ opacity:1; }
+  .port-spin-arc{ transform-box: fill-box; transform-origin: center; }
+  .port-spin-group.probing .port-spin-arc{ animation: portSpin 0.7s linear infinite; }
+  @keyframes portSpin{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+
+  /* ---------- HOVER TOOLTIP: "what can you actually conclude" ---------- */
+  .port-tooltip{
+    position:absolute; z-index:30; max-width: 260px; pointer-events:none;
+    background: var(--bg-panel); border: 1px solid var(--line); border-radius: 6px;
+    padding: 9px 11px; font-family:'IBM Plex Mono', monospace; font-size: 11px; line-height:1.55;
+    color: var(--text); box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+    opacity: 0; transform: translateY(3px); transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+  .port-tooltip.visible{ opacity:1; transform:translateY(0); }
+  .port-tooltip .tt-head{ display:flex; justify-content:space-between; gap:10px; margin-bottom:5px; }
+  .port-tooltip .tt-port{ color: var(--cyan); font-weight:600; }
+  .port-tooltip .tt-tag{ color: var(--text-muted); }
+  .port-tooltip .tt-resp{ color: var(--text-muted); margin-bottom:5px; }
+  .port-tooltip .tt-body{ color: var(--text); }
+
+  @media (max-width: 860px){
+    html, body{ overflow:auto; }
+    .app{ grid-template-columns: 1fr; grid-template-rows: auto 1fr; height:100vh; }
+    .sidebar{ border-right:none; border-bottom:1px solid var(--line); overflow-y:visible; max-height:40vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="title">Scan Response Visualizer</div>
+      <div class="subtitle">nmap port-state behavior, by scan type</div>
+    </div>
+
+    <div class="attacker-node">
+      <svg width="26" height="26" viewBox="0 0 30 30">
+        <rect x="5" y="6" width="20" height="13" rx="1.5" fill="none" stroke="#57d0e0" stroke-width="1.4"/>
+        <rect x="3" y="20" width="24" height="3" rx="1" fill="#57d0e0" opacity="0.85"/>
+      </svg>
+      <div class="label">
+        <div class="name">CEH-LAPTOP</div>
+        <div class="ip">10.10.14.6</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">SCAN&nbsp;TYPE</div>
+      <div class="scan-list" id="scanList"></div>
+    </div>
+
+    <div>
+      <div class="section-label">PORT&nbsp;STATE</div>
+      <div class="legend">
+        <div class="legend-row"><span class="swatch" style="background:var(--state-open)"></span>open</div>
+        <div class="legend-row"><span class="swatch" style="background:var(--state-closed)"></span>closed</div>
+        <div class="legend-row"><span class="swatch" style="background:var(--state-filtered)"></span>filtered</div>
+        <div class="legend-row"><span class="swatch" style="background:var(--state-unfiltered)"></span>unfiltered</div>
+        <div class="legend-row"><span class="swatch" style="background:var(--state-idle)"></span>idle</div>
+        <div class="legend-note"><b>T</b> = the port's real state (fixed) &nbsp;·&nbsp; <b>S</b> = what this scan reports &nbsp;·&nbsp; middle = the raw response flag(s).<br>The chip's fill color is always <b>T</b>.</div>
+        <div class="legend-note">Hover a port after scanning to see what you could actually <b>conclude</b> from that result alone.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas-wrap" id="canvasWrap">
+    <svg id="topoSvg" viewBox="0 0 1300 820" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="port-tooltip" id="portTooltip"></div>
+  </div>
+
+</div>
+
+<script>
+/* ---------------- DATA MODEL ---------------- */
+
+const devices = [
+  {
+    id: "d1", name: "TARGET-01", ip: "10.10.10.42",
+    ports: [
+      { num: 21,   service: "ftp",           protocol: "tcp", truth: "closed"   },
+      { num: 22,   service: "ssh",           protocol: "tcp", truth: "filtered" },
+      { num: 80,   service: "http",          protocol: "tcp", truth: "open"     },
+      { num: 443,  service: "https",         protocol: "tcp", truth: "open"     },
+      { num: 3389, service: "ms-wbt-server", protocol: "tcp", truth: "closed"   },
+    ]
+  },
+  {
+    id: "d2", name: "TARGET-02", ip: "10.10.10.53",
+    ports: [
+      { num: 53,  service: "domain (dns)", protocol: "udp", truth: "open"     },
+      { num: 161, service: "snmp",         protocol: "udp", truth: "filtered" },
+      { num: 69,  service: "tftp",         protocol: "udp", truth: "closed"   },
+    ]
+  }
+];
+
+// Inference helpers: given the RAW result a scan reports (not the ground
+// truth — an analyst never sees that), what can actually be concluded?
+// This is a layer beyond "truth" and "reported state": epistemic
+// confidence. Some results are definitive; some are genuinely ambiguous.
+function tcpDirectInfer(tag){
+  if (tag === "open")   return "Definitive. A SYN/ACK means a real service is listening here.";
+  if (tag === "closed") return "Definitive. An RST means nothing is listening here.";
+  return "Fairly definitive. Silence (or an ICMP unreachable) means something is actively dropping this probe — treat it as blocked.";
+}
+function stealthInfer(tag){
+  if (tag === "closed") return "Definitive. An RST proves this port is closed.";
+  return "Ambiguous. No response means either the port is open, or a firewall silently dropped the probe — you can't tell which from this alone.";
+}
+function ackInfer(tag){
+  if (tag === "filtered") return "Definitive. No response means a stateful firewall is filtering this port.";
+  return "Partial. An RST proves there's no firewall here — but says nothing about open vs. closed.";
+}
+function udpInfer(tag){
+  if (tag === "closed")   return "Definitive. An ICMP port-unreachable proves nothing is listening.";
+  if (tag === "filtered") return "Definitive. A different ICMP unreachable (or a hard block) means this is actively filtered.";
+  return "Ambiguous. Silence is normal behavior for an open UDP port too — you can't distinguish open from filtered without another technique.";
+}
+const IDLE_INFER = "Not scanned yet — run a scan to see what you could actually conclude here.";
+
+// What raw response actually comes back on the wire for a given reported
+// tag, per scan type. This is distinct from "truth" and from "S" — it's
+// the literal packet you'd see in a capture.
+function respFlagFor(scanId, tag){
+  if (scanId === "syn" || scanId === "connect") {
+    if (tag === "open")   return "SYN, ACK";
+    if (tag === "closed") return "RST, ACK";
+    return "no response";
+  }
+  if (scanId === "fin" || scanId === "xmas" || scanId === "null") {
+    if (tag === "closed") return "RST, ACK";
+    return "no response";
+  }
+  if (scanId === "ack") {
+    if (tag === "unfiltered") return "RST";
+    return "no response";
+  }
+  if (scanId === "udp") {
+    if (tag === "closed")   return "ICMP: port unreach.";
+    if (tag === "filtered") return "ICMP: admin filtered";
+    return "no response";
+  }
+  return "—";
+}
+
+// The literal flags byte the scanner sends out, per scan type — shown on
+// the laptop after each run. UDP has no TCP flags at all.
+const FLAG_COLS = ["URG","ACK","PSH","RST","SYN","FIN"];
+const PROBE_FLAGS = {
+  syn:     { URG:0, ACK:0, PSH:0, RST:0, SYN:1, FIN:0 },
+  connect: { URG:0, ACK:0, PSH:0, RST:0, SYN:1, FIN:0 },
+  fin:     { URG:0, ACK:0, PSH:0, RST:0, SYN:0, FIN:1 },
+  xmas:    { URG:1, ACK:0, PSH:1, RST:0, SYN:0, FIN:1 },
+  null:    { URG:0, ACK:0, PSH:0, RST:0, SYN:0, FIN:0 },
+  ack:     { URG:0, ACK:1, PSH:0, RST:0, SYN:0, FIN:0 },
+};
+
+// Every scan attempts every port. What differs is how each scan
+// interprets the same ground truth, and how much you can actually
+// trust that interpretation.
+const scans = [
+  {
+    id: "syn", flag: "-sS", name: "TCP SYN Scan", protocol: "tcp",
+    note: "Half-open handshake. Reveals the true TCP state directly.",
+    interpret(truth){ return { display: truth, tag: truth, infer: tcpDirectInfer(truth) }; }
+  },
+  {
+    id: "connect", flag: "-sT", name: "TCP Connect Scan", protocol: "tcp",
+    note: "Full 3-way handshake. Same visibility as SYN, but logged.",
+    interpret(truth){ return { display: truth, tag: truth, infer: tcpDirectInfer(truth) }; }
+  },
+  {
+    id: "fin", flag: "-sF", name: "FIN Scan", protocol: "tcp",
+    note: "No RST from open OR filtered ports — both look identical.",
+    interpret(truth){
+      const tag = truth === "closed" ? "closed" : "open|filtered";
+      return { display: truth === "closed" ? "closed" : "filtered", tag, infer: stealthInfer(tag) };
+    }
+  },
+  {
+    id: "xmas", flag: "-sX", name: "XMAS Scan", protocol: "tcp",
+    note: "FIN, PSH, URG set. Same ambiguity as FIN scan.",
+    interpret(truth){
+      const tag = truth === "closed" ? "closed" : "open|filtered";
+      return { display: truth === "closed" ? "closed" : "filtered", tag, infer: stealthInfer(tag) };
+    }
+  },
+  {
+    id: "null", flag: "-sN", name: "NULL Scan", protocol: "tcp",
+    note: "No flags set at all. Same ambiguity as FIN/XMAS.",
+    interpret(truth){
+      const tag = truth === "closed" ? "closed" : "open|filtered";
+      return { display: truth === "closed" ? "closed" : "filtered", tag, infer: stealthInfer(tag) };
+    }
+  },
+  {
+    id: "ack", flag: "-sA", name: "ACK Scan", protocol: "tcp",
+    note: "Firewall mapping only — can't tell open from closed.",
+    interpret(truth){
+      const tag = truth === "filtered" ? "filtered" : "unfiltered";
+      return { display: truth === "filtered" ? "filtered" : "unfiltered", tag, infer: ackInfer(tag) };
+    }
+  },
+  {
+    id: "udp", flag: "-sU", name: "UDP Scan", protocol: "udp",
+    note: "No response is common even for open UDP ports.",
+    interpret(truth){
+      let tag;
+      if (truth === "closed") tag = "closed";
+      else if (truth === "filtered") tag = "filtered";
+      else tag = "open|filtered";
+      return { display: truth === "open" ? "filtered" : truth, tag, infer: udpInfer(tag) };
+    }
+  },
+];
+
+const stateColor = {
+  idle: "var(--state-idle)",
+  open: "var(--state-open)", closed: "var(--state-closed)",
+  filtered: "var(--state-filtered)", unfiltered: "var(--state-unfiltered)",
+};
+const stateGlow = {
+  open: "var(--state-open-glow)", closed: "var(--state-closed-glow)",
+  filtered: "var(--state-filtered-glow)", unfiltered: "var(--state-unfiltered-glow)",
+};
+const shortMap = {
+  open: "OPEN", closed: "CLOSED", filtered: "FILTERED",
+  "open|filtered": "OPEN|FILT", unfiltered: "UNFILT", idle: "IDLE",
+};
+function shortTag(tag){ return shortMap[tag] || tag.toUpperCase(); }
+
+/* ---------------- BUILD SIDEBAR BUTTONS ---------------- */
+
+const scanList = document.getElementById("scanList");
+scans.forEach(scan => {
+  const btn = document.createElement("button");
+  btn.className = "scan-btn";
+  btn.id = "btn-" + scan.id;
+  btn.innerHTML = `<div class="flag">${scan.flag}</div><div class="name">${scan.name}</div>`;
+  btn.title = scan.note;
+  btn.addEventListener("click", () => runScan(scan));
+  scanList.appendChild(btn);
+});
+
+/* ---------------- BUILD TOPOLOGY SVG ---------------- */
+
+const svgNS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("topoSvg");
+const canvasWrap = document.getElementById("canvasWrap");
+const portTooltip = document.getElementById("portTooltip");
+
+function el(tag, attrs, parent){
+  const e = document.createElementNS(svgNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+// Laptop lives near the top of the canvas, out of the way of everything else.
+const laptopX = 70, laptopY = 70;
+const layoutCenterY = 400; // pure layout anchor for the device stack, nothing drawn here
+const deviceX = 610, portW = 420, portH = 52, portGap = 15;
+
+// Laptop icon — its screen shows the flag of the last scan that was run,
+// and the flags table below it shows the actual bits that were sent.
+const laptopG = el("g", {}, svg);
+el("rect", { x: laptopX, y: laptopY-27, width: 92, height: 58, rx: 3, fill: "none", stroke: "#57d0e0", "stroke-width": 1.8 }, laptopG);
+el("rect", { x: laptopX-7, y: laptopY+32, width: 106, height: 8, rx: 2, fill: "#57d0e0", opacity: 0.85 }, laptopG);
+el("text", { x: laptopX+46, y: laptopY-36, class: "device-tag emph", "text-anchor": "middle" }, laptopG).textContent = "CEH-LAPTOP";
+el("text", { x: laptopX+46, y: laptopY+60, class: "device-tag", "text-anchor": "middle" }, laptopG).textContent = "10.10.14.6";
+const laptopScreenText = el("text", {
+  x: laptopX+46, y: laptopY+9, class: "laptop-screen-text idle", "text-anchor": "middle"
+}, laptopG);
+laptopScreenText.textContent = "idle";
+
+// Flags table: each column gets its own header + value text element at a
+// fixed x, so the bit always lines up exactly under its label regardless
+// of font metrics.
+const flagsTableCenterX = laptopX+46;
+const flagsTableWidth = 300;
+const flagsColWidth = flagsTableWidth / FLAG_COLS.length;
+const flagsStartX = flagsTableCenterX - flagsTableWidth/2;
+const flagsHeaderY = laptopY + 100;
+const flagsValueY = laptopY + 126;
+const flagsNoteY = laptopY + 144;
+
+const flagsValueEls = {};
+FLAG_COLS.forEach((label, i) => {
+  const colX = flagsStartX + flagsColWidth*i + flagsColWidth/2;
+  el("text", { x: colX, y: flagsHeaderY, class: "flags-header", "text-anchor":"middle" }, laptopG).textContent = label;
+  const valueEl = el("text", { x: colX, y: flagsValueY, class: "flags-value na", "text-anchor":"middle" }, laptopG);
+  valueEl.textContent = "—";
+  flagsValueEls[label] = valueEl;
+});
+const flagsNoteText = el("text", {
+  x: flagsTableCenterX, y: flagsNoteY, class: "flags-note", "text-anchor":"middle"
+}, laptopG);
+flagsNoteText.textContent = "";
+
+function updateFlagsTable(scanId){
+  const bits = PROBE_FLAGS[scanId];
+  if (!bits) {
+    FLAG_COLS.forEach(label => {
+      flagsValueEls[label].textContent = "—";
+      flagsValueEls[label].classList.add("na");
+    });
+    flagsNoteText.textContent = "(UDP probe — no TCP flags)";
+    return;
+  }
+  FLAG_COLS.forEach(label => {
+    flagsValueEls[label].textContent = bits[label];
+    flagsValueEls[label].classList.remove("na");
+  });
+  flagsNoteText.textContent = "";
+}
+
+function portsHeight(n){ return n*portH + (n-1)*portGap; }
+const gapBetweenDevices = 60;
+const HEADER_SPACE = 46;
+const totalPortsHeights = devices.map(d => portsHeight(d.ports.length));
+const totalStackHeight = totalPortsHeights.reduce((a,b)=>a+b,0) + gapBetweenDevices*(devices.length-1) + HEADER_SPACE*devices.length;
+let cursorY = layoutCenterY - totalStackHeight/2;
+
+const portSpinners = {};   // "deviceId:num" -> SVG group element (opacity/class toggled)
+const portInference = {};  // "deviceId:num" -> current inference text (string)
+const portRespText  = {};  // "deviceId:num" -> current response-flag text (string)
+
+devices.forEach((device, di) => {
+  const topY = cursorY + HEADER_SPACE - 6;
+  const h = totalPortsHeights[di];
+
+  const g = el("g", {}, svg);
+  el("text", { x: deviceX+portW/2, y: topY-24, class: "device-tag emph", "text-anchor":"middle" }, g).textContent = device.name;
+  el("text", { x: deviceX+portW/2, y: topY-9, class: "device-tag", "text-anchor":"middle" }, g).textContent = device.ip;
+  el("rect", { x: deviceX-14, y: topY-2, width: portW+28, height: h+16, fill: "none", stroke: "#1c2c40", "stroke-width": 1, rx: 3 }, g);
+
+  device.ports.forEach((p, i) => {
+    const y = topY + i*(portH+portGap);
+    const rowCenterY = y + portH/2;
+    const key = device.id+":"+p.num;
+    const pg = el("g", { id: "port-" + device.id + "-" + p.num }, g);
+
+    // Fill is the port's ground truth, fixed forever. Stroke reflects
+    // whatever the currently-run scan reports.
+    el("rect", {
+      x: deviceX, y, width: portW, height: portH, rx: 4, class: "port-chip-bg",
+      style: `fill:${stateGlow[p.truth]}; stroke:${stateColor.idle};`
+    }, pg);
+
+    el("text", { x: deviceX+13, y: y+21, class: "port-num" }, pg).textContent = p.num + "/" + p.protocol;
+    el("text", { x: deviceX+13, y: y+38, class: "port-service" }, pg).textContent = p.service;
+
+    // Raw response flag(s) — centered in the middle of the chip.
+    const respLbl = el("text", {
+      x: deviceX+portW/2, y: rowCenterY+4, class: "resp-label", "text-anchor":"middle",
+      id: "resp-label-" + device.id + "-" + p.num
+    }, pg);
+    respLbl.textContent = "—";
+    portRespText[key] = "—";
+
+    // Persistent ground-truth label (T) — set once, never changes
+    const truthLbl = el("text", {
+      x: deviceX+portW-13, y: y+21, class: "rlabel", "text-anchor":"end",
+      fill: stateColor[p.truth]
+    }, pg);
+    truthLbl.textContent = "T: " + shortTag(p.truth);
+
+    // Scan-reported label (S) — updates every run
+    const stateLbl = el("text", {
+      x: deviceX+portW-13, y: y+38, class: "rlabel", "text-anchor":"end",
+      fill: stateColor.idle, id: "state-label-" + device.id + "-" + p.num
+    }, pg);
+    stateLbl.textContent = "S: idle";
+
+    // Small spinner next to this port, visible (and animating) only while
+    // it's the one currently being probed.
+    const spinnerX = deviceX - 26;
+    const spinnerG = el("g", { class: "port-spin-group", transform: `translate(${spinnerX},${rowCenterY})` }, pg);
+    el("circle", { cx:0, cy:0, r:9, fill:"none", stroke:"var(--line)", "stroke-width":2.4 }, spinnerG);
+    el("circle", {
+      cx:0, cy:0, r:9, fill:"none", stroke:"var(--cyan)", "stroke-width":2.4,
+      "stroke-linecap":"round", "stroke-dasharray":"15 42", class:"port-spin-arc"
+    }, spinnerG);
+    portSpinners[key] = spinnerG;
+
+    // Hover target spanning the full row, including the spinner gutter —
+    // shows what you could actually conclude from the current result.
+    portInference[key] = IDLE_INFER;
+    const hitArea = el("rect", {
+      x: deviceX-32, y, width: portW+32, height: portH, class: "port-hit"
+    }, pg);
+    hitArea.addEventListener("mouseenter", () => showPortTooltip(device.id, p.num, hitArea));
+    hitArea.addEventListener("mouseleave", hidePortTooltip);
+  });
+
+  cursorY += h + HEADER_SPACE + gapBetweenDevices;
+});
+
+function showPortTooltip(deviceId, num, targetEl){
+  const rect = targetEl.getBoundingClientRect();
+  const canvasRect = canvasWrap.getBoundingClientRect();
+  const key = deviceId+":"+num;
+  const currentTagEl = document.getElementById("state-label-" + deviceId + "-" + num);
+  const currentTag = currentTagEl.textContent.replace(/^S:\s*/, "");
+
+  portTooltip.innerHTML =
+    `<div class="tt-head"><span class="tt-port">Port ${num}</span><span class="tt-tag">reports ${currentTag}</span></div>` +
+    `<div class="tt-resp">Wire response: ${portRespText[key]}</div>` +
+    `<div class="tt-body">${portInference[key]}</div>`;
+  portTooltip.classList.add("visible");
+
+  const top = rect.top - canvasRect.top + rect.height/2 - portTooltip.offsetHeight/2;
+  let left = rect.left - canvasRect.left - portTooltip.offsetWidth - 14;
+  if (left < 8) left = rect.left - canvasRect.left + 8;
+  portTooltip.style.top = Math.max(8, top) + "px";
+  portTooltip.style.left = left + "px";
+}
+function hidePortTooltip(){
+  portTooltip.classList.remove("visible");
+}
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+/* ---------------- SCAN EXECUTION ---------------- */
+
+let scanRunning = false;
+
+// A definitive response (RST, SYN-ACK, ICMP unreachable) comes back fast.
+// No response at all means the scanner has to sit through its retransmission/
+// timeout window before it can conclude anything — that's the slow ~1s case,
+// whether it's a TCP port going quiet or a genuine UDP timeout.
+const WAIT_FAST = 320;
+const WAIT_SLOW = 1000;
+
+async function runScan(scan) {
+  if (scanRunning) return;
+  scanRunning = true;
+  scans.forEach(s => document.getElementById("btn-"+s.id).disabled = true);
+  const activeBtn = document.getElementById("btn-"+scan.id);
+  activeBtn.classList.add("running");
+
+  laptopScreenText.textContent = scan.flag;
+  laptopScreenText.classList.remove("idle");
+  updateFlagsTable(scan.id);
+
+  devices.forEach(d => d.ports.forEach(p => setPortResult(d.id, p.num, "idle", "idle", IDLE_INFER, "—")));
+  hidePortTooltip();
+
+  for (const device of devices) {
+    for (const p of device.ports) {
+      const result = scan.interpret(p.truth);
+      const isSlow = result.tag.includes("filtered");
+      const respFlag = respFlagFor(scan.id, result.tag);
+
+      setPortProbing(device.id, p.num, true);
+      await sleep(isSlow ? WAIT_SLOW : WAIT_FAST);
+      setPortProbing(device.id, p.num, false);
+
+      setPortResult(device.id, p.num, result.display, result.tag, result.infer, respFlag);
+    }
+  }
+
+  scans.forEach(s => document.getElementById("btn-"+s.id).disabled = false);
+  activeBtn.classList.remove("running");
+  scanRunning = false;
+}
+
+function setPortResult(deviceId, num, displayState, tag, infer, respFlag){
+  const key = deviceId+":"+num;
+  const chip = document.querySelector(`#port-${deviceId}-${num} .port-chip-bg`);
+  const label = document.getElementById("state-label-" + deviceId + "-" + num);
+  const respLbl = document.getElementById("resp-label-" + deviceId + "-" + num);
+  const color = stateColor[displayState] || stateColor.idle;
+
+  chip.style.stroke = color;
+  label.setAttribute("fill", color);
+  label.textContent = "S: " + shortTag(tag);
+
+  respLbl.textContent = respFlag;
+  respLbl.classList.toggle("active", respFlag !== "—" && respFlag !== "no response");
+
+  portInference[key] = infer;
+  portRespText[key] = respFlag;
+}
+
+function setPortProbing(deviceId, num, active){
+  portSpinners[deviceId+":"+num].classList.toggle("probing", active);
+}
+</script>
+
+</body>
+</html>
