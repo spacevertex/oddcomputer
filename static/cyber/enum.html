@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENUM:// — Enumeration Phase Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070c14;
+    --canvas:#0a1420;
+    --panel:#0d1826;
+    --border:#1c2c40;
+    --cyan:#57d0e0;
+    --crt:#39ff6a;
+    --good:#34d399;
+    --bad:#f2545b;
+    --caution:#f2c14e;
+    --neutral:#7c9cbf;
+    --idle:#33445a;
+    --text:#cfe0ee;
+    --text-bright:#eaf3f8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  ::selection{background:var(--cyan);color:#04121a;}
+
+  /* ---------- layout shell ---------- */
+  .app{
+    max-width:1180px;
+    margin:0 auto;
+    padding:20px 20px 40px;
+  }
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    padding-bottom:14px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  header.top .title{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:19px;
+    color:var(--text-bright);
+    letter-spacing:0.02em;
+  }
+  header.top .title span{color:var(--cyan);}
+  header.top .subtitle{
+    font-size:12.5px;
+    color:var(--neutral);
+    margin-top:3px;
+  }
+  header.top .domain-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--neutral);
+    border:1px solid var(--border);
+    padding:4px 9px;
+    border-radius:2px;
+    align-self:flex-start;
+  }
+
+  /* phase strip */
+  .phase-strip{
+    display:flex;
+    align-items:center;
+    gap:0;
+    margin-bottom:22px;
+    overflow-x:auto;
+  }
+  .phase-node{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--idle);
+    white-space:nowrap;
+    padding:3px 0;
+    position:relative;
+  }
+  .phase-node.done{color:var(--neutral);}
+  .phase-node.active{color:var(--bg);background:var(--cyan);padding:3px 10px;border-radius:2px;font-weight:600;}
+  .phase-line{
+    flex:1 1 auto;
+    height:1px;
+    background:var(--border);
+    min-width:16px;
+    margin:0 8px;
+  }
+
+  /* ---------- grid ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:230px 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar-label{
+    font-size:11px;
+    color:var(--neutral);
+    margin-bottom:8px;
+    padding-left:2px;
+  }
+  .tech-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .tech-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-left:2px solid var(--border);
+    color:var(--text);
+    padding:10px 10px;
+    text-align:left;
+    cursor:pointer;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12.8px;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .tech-btn:hover{background:#0f1c2c;}
+  .tech-btn.active{
+    border-left:2px solid var(--cyan);
+    background:#0f1e2c;
+    color:var(--text-bright);
+  }
+  .tech-btn svg{flex:0 0 auto;color:var(--cyan);opacity:0.85;}
+  .tech-btn .tb-text{display:flex;flex-direction:column;gap:2px;}
+  .tech-btn .tb-proto{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--neutral);}
+
+  /* ---------- main column ---------- */
+  .main-col{display:flex;flex-direction:column;gap:16px;}
+
+  .box-nav{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .nav-btn{
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--cyan);
+    width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    flex:0 0 auto;
+  }
+  .nav-btn:hover{background:#0f1c2c;border-color:var(--cyan);}
+  .nav-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    color:var(--neutral);
+    flex:1;
+    text-align:center;
+  }
+
+  /* box card */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    position:relative;
+    padding:18px;
+  }
+  .cnr{position:absolute;width:9px;height:9px;pointer-events:none;}
+  .cnr.tl{top:-1px;left:-1px;border-top:1px solid var(--cyan);border-left:1px solid var(--cyan);}
+  .cnr.tr{top:-1px;right:-1px;border-top:1px solid var(--cyan);border-right:1px solid var(--cyan);}
+  .cnr.bl{bottom:-1px;left:-1px;border-bottom:1px solid var(--cyan);border-left:1px solid var(--cyan);}
+  .cnr.br{bottom:-1px;right:-1px;border-bottom:1px solid var(--cyan);border-right:1px solid var(--cyan);}
+
+  .box-card{display:flex;gap:16px;}
+  .box-icon-wrap{
+    flex:0 0 auto;
+    width:68px;height:68px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--border);
+    background:var(--canvas);
+    color:var(--cyan);
+  }
+  .box-meta{flex:1 1 auto;min-width:0;}
+  .box-id-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .box-id{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--text-bright);letter-spacing:.02em;}
+  .box-ip{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--neutral);}
+  .box-role{font-size:12.5px;color:var(--cyan);margin-bottom:8px;}
+  .box-os{font-size:11.5px;color:var(--neutral);margin-bottom:8px;}
+  .box-os span{color:var(--text);font-family:'IBM Plex Mono',monospace;}
+  .box-ports{font-size:11.5px;color:var(--neutral);margin-bottom:8px;}
+  .box-ports span{color:var(--cyan);font-family:'IBM Plex Mono',monospace;}
+  .box-desc{font-size:12.8px;color:var(--text);max-width:62ch;}
+
+  /* terminal */
+  .term-wrap{position:relative;}
+  .term{
+    background:var(--canvas);
+    border:1px solid var(--border);
+    padding:14px 16px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.3px;
+    line-height:1.65;
+    min-height:52px;
+    word-break:break-word;
+  }
+  .term .cmd{color:var(--cyan);display:block;white-space:pre-wrap;}
+  .term .resp{color:var(--crt);text-shadow:0 0 6px rgba(57,255,106,0.45);display:block;white-space:pre-wrap;}
+  .term .cmt{color:var(--neutral);display:block;white-space:pre-wrap;}
+
+  .enter-row{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    margin-top:2px;
+  }
+  .enter-btn{
+    background:transparent;
+    border:1px solid var(--cyan);
+    color:var(--cyan);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:5px 12px;
+    cursor:pointer;
+    letter-spacing:.03em;
+    transition:background .15s ease,color .15s ease;
+  }
+  .enter-btn:hover{background:var(--cyan);color:#04121a;}
+  .enter-btn:disabled{
+    opacity:0.35;
+    cursor:default;
+    background:transparent;
+    color:var(--idle);
+    border-color:var(--idle);
+  }
+  .enter-btn:disabled:hover{background:transparent;color:var(--idle);}
+
+  /* result row */
+  .result-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:relative;
+  }
+  .chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    padding:5px 12px;
+    border:1px solid;
+    letter-spacing:.04em;
+    cursor:default;
+    position:relative;
+  }
+  .chip.success{color:var(--good);border-color:var(--good);background:rgba(52,211,153,0.06);}
+  .chip.fail{color:var(--bad);border-color:var(--bad);background:rgba(242,84,91,0.06);}
+  .chip.partial{color:var(--caution);border-color:var(--caution);background:rgba(242,193,78,0.06);}
+  .chip.na{color:var(--idle);border-color:var(--idle);background:rgba(51,68,90,0.12);}
+  .hover-hint{font-size:11px;color:var(--idle);}
+
+  /* tooltip */
+  .tip-wrap{position:relative;display:inline-flex;}
+  .tip-wrap .tip{
+    display:none;
+    position:absolute;
+    bottom:calc(100% + 10px);
+    left:0;
+    width:300px;
+    max-width:60vw;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:12.3px;
+    line-height:1.55;
+    padding:11px 13px;
+    z-index:20;
+    box-shadow:0 0 0 1px var(--bg);
+  }
+  .tip-wrap .tip .tip-head{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--cyan);
+    margin-bottom:6px;
+    letter-spacing:.05em;
+  }
+  .tip-wrap:hover .tip{display:block;}
+
+  footer.note{
+    margin-top:26px;
+    font-size:11.5px;
+    color:var(--idle);
+    border-top:1px solid var(--border);
+    padding-top:12px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="title">ENUM<span>://</span>trainer</div>
+      <div class="subtitle">Active information extraction against services scanning already revealed</div>
+    </div>
+    <div class="domain-tag">CEH · DOMAIN 3 · ENUMERATION</div>
+  </header>
+
+  <div class="phase-strip">
+    <div class="phase-node done">FOOTPRINTING</div>
+    <div class="phase-line"></div>
+    <div class="phase-node done">SCANNING</div>
+    <div class="phase-line"></div>
+    <div class="phase-node active">ENUMERATION</div>
+    <div class="phase-line"></div>
+    <div class="phase-node">VULN ANALYSIS</div>
+    <div class="phase-line"></div>
+    <div class="phase-node">EXPLOITATION</div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="sidebar-label">TECHNIQUE</div>
+      <div class="tech-list" id="techList"></div>
+    </div>
+
+    <div class="main-col">
+      <div class="box-nav">
+        <button class="nav-btn" id="prevBtn">‹</button>
+        <div class="nav-count" id="navCount"></div>
+        <button class="nav-btn" id="nextBtn">›</button>
+      </div>
+
+      <div class="panel" id="boxPanel">
+        <div class="cnr tl"></div><div class="cnr tr"></div><div class="cnr bl"></div><div class="cnr br"></div>
+        <div class="box-card">
+          <div class="box-icon-wrap" id="boxIcon"></div>
+          <div class="box-meta">
+            <div class="box-id-row">
+              <div class="box-id" id="boxId"></div>
+              <div class="box-ip mono" id="boxIp"></div>
+            </div>
+            <div class="box-role" id="boxRole"></div>
+            <div class="box-os" id="boxOs"></div>
+            <div class="box-ports" id="boxPorts"></div>
+            <div class="box-desc" id="boxDesc"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel term-wrap" id="termPanel">
+        <div class="cnr tl"></div><div class="cnr tr"></div><div class="cnr bl"></div><div class="cnr br"></div>
+        <div class="term" id="term"></div>
+        <div class="enter-row">
+          <button class="enter-btn" id="enterBtn">ENTER ↵</button>
+        </div>
+      </div>
+
+      <div class="result-row" id="resultRow" style="display:none;">
+        <div class="tip-wrap">
+          <div class="chip" id="chip"></div>
+          <div class="tip" id="tip"><div class="tip-head">WHY</div><div id="tipText"></div></div>
+        </div>
+        <div class="hover-hint">hover the result for the analysis</div>
+      </div>
+
+      <footer class="note">Fictional lab range (10.10.10.0/24) built for study purposes. Commands shown are representative of real tooling syntax.</footer>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- icons ---------------- */
+const ICONS = {
+  snmp:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15v6"/><path d="M8 19h8"/><circle cx="12" cy="12" r="2.4"/><path d="M6 10a8 8 0 0 1 12 0" stroke-opacity=".55"/><path d="M3.5 7.5a12 12 0 0 1 17 0" stroke-opacity=".3"/></svg>`,
+  smb:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7.5 6 5h6l2 2.5H21v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><path d="M3 9.5h18"/></svg>`,
+  ldap:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 7v5m0 0-6 4m6-4 6 4"/></svg>`,
+  dns:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><ellipse cx="12" cy="12" rx="3.4" ry="8"/><path d="M4 12h16"/></svg>`,
+  banner:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4.5" width="18" height="15" rx="0.5"/><path d="M7 10l3 2.2L7 14.4M12 14.5h5"/></svg>`,
+  smtp:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5.5" width="18" height="13" rx="0.5"/><path d="m3.5 6 8.5 6.5L20.5 6"/></svg>`,
+  fingerprint:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.3 15.3 20 20"/><path d="M7.5 10.5l2 2 4-4.4"/></svg>`,
+};
+
+const BOX_ICONS = {
+  dc:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="6" y="2.5" width="12" height="19" /><path d="M6 8h12M6 13h12M6 18h12"/><path d="M12 2.5V1"/><circle cx="12" cy="0.6" r="0" /><path d="m9.5 2.5 2.5-2 2.5 2"/></svg>`,
+  fileserver:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="16" height="5"/><rect x="4" y="10.5" width="16" height="5"/><rect x="4" y="17" width="16" height="3.5"/><circle cx="7" cy="6.5" r="0.6" fill="currentColor" stroke="none"/><circle cx="7" cy="13" r="0.6" fill="currentColor" stroke="none"/></svg>`,
+  router:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="9" width="18" height="7" rx="0.5"/><path d="M7 9V6.5M12 9V5M17 9V6.5"/><circle cx="7" cy="12.5" r="0.6" fill="currentColor" stroke="none"/><circle cx="10.5" cy="12.5" r="0.6" fill="currentColor" stroke="none"/></svg>`,
+  dnsbox:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="3.8" ry="9"/><path d="M3 12h18M4.5 7h15M4.5 17h15"/></svg>`,
+  web:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="4" width="18" height="14" rx="0.5"/><path d="M3 7.5h18"/><circle cx="5.3" cy="5.7" r="0.5" fill="currentColor" stroke="none"/></svg>`,
+  mail:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="5.5" width="18" height="13" rx="0.5"/><path d="m3.5 6.2 8.5 6.6L20.5 6.2"/></svg>`,
+  hardened:`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2.5 4 5.5v6c0 5 3.4 8.2 8 10 4.6-1.8 8-5 8-10v-6z"/><path d="m8.6 12 2.4 2.4 4.4-4.8"/></svg>`,
+};
+
+/* ---------------- technique data ---------------- */
+const TECHNIQUES = [
+  {id:"snmp",  label:"SNMP Community Walk",      proto:"UDP/161 · SNMP",  icon:"snmp"},
+  {id:"smb",   label:"SMB Null Session / RID Cycling", proto:"TCP/445 · SMB", icon:"smb"},
+  {id:"ldap",  label:"LDAP Anonymous Bind",       proto:"TCP/389 · LDAP",  icon:"ldap"},
+  {id:"dns",   label:"DNS Zone Transfer (AXFR)",  proto:"TCP/53 · DNS",    icon:"dns"},
+  {id:"banner",label:"Banner Grabbing",           proto:"nc/telnet · raw connect", icon:"banner"},
+  {id:"fingerprint",label:"Service Fingerprinting", proto:"SMB/DNS · targeted query", icon:"fingerprint"},
+  {id:"smtp",  label:"SMTP User Enum (VRFY)",     proto:"TCP/25 · SMTP",   icon:"smtp"},
+];
+
+/* ---------------- box + outcome data ---------------- */
+function L(t,text){return {t,text};}
+
+const BOXES = [
+  {
+    id:"dc01", name:"DC01", ip:"10.10.10.10", os:"Windows Server 2016", role:"Primary Domain Controller",
+    icon:"dc",
+    desc:"Handles Kerberos/NTLM auth and DNS for the corp.local domain. First hop for any AD-side enumeration.",
+    ports:"53/tcp dns, 389/tcp ldap, 445/tcp smb",
+    out:{
+      snmp:{status:"na", target:"10.10.10.10:161/udp", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.10 .1.3.6.1.2.1.1"),L("resp","Timeout: No Response from 10.10.10.10")],
+        why:"This box was never provisioned with an SNMP agent. A clean timeout here is expected — it's the wrong technique for this box, not a sign of hardening."},
+      smb:{status:"fail", target:"10.10.10.10:445/tcp", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.10"),L("resp","Cannot connect: NT_STATUS_ACCESS_DENIED")],
+        why:"Null sessions are refused outright — RestrictAnonymous is effectively blocking anonymous RPC here. Note that SMB signing being disabled on this box is a relay/MITM risk, not an enumeration one — don't conflate the two findings."},
+      ldap:{status:"success", target:"10.10.10.10:389/tcp", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.10 -b \"dc=corp,dc=local\""),L("resp","# extended LDAP result"),L("resp","dn: CN=jsmith,CN=Users,DC=corp,DC=local"),L("resp","dn: CN=Domain Admins,CN=Users,DC=corp,DC=local"),L("resp","... 214 entries returned ...")],
+        why:"Anonymous bind succeeded and returned real directory objects, not just the naming context. Usernames, group structure, and OU layout are now visible without a single credential."},
+      dns:{status:"success", target:"10.10.10.10:53/tcp", lines:[L("cmd","$ dig axfr @10.10.10.10 corp.local"),L("cmt","; Transfer completed: 47 records"),L("resp","corp.local.        IN SOA  dc01.corp.local."),L("resp","fs02.corp.local.   IN A    10.10.10.21"),L("resp","mail01.corp.local. IN A    10.10.10.25")],
+        why:"The AD-integrated zone allowed a full transfer to an untrusted host. This hands over every internal hostname in one query — a common oversight when internal DNS quietly inherits an old, permissive ACL."},
+      banner:{status:"partial", target:"10.10.10.10:445/tcp", lines:[L("cmd","$ nc -nv 10.10.10.10 445"),L("resp","Connection to 10.10.10.10 445 port [tcp/microsoft-ds] succeeded!"),L("cmt","^C — no further data received")],
+        why:"The TCP handshake succeeds — the port is open — but SMB doesn't say anything until the client speaks first. nc can't form the SMB negotiation request, so you get a live, silent connection: proof the port is up, nothing else. That's a limitation of the tool, not a security control."},
+      fingerprint:{status:"success", target:"10.10.10.10:445/tcp", lines:[L("cmd","$ smbclient -L //10.10.10.10 -N"),L("resp","Domain=[CORP] OS=[Windows Server 2016 Standard 14393] Server=[Windows Server 2016 Standard 14393]")],
+        why:"Speaking the actual SMB negotiation (instead of just opening a socket) gets the OS volunteered in the reply — an exact build string you can cross-reference against a CVE list for this patch level."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.10 25"),L("resp","Connection refused")],
+        why:"Domain controllers don't typically run mail services — this technique simply doesn't apply to this host."},
+    }
+  },
+  {
+    id:"fs02", name:"FS02", ip:"10.10.10.21", os:"Windows Server 2012 R2", role:"File & Print Server",
+    icon:"fileserver",
+    desc:"Hosts department file shares and a print spooler. Domain-joined, but not a directory service host.",
+    ports:"445/tcp smb",
+    out:{
+      snmp:{status:"na", target:"—", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.21 .1.3.6.1.2.1.1"),L("resp","Timeout: No Response from 10.10.10.21")],
+        why:"No SNMP agent installed on this host — a general-purpose file server has no reason to run one by default."},
+      smb:{status:"partial", target:"10.10.10.21:445/tcp",
+        steps:[
+          {lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.21")]},
+          {lines:[L("cmd","rpcclient $> lookupsids S-1-5-21-...-500"),L("resp","S-1-5-21-...-500 CORP\\Administrator (1)"),L("resp","S-1-5-21-...-1000 CORP\\jsmith (1)"),L("resp","S-1-5-21-...-1013 CORP\\svc_backup (1)")]},
+          {lines:[L("cmd","rpcclient $> queryusergroups CORP\\\\jsmith"),L("resp","NT_STATUS_ACCESS_DENIED")]},
+        ],
+        why:"RestrictAnonymous is set to 1 here: it blocks the SAMR calls that would expose group membership, but not the LSA SID-lookup calls RID cycling relies on. Walking well-known RIDs (500, 501, 1000+) still resolves a near-complete username list — you just can't tell who's an admin from this alone."},
+      ldap:{status:"na", target:"—", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.21 -b \"dc=corp,dc=local\""),L("resp","ldap_bind: Can't contact LDAP server")],
+        why:"This isn't a directory service host — there's no LDAP listener to bind to."},
+      dns:{status:"na", target:"—", lines:[L("cmd","$ dig axfr @10.10.10.21 corp.local"),L("resp",";; connection timed out; no servers could be reached")],
+        why:"FS02 doesn't run authoritative DNS for any zone — nothing to transfer."},
+      banner:{status:"partial", target:"10.10.10.21:445/tcp", lines:[L("cmd","$ nc -nv 10.10.10.21 445"),L("resp","Connection to 10.10.10.21 445 port [tcp/microsoft-ds] succeeded!"),L("cmt","^C — no further data received")],
+        why:"Same story as any SMB host: the socket opens, but nothing is volunteered until you speak the protocol. A raw nc connect here tells you the port is up and nothing more."},
+      fingerprint:{status:"success", target:"10.10.10.21:445/tcp", lines:[L("cmd","$ smbclient -L //10.10.10.21 -N"),L("resp","Domain=[CORP] OS=[Windows Server 2012 R2 Standard 9600] Server=[Windows Server 2012 R2 Standard 9600]")],
+        why:"This host still answers legacy SMB dialect negotiation, which leaks an exact build number. Legacy protocol support is itself worth flagging, independent of the RID-cycling result."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.21 25"),L("resp","Connection refused")],
+        why:"No mail service on a file server — not applicable."},
+    }
+  },
+  {
+    id:"rtr", name:"RTR-CORE", ip:"10.10.10.1", os:"Cisco IOS 15.2", role:"Core Router / Switch",
+    icon:"router",
+    desc:"Routes traffic between VLANs and serves as the default gateway for the server segment.",
+    ports:"22/tcp ssh, 161/udp snmp",
+    out:{
+      snmp:{status:"success", target:"10.10.10.1:161/udp", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.1 .1.3.6.1.2.1.1"),L("resp","SNMPv2-MIB::sysDescr.0 = Cisco IOS Software, C2900 Software, Version 15.2(4)M6"),L("resp","IF-MIB::ifDescr.1 = GigabitEthernet0/0"),L("resp","IF-MIB::ifDescr.2 = GigabitEthernet0/1"),L("resp","... routing table + ARP cache also enumerable ...")],
+        why:"Default read-only community strings are still common on network gear that predates a security review. A successful walk hands over the interface list, routing table, and often the ARP cache — effectively a free network map."},
+      smb:{status:"na", target:"—", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.1"),L("resp","Connection refused")],
+        why:"Network gear doesn't speak SMB — there's no Windows-style RPC endpoint to null-session into. This refusal isn't a security control, it's an irrelevant protocol."},
+      ldap:{status:"na", target:"—", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.1 -b \"dc=corp,dc=local\""),L("resp","ldap_bind: Can't contact LDAP server")],
+        why:"A router has no directory service to query."},
+      dns:{status:"na", target:"—", lines:[L("cmd","$ dig axfr @10.10.10.1 corp.local"),L("resp",";; connection timed out; no servers could be reached")],
+        why:"This device isn't authoritative for any zone — AXFR has nothing to ask for."},
+      banner:{status:"success", target:"10.10.10.1:22/tcp", lines:[L("cmd","$ nc -nv 10.10.10.1 22"),L("resp","SSH-2.0-Cisco-1.25")],
+        why:"The SSH banner alone confirms vendor and a version string you can cross-reference against known CVEs for that IOS train — no login attempt needed."},
+      fingerprint:{status:"na", target:"—", lines:[L("cmd","$ smbclient -L //10.10.10.1 -N"),L("resp","Connection refused")],
+        why:"No SMB or DNS service exists here to fingerprint, and it wouldn't add anything anyway — the SSH banner grab already handed over the full version string."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.1 25"),L("resp","Connection refused")],
+        why:"No mail service on a routing device."},
+    }
+  },
+  {
+    id:"ns01", name:"NS01", ip:"10.10.10.53", os:"Ubuntu 20.04 · BIND 9.16", role:"External Authoritative DNS",
+    icon:"dnsbox",
+    desc:"Answers authoritative queries for the externally-facing zone. Internet-facing.",
+    ports:"53/tcp dns",
+    out:{
+      snmp:{status:"na", target:"—", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.53 .1.3.6.1.2.1.1"),L("resp","Timeout: No Response from 10.10.10.53")],
+        why:"No SNMP agent running — this box was provisioned as a DNS server only."},
+      smb:{status:"na", target:"—", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.53"),L("resp","Connection refused")],
+        why:"Linux box with no Samba service installed — SMB doesn't apply here."},
+      ldap:{status:"na", target:"—", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.53"),L("resp","ldap_bind: Can't contact LDAP server")],
+        why:"No directory service runs on an authoritative DNS box."},
+      dns:{status:"success", target:"10.10.10.53:53/tcp", lines:[L("cmd","$ dig axfr @10.10.10.53 example-corp.com"),L("cmt","; Transfer completed: 112 records"),L("resp","example-corp.com.     IN SOA  ns01.example-corp.com."),L("resp","vpn.example-corp.com. IN A    203.0.113.44"),L("resp","staging.example-corp.com. IN A 203.0.113.51")],
+        why:"AXFR was never restricted to the actual secondary nameserver's IP. Anyone can pull the entire external zone — subdomains, mail routing, sometimes internal hostnames left over from a split-horizon misconfiguration."},
+      banner:{status:"partial", target:"10.10.10.53:53/tcp", lines:[L("cmd","$ nc -nv 10.10.10.53 53"),L("resp","Connection to 10.10.10.53 53 port [tcp/domain] succeeded!"),L("cmt","^C — no further data received")],
+        why:"DNS also expects a properly formatted query before it replies — nc alone just opens the socket and waits. This is exactly why a dedicated fingerprinting query exists for DNS instead of a raw banner grab."},
+      fingerprint:{status:"success", target:"10.10.10.53:53/tcp", lines:[L("cmd","$ dig @10.10.10.53 version.bind CHAOS TXT"),L("resp","version.bind. 0 CH TXT \"9.16.1-Ubuntu\"")],
+        why:"A CHAOS-class query for version.bind is a BIND-specific quirk that returns the exact build even though DNS never volunteers a banner on its own — worth remembering since it's easy to overlook."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.53 25"),L("resp","Connection refused")],
+        why:"Not a mail host."},
+    }
+  },
+  {
+    id:"web01", name:"WEB01", ip:"10.10.10.80", os:"Ubuntu 22.04 · Apache 2.4 / PHP 8.1", role:"Intranet Portal",
+    icon:"web",
+    desc:"Hosts an internal HR portal, and also runs FTP for staged file uploads.",
+    ports:"21/tcp ftp, 80/tcp http",
+    out:{
+      snmp:{status:"na", target:"—", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.80 .1.3.6.1.2.1.1"),L("resp","Timeout: No Response from 10.10.10.80")],
+        why:"A web server has no reason to run an SNMP agent — not applicable."},
+      smb:{status:"na", target:"—", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.80"),L("resp","Connection refused")],
+        why:"No Samba service on this host."},
+      ldap:{status:"na", target:"—", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.80"),L("resp","ldap_bind: Can't contact LDAP server")],
+        why:"No directory service on a web/app host."},
+      dns:{status:"na", target:"—", lines:[L("cmd","$ dig axfr @10.10.10.80 corp.local"),L("resp",";; connection timed out; no servers could be reached")],
+        why:"This box serves web content, not DNS zones."},
+      banner:{status:"success", target:"10.10.10.80:21,80/tcp",
+        steps:[
+          {lines:[L("cmd","$ nc -nv 10.10.10.80 80"),L("resp","Connection to 10.10.10.80 80 port [tcp/http] succeeded!")]},
+          {lines:[L("cmd","HEAD / HTTP/1.0"),L("cmd",""),L("resp","HTTP/1.1 200 OK"),L("resp","Server: Apache/2.4.52 (Ubuntu)"),L("resp","X-Powered-By: PHP/8.1.2")]},
+          {lines:[L("cmd","$ nc -nv 10.10.10.80 21"),L("resp","220 (vsFTPd 3.0.5)")]},
+          {lines:[L("cmd","USER anonymous"),L("resp","331 Please specify the password.")]},
+          {lines:[L("cmd","PASS anonymous"),L("resp","230 Login successful.")]},
+          {lines:[L("cmd","LIST"),L("resp","150 Here comes the directory listing."),L("resp","-rw-r--r--    1 0        0     482301 Aug 14 09:12 Q3_benefits_enrollment.pdf"),L("resp","-rw-r--r--    1 0        0      88213 Aug 22 11:47 org_chart_2026.pdf"),L("resp","drwxr-xr-x    2 0        0       4096 Jul 02 16:03 staged_uploads"),L("resp","-rw-r--r--    1 0        0       2114 Jun 30 08:55 web01_backup.cnf"),L("resp","226 Directory send OK.")]},
+        ],
+        why:"Two different behaviors stacked here. FTP announces itself the instant you connect — zero input needed. HTTP never sends anything unprompted; you have to type a request line yourself before it responds. Neither is a security control, just protocol design. But notice what LIST hands over once you're in: real staged filenames, including what looks like a leftover config backup. Enumeration stops here — reading the directory is recon, pulling web01_backup.cnf down with RETR is where you'd cross into exploitation."},
+      fingerprint:{status:"na", target:"—", lines:[L("cmd","$ smbclient -L //10.10.10.80 -N"),L("resp","Connection refused")],
+        why:"No SMB or DNS service to fingerprint — and no need for one, since HTTP and FTP already volunteered their exact versions in plain text over a raw connect."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.80 25"),L("resp","Connection refused")],
+        why:"No mail service on this host."},
+    }
+  },
+  {
+    id:"mail01", name:"MAIL01", ip:"10.10.10.25", os:"Debian 11 · Postfix", role:"SMTP Relay / Mail Server",
+    icon:"mail",
+    desc:"Handles inbound and outbound mail for the corp domain.",
+    ports:"25/tcp smtp",
+    out:{
+      snmp:{status:"na", target:"—", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.25 .1.3.6.1.2.1.1"),L("resp","Timeout: No Response from 10.10.10.25")],
+        why:"No SNMP agent on a mail relay — not applicable."},
+      smb:{status:"na", target:"—", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.25"),L("resp","Connection refused")],
+        why:"No Samba service installed on this Linux mail host."},
+      ldap:{status:"na", target:"—", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.25"),L("resp","ldap_bind: Can't contact LDAP server")],
+        why:"No directory service on this host."},
+      dns:{status:"na", target:"—", lines:[L("cmd","$ dig axfr @10.10.10.25 corp.local"),L("resp",";; connection timed out; no servers could be reached")],
+        why:"MAIL01 isn't authoritative for any DNS zone."},
+      banner:{status:"success", target:"10.10.10.25:25/tcp", lines:[L("cmd","$ nc -nv 10.10.10.25 25"),L("resp","220 mail01.corp.local ESMTP Postfix (Debian/GNU)")],
+        why:"The SMTP banner names the exact MTA and OS family unprompted — useful, but notice it says nothing about which mailboxes actually exist. That's what VRFY is for."},
+      fingerprint:{status:"na", target:"—", lines:[L("cmd","$ smbclient -L //10.10.10.25 -N"),L("resp","Connection refused")],
+        why:"No SMB or DNS service here to fingerprint — SMTP already gave up its exact version over a plain banner, so there's nothing left for a targeted query to add."},
+      smtp:{status:"success", target:"10.10.10.25:25/tcp",
+        steps:[
+          {lines:[L("cmd","$ nc 10.10.10.25 25"),L("resp","220 mail01.corp.local ESMTP Postfix (Debian/GNU)")]},
+          {lines:[L("cmd","VRFY jsmith"),L("resp","252 2.0.0 jsmith")]},
+          {lines:[L("cmd","VRFY doesnotexist"),L("resp","550 5.1.1 <doesnotexist>: Recipient address rejected")]},
+        ],
+        why:"Postfix returns a different response code for a real mailbox versus a fake one — that behavioral difference is the entire vulnerability, not just 'VRFY is on'. It turns a wordlist into a confirmed username list."},
+    }
+  },
+  {
+    id:"honeydc", name:"HONEY-DC", ip:"10.10.10.99", os:"Windows Server 2022 · hardened baseline", role:"Hardened Reference Domain Controller",
+    icon:"hardened",
+    desc:"Same role as DC01, built to a hardened baseline. The contrast case for what actually closing these holes looks like.",
+    ports:"53/tcp dns, 389/tcp ldap, 445/tcp smb",
+    out:{
+      snmp:{status:"fail", target:"10.10.10.99:161/udp", lines:[L("cmd","$ snmpwalk -v2c -c public 10.10.10.99 .1.3.6.1.2.1.1"),L("resp","Connection refused — port 161/udp closed")],
+        why:"Different from a plain timeout: this is an active refusal at the firewall, not a silently unlisted service. Closed-port refusal and no-agent silence are two distinct signals worth telling apart."},
+      smb:{status:"fail", target:"10.10.10.99:445/tcp", lines:[L("cmd","$ rpcclient -U \"\" -N 10.10.10.99"),L("resp","Cannot connect: NT_STATUS_ACCESS_DENIED (immediate)")],
+        why:"RestrictAnonymous is set to 2 here — one level stricter than FS02's partial exposure. It blocks the LSA SID-lookup calls too, so RID cycling never gets a foothold at all. Compare directly against FS02 to see the practical difference between level 1 and level 2."},
+      ldap:{status:"fail", target:"10.10.10.99:389/tcp", lines:[L("cmd","$ ldapsearch -x -H ldap://10.10.10.99 -b \"dc=corp,dc=local\""),L("resp","ldap_bind: Strong(er) authentication required")],
+        why:"Anonymous bind is disabled and LDAP channel binding is enforced, so the server won't even negotiate a simple bind. Same role as DC01 — the only difference is this one control being switched on."},
+      dns:{status:"fail", target:"10.10.10.99:53/tcp", lines:[L("cmd","$ dig axfr @10.10.10.99 corp.local"),L("resp","; Transfer failed. ;; connection refused")],
+        why:"AXFR is restricted to the IP of the actual authorized secondary nameserver. Same zone, same role as DC01 — just an ACL most admins forget to set."},
+      banner:{status:"partial", target:"10.10.10.99:445/tcp", lines:[L("cmd","$ nc -nv 10.10.10.99 445"),L("resp","Connection to 10.10.10.99 445 port [tcp/microsoft-ds] succeeded!"),L("cmt","^C — no further data received")],
+        why:"Identical outcome to DC01's raw nc attempt — the socket opens either way, hardened or not. A plain connect can't distinguish a hardened box from a normal one; that distinction only shows up once you actually speak SMB."},
+      fingerprint:{status:"partial", target:"10.10.10.99:445/tcp", lines:[L("cmd","$ smbclient -L //10.10.10.99 -N"),L("resp","Domain=[CORP] OS=[Windows Server] Server=[Server]")],
+        why:"Here's the contrast with DC01: the negotiation reply still happens — TCP/445 answers — but the OS and build strings are suppressed to a generic value. You can confirm the box exists and speaks SMB; you can't fingerprint the exact patch level from this alone."},
+      smtp:{status:"na", target:"—", lines:[L("cmd","$ nc -nv 10.10.10.99 25"),L("resp","Connection refused")],
+        why:"Not a mail host — same as DC01's counterpart result."},
+    }
+  },
+];
+
+const STATUS_LABEL = {success:"EXPOSED", fail:"DENIED", partial:"PARTIAL", na:"N/A"};
+const STATUS_COLOR = {success:"var(--good)", fail:"var(--bad)", partial:"var(--caution)", na:"var(--idle)"};
+
+/* ---------------- state ---------------- */
+let techIndex = 0;
+let boxIndex = 0;
+let stepIndex = 0;
+
+/* ---------------- render: sidebar ---------------- */
+const techList = document.getElementById("techList");
+function renderSidebar(){
+  techList.innerHTML = "";
+  TECHNIQUES.forEach((t, i)=>{
+    const btn = document.createElement("button");
+    btn.className = "tech-btn" + (i===techIndex ? " active" : "");
+    btn.innerHTML = `${ICONS[t.icon]}<span class="tb-text"><span>${t.label}</span><span class="tb-proto">${t.proto}</span></span>`;
+    btn.addEventListener("click", ()=>{ techIndex = i; stepIndex = 0; renderAll(); });
+    techList.appendChild(btn);
+  });
+}
+
+/* ---------------- render: box ---------------- */
+function renderBox(){
+  const box = BOXES[boxIndex];
+  document.getElementById("boxIcon").innerHTML = BOX_ICONS[box.icon];
+  document.getElementById("boxId").textContent = box.name;
+  document.getElementById("boxIp").textContent = box.ip;
+  document.getElementById("boxRole").textContent = box.role;
+  document.getElementById("boxOs").innerHTML = `OS <span>${box.os}</span>`;
+  document.getElementById("boxPorts").innerHTML = `OPEN PORTS (from scan) <span>${box.ports}</span>`;
+  document.getElementById("boxDesc").textContent = box.desc;
+  document.getElementById("navCount").textContent = `TARGET ${boxIndex+1} / ${BOXES.length}`;
+}
+
+/* ---------------- steps helper ---------------- */
+function getSteps(outcome){
+  return outcome.steps ? outcome.steps : [{lines: outcome.lines}];
+}
+
+function renderStepLines(lines, fullyRevealed){
+  return lines
+    .filter(l => fullyRevealed || l.t === "cmd")
+    .map(l => {
+      const cls = l.t === "cmd" ? "cmd" : (l.t === "cmt" ? "cmt" : "resp");
+      return `<span class="${cls}">${l.text}</span>`;
+    }).join("");
+}
+
+/* ---------------- render: terminal + result ---------------- */
+function renderTerm(){
+  const term = document.getElementById("term");
+  const resultRow = document.getElementById("resultRow");
+  const enterBtn = document.getElementById("enterBtn");
+  const box = BOXES[boxIndex];
+  const outcome = box.out[TECHNIQUES[techIndex].id];
+  const steps = getSteps(outcome);
+
+  let html = "";
+  for(let i=0; i<steps.length; i++){
+    if(i < stepIndex){
+      html += renderStepLines(steps[i].lines, true);
+    } else if(i === stepIndex){
+      html += renderStepLines(steps[i].lines, false);
+      break;
+    } else break;
+  }
+  term.innerHTML = html;
+
+  const done = stepIndex >= steps.length;
+  enterBtn.disabled = done;
+
+  if(!done){
+    resultRow.style.display = "none";
+    return;
+  }
+
+  const chip = document.getElementById("chip");
+  chip.className = "chip " + outcome.status;
+  chip.textContent = STATUS_LABEL[outcome.status];
+  document.getElementById("tipText").textContent = outcome.why;
+  resultRow.style.display = "flex";
+}
+
+function renderAll(){
+  renderSidebar();
+  renderBox();
+  renderTerm();
+}
+
+/* ---------------- events ---------------- */
+document.getElementById("enterBtn").addEventListener("click", ()=>{
+  const box = BOXES[boxIndex];
+  const outcome = box.out[TECHNIQUES[techIndex].id];
+  const steps = getSteps(outcome);
+  if(stepIndex < steps.length){
+    stepIndex++;
+    renderTerm();
+  }
+});
+document.getElementById("prevBtn").addEventListener("click", ()=>{
+  boxIndex = (boxIndex - 1 + BOXES.length) % BOXES.length;
+  stepIndex = 0;
+  renderAll();
+});
+document.getElementById("nextBtn").addEventListener("click", ()=>{
+  boxIndex = (boxIndex + 1) % BOXES.length;
+  stepIndex = 0;
+  renderAll();
+});
+
+renderAll();
+</script>
+</body>
+</html>
