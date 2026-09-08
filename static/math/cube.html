@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skewered Cube — Petal Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #eef2f6;
+    --paper-line: #c9d4e0;
+    --ink: #16233a;
+    --ink-soft: #445164;
+    --blue: #2b4c7e;
+    --blue-soft: #7f97b8;
+    --brass: #b5793a;
+    --brass-soft: #e4c69a;
+    --panel: #ffffff;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background: var(--paper);
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  .wrap{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 24px 56px;
+  }
+  header{
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--paper-line);
+    padding-bottom: 20px;
+  }
+  h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.1;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  header p{
+    margin: 0;
+    max-width: 62ch;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .layout{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 800px){
+    .layout{ grid-template-columns: 1fr; }
+  }
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--paper-line);
+    border-radius: 3px;
+    padding: 20px;
+  }
+  .control-block + .control-block{
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--paper-line);
+  }
+  label{
+    display: block;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  input[type=range]{
+    width: 100%;
+    accent-color: var(--brass);
+    height: 22px;
+  }
+  .a-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .axis-options{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .axis-option{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .axis-option input{ accent-color: var(--brass); }
+  .axis-option.disabled{
+    color: var(--ink-soft);
+    cursor: default;
+  }
+  .axis-option .tag{
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .control-block.is-disabled{ opacity: 0.45; pointer-events: none; }
+  .presets{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .presets button{
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 1px solid var(--blue-soft);
+    background: transparent;
+    color: var(--blue);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .presets button:hover{ background: #eaf0f8; }
+  .presets button.centroid{
+    border-color: var(--brass);
+    color: var(--brass);
+  }
+  .presets button.centroid:hover{ background: #fbf1e5; }
+  .readout{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--ink);
+  }
+  .readout .row{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .readout .row span:first-child{ color: var(--ink-soft); }
+  .status{
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .status.closed{ color: var(--blue); }
+  canvas{
+    display:block;
+    width: 100%;
+    height: 560px;
+    background: var(--panel);
+    border: 1px solid var(--paper-line);
+    border-radius: 3px;
+  }
+  .canvas-caption{
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .canvas-caption b{ color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Skewered cube: the petal explorer</h1>
+    <p>
+      A unit cube has a rigid axle through it, pinned to the plane at a point P a distance a from where
+      the axle exits the cube. As the cube rocks on the pivot, only its edges touch the ground, tracing a
+      path made of alternating radii from P. The shape depends on which line through the cube the axle
+      follows — pick one below, then drag the axle length to watch the path unfold.
+    </p>
+  </header>
+
+  <div class="layout">
+    <div class="panel">
+      <div class="control-block">
+        <label>Axle direction through the cube</label>
+        <div class="axis-options" id="axisOptions">
+          <label class="axis-option">
+            <input type="radio" name="axis" value="vertex" checked> Vertex &harr; vertex
+          </label>
+          <label class="axis-option">
+            <input type="radio" name="axis" value="edge"> Edge &harr; edge
+          </label>
+          <label class="axis-option">
+            <input type="radio" name="axis" value="face"> Face &harr; face
+          </label>
+        </div>
+      </div>
+
+      <div class="control-block" id="sliderBlock">
+        <label for="aSlider">Axle length, a = PQ</label>
+        <input type="range" id="aSlider" min="-3" max="3" step="0.001" value="0.61">
+        <div class="a-value">a = <span id="aValue">0.610</span></div>
+      </div>
+
+      <div class="control-block" id="presetBlock">
+        <label>Jump to an exact solution</label>
+        <div class="presets" id="presetRow"></div>
+      </div>
+
+      <div class="control-block" id="readoutBlock">
+        <label>Computed geometry</label>
+        <div class="readout" id="readout"></div>
+      </div>
+    </div>
+
+    <div>
+      <canvas id="flowerCanvas"></canvas>
+      <div class="canvas-caption" id="caption"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SQRT3 = Math.sqrt(3);
+const SQRT2 = Math.sqrt(2);
+
+// ---- Vertex-to-vertex axis (space diagonal) ----
+// P,Q,R colinear; Q is the near vertex, R the opposite vertex.
+// E,F are the two plane-contact vertices; the path is a zig-zag,
+// closing into an n-petal flower (2 unit edges per petal).
+function geomVertex(a){
+  const PE2 = a*a + (2/SQRT3)*a + 1;
+  const PF2 = a*a + (4/SQRT3)*a + 2;
+  let cosT = (a*a + SQRT3*a + 1) / Math.sqrt(PE2*PF2);
+  cosT = Math.max(-1, Math.min(1, cosT));
+  const theta = Math.acos(cosT);      // half-petal angle EPF
+  const N = Math.PI/theta;            // number of petals (periods) to close
+  return {
+    radii: [Math.sqrt(PE2), Math.sqrt(PF2)],
+    steps: [theta, theta],
+    N, n: N,
+    PE: Math.sqrt(PE2), PF: Math.sqrt(PF2)
+  };
+}
+function aForNVertex(n){
+  const c = Math.cos(Math.PI / n);
+  const A = 16*(c*c-1), B = 8*(7*c*c-3), C = 9*(9*c*c-1);
+  const disc = B*B - 4*A*C;
+  const w = (-B - Math.sqrt(disc)) / (2*A);
+  const y = Math.sqrt(w);
+  return (y - 1.5) / SQRT3;
+}
+const VERTEX_A_MIN = -SQRT3/2; // centroid pivot, sharpest possible fold
+
+// ---- Face-to-face axis (the ordinary cube axis) ----
+// Q,R are opposite face centers. By the 4-fold symmetry of this axis
+// every contact edge sits the same distance from P (no zig-zag) —
+// the path is simply a regular n-gon of unit sides at radius sqrt(a^2+1/2).
+function geomFace(a){
+  const PE2 = a*a + 0.5;
+  let cosT = (2*a*a) / (1 + 2*a*a);
+  cosT = Math.max(-1, Math.min(1, cosT));
+  const theta = Math.acos(cosT);      // full step angle (no half-petal split)
+  const N = 2*Math.PI/theta;          // = n, the polygon's side count
+  return {
+    radii: [Math.sqrt(PE2)],
+    steps: [theta],
+    N, n: N,
+    PE: Math.sqrt(PE2), PF: Math.sqrt(PE2)
+  };
+}
+function aForNFace(n){
+  const s = Math.sin(Math.PI/n);
+  return Math.sqrt(1/(4*s*s) - 0.5);
+}
+
+// ---- Edge-to-edge axis ----
+// Q,R are opposite edge midpoints (|QR| = sqrt(2)). This axis only has
+// 2-fold symmetry, and the vertices that actually touch the plane trace
+// a hexagonal belt (found by direct rigid-body simulation, then confirmed
+// with the same PV-via-R law-of-cosines trick used for the other two axes):
+// going around, PV^2 alternates "low, high, high" — a period-3 pattern,
+// not the simple period-2 zig-zag of the vertex axis. One period is a
+// "petal" of 3 unit edges, with turning angles theta1, theta2, theta1.
+function geomEdge(a){
+  const lo2 = a*a + 0.25;
+  const hi2 = a*a + SQRT2*a + 1.25;
+  let c1 = (lo2 + hi2 - 1) / (2*Math.sqrt(lo2*hi2));
+  let c2 = (2*hi2 - 1) / (2*hi2);
+  c1 = Math.max(-1, Math.min(1, c1));
+  c2 = Math.max(-1, Math.min(1, c2));
+  const t1 = Math.acos(c1), t2 = Math.acos(c2);
+  const period = t1 + t2 + t1;
+  const N = 2*Math.PI / period;
+  return {
+    radii: [Math.sqrt(lo2), Math.sqrt(hi2), Math.sqrt(hi2)],
+    steps: [t1, t2, t1],
+    N, n: N,
+    PE: Math.sqrt(lo2), PF: Math.sqrt(hi2)
+  };
+}
+const EDGE_A_MIN = -0.4613902014; // numeric only — no closed form found (yet)
+function aForNEdge(nTarget){
+  let lo = EDGE_A_MIN + 0.001, hi = 6;
+  const f = (a)=> geomEdge(a).n - nTarget;
+  for(let i=0;i<200;i++){
+    const mid = (lo+hi)/2;
+    if(f(lo)*f(mid) <= 0) hi = mid; else lo = mid;
+  }
+  return (lo+hi)/2;
+}
+
+const AXES = {
+  vertex: {
+    key:'vertex', available:true, word:'petal', range:[-3,3], default:0.61,
+    geom: geomVertex,
+    presets: [3,4,5,6,7,8,10].map(n=>({ label:'n='+n+(n===4?' (square)':''), a:aForNVertex(n) }))
+      .concat([{ label:'centroid (min)', a:VERTEX_A_MIN, centroid:true }]),
+    blurb: 'Axle through opposite vertices, along a space diagonal. Q and R are the two vertices it skewers; E and F are the plane-contact vertices, and PE&ne;PF gives the zig-zag.',
+  },
+  face: {
+    key:'face', available:true, word:'side', range:[0,3], default:0.71,
+    geom: geomFace,
+    presets: [4,5,6,7,8,10,12].map(n=>({ label:'n='+n+(n===4?' (a=0)':''), a:aForNFace(n) })),
+    blurb: 'Axle through opposite face centers &mdash; the ordinary cube axis. By symmetry PE=PF always, so there is no zig-zag: the path is a plain regular n-gon. No solution exists below n=4.',
+  },
+  edge: {
+    key:'edge', available:true, word:'petal', range:[-0.45,4], default:0.409,
+    geom: geomEdge,
+    presets: [2,3,4,5,6,8,10].map(n=>({ label:'n='+n+(n===2?' (a=0)':''), a:aForNEdge(n) }))
+      .concat([{ label:'min (a\u2248-0.461)', a:EDGE_A_MIN, centroid:true }]),
+    blurb: 'Axle through opposite edge midpoints. Only 2-fold symmetric, so the contact vertices trace a hexagonal belt with 3 distinct steps per repeat (not a simple zig-zag) &mdash; found by direct rigid-body simulation. A "petal" here is 3 unit edges.',
+  }
+};
+
+function buildPath(geo){
+  const period = geo.radii.length;
+  const periodAngle = geo.steps.reduce((s,x)=>s+x, 0);
+  const nearInt = Math.abs(geo.N - Math.round(geo.N)) < 0.01 && Math.round(geo.N) >= 1;
+  let stepCount, closed = false, Nint = null;
+  if(nearInt){
+    Nint = Math.round(geo.N);
+    stepCount = Nint * period;
+    closed = true;
+  } else {
+    const loops = 3;
+    stepCount = Math.min(560, Math.ceil(loops * 2*Math.PI / periodAngle) * period);
+  }
+  const pts = [];
+  let angle = 0;
+  for(let k=0; k<=stepCount; k++){
+    const r = geo.radii[k % period];
+    pts.push({ x: r*Math.cos(angle), y: r*Math.sin(angle) });
+    angle += geo.steps[k % period];
+  }
+  return { pts, closed, Nint, steps: stepCount, period, periodAngle };
+}
+
+const canvas = document.getElementById('flowerCanvas');
+const ctx = canvas.getContext('2d');
+let animFrame = null;
+let revealFrac = 0;
+
+function resizeCanvas(){
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * devicePixelRatio;
+  canvas.height = rect.height * devicePixelRatio;
+}
+
+function draw(geo, path, frac){
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0,0,w,h);
+
+  const maxR = Math.max(geo.PE, geo.PF);
+  const scale = (Math.min(w,h) * 0.5 * 0.78) / maxR;
+  const cx = w/2, cy = h/2;
+
+  function toCanvas(p){
+    return { x: cx + p.x*scale, y: cy - p.y*scale };
+  }
+
+  // guide circles
+  ctx.save();
+  ctx.strokeStyle = '#c9d4e0';
+  ctx.setLineDash([4,5]);
+  ctx.lineWidth = 1*devicePixelRatio;
+  [geo.PE, geo.PF].forEach(r=>{
+    ctx.beginPath();
+    ctx.arc(cx, cy, r*scale, 0, Math.PI*2);
+    ctx.stroke();
+  });
+  ctx.restore();
+
+  // path
+  const total = path.pts.length;
+  const visibleCount = Math.max(2, Math.round(total * frac));
+  const visible = path.pts.slice(0, visibleCount);
+
+  ctx.save();
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+
+  if(path.closed && frac >= 0.999){
+    ctx.beginPath();
+    const p0 = toCanvas(visible[0]);
+    ctx.moveTo(p0.x, p0.y);
+    for(let i=1;i<visible.length;i++){
+      const p = toCanvas(visible[i]);
+      ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(43,76,126,0.06)';
+    ctx.fill();
+  }
+
+  const loopSpan = 2*Math.PI / path.periodAngle * path.period; // steps per revolution
+  for(let i=1;i<visible.length;i++){
+    const p0 = toCanvas(visible[i-1]);
+    const p1 = toCanvas(visible[i]);
+    const loopIdx = Math.floor(i/loopSpan);
+    const alpha = path.closed ? 0.85 : Math.max(0.28, 0.9 - loopIdx*0.22);
+    ctx.strokeStyle = `rgba(43,76,126,${alpha})`;
+    ctx.lineWidth = 2.1*devicePixelRatio;
+    ctx.beginPath();
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
+    ctx.stroke();
+  }
+
+  // vertex dots (only first loop, so it stays legible)
+  const firstLoopCount = Math.min(visible.length, Math.ceil(loopSpan)+1);
+  const dotColors = ['#2b4c7e', '#b5793a', '#6f8faf'];
+  for(let i=0;i<firstLoopCount;i++){
+    const p = toCanvas(visible[i]);
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 2.6*devicePixelRatio, 0, Math.PI*2);
+    ctx.fillStyle = dotColors[i % path.period % dotColors.length];
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // pivot P
+  ctx.save();
+  ctx.strokeStyle = '#16233a';
+  ctx.lineWidth = 1.4*devicePixelRatio;
+  const r = 4.5*devicePixelRatio;
+  ctx.beginPath(); ctx.moveTo(cx-r,cy); ctx.lineTo(cx+r,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,cy-r); ctx.lineTo(cx,cy+r); ctx.stroke();
+  ctx.font = `${12*devicePixelRatio}px 'IBM Plex Mono', monospace`;
+  ctx.fillStyle = '#16233a';
+  ctx.fillText('P', cx+8*devicePixelRatio, cy-8*devicePixelRatio);
+  ctx.restore();
+}
+
+function animate(geo, path){
+  if(animFrame) cancelAnimationFrame(animFrame);
+  revealFrac = 0;
+  const start = performance.now();
+  const dur = 650;
+  function step(now){
+    const t = Math.min(1, (now-start)/dur);
+    revealFrac = t;
+    draw(geo, path, t);
+    if(t < 1) animFrame = requestAnimationFrame(step);
+  }
+  animFrame = requestAnimationFrame(step);
+}
+
+const slider = document.getElementById('aSlider');
+const aValueEl = document.getElementById('aValue');
+const readoutEl = document.getElementById('readout');
+const captionEl = document.getElementById('caption');
+const presetRow = document.getElementById('presetRow');
+const sliderBlock = document.getElementById('sliderBlock');
+const presetBlock = document.getElementById('presetBlock');
+const readoutBlock = document.getElementById('readoutBlock');
+
+let currentAxis = 'vertex';
+
+function fmt(x, d=3){ return x.toFixed(d); }
+
+function rebuildPresets(){
+  presetRow.innerHTML = '';
+  const axis = AXES[currentAxis];
+  axis.presets.forEach(p=>{
+    const btn = document.createElement('button');
+    btn.textContent = p.label;
+    if(p.centroid) btn.classList.add('centroid');
+    btn.addEventListener('click', ()=>{
+      slider.value = p.a;
+      update();
+    });
+    presetRow.appendChild(btn);
+  });
+}
+
+function setDisabled(disabled){
+  [sliderBlock, presetBlock, readoutBlock].forEach(el=>{
+    el.classList.toggle('is-disabled', disabled);
+  });
+}
+
+function update(){
+  const axis = AXES[currentAxis];
+
+  if(!axis.available){
+    setDisabled(true);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    readoutEl.innerHTML = `<div class="row"><span colspan="2">&mdash;</span></div>`;
+    captionEl.innerHTML = axis.blurb;
+    return;
+  }
+  setDisabled(false);
+
+  const a = parseFloat(slider.value);
+  aValueEl.textContent = fmt(a);
+  const geo = axis.geom(a);
+  const path = buildPath(geo);
+
+  const wordCap = axis.word.charAt(0).toUpperCase()+axis.word.slice(1);
+  const periodAngleDeg = geo.steps.reduce((s,x)=>s+x,0) * 180/Math.PI;
+  readoutEl.innerHTML = `
+    <div class="row"><span>PE</span><span>${fmt(geo.PE)}</span></div>
+    <div class="row"><span>PF</span><span>${fmt(geo.PF)}</span></div>
+    <div class="row"><span>${axis.word} angle</span><span>${fmt(periodAngleDeg,2)}&deg;</span></div>
+    <div class="row"><span>n (${axis.word}s)</span><span>${fmt(geo.n,4)}</span></div>
+  `;
+
+  if(path.closed){
+    captionEl.innerHTML = `${axis.blurb}<br><br>Closes into a <b>${path.Nint}-${axis.word}</b> shape &mdash; a=${fmt(a,5)}.`;
+  } else {
+    captionEl.innerHTML = `${axis.blurb}<br><br>Does not close (n = ${fmt(geo.n,3)}). Shown over a few loops.`;
+  }
+
+  resizeCanvas();
+  animate(geo, path);
+}
+
+function selectAxis(axisKey){
+  currentAxis = axisKey;
+  const axis = AXES[axisKey];
+  if(axis.available){
+    slider.min = axis.range[0];
+    slider.max = axis.range[1];
+    slider.value = axis.default;
+    rebuildPresets();
+  }
+  update();
+}
+
+document.querySelectorAll('input[name="axis"]').forEach(radio=>{
+  radio.addEventListener('change', (e)=> selectAxis(e.target.value));
+});
+
+slider.addEventListener('input', update);
+window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
+
+selectAxis('vertex');
+</script>
+</body>
+</html>
