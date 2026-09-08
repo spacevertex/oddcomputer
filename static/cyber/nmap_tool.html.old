@@ -108,9 +108,6 @@
 
   .device-tag{ font-family:'IBM Plex Mono', monospace; fill: var(--text-muted); font-size: 12px; }
   .device-tag.emph{ fill: var(--cyan); font-size: 13.5px; }
-  .host-status{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; font-weight:600; fill: var(--text-muted); }
-  .host-status.up{ fill: var(--screen-green); }
-  .host-status.down{ fill: var(--state-closed); }
 
   .port-chip-bg{ stroke-width: 1.3; transition: stroke 0.35s ease; cursor: help; }
   .port-hit{ fill: transparent; cursor: help; }
@@ -119,7 +116,7 @@
   .port-service{ font-family:'IBM Plex Mono', monospace; font-size: 13.5px; font-weight:500; fill: #ffffff; }
   .rlabel{ font-family:'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.2px; }
 
-  .resp-label{ font-family:'IBM Plex Mono', monospace; font-size: 11px; fill: var(--text-muted); }
+  .resp-label{ font-family:'IBM Plex Mono', monospace; font-size: 11.5px; fill: var(--text-muted); }
   .resp-label.active{ fill: #ffffff; font-weight: 600; }
 
   .laptop-screen-text{
@@ -159,36 +156,10 @@
   .port-tooltip .tt-resp{ color: var(--text-muted); margin-bottom:5px; }
   .port-tooltip .tt-body{ color: var(--text); }
 
-  /* ---------- BOX NAVIGATOR ---------- */
-  .box-nav{
-    position:absolute; top:16px; left:44%; right:4%; z-index:15;
-    display:flex; align-items:stretch; gap:8px;
-  }
-  .box-nav-btn{
-    flex-shrink:0; width:36px; border:1px solid var(--line); background:var(--bg-panel);
-    color:var(--text); border-radius:6px; cursor:pointer; font-size:16px;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-  }
-  .box-nav-btn:hover:not(:disabled){ border-color:var(--cyan-dim); color:var(--cyan); }
-  .box-nav-btn:disabled{ opacity:0.4; cursor:not-allowed; }
-  .box-meta{
-    flex:1; min-width:0; background:var(--bg-panel); border:1px solid var(--line); border-radius:6px;
-    padding:9px 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-  }
-  .box-meta-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-  .box-name{ font-family:'IBM Plex Mono', monospace; color:var(--cyan); font-weight:600; font-size:13px; }
-  .box-count{ font-family:'IBM Plex Mono', monospace; color:var(--text-muted); font-size:10.5px; flex-shrink:0; }
-  .box-os{ font-family:'IBM Plex Mono', monospace; color:var(--text-muted); font-size:10.5px; margin-top:2px; }
-  .box-os.revealed{ color: var(--screen-green); }
-  .box-desc{ font-size:11.5px; color:var(--text); margin-top:6px; line-height:1.45; }
-  .box-purpose{ font-size:11px; color:var(--text-muted); margin-top:5px; line-height:1.45; font-style:italic; }
-
   @media (max-width: 860px){
     html, body{ overflow:auto; }
     .app{ grid-template-columns: 1fr; grid-template-rows: auto 1fr; height:100vh; }
     .sidebar{ border-right:none; border-bottom:1px solid var(--line); overflow-y:visible; max-height:40vh; }
-    .box-nav{ left:4%; }
   }
 </style>
 </head>
@@ -227,9 +198,8 @@
         <div class="legend-row"><span class="swatch" style="background:var(--state-filtered)"></span>filtered</div>
         <div class="legend-row"><span class="swatch" style="background:var(--state-unfiltered)"></span>unfiltered</div>
         <div class="legend-row"><span class="swatch" style="background:var(--state-idle)"></span>idle</div>
-        <div class="legend-note"><b>T</b> = the port's real state (fixed) &nbsp;·&nbsp; <b>S</b> = what this scan reports &nbsp;·&nbsp; middle = the raw response.<br>The chip's fill color is always <b>T</b>.</div>
+        <div class="legend-note"><b>T</b> = the port's real state (fixed) &nbsp;·&nbsp; <b>S</b> = what this scan reports &nbsp;·&nbsp; middle = the raw response flag(s).<br>The chip's fill color is always <b>T</b>.</div>
         <div class="legend-note">Hover a port after scanning to see what you could actually <b>conclude</b> from that result alone.</div>
-        <div class="legend-note"><b>-Pn</b>, <b>-sn</b>, and <b>-O</b> don't touch ports directly — watch the host-status line above the rack, and the OS field in the box card.</div>
       </div>
     </div>
   </div>
@@ -238,123 +208,38 @@
   <div class="canvas-wrap" id="canvasWrap">
     <svg id="topoSvg" viewBox="0 0 1300 820" preserveAspectRatio="xMidYMid meet"></svg>
     <div class="port-tooltip" id="portTooltip"></div>
-
-    <div class="box-nav">
-      <button class="box-nav-btn" id="prevBoxBtn" aria-label="Previous box">&larr;</button>
-      <div class="box-meta">
-        <div class="box-meta-top">
-          <span class="box-name" id="boxName"></span>
-          <span class="box-count" id="boxCount"></span>
-        </div>
-        <div class="box-os" id="boxOs"></div>
-        <div class="box-desc" id="boxDesc"></div>
-        <div class="box-purpose" id="boxPurpose"></div>
-      </div>
-      <button class="box-nav-btn" id="nextBoxBtn" aria-label="Next box">&rarr;</button>
-    </div>
   </div>
 
 </div>
 
 <script>
-/* ---------------- BOX ROSTER ---------------- */
-// Seven targets, cycled one at a time. Each now also carries a fabricated
-// OS-fingerprint (confidence + a TTL/window clue) revealed only by -O,
-// and per-port service versions revealed only by -sV. One box blocks
-// ICMP outright, which is what makes -Pn and -sn mean something.
-const boxes = [
+/* ---------------- DATA MODEL ---------------- */
+
+const devices = [
   {
-    id: "b1", name: "TARGET-01 — Linux Web Server", ip: "10.10.10.42",
-    os: "Linux 5.15 (Ubuntu 22.04)", osConfidence: 96, osClue: "TTL≈64, Window=29200 — classic Linux defaults",
-    description: "A standard, RFC-793-compliant Linux box running a small web stack.",
-    purpose: "Baseline case — every scan behaves exactly as taught, no surprises.",
+    id: "d1", name: "TARGET-01", ip: "10.10.10.42",
     ports: [
-      { num: 21,  service: "ftp",   protocol: "tcp", truth: "closed"   },
-      { num: 22,  service: "ssh",   protocol: "tcp", truth: "filtered" },
-      { num: 80,  service: "http",  protocol: "tcp", truth: "open", version: "Apache 2.4.54" },
-      { num: 443, service: "https", protocol: "tcp", truth: "open", version: "nginx 1.18.0"  },
-      { num: 3306,service: "mysql", protocol: "tcp", truth: "closed"   },
+      { num: 21,   service: "ftp",           protocol: "tcp", truth: "closed"   },
+      { num: 22,   service: "ssh",           protocol: "tcp", truth: "filtered" },
+      { num: 80,   service: "http",          protocol: "tcp", truth: "open"     },
+      { num: 443,  service: "https",         protocol: "tcp", truth: "open"     },
+      { num: 3389, service: "ms-wbt-server", protocol: "tcp", truth: "closed"   },
     ]
   },
   {
-    id: "b2", name: "TARGET-02 — DNS Resolver", ip: "10.10.10.53",
-    os: "Linux 4.19 (BIND9 appliance)", osConfidence: 90, osClue: "TTL≈64, Window=14600 — UDP-only host, less fingerprint surface",
-    description: "A UDP-only DNS and monitoring host.",
-    purpose: "Illustrates UDP scan ambiguity — silence looks the same whether a port is open or filtered.",
+    id: "d2", name: "TARGET-02", ip: "10.10.10.53",
     ports: [
-      { num: 53,  service: "domain (dns)", protocol: "udp", truth: "open", version: "BIND 9.18.1" },
+      { num: 53,  service: "domain (dns)", protocol: "udp", truth: "open"     },
       { num: 161, service: "snmp",         protocol: "udp", truth: "filtered" },
       { num: 69,  service: "tftp",         protocol: "udp", truth: "closed"   },
     ]
-  },
-  {
-    id: "b3", name: "TARGET-03 — Windows File Server", ip: "10.10.10.60",
-    os: "Windows Server 2019", osConfidence: 97, osClue: "TTL≈128, Window=8192 — textbook Windows stack",
-    description: "A non-RFC-793-compliant TCP/IP stack — a classic Windows gotcha.",
-    purpose: "FIN, NULL, and XMAS scans all falsely report every port as closed here, regardless of the real state. Confirm with a SYN scan before trusting a stealth-scan 'closed' result.",
-    stackNonCompliant: true,
-    ports: [
-      { num: 135,  service: "msrpc",         protocol: "tcp", truth: "open", version: "MS RPC" },
-      { num: 139,  service: "netbios-ssn",   protocol: "tcp", truth: "open", version: "MS netbios-ssn" },
-      { num: 445,  service: "microsoft-ds",  protocol: "tcp", truth: "open", version: "MS SMB (Win19)" },
-      { num: 3389, service: "ms-wbt-server", protocol: "tcp", truth: "closed" },
-    ]
-  },
-  {
-    id: "b4", name: "TARGET-04 — App Server (IDS-fronted)", ip: "10.10.10.71",
-    os: "Linux 5.10 (behind Suricata IDS)", osConfidence: 88, osClue: "TTL≈64, Window=5840 — slightly normalized, likely proxied",
-    description: "A standard Linux host, but traffic passes through a signature-based IDS first.",
-    purpose: "The IDS specifically fingerprints the XMAS flag combination and drops it — every port looks identical under XMAS, telling you about the IDS, not the host. FIN and NULL pass through untouched.",
-    idsBlocksXmas: true,
-    ports: [
-      { num: 22,   service: "ssh",       protocol: "tcp", truth: "open", version: "OpenSSH 8.9p1" },
-      { num: 80,   service: "http",      protocol: "tcp", truth: "open", version: "nginx 1.22.1"  },
-      { num: 443,  service: "https",     protocol: "tcp", truth: "filtered" },
-      { num: 8080, service: "http-alt",  protocol: "tcp", truth: "closed"   },
-    ]
-  },
-  {
-    id: "b5", name: "TARGET-05 — Firewalled Core Router", ip: "10.10.10.1",
-    os: "Cisco IOS-XE", osConfidence: 93, osClue: "TTL≈255 — one hop from the source, classic network-gear default",
-    description: "Sits behind a strict stateful firewall; almost nothing gets through, including ICMP.",
-    purpose: "Gives the ACK scan a real job — mapping which ports the firewall blocks. Also drops ping outright, so anything short of -Pn will report the host as down.",
-    pingBlocked: true,
-    ports: [
-      { num: 22,  service: "ssh",   protocol: "tcp", truth: "filtered" },
-      { num: 23,  service: "telnet",protocol: "tcp", truth: "filtered" },
-      { num: 80,  service: "http",  protocol: "tcp", truth: "filtered" },
-      { num: 179, service: "bgp",   protocol: "tcp", truth: "filtered" },
-      { num: 443, service: "https", protocol: "tcp", truth: "open", version: "Cisco IOS-XE" },
-    ]
-  },
-  {
-    id: "b6", name: "TARGET-06 — Wide-Open Honeypot", ip: "10.10.10.99",
-    os: "Linux 5.4 (claimed) — inconsistent", osConfidence: 62, osClue: "TTL≈64/Window=5840 (Linux-like), but an open 3389 doesn't fit — likely a honeypot",
-    description: "Every port answers. Nothing is hidden.",
-    purpose: "A clean baseline contrast — what scanning looks like when there's no ambiguity anywhere.",
-    ports: [
-      { num: 21,   service: "ftp",           protocol: "tcp", truth: "open", version: "vsftpd 3.0.3" },
-      { num: 22,   service: "ssh",           protocol: "tcp", truth: "open", version: "OpenSSH 7.6p1" },
-      { num: 80,   service: "http",          protocol: "tcp", truth: "open", version: "Apache 2.4.29" },
-      { num: 443,  service: "https",         protocol: "tcp", truth: "open", version: "Apache 2.4.29" },
-      { num: 3389, service: "ms-wbt-server", protocol: "tcp", truth: "open", version: "RDP honeypot"  },
-    ]
-  },
-  {
-    id: "b7", name: "TARGET-07 — Dual-Stack Mystery Box", ip: "10.10.10.80",
-    os: "Linux 5.15", osConfidence: 92, osClue: "TTL≈64, Window=29200",
-    description: "The same port number is live as two completely different services — one TCP, one UDP.",
-    purpose: "Proves a port number isn't tied to a protocol: scanning 53/tcp vs. 53/udp against this identical host gives genuinely different answers.",
-    ports: [
-      { num: 53, service: "dns-zone-xfer", protocol: "tcp", truth: "closed" },
-      { num: 53, service: "dns-query",     protocol: "udp", truth: "open", version: "BIND 9.16.1" },
-      { num: 80, service: "http",          protocol: "tcp", truth: "open", version: "nginx 1.24.0" },
-    ]
-  },
+  }
 ];
 
 // Inference helpers: given the RAW result a scan reports (not the ground
 // truth — an analyst never sees that), what can actually be concluded?
+// This is a layer beyond "truth" and "reported state": epistemic
+// confidence. Some results are definitive; some are genuinely ambiguous.
 function tcpDirectInfer(tag){
   if (tag === "open")   return "Definitive. A SYN/ACK means a real service is listening here.";
   if (tag === "closed") return "Definitive. An RST means nothing is listening here.";
@@ -373,15 +258,13 @@ function udpInfer(tag){
   if (tag === "filtered") return "Definitive. A different ICMP unreachable (or a hard block) means this is actively filtered.";
   return "Ambiguous. Silence is normal behavior for an open UDP port too — you can't distinguish open from filtered without another technique.";
 }
-function svInfer(tag){
-  if (tag === "open")   return "Definitive — and since the port answered, nmap also grabbed a service banner.";
-  if (tag === "closed") return "Definitive. Nothing listening means nothing to version-probe.";
-  return "No connection completed — treat it as blocked. Nothing to fingerprint here.";
-}
 const IDLE_INFER = "Not scanned yet — run a scan to see what you could actually conclude here.";
 
+// What raw response actually comes back on the wire for a given reported
+// tag, per scan type. This is distinct from "truth" and from "S" — it's
+// the literal packet you'd see in a capture.
 function respFlagFor(scanId, tag){
-  if (scanId === "syn" || scanId === "connect" || scanId === "pn") {
+  if (scanId === "syn" || scanId === "connect") {
     if (tag === "open")   return "SYN, ACK";
     if (tag === "closed") return "RST, ACK";
     return "no response";
@@ -402,54 +285,34 @@ function respFlagFor(scanId, tag){
   return "—";
 }
 
-// Box-level quirks override the normal per-port interpretation entirely.
-function quirkResultFor(box, scan){
-  if (box.stackNonCompliant && (scan.id === "fin" || scan.id === "xmas" || scan.id === "null")) {
-    return {
-      display: "closed", tag: "closed",
-      infer: "Misleading. This stack sends RST for every FIN/NULL/XMAS probe regardless of real state — a known non-RFC-793 quirk (classically Windows). Don't trust 'closed' here without confirming via a SYN scan.",
-      resp: "RST, ACK"
-    };
-  }
-  if (box.idsBlocksXmas && scan.id === "xmas") {
-    return {
-      display: "filtered", tag: "open|filtered",
-      infer: "This tells you about the IDS, not the host. It specifically fingerprints the XMAS flag combination and drops it before the packet ever reaches the target.",
-      resp: "no response"
-    };
-  }
-  return null;
-}
-
+// The literal flags byte the scanner sends out, per scan type — shown on
+// the laptop after each run. UDP has no TCP flags at all.
 const FLAG_COLS = ["URG","ACK","PSH","RST","SYN","FIN"];
 const PROBE_FLAGS = {
   syn:     { URG:0, ACK:0, PSH:0, RST:0, SYN:1, FIN:0 },
   connect: { URG:0, ACK:0, PSH:0, RST:0, SYN:1, FIN:0 },
-  pn:      { URG:0, ACK:0, PSH:0, RST:0, SYN:1, FIN:0 },
   fin:     { URG:0, ACK:0, PSH:0, RST:0, SYN:0, FIN:1 },
   xmas:    { URG:1, ACK:0, PSH:1, RST:0, SYN:0, FIN:1 },
   null:    { URG:0, ACK:0, PSH:0, RST:0, SYN:0, FIN:0 },
   ack:     { URG:0, ACK:1, PSH:0, RST:0, SYN:0, FIN:0 },
 };
-const NO_FLAGS_NOTE = {
-  udp: "(UDP probe — no TCP flags)",
-  sn:  "(host discovery — ICMP/ARP, not one flag)",
-  o:   "(OS fingerprint — many varied probes)",
-};
 
+// Every scan attempts every port. What differs is how each scan
+// interprets the same ground truth, and how much you can actually
+// trust that interpretation.
 const scans = [
   {
-    id: "syn", flag: "-sS", name: "TCP SYN Scan",
+    id: "syn", flag: "-sS", name: "TCP SYN Scan", protocol: "tcp",
     note: "Half-open handshake. Reveals the true TCP state directly.",
     interpret(truth){ return { display: truth, tag: truth, infer: tcpDirectInfer(truth) }; }
   },
   {
-    id: "connect", flag: "-sT", name: "TCP Connect Scan",
+    id: "connect", flag: "-sT", name: "TCP Connect Scan", protocol: "tcp",
     note: "Full 3-way handshake. Same visibility as SYN, but logged.",
     interpret(truth){ return { display: truth, tag: truth, infer: tcpDirectInfer(truth) }; }
   },
   {
-    id: "fin", flag: "-sF", name: "FIN Scan",
+    id: "fin", flag: "-sF", name: "FIN Scan", protocol: "tcp",
     note: "No RST from open OR filtered ports — both look identical.",
     interpret(truth){
       const tag = truth === "closed" ? "closed" : "open|filtered";
@@ -457,7 +320,7 @@ const scans = [
     }
   },
   {
-    id: "xmas", flag: "-sX", name: "XMAS Scan",
+    id: "xmas", flag: "-sX", name: "XMAS Scan", protocol: "tcp",
     note: "FIN, PSH, URG set. Same ambiguity as FIN scan.",
     interpret(truth){
       const tag = truth === "closed" ? "closed" : "open|filtered";
@@ -465,7 +328,7 @@ const scans = [
     }
   },
   {
-    id: "null", flag: "-sN", name: "NULL Scan",
+    id: "null", flag: "-sN", name: "NULL Scan", protocol: "tcp",
     note: "No flags set at all. Same ambiguity as FIN/XMAS.",
     interpret(truth){
       const tag = truth === "closed" ? "closed" : "open|filtered";
@@ -473,7 +336,7 @@ const scans = [
     }
   },
   {
-    id: "ack", flag: "-sA", name: "ACK Scan",
+    id: "ack", flag: "-sA", name: "ACK Scan", protocol: "tcp",
     note: "Firewall mapping only — can't tell open from closed.",
     interpret(truth){
       const tag = truth === "filtered" ? "filtered" : "unfiltered";
@@ -481,7 +344,7 @@ const scans = [
     }
   },
   {
-    id: "udp", flag: "-sU", name: "UDP Scan",
+    id: "udp", flag: "-sU", name: "UDP Scan", protocol: "udp",
     note: "No response is common even for open UDP ports.",
     interpret(truth){
       let tag;
@@ -490,24 +353,6 @@ const scans = [
       else tag = "open|filtered";
       return { display: truth === "open" ? "filtered" : truth, tag, infer: udpInfer(tag) };
     }
-  },
-  {
-    id: "pn", flag: "-Pn", name: "Skip Host Discovery",
-    note: "Forces the scan even if the host ignores ping.",
-    interpret(truth){ return { display: truth, tag: truth, infer: tcpDirectInfer(truth) }; }
-  },
-  {
-    id: "sV", flag: "-sV", name: "Version Detection",
-    note: "Grabs a service banner from anything that answers.",
-    interpret(truth){ return { display: truth, tag: truth, infer: svInfer(truth) }; }
-  },
-  {
-    id: "sn", flag: "-sn", name: "Ping Scan",
-    note: "Host discovery only — no ports touched."
-  },
-  {
-    id: "o", flag: "-O", name: "OS Detection",
-    note: "Fingerprints the TCP/IP stack to guess the OS."
   },
 ];
 
@@ -539,7 +384,7 @@ scans.forEach(scan => {
   scanList.appendChild(btn);
 });
 
-/* ---------------- SVG SETUP ---------------- */
+/* ---------------- BUILD TOPOLOGY SVG ---------------- */
 
 const svgNS = "http://www.w3.org/2000/svg";
 const svg = document.getElementById("topoSvg");
@@ -553,12 +398,13 @@ function el(tag, attrs, parent){
   return e;
 }
 
-// Laptop lives near the top-left, shifted right enough that the flags
-// table below it (URG in particular) never gets clipped by the canvas edge.
-const laptopX = 170, laptopY = 70;
-const layoutTopY = 260; // top of the single active box's port stack
+// Laptop lives near the top of the canvas, out of the way of everything else.
+const laptopX = 70, laptopY = 70;
+const layoutCenterY = 400; // pure layout anchor for the device stack, nothing drawn here
 const deviceX = 610, portW = 420, portH = 52, portGap = 15;
 
+// Laptop icon — its screen shows the flag of the last scan that was run,
+// and the flags table below it shows the actual bits that were sent.
 const laptopG = el("g", {}, svg);
 el("rect", { x: laptopX, y: laptopY-27, width: 92, height: 58, rx: 3, fill: "none", stroke: "#57d0e0", "stroke-width": 1.8 }, laptopG);
 el("rect", { x: laptopX-7, y: laptopY+32, width: 106, height: 8, rx: 2, fill: "#57d0e0", opacity: 0.85 }, laptopG);
@@ -569,6 +415,9 @@ const laptopScreenText = el("text", {
 }, laptopG);
 laptopScreenText.textContent = "idle";
 
+// Flags table: each column gets its own header + value text element at a
+// fixed x, so the bit always lines up exactly under its label regardless
+// of font metrics.
 const flagsTableCenterX = laptopX+46;
 const flagsTableWidth = 300;
 const flagsColWidth = flagsTableWidth / FLAG_COLS.length;
@@ -597,7 +446,7 @@ function updateFlagsTable(scanId){
       flagsValueEls[label].textContent = "—";
       flagsValueEls[label].classList.add("na");
     });
-    flagsNoteText.textContent = NO_FLAGS_NOTE[scanId] || "";
+    flagsNoteText.textContent = "(UDP probe — no TCP flags)";
     return;
   }
   FLAG_COLS.forEach(label => {
@@ -607,66 +456,34 @@ function updateFlagsTable(scanId){
   flagsNoteText.textContent = "";
 }
 
-/* ---------------- BOX RENDERING (one at a time) ---------------- */
-
 function portsHeight(n){ return n*portH + (n-1)*portGap; }
+const gapBetweenDevices = 60;
+const HEADER_SPACE = 46;
+const totalPortsHeights = devices.map(d => portsHeight(d.ports.length));
+const totalStackHeight = totalPortsHeights.reduce((a,b)=>a+b,0) + gapBetweenDevices*(devices.length-1) + HEADER_SPACE*devices.length;
+let cursorY = layoutCenterY - totalStackHeight/2;
 
-let currentBoxIndex = 0;
-let currentBoxGroup = null;
-let hostStatusText = null;
-let portSpinners = {};
-let portInference = {};
-let portRespText  = {};
+const portSpinners = {};   // "deviceId:num" -> SVG group element (opacity/class toggled)
+const portInference = {};  // "deviceId:num" -> current inference text (string)
+const portRespText  = {};  // "deviceId:num" -> current response-flag text (string)
 
-const boxNameEl = document.getElementById("boxName");
-const boxCountEl = document.getElementById("boxCount");
-const boxOsEl = document.getElementById("boxOs");
-const boxDescEl = document.getElementById("boxDesc");
-const boxPurposeEl = document.getElementById("boxPurpose");
-const prevBoxBtn = document.getElementById("prevBoxBtn");
-const nextBoxBtn = document.getElementById("nextBoxBtn");
-
-function setHostStatus(text, kind){
-  hostStatusText.textContent = text || "";
-  hostStatusText.classList.remove("up", "down");
-  if (kind) hostStatusText.classList.add(kind);
-}
-
-function renderBox(index){
-  hidePortTooltip();
-  if (currentBoxGroup) currentBoxGroup.remove();
-  portSpinners = {}; portInference = {}; portRespText = {};
-
-  const box = boxes[index];
-
-  boxNameEl.textContent = box.name;
-  boxCountEl.textContent = `${index+1} / ${boxes.length}`;
-  boxOsEl.textContent = "OS: unknown — run -O to fingerprint";
-  boxOsEl.classList.remove("revealed");
-  boxDescEl.textContent = box.description;
-  boxPurposeEl.textContent = box.purpose;
-
-  laptopScreenText.textContent = "idle";
-  laptopScreenText.classList.add("idle");
-  updateFlagsTable(null);
-
-  const h = portsHeight(box.ports.length);
-  const topY = layoutTopY;
+devices.forEach((device, di) => {
+  const topY = cursorY + HEADER_SPACE - 6;
+  const h = totalPortsHeights[di];
 
   const g = el("g", {}, svg);
-  hostStatusText = el("text", { x: deviceX+portW/2, y: topY-40, class: "host-status", "text-anchor":"middle" }, g);
-  hostStatusText.textContent = "";
-  el("text", { x: deviceX+portW/2, y: topY-24, class: "device-tag emph", "text-anchor":"middle" }, g).textContent = box.name.split(" — ")[0];
-  el("text", { x: deviceX+portW/2, y: topY-9, class: "device-tag", "text-anchor":"middle" }, g).textContent = box.ip;
+  el("text", { x: deviceX+portW/2, y: topY-24, class: "device-tag emph", "text-anchor":"middle" }, g).textContent = device.name;
+  el("text", { x: deviceX+portW/2, y: topY-9, class: "device-tag", "text-anchor":"middle" }, g).textContent = device.ip;
   el("rect", { x: deviceX-14, y: topY-2, width: portW+28, height: h+16, fill: "none", stroke: "#1c2c40", "stroke-width": 1, rx: 3 }, g);
 
-  box.ports.forEach((p, i) => {
+  device.ports.forEach((p, i) => {
     const y = topY + i*(portH+portGap);
     const rowCenterY = y + portH/2;
-    const key = box.id+":"+p.protocol+":"+p.num;
-    const domId = box.id+"-"+p.protocol+"-"+p.num;
-    const pg = el("g", { id: "port-" + domId }, g);
+    const key = device.id+":"+p.num;
+    const pg = el("g", { id: "port-" + device.id + "-" + p.num }, g);
 
+    // Fill is the port's ground truth, fixed forever. Stroke reflects
+    // whatever the currently-run scan reports.
     el("rect", {
       x: deviceX, y, width: portW, height: portH, rx: 4, class: "port-chip-bg",
       style: `fill:${stateGlow[p.truth]}; stroke:${stateColor.idle};`
@@ -675,25 +492,30 @@ function renderBox(index){
     el("text", { x: deviceX+13, y: y+21, class: "port-num" }, pg).textContent = p.num + "/" + p.protocol;
     el("text", { x: deviceX+13, y: y+38, class: "port-service" }, pg).textContent = p.service;
 
+    // Raw response flag(s) — centered in the middle of the chip.
     const respLbl = el("text", {
       x: deviceX+portW/2, y: rowCenterY+4, class: "resp-label", "text-anchor":"middle",
-      id: "resp-label-" + domId
+      id: "resp-label-" + device.id + "-" + p.num
     }, pg);
     respLbl.textContent = "—";
     portRespText[key] = "—";
 
+    // Persistent ground-truth label (T) — set once, never changes
     const truthLbl = el("text", {
       x: deviceX+portW-13, y: y+21, class: "rlabel", "text-anchor":"end",
       fill: stateColor[p.truth]
     }, pg);
     truthLbl.textContent = "T: " + shortTag(p.truth);
 
+    // Scan-reported label (S) — updates every run
     const stateLbl = el("text", {
       x: deviceX+portW-13, y: y+38, class: "rlabel", "text-anchor":"end",
-      fill: stateColor.idle, id: "state-label-" + domId
+      fill: stateColor.idle, id: "state-label-" + device.id + "-" + p.num
     }, pg);
     stateLbl.textContent = "S: idle";
 
+    // Small spinner next to this port, visible (and animating) only while
+    // it's the one currently being probed.
     const spinnerX = deviceX - 26;
     const spinnerG = el("g", { class: "port-spin-group", transform: `translate(${spinnerX},${rowCenterY})` }, pg);
     el("circle", { cx:0, cy:0, r:9, fill:"none", stroke:"var(--line)", "stroke-width":2.4 }, spinnerG);
@@ -703,27 +525,28 @@ function renderBox(index){
     }, spinnerG);
     portSpinners[key] = spinnerG;
 
+    // Hover target spanning the full row, including the spinner gutter —
+    // shows what you could actually conclude from the current result.
     portInference[key] = IDLE_INFER;
     const hitArea = el("rect", {
       x: deviceX-32, y, width: portW+32, height: portH, class: "port-hit"
     }, pg);
-    hitArea.addEventListener("mouseenter", () => showPortTooltip(box.id, p.protocol, p.num, hitArea));
+    hitArea.addEventListener("mouseenter", () => showPortTooltip(device.id, p.num, hitArea));
     hitArea.addEventListener("mouseleave", hidePortTooltip);
   });
 
-  currentBoxGroup = g;
-}
+  cursorY += h + HEADER_SPACE + gapBetweenDevices;
+});
 
-function showPortTooltip(boxId, protocol, num, targetEl){
+function showPortTooltip(deviceId, num, targetEl){
   const rect = targetEl.getBoundingClientRect();
   const canvasRect = canvasWrap.getBoundingClientRect();
-  const key = boxId+":"+protocol+":"+num;
-  const domId = boxId+"-"+protocol+"-"+num;
-  const currentTagEl = document.getElementById("state-label-" + domId);
+  const key = deviceId+":"+num;
+  const currentTagEl = document.getElementById("state-label-" + deviceId + "-" + num);
   const currentTag = currentTagEl.textContent.replace(/^S:\s*/, "");
 
   portTooltip.innerHTML =
-    `<div class="tt-head"><span class="tt-port">${num}/${protocol}</span><span class="tt-tag">reports ${currentTag}</span></div>` +
+    `<div class="tt-head"><span class="tt-port">Port ${num}</span><span class="tt-tag">reports ${currentTag}</span></div>` +
     `<div class="tt-resp">Wire response: ${portRespText[key]}</div>` +
     `<div class="tt-body">${portInference[key]}</div>`;
   portTooltip.classList.add("visible");
@@ -738,110 +561,57 @@ function hidePortTooltip(){
   portTooltip.classList.remove("visible");
 }
 
-prevBoxBtn.addEventListener("click", () => {
-  if (scanRunning) return;
-  currentBoxIndex = (currentBoxIndex - 1 + boxes.length) % boxes.length;
-  renderBox(currentBoxIndex);
-});
-nextBoxBtn.addEventListener("click", () => {
-  if (scanRunning) return;
-  currentBoxIndex = (currentBoxIndex + 1) % boxes.length;
-  renderBox(currentBoxIndex);
-});
-
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
 /* ---------------- SCAN EXECUTION ---------------- */
 
 let scanRunning = false;
 
+// A definitive response (RST, SYN-ACK, ICMP unreachable) comes back fast.
+// No response at all means the scanner has to sit through its retransmission/
+// timeout window before it can conclude anything — that's the slow ~1s case,
+// whether it's a TCP port going quiet or a genuine UDP timeout.
 const WAIT_FAST = 320;
 const WAIT_SLOW = 1000;
-
-function finishScan(activeBtn){
-  scans.forEach(s => document.getElementById("btn-"+s.id).disabled = false);
-  prevBoxBtn.disabled = false;
-  nextBoxBtn.disabled = false;
-  activeBtn.classList.remove("running");
-  scanRunning = false;
-}
-
-function revealOsGuess(box){
-  boxOsEl.textContent = `OS guess: ${box.os} (${box.osConfidence}% confidence) — ${box.osClue}`;
-  boxOsEl.classList.add("revealed");
-}
 
 async function runScan(scan) {
   if (scanRunning) return;
   scanRunning = true;
   scans.forEach(s => document.getElementById("btn-"+s.id).disabled = true);
-  prevBoxBtn.disabled = true;
-  nextBoxBtn.disabled = true;
   const activeBtn = document.getElementById("btn-"+scan.id);
   activeBtn.classList.add("running");
-
-  const box = boxes[currentBoxIndex];
 
   laptopScreenText.textContent = scan.flag;
   laptopScreenText.classList.remove("idle");
   updateFlagsTable(scan.id);
 
-  // -sn: pure host discovery, never touches ports.
-  if (scan.id === "sn") {
-    if (box.pingBlocked) setHostStatus("Host seems down — no ping reply.", "down");
-    else setHostStatus("Host is up — echo reply received.", "up");
-    finishScan(activeBtn);
-    return;
-  }
-
-  // -O: OS fingerprint reveal, never touches ports.
-  if (scan.id === "o") {
-    revealOsGuess(box);
-    finishScan(activeBtn);
-    return;
-  }
-
-  // Every other scan does host discovery first by default (like real nmap) —
-  // unless the host is unreachable by ping and you didn't pass -Pn.
-  if (box.pingBlocked && scan.id !== "pn") {
-    setHostStatus("Host seems down. It may be blocking pings — try -Pn.", "down");
-    box.ports.forEach(p => setPortResult(box.id, p.protocol, p.num, "idle", "idle", IDLE_INFER, "—"));
-    hidePortTooltip();
-    finishScan(activeBtn);
-    return;
-  }
-
-  setHostStatus("Host is up.", "up");
-  box.ports.forEach(p => setPortResult(box.id, p.protocol, p.num, "idle", "idle", IDLE_INFER, "—"));
+  devices.forEach(d => d.ports.forEach(p => setPortResult(d.id, p.num, "idle", "idle", IDLE_INFER, "—")));
   hidePortTooltip();
 
-  for (const p of box.ports) {
-    const quirk = quirkResultFor(box, scan);
-    const result = quirk || scan.interpret(p.truth);
+  for (const device of devices) {
+    for (const p of device.ports) {
+      const result = scan.interpret(p.truth);
+      const isSlow = result.tag.includes("filtered");
+      const respFlag = respFlagFor(scan.id, result.tag);
 
-    let respFlag;
-    if (quirk) respFlag = quirk.resp;
-    else if (scan.id === "sV") respFlag = p.truth === "open" ? (p.version || "banner grabbed") : respFlagFor("connect", result.tag);
-    else respFlag = respFlagFor(scan.id, result.tag);
+      setPortProbing(device.id, p.num, true);
+      await sleep(isSlow ? WAIT_SLOW : WAIT_FAST);
+      setPortProbing(device.id, p.num, false);
 
-    const isSlow = respFlag === "no response";
-
-    setPortProbing(box.id, p.protocol, p.num, true);
-    await sleep(isSlow ? WAIT_SLOW : WAIT_FAST);
-    setPortProbing(box.id, p.protocol, p.num, false);
-
-    setPortResult(box.id, p.protocol, p.num, result.display, result.tag, result.infer, respFlag);
+      setPortResult(device.id, p.num, result.display, result.tag, result.infer, respFlag);
+    }
   }
 
-  finishScan(activeBtn);
+  scans.forEach(s => document.getElementById("btn-"+s.id).disabled = false);
+  activeBtn.classList.remove("running");
+  scanRunning = false;
 }
 
-function setPortResult(boxId, protocol, num, displayState, tag, infer, respFlag){
-  const key = boxId+":"+protocol+":"+num;
-  const domId = boxId+"-"+protocol+"-"+num;
-  const chip = document.querySelector(`#port-${domId} .port-chip-bg`);
-  const label = document.getElementById("state-label-" + domId);
-  const respLbl = document.getElementById("resp-label-" + domId);
+function setPortResult(deviceId, num, displayState, tag, infer, respFlag){
+  const key = deviceId+":"+num;
+  const chip = document.querySelector(`#port-${deviceId}-${num} .port-chip-bg`);
+  const label = document.getElementById("state-label-" + deviceId + "-" + num);
+  const respLbl = document.getElementById("resp-label-" + deviceId + "-" + num);
   const color = stateColor[displayState] || stateColor.idle;
 
   chip.style.stroke = color;
@@ -855,12 +625,9 @@ function setPortResult(boxId, protocol, num, displayState, tag, infer, respFlag)
   portRespText[key] = respFlag;
 }
 
-function setPortProbing(boxId, protocol, num, active){
-  portSpinners[boxId+":"+protocol+":"+num].classList.toggle("probing", active);
+function setPortProbing(deviceId, num, active){
+  portSpinners[deviceId+":"+num].classList.toggle("probing", active);
 }
-
-/* ---------------- INIT ---------------- */
-renderBox(currentBoxIndex);
 </script>
 
 </body>
