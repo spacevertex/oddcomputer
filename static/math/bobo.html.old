@@ -272,9 +272,6 @@
   <button class="btn" id="btn-save-full">Save</button>
   <button class="btn" id="btn-load">Load</button>
   <button class="btn" id="btn-clear">Clear</button>
-  <button class="btn" id="btn-add-nearest">Nearest</button>
-  <button class="btn" id="btn-add-bobo">Bobo</button>
-  <button class="btn" id="btn-view-toggle">Vectors</button>
   <input type="file" id="file-load" accept=".json" style="display:none;">
 </div>
 
@@ -309,7 +306,6 @@
   let CELL; // px per world unit, normal view
   let ZOOM_CELL; // px per world unit, zoomed view (30 units visible across the screen)
   let zoomed = false;
-  let viewMode = 'trails'; // 'trails' or 'vectors'
   let zoomCenterX = 0, zoomCenterY = 0; // static snapshot of the clicked particle's position — not tracked
 
   function computeCell(){
@@ -728,38 +724,21 @@
     ctx.moveTo(0, origin.sy+0.5); ctx.lineTo(W, origin.sy+0.5);
     ctx.stroke();
 
-    // trails (nearest particles only) — only in trail view mode
-    if (viewMode === 'trails'){
-      particles.forEach((p, i)=>{
-        const t = trails[i];
-        if (!t) return;
-        ctx.strokeStyle = p.color;
-        ctx.globalAlpha = 0.3;
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        t.forEach((pt, idx)=>{
-          const {sx, sy} = worldToScreen(pt.x, pt.y);
-          if (idx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
-        });
-        ctx.stroke();
-        ctx.globalAlpha = 1;
+    // trails (nearest particles only)
+    particles.forEach((p, i)=>{
+      const t = trails[i];
+      if (!t) return;
+      ctx.strokeStyle = p.color;
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      t.forEach((pt, idx)=>{
+        const {sx, sy} = worldToScreen(pt.x, pt.y);
+        if (idx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
       });
-    } else {
-      // vector view: a plain line segment per nearest particle from its
-      // current position to position+velocity — no arrowhead. Often jumps
-      // to a different segment next tick since velocity itself changes.
-      particles.forEach((p)=>{
-        if (p.type !== 'nearest') return;
-        const a = worldToScreen(p.x, p.y);
-        const b = worldToScreen(p.x + p.vx, p.y + p.vy);
-        ctx.strokeStyle = p.color;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(a.sx, a.sy);
-        ctx.lineTo(b.sx, b.sy);
-        ctx.stroke();
-      });
-    }
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    });
 
     // bobo particles: static squares, no glow. Slightly brighter grey when
     // currently serving as a (tied-)nearest neighbor for some particle,
@@ -858,45 +837,6 @@
       });
       ctx.restore();
     }
-
-    // add-particle ghost. Bobo: a single square candidate, matching its
-    // real square appearance, no velocity phase since bobos never move.
-    // Nearest: phase 0 shows a candidate dot; phase 1 fixes that position
-    // and shows a velocity-vector preview, styled exactly like the vector
-    // view's line segments — no arrowhead, since it's a preview of what
-    // the created particle's velocity line will actually look like.
-    if (addActive){
-      ctx.save();
-      ctx.globalAlpha = 0.65;
-      if (addKind === 'bobo'){
-        const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
-        ctx.fillRect(sx-3.5, sy-3.5, 7, 7);
-      } else if (addPhase === 0){
-        const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
-        ctx.fillStyle = '#8bf3c9';
-        ctx.beginPath();
-        ctx.arc(sx, sy, 5, 0, Math.PI*2);
-        ctx.fill();
-      } else {
-        const start = worldToScreen(addX, addY);
-        const end = worldToScreen(placementCenterX, placementCenterY);
-        ctx.fillStyle = '#8bf3c9';
-        ctx.beginPath();
-        ctx.arc(start.sx, start.sy, 5, 0, Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle = '#8bf3c9';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(start.sx, start.sy);
-        ctx.lineTo(end.sx, end.sy);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(end.sx, end.sy, 3, 0, Math.PI*2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
   }
 
   // ---------- playback ----------
@@ -930,10 +870,6 @@
     last = performance.now();
   });
   document.getElementById('btn-step').addEventListener('click', ()=>{
-    if (playing){
-      playing = false;
-      playBtn.textContent = 'Play';
-    }
     step(); draw();
   });
   document.getElementById('btn-reset').addEventListener('click', ()=>{
@@ -1044,36 +980,16 @@
   let placementCenterX = 0;
   let placementCenterY = 0;
 
-  // ---------- add a single particle by hand ----------
-  // Same candidate-tracking mechanics as pattern placement (shared
-  // placementCenterX/Y, mousemove/ijkl/Enter). Nearest particles need two
-  // phases: first click sets position, second sets where its velocity
-  // vector points — rendered exactly like the vector-view line, no
-  // arrowhead. Bobos have no velocity, so they finish after one phase.
-  let addActive = false;
-  let addKind = 'nearest'; // 'nearest' or 'bobo'
-  let addPhase = 0; // 0 = choosing position, 1 = choosing velocity endpoint (nearest only)
-  let addX = 0, addY = 0; // confirmed position, once phase advances to 1
-
   function updatePlacementUI(){
     const banner = document.getElementById('placement-banner');
     const stepBtn = document.getElementById('btn-step');
     const playBtnEl = document.getElementById('btn-play');
-    const active = placementActive || addActive;
-    if (active){
+    if (placementActive){
       banner.classList.add('visible');
+      banner.innerHTML = 'Click, or ijkl + Enter, to place pattern <span class="hint">(Esc to cancel)</span>';
       canvas.classList.add('placing');
       stepBtn.disabled = true;
       playBtnEl.disabled = true;
-      if (placementActive){
-        banner.innerHTML = 'Click, or ijkl + Enter, to place pattern <span class="hint">(Esc to cancel)</span>';
-      } else if (addKind === 'bobo'){
-        banner.innerHTML = 'Click, or ijkl + Enter, to place new bobo <span class="hint">(Esc to cancel)</span>';
-      } else {
-        banner.innerHTML = addPhase === 0
-          ? 'Click, or ijkl + Enter, to place new particle <span class="hint">(Esc to cancel)</span>'
-          : 'Click, or ijkl + Enter, to set its velocity <span class="hint">(Esc to cancel)</span>';
-      }
     } else {
       banner.classList.remove('visible');
       canvas.classList.remove('placing');
@@ -1083,66 +999,12 @@
     }
   }
 
-  function beginAdd(kind){
-    playing = false;
-    playBtn.textContent = 'Play';
-    watch = null;
-    updateWatchPanel();
-    hideContextMenu();
-    cancelPlacement(); // mutual exclusion with pattern placement
-    addActive = true;
-    addKind = kind;
-    addPhase = 0;
-    placementCenterX = 0;
-    placementCenterY = 0;
-    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
-    updatePlacementUI();
-    updatePlacementIndicator();
-  }
-
-  function advanceAdd(x, y){
-    if (addKind === 'bobo'){
-      const boboColor = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
-      particles.push({ type:'bobo', x, y, vx:0, vy:0, color: boboColor });
-      trails.push(null);
-      addActive = false;
-      updatePlacementUI();
-      updateHud();
-      draw();
-      return;
-    }
-    if (addPhase === 0){
-      addX = x; addY = y;
-      addPhase = 1;
-      updatePlacementUI();
-      draw();
-    } else {
-      const vx = x - addX;
-      const vy = y - addY;
-      particles.push({ type:'nearest', x:addX, y:addY, vx, vy, color: colorFor() });
-      trails.push([{x:addX, y:addY}]);
-      addActive = false;
-      addPhase = 0;
-      updatePlacementUI();
-      updateHud();
-      draw();
-    }
-  }
-
-  function cancelAdd(){
-    addActive = false;
-    addPhase = 0;
-    updatePlacementUI();
-    draw();
-  }
-
   function beginPlacement(data){
     playing = false;
     playBtn.textContent = 'Play';
     watch = null;
     updateWatchPanel();
     hideContextMenu();
-    cancelAdd(); // mutual exclusion with the add-particle flow
 
     const nearestIn = data.nearest || [];
     const boboIn = data.bobo || [];
@@ -1221,19 +1083,10 @@
   // confirms wherever it currently sits; Escape cancels. ijkl has no
   // browser default behavior, so there's nothing to hijack or preventDefault.
   window.addEventListener('keydown', (e)=>{
-    if (!placementActive && !addActive) return;
+    if (!placementActive) return;
     const key = e.key.toLowerCase();
-    if (key === 'escape'){
-      e.preventDefault();
-      if (placementActive) cancelPlacement(); else cancelAdd();
-      return;
-    }
-    if (key === 'enter'){
-      e.preventDefault();
-      if (placementActive) commitPlacement(placementCenterX, placementCenterY);
-      else advanceAdd(placementCenterX, placementCenterY);
-      return;
-    }
+    if (key === 'escape'){ e.preventDefault(); cancelPlacement(); return; }
+    if (key === 'enter'){ e.preventDefault(); commitPlacement(placementCenterX, placementCenterY); return; }
     if (!['i','j','k','l'].includes(key)) return;
     e.preventDefault();
     const step = e.shiftKey ? 10 : 1;
@@ -1244,7 +1097,7 @@
   });
 
   canvas.addEventListener('mousemove', (e)=>{
-    if (!placementActive && !addActive){
+    if (!placementActive){
       document.getElementById('coord-indicator').classList.remove('visible');
       return;
     }
@@ -1264,11 +1117,6 @@
     if (placementActive){
       const w = screenToWorld(clickX, clickY);
       commitPlacement(Math.round(w.x), Math.round(w.y));
-      return;
-    }
-    if (addActive){
-      const w = screenToWorld(clickX, clickY);
-      advanceAdd(Math.round(w.x), Math.round(w.y));
       return;
     }
 
@@ -1327,7 +1175,6 @@
     updateWatchPanel();
     hideContextMenu();
     cancelPlacement();
-    cancelAdd();
     particles = [];
     trails = [];
     tick = 0;
@@ -1336,22 +1183,7 @@
     draw();
   });
 
-  document.getElementById('btn-add-nearest').addEventListener('click', ()=> beginAdd('nearest'));
-  document.getElementById('btn-add-bobo').addEventListener('click', ()=> beginAdd('bobo'));
-
   document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom(false));
-
-  document.getElementById('btn-view-toggle').addEventListener('click', ()=>{
-    viewMode = viewMode === 'trails' ? 'vectors' : 'trails';
-    document.getElementById('btn-view-toggle').textContent = viewMode === 'trails' ? 'Vectors' : 'Trails';
-    // reset trail history on every toggle, either direction: switching to
-    // vectors makes trails disappear (nothing to reset visually, but this
-    // keeps state consistent), and switching back to trails means they
-    // begin redrawing fresh from this moment, not jumping from a stale
-    // pre-switch position.
-    trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
-    draw();
-  });
 
   reset();
   resize();
