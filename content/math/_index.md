@@ -1,5 +1,4 @@
 ---
-title: "mathematics"
+title: "index mathematics"
 ---
-
-# Math experiments and problems
+# Text in the index Math experiments and problems
