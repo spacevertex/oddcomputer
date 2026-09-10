@@ -1,4 +1,3 @@
 ---
-title: "index mathematics"
+title: "math and sims"
 ---
-# Text in the index Math experiments and problems
