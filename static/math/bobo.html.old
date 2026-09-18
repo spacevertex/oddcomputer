@@ -242,8 +242,8 @@
 <div id="console">
   <button class="btn primary" id="btn-play">Play</button>
   <button class="btn" id="btn-step">Step</button>
-  <button class="btn" id="btn-reset">Roll</button>
-  <button class="btn" id="btn-redo">Recall</button>
+  <button class="btn" id="btn-reset">New</button>
+  <button class="btn" id="btn-redo">Redo</button>
   <div id="speed-wrap">
     <label>Nearest</label>
     <input type="range" id="count-nearest" min="1" max="100" value="20" step="1">
@@ -274,8 +274,7 @@
   <button class="btn" id="btn-clear">Clear</button>
   <button class="btn" id="btn-add-nearest">Nearest</button>
   <button class="btn" id="btn-add-bobo">Bobo</button>
-  <button class="btn primary" id="btn-trails-toggle">Trails</button>
-  <button class="btn" id="btn-vectors-toggle">Vectors</button>
+  <button class="btn" id="btn-view-toggle">Vectors</button>
   <input type="file" id="file-load" accept=".json" style="display:none;">
 </div>
 
@@ -310,8 +309,7 @@
   let CELL; // px per world unit, normal view
   let ZOOM_CELL; // px per world unit, zoomed view (30 units visible across the screen)
   let zoomed = false;
-  let showTrails = true;
-  let showVectors = false;
+  let viewMode = 'trails'; // 'trails' or 'vectors'
   let zoomCenterX = 0, zoomCenterY = 0; // static snapshot of the clicked particle's position — not tracked
 
   function computeCell(){
@@ -408,8 +406,8 @@
     }
   }
 
-  // snapshot of the exact particle state right after the last 'Roll' press,
-  // so 'Recall' can bring back conditions that led somewhere interesting
+  // snapshot of the exact particle state right after the last 'New' press,
+  // so 'Redo' can bring back conditions that led somewhere interesting
   // before a nuisance particle (or a deletion) disrupted it.
   let lastNewSnapshot = null;
 
@@ -730,8 +728,8 @@
     ctx.moveTo(0, origin.sy+0.5); ctx.lineTo(W, origin.sy+0.5);
     ctx.stroke();
 
-    // trails (nearest particles only) — independent of vector view now
-    if (showTrails){
+    // trails (nearest particles only) — only in trail view mode
+    if (viewMode === 'trails'){
       particles.forEach((p, i)=>{
         const t = trails[i];
         if (!t) return;
@@ -746,11 +744,10 @@
         ctx.stroke();
         ctx.globalAlpha = 1;
       });
-    }
-    if (showVectors){
-      // a plain line segment per nearest particle from its current
-      // position to position+velocity — no arrowhead. Often jumps to a
-      // different segment next tick since velocity itself changes.
+    } else {
+      // vector view: a plain line segment per nearest particle from its
+      // current position to position+velocity — no arrowhead. Often jumps
+      // to a different segment next tick since velocity itself changes.
       particles.forEach((p)=>{
         if (p.type !== 'nearest') return;
         const a = worldToScreen(p.x, p.y);
@@ -1118,7 +1115,7 @@
       addX = x; addY = y;
       addPhase = 1;
       updatePlacementUI();
-      updatePlacementIndicator();
+      draw();
     } else {
       const vx = x - addX;
       const vy = y - addY;
@@ -1184,15 +1181,7 @@
   function updatePlacementIndicator(){
     const indicator = document.getElementById('coord-indicator');
     const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
-    if (addActive && addKind === 'nearest' && addPhase === 1){
-      // this stage is choosing a velocity, not a position — show it as
-      // the (dx, dy) offset from the fixed point, not absolute coordinates
-      const dx = placementCenterX - addX;
-      const dy = placementCenterY - addY;
-      indicator.textContent = `(${dx}, ${dy})`;
-    } else {
-      indicator.textContent = `(${placementCenterX}, ${placementCenterY})`;
-    }
+    indicator.textContent = `(${placementCenterX}, ${placementCenterY})`;
     indicator.style.left = sx + 'px';
     indicator.style.top = sy + 'px';
     indicator.classList.add('visible');
@@ -1352,20 +1341,15 @@
 
   document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom(false));
 
-  document.getElementById('btn-trails-toggle').addEventListener('click', ()=>{
-    showTrails = !showTrails;
-    document.getElementById('btn-trails-toggle').classList.toggle('primary', showTrails);
-    if (showTrails){
-      // begin redrawing fresh from this moment, not jumping from a trail
-      // that may have gone stale while trails were hidden.
-      trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
-    }
-    draw();
-  });
-
-  document.getElementById('btn-vectors-toggle').addEventListener('click', ()=>{
-    showVectors = !showVectors;
-    document.getElementById('btn-vectors-toggle').classList.toggle('primary', showVectors);
+  document.getElementById('btn-view-toggle').addEventListener('click', ()=>{
+    viewMode = viewMode === 'trails' ? 'vectors' : 'trails';
+    document.getElementById('btn-view-toggle').textContent = viewMode === 'trails' ? 'Vectors' : 'Trails';
+    // reset trail history on every toggle, either direction: switching to
+    // vectors makes trails disappear (nothing to reset visually, but this
+    // keeps state consistent), and switching back to trails means they
+    // begin redrawing fresh from this moment, not jumping from a stale
+    // pre-switch position.
+    trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     draw();
   });
 
