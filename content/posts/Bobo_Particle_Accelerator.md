@@ -1,7 +1,3 @@
----
-title: "Bobo Particles"
----
-# Bobo Particle Simulator
 [Bobo Particle Accelerator](https://oddcomputer.com/math/bobo.html)
 
 Deterministic particle motion simulator.
