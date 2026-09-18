@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Normal-line triangle transform</title>
+<style>
+  :root {
+    --bg-page: #f7f6f3;
+    --bg-panel: #ffffff;
+    --text-primary: #1a1a18;
+    --text-secondary: #63625c;
+    --border: #ddd9d0;
+    --curve: #2a78d6;
+    --transform: #7f77dd;
+    --pos: #0f6e56;
+    --pos-fill: #1D9E75;
+    --neg: #993c1d;
+    --neg-fill: #D85A30;
+    --btn-bg: #ffffff;
+    --btn-bg-active: #1a1a18;
+    --btn-text-active: #ffffff;
+    --code-bg: #efece4;
+    --grid-minor: #eeece5;
+    --grid-major: #ded9cd;
+    --axis: #8a8778;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg-page: #171715;
+      --bg-panel: #201f1c;
+      --text-primary: #f0efe9;
+      --text-secondary: #a8a69c;
+      --border: #3a3934;
+      --curve: #5b9bdb;
+      --transform: #a39cf0;
+      --pos: #4fd7ab;
+      --pos-fill: #1D9E75;
+      --neg: #f0997b;
+      --neg-fill: #D85A30;
+      --btn-bg: #2a2a26;
+      --btn-bg-active: #f0efe9;
+      --btn-text-active: #171715;
+      --code-bg: #2a2a26;
+      --grid-minor: #232320;
+      --grid-major: #302f2b;
+      --axis: #7d7a6f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-page: #171715;
+    --bg-panel: #201f1c;
+    --text-primary: #f0efe9;
+    --text-secondary: #a8a69c;
+    --border: #3a3934;
+    --curve: #5b9bdb;
+    --transform: #a39cf0;
+    --pos: #4fd7ab;
+    --pos-fill: #1D9E75;
+    --neg: #f0997b;
+    --neg-fill: #D85A30;
+    --btn-bg: #2a2a26;
+    --btn-bg-active: #f0efe9;
+    --btn-text-active: #171715;
+    --code-bg: #2a2a26;
+    --grid-minor: #232320;
+    --grid-major: #302f2b;
+    --axis: #7d7a6f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+  }
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem;
+  }
+  .formula-box {
+    background: var(--code-bg);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .curve-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .curve-btn {
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--btn-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+  .curve-btn.active {
+    background: var(--btn-bg-active);
+    color: var(--btn-text-active);
+    border-color: var(--btn-bg-active);
+  }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .slider-row label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  input[type="range"] {
+    flex: 1;
+    accent-color: var(--transform);
+  }
+  .readout {
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 190px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .readout .pos { color: var(--pos); }
+  .readout .neg { color: var(--neg); }
+  .legend {
+    display: flex;
+    gap: 18px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 2px 4px 8px;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+  svg { display: block; width: 100%; height: auto; }
+  .transform-formula {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0.5rem 0 2rem;
+  }
+  footer {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The normal-line triangle transform</h1>
+  <p class="subtitle">
+    For a point A = (x, f(x)) on the curve: drop straight down to B = (x, 0),
+    then draw the line normal to the curve at A and find where it crosses the
+    x-axis at C. Triangle ABC's <em>signed</em> area becomes y&prime;(x) &mdash;
+    plotted here on the same axes as f(x) itself.
+  </p>
+
+  <div class="formula-box">
+    y&prime;(x) &nbsp;=&nbsp; &frac12; f&prime;(x)&nbsp;[f(x)]&sup2;
+  </div>
+
+  <div class="curve-picker" id="picker"></div>
+
+  <div class="slider-row">
+    <label for="xs">x&#8320;</label>
+    <input type="range" id="xs">
+    <span class="readout" id="readout"></span>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" id="sw-f"></i> f(x)</span>
+    <span><i class="swatch" id="sw-y"></i> y&prime;(x)</span>
+  </div>
+
+  <div class="panel">
+    <svg id="plot"></svg>
+  </div>
+
+  <p class="transform-formula" id="specific-formula"></p>
+
+  <footer>A geometric transform exercise.</footer>
+</div>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+const curves = [
+  {
+    id: 'parab_down', label: 'y = 1 \u2212 x\u00b2',
+    f: x => 1 - x*x, fp: x => -2*x,
+    sliderMin: -1.3, sliderMax: 1.3, sliderDefault: 0.7,
+    formula: 'y\u2032 = \u2212x(1\u2212x\u00b2)\u00b2'
+  },
+  {
+    id: 'sine', label: 'y = sin(x)',
+    f: x => Math.sin(x), fp: x => Math.cos(x),
+    sliderMin: -Math.PI, sliderMax: Math.PI, sliderDefault: 1.2,
+    formula: 'y\u2032 = \u00bd\u00b7cos(x)\u00b7sin\u00b2(x)'
+  },
+  {
+    id: 'cubic', label: 'y = x\u00b3/3 \u2212 x',
+    f: x => x*x*x/3 - x, fp: x => x*x - 1,
+    sliderMin: -1.8, sliderMax: 1.8, sliderDefault: 0.9,
+    formula: 'y\u2032 = \u00bd(x\u00b2\u22121)(x\u00b3/3\u2212x)\u00b2'
+  },
+  {
+    id: 'gaussian', label: 'y = e^(\u2212x\u00b2)',
+    f: x => Math.exp(-x*x), fp: x => -2*x*Math.exp(-x*x),
+    sliderMin: -2.2, sliderMax: 2.2, sliderDefault: 0.9,
+    formula: 'y\u2032 = \u2212x\u00b7e^(\u22123x\u00b2)'
+  },
+  {
+    id: 'line', label: 'y = 0.5x + 1',
+    f: x => 0.5*x + 1, fp: x => 0.5,
+    sliderMin: -3, sliderMax: 3, sliderDefault: 1,
+    formula: 'y\u2032 = 0.25(0.5x+1)\u00b2'
+  },
+  {
+    id: 'semicircle', label: 'y = \u221a(4\u2212x\u00b2)',
+    f: x => Math.sqrt(Math.max(0, 4 - x*x)), fp: x => -x / Math.sqrt(Math.max(1e-6, 4 - x*x)),
+    yp: x => -0.5 * x * Math.sqrt(Math.max(0, 4 - x*x)),
+    domainMin: -2, domainMax: 2,
+    sliderMin: -1.9, sliderMax: 1.9, sliderDefault: 1,
+    formula: 'y\u2032 = \u2212\u00bd\u00b7x\u00b7\u221a(4\u2212x\u00b2)'
+  },
+  {
+    id: 'reciprocal', label: 'y = 1/x',
+    f: x => 1/x, fp: x => -1/(x*x),
+    domainMin: 0.5, domainMax: 6,
+    sliderMin: 0.8, sliderMax: 3, sliderDefault: 1.3,
+    formula: 'y\u2032 = \u22121/(2x\u2074)'
+  }
+];
+
+let current = curves[0];
+let layout = null;
+let interacted = false;
+
+function computeLayout(curve) {
+  const { f, fp, sliderMin, sliderMax } = curve;
+  const N = 400;
+  const curveMin = Math.max(sliderMin * 1.08, curve.domainMin ?? -Infinity);
+  const curveMax = Math.min(sliderMax * 1.08, curve.domainMax ?? Infinity);
+
+  let cMin = Infinity, cMax = -Infinity;
+  for (let i = 0; i <= N; i++) {
+    const x0 = sliderMin + (sliderMax - sliderMin) * i / N;
+    const y0 = f(x0);
+    const cx = x0 + y0 * fp(x0);
+    if (cx < cMin) cMin = cx;
+    if (cx > cMax) cMax = cx;
+  }
+  let axisXMin = Math.min(curveMin, cMin);
+  let axisXMax = Math.max(curveMax, cMax);
+  const xPad = (axisXMax - axisXMin) * 0.06;
+  axisXMin -= xPad; axisXMax += xPad;
+
+  const yprime = curve.yp || (x => 0.5 * fp(x) * f(x) * f(x));
+  let yMin = Infinity, yMax = -Infinity;
+  for (let i = 0; i <= N; i++) {
+    const x = curveMin + (curveMax - curveMin) * i / N;
+    const y = f(x);
+    const yp = yprime(x);
+    if (y < yMin) yMin = y;
+    if (y > yMax) yMax = y;
+    if (yp < yMin) yMin = yp;
+    if (yp > yMax) yMax = yp;
+  }
+  const yPad = (yMax - yMin) * 0.12 || 0.2;
+  yMin -= yPad; yMax += yPad;
+
+  const targetW = 560;
+  const s = targetW / (axisXMax - axisXMin);
+  const padL = 44, padR = 24, padT = 16, padB = 28;
+  const W = targetW + padL + padR;
+  const H = s * (yMax - yMin) + padT + padB;
+
+  const majorStep = niceStep(Math.max(axisXMax - axisXMin, yMax - yMin));
+  const minorStep = majorStep / 5;
+
+  return { axisXMin, axisXMax, curveMin, curveMax, yMin, yMax, s, padL, padR, padT, padB, W, H, majorStep, minorStep };
+}
+
+function niceStep(range, targetTicks) {
+  targetTicks = targetTicks || 8;
+  const rawStep = range / targetTicks;
+  const mag = Math.pow(10, Math.floor(Math.log10(rawStep)));
+  const norm = rawStep / mag;
+  let step;
+  if (norm < 1.5) step = 1;
+  else if (norm < 3) step = 2;
+  else if (norm < 7) step = 5;
+  else step = 10;
+  return step * mag;
+}
+
+function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+function buildGrid(svg, px, py, xMin, xMax, yMin, yMax, majorStep, minorStep) {
+  const minorColor = cssVar('--grid-minor');
+  const majorColor = cssVar('--grid-major');
+  const eps = 1e-6;
+
+  for (let x = Math.ceil(xMin / minorStep) * minorStep; x <= xMax + eps; x += minorStep) {
+    if (Math.abs(x / majorStep - Math.round(x / majorStep)) < eps) continue;
+    svg.appendChild(el('line', { x1: px(x), x2: px(x), y1: py(yMin), y2: py(yMax), stroke: minorColor, 'stroke-width': 1 }));
+  }
+  for (let y = Math.ceil(yMin / minorStep) * minorStep; y <= yMax + eps; y += minorStep) {
+    if (Math.abs(y / majorStep - Math.round(y / majorStep)) < eps) continue;
+    svg.appendChild(el('line', { x1: px(xMin), x2: px(xMax), y1: py(y), y2: py(y), stroke: minorColor, 'stroke-width': 1 }));
+  }
+  for (let x = Math.ceil(xMin / majorStep) * majorStep; x <= xMax + eps; x += majorStep) {
+    svg.appendChild(el('line', { x1: px(x), x2: px(x), y1: py(yMin), y2: py(yMax), stroke: majorColor, 'stroke-width': 1 }));
+  }
+  for (let y = Math.ceil(yMin / majorStep) * majorStep; y <= yMax + eps; y += majorStep) {
+    svg.appendChild(el('line', { x1: px(xMin), x2: px(xMax), y1: py(y), y2: py(y), stroke: majorColor, 'stroke-width': 1 }));
+  }
+}
+
+function buildAxes(svg, px, py, xMin, xMax, yMin, yMax) {
+  const ac = cssVar('--axis');
+  svg.appendChild(el('line', { x1: px(xMin), x2: px(xMax), y1: py(0), y2: py(0), stroke: ac, 'stroke-width': 1.5 }));
+  svg.appendChild(el('line', { x1: px(0), x2: px(0), y1: py(yMin), y2: py(yMax), stroke: ac, 'stroke-width': 1.5 }));
+}
+
+function curvePath(px, py, f, x0, x1, steps) {
+  let d = '';
+  for (let i = 0; i <= steps; i++) {
+    const x = x0 + (x1 - x0) * i / steps;
+    const y = f(x);
+    d += (i === 0 ? 'M' : 'L') + px(x).toFixed(1) + ' ' + py(y).toFixed(1) + ' ';
+  }
+  return d;
+}
+
+const plot = document.getElementById('plot');
+const slider = document.getElementById('xs');
+const readout = document.getElementById('readout');
+const specificFormula = document.getElementById('specific-formula');
+document.getElementById('sw-f').style.background = 'var(--curve)';
+document.getElementById('sw-y').style.background = 'var(--transform)';
+
+function render(x0) {
+  const { f, fp } = current;
+  const L = layout;
+  const px = x => L.padL + (x - L.axisXMin) * L.s;
+  const py = y => L.padT + (L.yMax - y) * L.s;
+
+  plot.innerHTML = '';
+  buildGrid(plot, px, py, L.axisXMin, L.axisXMax, L.yMin, L.yMax, L.majorStep, L.minorStep);
+  buildAxes(plot, px, py, L.axisXMin, L.axisXMax, L.yMin, L.yMax);
+
+  plot.appendChild(el('path', { d: curvePath(px, py, f, L.curveMin, L.curveMax, 200), fill: 'none', stroke: cssVar('--curve'), 'stroke-width': 2 }));
+  const yprime = current.yp || (x => 0.5 * fp(x) * f(x) * f(x));
+  plot.appendChild(el('path', { d: curvePath(px, py, yprime, L.curveMin, L.curveMax, 200), fill: 'none', stroke: cssVar('--transform'), 'stroke-width': 2 }));
+
+  const y0 = f(x0);
+  const Cx = x0 + y0 * fp(x0);
+  const area = yprime(x0);
+  const col = area >= 0 ? cssVar('--pos-fill') : cssVar('--neg-fill');
+  const A = [x0, y0], B = [x0, 0], C = [Cx, 0];
+
+  plot.appendChild(el('polygon', {
+    points: `${px(A[0])},${py(A[1])} ${px(B[0])},${py(B[1])} ${px(C[0])},${py(C[1])}`,
+    fill: col, opacity: 0.18, stroke: col, 'stroke-width': 1.5
+  }));
+  plot.appendChild(el('line', { x1: px(A[0]), y1: py(A[1]), x2: px(C[0]), y2: py(C[1]), stroke: col, 'stroke-width': 1.5, 'stroke-dasharray': '4 3' }));
+  plot.appendChild(el('line', { x1: px(A[0]), y1: py(A[1]), x2: px(B[0]), y2: py(B[1]), stroke: cssVar('--text-secondary'), 'stroke-width': 1, 'stroke-dasharray': '2 3' }));
+
+  if (!interacted) {
+    [['A', A, -8], ['B', B, 16], ['C', C, 16]].forEach(([label, pt, dy]) => {
+      plot.appendChild(el('circle', { cx: px(pt[0]), cy: py(pt[1]), r: 4, fill: cssVar('--text-primary') }));
+      const t = el('text', { x: px(pt[0]) + 6, y: py(pt[1]) + dy, 'font-size': 12, fill: cssVar('--text-primary'), 'font-weight': 600 });
+      t.textContent = label;
+      plot.appendChild(t);
+    });
+  }
+
+  plot.appendChild(el('line', { x1: px(x0), y1: py(0), x2: px(x0), y2: py(area), stroke: col, 'stroke-width': 1, 'stroke-dasharray': '2 3' }));
+  plot.appendChild(el('circle', { cx: px(x0), cy: py(area), r: 5, fill: col }));
+
+  readout.innerHTML = 'x\u2080 = ' + x0.toFixed(2) + ', area = <span class="' + (area >= 0 ? 'pos' : 'neg') + '">' + area.toFixed(3) + '</span>';
+}
+
+function selectCurve(curve) {
+  current = curve;
+  interacted = false;
+  layout = computeLayout(curve);
+  plot.setAttribute('viewBox', `0 0 ${layout.W} ${layout.H}`);
+  slider.min = curve.sliderMin;
+  slider.max = curve.sliderMax;
+  slider.step = (curve.sliderMax - curve.sliderMin) / 500;
+  slider.value = curve.sliderDefault;
+  specificFormula.textContent = curve.formula;
+
+  document.querySelectorAll('.curve-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.id === curve.id);
+  });
+
+  render(curve.sliderDefault);
+}
+
+const picker = document.getElementById('picker');
+curves.forEach(c => {
+  const btn = document.createElement('button');
+  btn.className = 'curve-btn';
+  btn.dataset.id = c.id;
+  btn.textContent = c.label;
+  btn.addEventListener('click', () => selectCurve(c));
+  picker.appendChild(btn);
+});
+
+slider.addEventListener('input', () => {
+  interacted = true;
+  render(parseFloat(slider.value));
+});
+
+selectCurve(curves[0]);
+</script>
+</body>
+</html>
