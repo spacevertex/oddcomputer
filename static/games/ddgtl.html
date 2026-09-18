@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Letters — DuckDuckGo Autocomplete Quiz</title>
+<style>
+  :root{
+    --bg:#0f1117; --card:#1a1d29; --accent:#de5833; --accent2:#f5b942;
+    --text:#f2f2f7; --muted:#8a8fa3; --wrong:#ff5d73; --right:#00d2a6;
+    --border:#2a2e3f;
+  }
+  @media (prefers-color-scheme: light){
+    body{ --bg:#f4f4f9; --card:#ffffff; --text:#1a1d29; --muted:#666a7d; --border:#e2e2ec; }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .wrap{width:100%; max-width:480px;}
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px; color:var(--muted); font-size:14px; font-weight:600;
+  }
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:20px;
+    padding:32px 24px; box-shadow:0 10px 30px rgba(0,0,0,0.15); position:relative;
+  }
+  .letters{
+    font-size:64px; font-weight:800; text-align:center; letter-spacing:6px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    margin-bottom:4px;
+  }
+  .sub{text-align:center; color:var(--muted); font-size:13px; margin-bottom:8px;}
+  .verify{text-align:center; margin-bottom:20px;}
+  .verify a{color:var(--accent); font-size:12px; text-decoration:none; border-bottom:1px dotted var(--accent);}
+  .options{display:flex; flex-direction:column; gap:12px; min-height:60px;}
+  .opt{
+    background:var(--bg); border:2px solid var(--border); border-radius:12px;
+    padding:14px 16px; font-size:16px; text-align:left; cursor:pointer;
+    color:var(--text); transition:all .15s ease; width:100%;
+  }
+  .opt:hover{border-color:var(--accent);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--right); background:rgba(0,210,166,0.12);}
+  .opt.wrong{border-color:var(--wrong); background:rgba(255,93,115,0.12);}
+  .footer{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:20px; min-height:36px;
+  }
+  .result{font-size:14px; font-weight:600;}
+  .result.win{color:var(--right);}
+  .result.lose{color:var(--wrong);}
+  button.next{
+    background:var(--accent); color:white; border:none; border-radius:10px;
+    padding:10px 18px; font-size:14px; font-weight:700; cursor:pointer;
+  }
+  button.next:disabled{opacity:0; pointer-events:none;}
+  .score{color:var(--muted); font-size:13px;}
+  .loading{text-align:center; color:var(--muted); font-size:14px; padding:20px 0;}
+  .error{text-align:center; color:var(--wrong); font-size:13px; padding:12px 0;}
+  .note{margin-top:18px; font-size:11px; color:var(--muted); text-align:center; line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span>🦆 Two Letters</span>
+    <span class="score" id="score">Score: 0 / 0</span>
+  </div>
+  <div class="card">
+    <div class="letters" id="letters">--</div>
+    <div class="sub">What's DuckDuckGo's top autocomplete result?</div>
+    <div class="verify"><a id="verifyLink" href="#" target="_blank" rel="noopener">Check it yourself on DuckDuckGo →</a></div>
+    <div class="options" id="options"><div class="loading">Loading suggestions…</div></div>
+    <div class="footer">
+      <div class="result" id="result"></div>
+      <button class="next" id="nextBtn" disabled>Next →</button>
+    </div>
+    <div class="note">Live suggestions come from DuckDuckGo's public autocomplete endpoint (ac.duckduckgo.com) — the same one duckduckgo.com's search box uses. It's unofficial, so results can occasionally be empty or slow; click "Check it yourself" any time to verify against the real search box.</div>
+  </div>
+</div>
+
+<script>
+let score = 0, total = 0, current = null, jsonpCounter = 0;
+
+function randomPair(){
+  const a = String.fromCharCode(97 + Math.floor(Math.random()*26));
+  const b = String.fromCharCode(97 + Math.floor(Math.random()*26));
+  return a + b;
+}
+
+// JSONP loader for ac.duckduckgo.com (their suggestion endpoint supports a callback param)
+function fetchSuggestions(query, timeoutMs = 6000){
+  return new Promise((resolve, reject) => {
+    const cbName = 'ddgCb_' + (jsonpCounter++) + '_' + Date.now();
+    const script = document.createElement('script');
+    let done = false;
+
+    const cleanup = () => {
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer);
+    };
+
+    const timer = setTimeout(() => {
+      if (done) return;
+      done = true;
+      cleanup();
+      reject(new Error('timeout'));
+    }, timeoutMs);
+
+    window[cbName] = (data) => {
+      if (done) return;
+      done = true;
+      cleanup();
+      // data is an array of {phrase: "..."} objects
+      const suggestions = (data || [])
+        .map(d => (d && d.phrase) ? d.phrase : null)
+        .filter(Boolean);
+      resolve(suggestions);
+    };
+
+    script.onerror = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+      reject(new Error('script load failed'));
+    };
+
+    script.src = 'https://ac.duckduckgo.com/ac/?q=' + encodeURIComponent(query) +
+                 '&type=list&callback=' + cbName;
+    document.head.appendChild(script);
+  });
+}
+
+function capitalizeEach(s){
+  return s.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+async function loadRound(){
+  const optionsEl = document.getElementById('options');
+  const resultEl = document.getElementById('result');
+  const nextBtn = document.getElementById('nextBtn');
+  resultEl.textContent = '';
+  resultEl.className = 'result';
+  nextBtn.disabled = true;
+  optionsEl.innerHTML = '<div class="loading">Loading suggestions…</div>';
+
+  const pair = randomPair();
+  document.getElementById('letters').textContent = pair.toUpperCase();
+  document.getElementById('verifyLink').href = 'https://duckduckgo.com/?q=' + encodeURIComponent(pair);
+
+  let suggestions = [];
+  try {
+    suggestions = await fetchSuggestions(pair);
+  } catch (e) {
+    suggestions = [];
+  }
+
+  // Need at least 4 distinct suggestions to build a fair round; retry a couple times with new pairs
+  let attempts = 0;
+  while (suggestions.length < 4 && attempts < 4) {
+    attempts++;
+    const retryPair = randomPair();
+    document.getElementById('letters').textContent = retryPair.toUpperCase();
+    document.getElementById('verifyLink').href = 'https://duckduckgo.com/?q=' + encodeURIComponent(retryPair);
+    try {
+      suggestions = await fetchSuggestions(retryPair);
+    } catch (e) {
+      suggestions = [];
+    }
+  }
+
+  if (suggestions.length < 2) {
+    optionsEl.innerHTML = '<div class="error">Couldn\'t reach DuckDuckGo\'s suggestion service (it may be offline, rate-limiting, or this page needs to be served over http:// rather than opened as a local file). Try Next to retry.</div>';
+    nextBtn.disabled = false;
+    current = null;
+    return;
+  }
+
+  const correct = suggestions[0];
+  const rest = suggestions.slice(1);
+  // shuffle the rest, take up to 3 distractors
+  for (let i = rest.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+  const opts = [correct, ...rest.slice(0, 3)];
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+
+  current = { correct, opts };
+  optionsEl.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = capitalizeEach(opt);
+    btn.onclick = () => choose(opt, btn);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function choose(opt, btn){
+  if (!current) return;
+  const buttons = document.querySelectorAll('.opt');
+  buttons.forEach(b => b.disabled = true);
+  const resultEl = document.getElementById('result');
+  total++;
+  if (opt === current.correct) {
+    score++;
+    btn.classList.add('correct');
+    resultEl.textContent = 'Correct! 🎉';
+    resultEl.className = 'result win';
+  } else {
+    btn.classList.add('wrong');
+    resultEl.textContent = 'Nope — top result was "' + capitalizeEach(current.correct) + '"';
+    resultEl.className = 'result lose';
+    buttons.forEach(b => { if (b.textContent === capitalizeEach(current.correct)) b.classList.add('correct'); });
+  }
+  document.getElementById('score').textContent = 'Score: ' + score + ' / ' + total;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+document.getElementById('nextBtn').onclick = loadRound;
+loadRound();
+</script>
+</body>
+</html>
