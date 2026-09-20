@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# Scans the patterns folder for .json files not yet listed in manifest.json,
-# prompts for a display name for each, and writes the updated manifest.
+# Scans the patterns folder — including nested subfolders, to any depth —
+# for .json files not yet listed in manifest.json, prompts for a display
+# name for each, and writes the updated manifest. Subfolder names are
+# used directly as the GUI folder names; only individual files get
+# prompted for a name.
 #
 # Usage:
 #   ./update-manifest.sh              # operates on the current directory
@@ -42,51 +45,107 @@ except (json.JSONDecodeError, ValueError) as e:
     print(f"manifest.json is present but not valid: {e}", file=sys.stderr)
     sys.exit(1)
 
-known_files = {entry.get("file") for entry in manifest if isinstance(entry, dict)}
+# Two kinds of entries, and folders can now nest arbitrarily deep:
+#   {"file": "...", "name": "..."}
+#   {"folder": "...", "items": [ ...more entries, recursively... ]}
+# On-disk folder names ARE the GUI folder names — only individual files
+# get prompted for a display name, at any depth.
 
-all_json = sorted(
-    f for f in os.listdir(folder)
-    if f.endswith(".json") and f != "manifest.json"
-)
+def get_known_files(items):
+    return {e["file"] for e in items if "file" in e}
 
-# flag manifest entries pointing at files that no longer exist — doesn't
-# fix them (might be intentional, might be a rename), just surfaces it
-orphaned = sorted(known_files - set(all_json))
-if orphaned:
-    print("Note: these manifest entries don't match any file currently in the folder:")
-    for f in orphaned:
-        print(f"  - {f}")
-    print()
+def get_known_folders(items):
+    return {e["folder"]: e for e in items if "folder" in e}
 
-missing = [f for f in all_json if f not in known_files]
-
-if not missing:
-    print("Every JSON file in the folder is already represented in manifest.json. Nothing to add.")
-    sys.exit(0)
-
-print(f"Found {len(missing)} file(s) not yet in manifest.json:\n")
-
-new_entries = []
-for filename in missing:
+def prompt_name(filename, prefix=""):
     while True:
-        name = input(f'  {filename}\n  Display name (blank = use filename): ').strip()
+        label = prefix + filename
+        name = input(f'  {label}\n  Display name (blank = use filename): ').strip()
         if name == "":
             name = filename
         confirm = input(f'  -> "{name}"   [Enter to accept, r to redo] ').strip().lower()
         if confirm != 'r':
-            break
-    new_entries.append({"file": filename, "name": name})
+            return name
+        print()
+
+def find_orphans(disk_path, items, rel_path=""):
+    orphans = []
+    disk_entries = set(os.listdir(disk_path)) if os.path.isdir(disk_path) else set()
+    for entry in items:
+        if "file" in entry:
+            if entry["file"] not in disk_entries:
+                orphans.append((rel_path + "/" + entry["file"]) if rel_path else entry["file"])
+        elif "folder" in entry:
+            sub_disk = os.path.join(disk_path, entry["folder"])
+            sub_rel = (rel_path + "/" + entry["folder"]) if rel_path else entry["folder"]
+            if not os.path.isdir(sub_disk):
+                orphans.append(sub_rel + "/  (entire folder missing)")
+            else:
+                orphans.extend(find_orphans(sub_disk, entry.get("items", []), sub_rel))
+    return orphans
+
+def scan_and_update(disk_path, items, rel_path=""):
+    added = 0
+
+    disk_files = sorted(
+        f for f in os.listdir(disk_path)
+        if f.endswith(".json") and f != "manifest.json" and os.path.isfile(os.path.join(disk_path, f))
+    )
+    known_files = get_known_files(items)
+    for filename in [f for f in disk_files if f not in known_files]:
+        prefix = (rel_path + "/") if rel_path else ""
+        name = prompt_name(filename, prefix=prefix)
+        items.append({"file": filename, "name": name})
+        added += 1
+        print()
+
+    disk_subdirs = sorted(
+        d for d in os.listdir(disk_path)
+        if os.path.isdir(os.path.join(disk_path, d))
+    )
+    known_folders = get_known_folders(items)
+    for subdir in disk_subdirs:
+        entry = known_folders.get(subdir)
+        if entry is None:
+            entry = {"folder": subdir, "items": []}
+            items.append(entry)
+        else:
+            entry.setdefault("items", [])
+        added += scan_and_update(
+            os.path.join(disk_path, subdir),
+            entry["items"],
+            (rel_path + "/" + subdir) if rel_path else subdir
+        )
+
+    return added
+
+orphans = find_orphans(folder, manifest, "")
+if orphans:
+    print("Note: these manifest entries don't match anything currently on disk:")
+    for o in orphans:
+        print(f"  - {o}")
     print()
 
-manifest.extend(new_entries)
-manifest.sort(key=lambda e: e.get("file", ""))
+added = scan_and_update(folder, manifest, "")
+
+if added == 0:
+    print("Every JSON file is already represented in manifest.json. Nothing to add.")
+    sys.exit(0)
+
+def sort_recursive(items):
+    for entry in items:
+        if "items" in entry:
+            sort_recursive(entry["items"])
+    items.sort(key=lambda e: (0, e["folder"]) if "folder" in e else (1, e["file"]))
+
+sort_recursive(manifest)
 
 with open(manifest_path, "w") as f:
     json.dump(manifest, f, indent=2)
     f.write("\n")
 
-plural = "y" if len(new_entries) == 1 else "ies"
-print(f"Added {len(new_entries)} entr{plural} to manifest.json.")
+plural = "y" if added == 1 else "ies"
+print(f"Added {added} entr{plural} to manifest.json.")
 PYEOF
 
 python3 "$TMP_PY" "$DIR"

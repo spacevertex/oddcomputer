@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# Scans the patterns folder — including one level of subfolders — for
+# .json files not yet listed in manifest.json, prompts for a display name
+# for each, and writes the updated manifest. Subfolder names are used
+# directly as the GUI folder names; only individual files get prompted
+# for a name.
+#
+# Usage:
+#   ./update-manifest.sh              # operates on the current directory
+#   ./update-manifest.sh patterns/    # or point it at a specific folder
+set -euo pipefail
+
+DIR="${1:-.}"
+
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "This script needs python3 (used for the actual JSON reading/writing)." >&2
+  exit 1
+fi
+
+if [ ! -d "$DIR" ]; then
+  echo "No such directory: $DIR" >&2
+  exit 1
+fi
+
+if [ ! -f "$DIR/manifest.json" ]; then
+  echo "[]" > "$DIR/manifest.json"
+  echo "No manifest.json found in $DIR — created an empty one."
+fi
+
+TMP_PY="$(mktemp -t update-manifest.XXXXXX.py)"
+trap 'rm -f "$TMP_PY"' EXIT
+
+cat > "$TMP_PY" <<'PYEOF'
+import json, os, sys
+
+folder = sys.argv[1]
+manifest_path = os.path.join(folder, "manifest.json")
+
+try:
+    with open(manifest_path) as f:
+        manifest = json.load(f)
+    if not isinstance(manifest, list):
+        raise ValueError("manifest.json does not contain a JSON array")
+except (json.JSONDecodeError, ValueError) as e:
+    print(f"manifest.json is present but not valid: {e}", file=sys.stderr)
+    sys.exit(1)
+
+# Two kinds of entries:
+#   {"file": "...", "name": "..."}                                  (top-level, ungrouped)
+#   {"folder": "...", "files": [{"file": "...", "name": "..."}]}    (one level of subfolder)
+# The on-disk folder name IS the GUI folder name — no separate prompt
+# for folder display names, only for individual files, same as before.
+
+flat_known = {}
+folder_entries = {}
+for entry in manifest:
+    if "folder" in entry:
+        entry.setdefault("files", [])
+        folder_entries[entry["folder"]] = entry
+    elif "file" in entry:
+        flat_known[entry["file"]] = entry
+
+top_level_json = sorted(
+    f for f in os.listdir(folder)
+    if f.endswith(".json") and f != "manifest.json" and os.path.isfile(os.path.join(folder, f))
+)
+subfolders = sorted(
+    d for d in os.listdir(folder)
+    if os.path.isdir(os.path.join(folder, d))
+)
+
+# --- orphan detection: manifest entries with no matching file on disk ---
+orphans_flat = sorted(set(flat_known) - set(top_level_json))
+orphans_by_folder = {}
+for foldername, entry in folder_entries.items():
+    folder_path = os.path.join(folder, foldername)
+    disk_files = set(os.listdir(folder_path)) if os.path.isdir(folder_path) else set()
+    known_in_folder = {e["file"] for e in entry["files"]}
+    missing_on_disk = sorted(known_in_folder - disk_files)
+    if missing_on_disk:
+        orphans_by_folder[foldername] = missing_on_disk
+
+if orphans_flat or orphans_by_folder:
+    print("Note: these manifest entries don't match any file currently on disk:")
+    for f in orphans_flat:
+        print(f"  - {f}")
+    for foldername, files in orphans_by_folder.items():
+        for f in files:
+            print(f"  - {foldername}/{f}")
+    print()
+
+# --- find what's missing ---
+missing_flat = [f for f in top_level_json if f not in flat_known]
+
+missing_by_folder = {}
+for foldername in subfolders:
+    folder_path = os.path.join(folder, foldername)
+    disk_files = sorted(f for f in os.listdir(folder_path) if f.endswith(".json"))
+    existing_entry = folder_entries.get(foldername)
+    known_in_folder = {e["file"] for e in existing_entry["files"]} if existing_entry else set()
+    missing = [f for f in disk_files if f not in known_in_folder]
+    if missing:
+        missing_by_folder[foldername] = missing
+
+total_missing = len(missing_flat) + sum(len(v) for v in missing_by_folder.values())
+
+if total_missing == 0:
+    print("Every JSON file is already represented in manifest.json. Nothing to add.")
+    sys.exit(0)
+
+print(f"Found {total_missing} file(s) not yet in manifest.json:\n")
+
+def prompt_name(filename, prefix=""):
+    while True:
+        label = prefix + filename
+        name = input(f'  {label}\n  Display name (blank = use filename): ').strip()
+        if name == "":
+            name = filename
+        confirm = input(f'  -> "{name}"   [Enter to accept, r to redo] ').strip().lower()
+        if confirm != 'r':
+            return name
+        print()
+
+for filename in missing_flat:
+    name = prompt_name(filename)
+    manifest.append({"file": filename, "name": name})
+    print()
+
+for foldername, files in missing_by_folder.items():
+    entry = folder_entries.get(foldername)
+    if entry is None:
+        entry = {"folder": foldername, "files": []}
+        manifest.append(entry)
+        folder_entries[foldername] = entry
+    for filename in files:
+        name = prompt_name(filename, prefix=foldername + "/")
+        entry["files"].append({"file": filename, "name": name})
+        print()
+    entry["files"].sort(key=lambda e: e["file"])
+
+# folders first (alphabetically), then top-level flat files (alphabetically)
+def sort_key(entry):
+    if "folder" in entry:
+        return (0, entry["folder"])
+    return (1, entry["file"])
+manifest.sort(key=sort_key)
+
+with open(manifest_path, "w") as f:
+    json.dump(manifest, f, indent=2)
+    f.write("\n")
+
+plural = "y" if total_missing == 1 else "ies"
+print(f"Added {total_missing} entr{plural} to manifest.json.")
+PYEOF
+
+python3 "$TMP_PY" "$DIR"

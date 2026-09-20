@@ -172,6 +172,27 @@
     cursor:pointer;
   }
   #presets-list .preset-item:hover{ background: rgba(139,243,201,0.1); color:#8bf3c9; }
+  #presets-list .preset-item-nested{ font-size:12px; }
+  #presets-list .preset-folder{
+    background:none; border:none;
+    text-align:left;
+    color: var(--text-dim);
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:0.02em;
+    padding:8px 10px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  #presets-list .preset-folder:hover{ color: var(--text); background: rgba(255,255,255,0.04); }
+  #presets-list .preset-folder .chevron{
+    display:inline-block; width:12px;
+    color:#8bf3c9;
+  }
+  #presets-list .preset-folder-body{
+    flex-direction:column; gap:2px;
+  }
   #presets-list .preset-empty{
     font-family:'IBM Plex Mono', monospace;
     font-size:11.5px;
@@ -1486,10 +1507,97 @@
   // ijkl nudging, and append-not-replace all work identically.
   const presetsDialogEl = document.getElementById('presets-dialog');
   const presetsListEl = document.getElementById('presets-list');
+  const PRESETS_STATE_KEY = 'nearestPresetsState';
+  let currentPresetsExpanded = new Set();
+  let currentManifest = null;
+
+  function loadPresetsState(){
+    try{
+      const raw = localStorage.getItem(PRESETS_STATE_KEY);
+      if (!raw) return { expanded: [], scrollTop: 0 };
+      const parsed = JSON.parse(raw);
+      return { expanded: Array.isArray(parsed.expanded) ? parsed.expanded : [], scrollTop: parsed.scrollTop || 0 };
+    } catch(e){
+      return { expanded: [], scrollTop: 0 };
+    }
+  }
+  function savePresetsState(expandedSet){
+    try{
+      localStorage.setItem(PRESETS_STATE_KEY, JSON.stringify({
+        expanded: [...expandedSet],
+        scrollTop: presetsListEl.scrollTop,
+      }));
+    } catch(e){ /* localStorage unavailable — picker still works, just won't remember state */ }
+  }
 
   function closePresetsDialog(){
+    savePresetsState(currentPresetsExpanded);
     presetsDialogEl.classList.remove('visible');
     presetsListEl.innerHTML = '';
+  }
+
+  function loadPresetFile(path){
+    fetch(path)
+      .then(res => {
+        if (!res.ok) throw new Error('could not fetch ' + path + ' (' + res.status + ')');
+        return res.json();
+      })
+      .then(data => {
+        closePresetsDialog();
+        beginPlacement(data);
+      })
+      .catch(err => alert('Could not load that preset: ' + err.message));
+  }
+
+  // Folders can nest to any depth now, so expand-state is keyed by the
+  // FULL path (e.g. "aliens/mutual"), not just the leaf folder name —
+  // otherwise two same-named folders at different depths would collide
+  // and share one expand/collapse state. renderEntry recurses; indentation
+  // is set inline per-depth since a fixed CSS depth wouldn't scale.
+  function renderEntry(entry, container, expanded, pathParts){
+    const depth = pathParts.length;
+    if (entry.folder){
+      const path = pathParts.concat(entry.folder).join('/');
+      const header = document.createElement('button');
+      header.className = 'preset-folder';
+      header.style.paddingLeft = (10 + depth*14) + 'px';
+      const isOpen = expanded.has(path);
+      header.innerHTML = `<span class="chevron">${isOpen ? '▾' : '▸'}</span> ${entry.folder}`;
+      const body = document.createElement('div');
+      body.className = 'preset-folder-body';
+      body.style.display = isOpen ? 'flex' : 'none';
+
+      (entry.items || []).forEach(child => renderEntry(child, body, expanded, pathParts.concat(entry.folder)));
+
+      header.addEventListener('click', ()=>{
+        if (expanded.has(path)) expanded.delete(path); else expanded.add(path);
+        savePresetsState(expanded);
+        renderPresetsList(currentManifest, { expanded: [...expanded], scrollTop: presetsListEl.scrollTop });
+      });
+
+      container.appendChild(header);
+      container.appendChild(body);
+    } else if (entry.file){
+      const btn = document.createElement('button');
+      btn.className = 'preset-item preset-item-nested';
+      btn.style.paddingLeft = (10 + depth*14) + 'px';
+      btn.textContent = entry.name || entry.file;
+      const fullPath = 'patterns/' + pathParts.concat(entry.file).join('/');
+      btn.addEventListener('click', ()=> loadPresetFile(fullPath));
+      container.appendChild(btn);
+    }
+  }
+
+  function renderPresetsList(manifest, state){
+    const expanded = new Set(state.expanded);
+    currentPresetsExpanded = expanded;
+    currentManifest = manifest;
+    presetsListEl.innerHTML = '';
+
+    manifest.forEach(entry => renderEntry(entry, presetsListEl, expanded, []));
+
+    presetsListEl.scrollTop = state.scrollTop || 0;
+    presetsListEl.onscroll = ()=> savePresetsState(expanded);
   }
 
   function openPresetsDialog(){
@@ -1508,32 +1616,15 @@
           presetsListEl.innerHTML = '<div class="preset-empty">patterns/manifest.json is empty.</div>';
           return;
         }
-        presetsListEl.innerHTML = '';
-        manifest.forEach(entry => {
-          const btn = document.createElement('button');
-          btn.className = 'preset-item';
-          btn.textContent = entry.name || entry.file;
-          btn.addEventListener('click', ()=>{
-            fetch('patterns/' + entry.file)
-              .then(res => {
-                if (!res.ok) throw new Error('could not fetch ' + entry.file + ' (' + res.status + ')');
-                return res.json();
-              })
-              .then(data => {
-                closePresetsDialog();
-                beginPlacement(data);
-              })
-              .catch(err => alert('Could not load that preset: ' + err.message));
-          });
-          presetsListEl.appendChild(btn);
-        });
+        renderPresetsList(manifest, loadPresetsState());
       })
       .catch(err => {
         presetsListEl.innerHTML = '<div class="preset-empty">'
           + 'No patterns/manifest.json found (or it failed to load).<br><br>'
-          + 'Expected a JSON array of <code>{file, name}</code> entries at '
-          + '<code>patterns/manifest.json</code>, with each <code>file</code> '
-          + 'relative to that same patterns/ folder.'
+          + 'Expected a JSON array where each entry is either '
+          + '<code>{file, name}</code> or '
+          + '<code>{folder, items:[...]}</code> (items can nest to any depth), '
+          + 'with paths relative to <code>patterns/</code>.'
           + '</div>';
       });
   }
