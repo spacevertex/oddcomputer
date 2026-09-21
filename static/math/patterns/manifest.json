@@ -8,6 +8,62 @@
           {
             "file": "3_nearest_plus.json",
             "name": "3_nearest_plus.json"
+          },
+          {
+            "file": "ampersand168.json",
+            "name": "ampersand168.json"
+          },
+          {
+            "file": "degen16.json",
+            "name": "degen16.json"
+          },
+          {
+            "file": "degen24a.json",
+            "name": "degen24a.json"
+          },
+          {
+            "file": "degen84a.json",
+            "name": "degen84a.json"
+          },
+          {
+            "file": "lighter28a.json",
+            "name": "lighter28a.json"
+          },
+          {
+            "file": "rattle16a.json",
+            "name": "rattle16a.json"
+          },
+          {
+            "file": "rattle16b.json",
+            "name": "rattle16b.json"
+          },
+          {
+            "file": "rattle16c.json",
+            "name": "rattle16c.json"
+          },
+          {
+            "file": "rattle16d.json",
+            "name": "rattle16d.json"
+          },
+          {
+            "file": "rattle16e.json",
+            "name": "rattle16e.json"
+          },
+          {
+            "file": "swap16a.json",
+            "name": "swap16a.json"
+          },
+          {
+            "file": "swap26a.json",
+            "name": "swap26a.json"
+          },
+          {
+            "file": "tilde30a.json",
+            "name": "tilde30a.json"
+          },
+          {
+            "file": "tv12a.json",
+            "name": "tv12a.json"
           }
         ]
       },
