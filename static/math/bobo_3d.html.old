@@ -85,7 +85,7 @@ const MASTER_COLORS = ['#8bf3c9', '#f2a65a', '#7aa7f2', '#e17dbf', '#e0c05a'];
 
 let manifestFiles = [];
 let currentFilename = null;
-let INITIAL, PERIOD, COLORS, history, displayHistory, tieInfo, DEPTH_RANGES, SCALE;
+let INITIAL, PERIOD, COLORS, history, tieInfo, DEPTH_RANGES, SCALE;
 
 // Safety cap for a pattern that turns out to be broken (hand-edited,
 // wrong claimed period, or genuinely unbounded). Never trust the JSON's
@@ -195,15 +195,7 @@ function loadPattern(initial, period, filename){
     if (pt.z<gMinZ) gMinZ=pt.z; if (pt.z>gMaxZ) gMaxZ=pt.z;
   }));
   const gCenterX=(gMinX+gMaxX)/2, gCenterY=(gMinY+gMaxY)/2, gCenterZ=(gMinZ+gMaxZ)/2;
-  // NOTE: this is a display-only transform for screen placement. history
-  // itself stays untouched (raw, exact integers, matching the source
-  // file) — the table reads from history directly. Only displayHistory,
-  // used by the three rendering panels, gets shifted, and only for
-  // centering the pattern on screen. A pattern whose extent spans an odd
-  // number of units will have a half-integer center by simple arithmetic
-  // (e.g. a span of 85 centers at 42.5) — that's expected here, and never
-  // leaks into anything the table shows.
-  displayHistory = history.map(frame => frame.map(pt => ({
+  history = history.map(frame => frame.map(pt => ({
     x:pt.x-gCenterX, y:pt.y-gCenterY, z:pt.z-gCenterZ, vx:pt.vx, vy:pt.vy, vz:pt.vz
   })));
 
@@ -257,7 +249,7 @@ const canvases = {
 // how large this particular oscillator's extent happens to be.
 function computeRange(axis){
   let min=Infinity, max=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(p => { if (p[axis]<min) min=p[axis]; if (p[axis]>max) max=p[axis]; }));
+  history.forEach(frame => frame.forEach(p => { if (p[axis]<min) min=p[axis]; if (p[axis]>max) max=p[axis]; }));
   return { min, max };
 }
 
@@ -284,7 +276,7 @@ function draw(){
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         for (let t=0; t<PERIOD; t++){
-          const pt = displayHistory[t][pi];
+          const pt = history[t][pi];
           const {cx, cy} = worldToCanvas(pt[a], pt[b], flipA);
           if (t===0) ctx.moveTo(cx,cy); else ctx.lineTo(cx,cy);
         }
@@ -300,7 +292,7 @@ function draw(){
       // flip applied to both endpoints so the vector's direction stays
       // consistent with everything else drawn in this panel.
       for (let pi=0; pi<INITIAL.length; pi++){
-        const pt = displayHistory[currentTick][pi];
+        const pt = history[currentTick][pi];
         const start = worldToCanvas(pt[a], pt[b], flipA);
         const end = worldToCanvas(pt[a] + pt['v'+a], pt[b] + pt['v'+b], flipA);
         ctx.strokeStyle = COLORS[pi];
@@ -321,7 +313,7 @@ function draw(){
     // [0.4, 1.0] alpha bands, not just whatever fraction it happens to hit.
     const { min: dMin, max: dMax } = DEPTH_RANGES[depth];
     for (let pi=0; pi<INITIAL.length; pi++){
-      const pt = displayHistory[currentTick][pi];
+      const pt = history[currentTick][pi];
       const {cx, cy} = worldToCanvas(pt[a], pt[b], flipA);
       const depthVal = pt[depth];
       const t = dMax > dMin ? (depthVal - dMin) / (dMax - dMin) : 0.5;
