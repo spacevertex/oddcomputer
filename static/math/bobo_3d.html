@@ -361,23 +361,28 @@ function draw(){
       const diameterWorld = 0.5 + t * (0.9 - 0.5);
       const radiusPx = (diameterWorld / 2) * SCALE;
       const alpha = 0.4 + t * (1.0 - 0.4);
-      dotInfos.push({ pi, cx, cy, radiusPx, alpha, t });
+      dotInfos.push({ pi, cx, cy, radiusPx, alpha, t, x:pt.x, y:pt.y, z:pt.z });
     }
 
     // occlusion: a strictly-closer particle (bigger t) whose circle
     // overlaps a farther one's hides it completely — not partial, not
-    // blended, just not drawn. Particles at the exact same screen point
-    // are a special case: neither hides the other, they blend normally,
-    // same as before.
+    // blended, just not drawn. The exception is two particles at the
+    // exact same 3D position (all of x,y,z identical) — that's a real
+    // coincidence, so they blend instead. This must be checked in true
+    // 3D, not by comparing this panel's projected 2D screen distance:
+    // two particles can share identical (a,b) on this panel while sitting
+    // at genuinely different depths — that's the ordinary "one directly
+    // behind the other" case, and it should occlude, not blend, even
+    // though their on-screen distance is exactly zero.
     const hidden = new Array(dotInfos.length).fill(false);
     for (let i=0; i<dotInfos.length; i++){
       for (let j=0; j<dotInfos.length; j++){
         if (i===j) continue;
         const A = dotInfos[i], B = dotInfos[j];
         if (B.t <= A.t) continue; // only a strictly closer particle can hide this one
+        if (A.x===B.x && A.y===B.y && A.z===B.z) continue; // truly the same 3D point -- let them blend
         const dx = A.cx-B.cx, dy = A.cy-B.cy;
         const distSq = dx*dx + dy*dy;
-        if (distSq === 0) continue; // exact same point -- let them blend, don't hide
         const radiusSum = A.radiusPx + B.radiusPx;
         if (distSq < radiusSum*radiusSum){ hidden[i] = true; break; }
       }
