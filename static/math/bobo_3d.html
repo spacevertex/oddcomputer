@@ -351,6 +351,7 @@ function draw(){
     // onto the full requested [0.5, 0.9] world-unit diameter and
     // [0.4, 1.0] alpha bands, not just whatever fraction it happens to hit.
     const { min: dMin, max: dMax } = DEPTH_RANGES[depth];
+    const dotInfos = [];
     for (let pi=0; pi<INITIAL.length; pi++){
       const pt = displayHistory[currentTick][pi];
       const {cx, cy} = worldToCanvas(pt[a], pt[b], flipA);
@@ -360,14 +361,37 @@ function draw(){
       const diameterWorld = 0.5 + t * (0.9 - 0.5);
       const radiusPx = (diameterWorld / 2) * SCALE;
       const alpha = 0.4 + t * (1.0 - 0.4);
+      dotInfos.push({ pi, cx, cy, radiusPx, alpha, t });
+    }
 
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = COLORS[pi];
+    // occlusion: a strictly-closer particle (bigger t) whose circle
+    // overlaps a farther one's hides it completely — not partial, not
+    // blended, just not drawn. Particles at the exact same screen point
+    // are a special case: neither hides the other, they blend normally,
+    // same as before.
+    const hidden = new Array(dotInfos.length).fill(false);
+    for (let i=0; i<dotInfos.length; i++){
+      for (let j=0; j<dotInfos.length; j++){
+        if (i===j) continue;
+        const A = dotInfos[i], B = dotInfos[j];
+        if (B.t <= A.t) continue; // only a strictly closer particle can hide this one
+        const dx = A.cx-B.cx, dy = A.cy-B.cy;
+        const distSq = dx*dx + dy*dy;
+        if (distSq === 0) continue; // exact same point -- let them blend, don't hide
+        const radiusSum = A.radiusPx + B.radiusPx;
+        if (distSq < radiusSum*radiusSum){ hidden[i] = true; break; }
+      }
+    }
+
+    dotInfos.forEach((d, idx)=>{
+      if (hidden[idx]) return;
+      ctx.globalAlpha = d.alpha;
+      ctx.fillStyle = COLORS[d.pi];
       ctx.beginPath();
-      ctx.arc(cx, cy, radiusPx, 0, Math.PI*2);
+      ctx.arc(d.cx, d.cy, d.radiusPx, 0, Math.PI*2);
       ctx.fill();
       ctx.globalAlpha = 1;
-    }
+    });
   });
   document.getElementById('tickLabel').textContent = 'tick ' + currentTick + ' / ' + PERIOD;
   updateTable();
