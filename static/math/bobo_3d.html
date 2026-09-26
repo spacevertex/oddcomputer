@@ -12,11 +12,19 @@
   canvas{ background:#0f1815; border:1px solid #223028; border-radius:6px; }
   .label{ font-size:12px; color:#7a8a84; margin-top:8px; }
   .table-box{ width:220px; height:220px; background:#0f1815; border:1px solid #223028; border-radius:6px; box-sizing:border-box; padding:5px 6px; overflow:hidden; }
-  #dataTable{ width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#c3d0ca; }
-  #dataTable th{ font-size:8px; font-weight:600; color:#5a6b64; text-align:left; padding:0 3px 3px; }
-  #dataTable td{ padding:2.5px 3px; white-space:nowrap; }
+  #dataTable{ width:100%; table-layout:fixed; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#c3d0ca; }
+  #dataTable th{ font-size:8px; font-weight:600; color:#5a6b64; text-align:left; padding:0 2px 3px; overflow:hidden; }
+  #dataTable td{ padding:2.5px 2px; white-space:nowrap; overflow:hidden; text-overflow:clip; }
+  #dataTable th:nth-child(1), #dataTable td:nth-child(1){ width:9%; }
+  #dataTable th:nth-child(2), #dataTable td:nth-child(2){ width:27%; }
+  #dataTable th:nth-child(3), #dataTable td:nth-child(3){ width:27%; }
+  #dataTable th:nth-child(4), #dataTable td:nth-child(4){ width:27%; }
+  #dataTable th:nth-child(5), #dataTable td:nth-child(5){ width:10%; }
   .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; }
   .nbrs{ display:inline-flex; gap:2px; vertical-align:middle; }
+  .latticeIcon{ display:inline-grid; grid-template-columns:4px 4px; grid-template-rows:4px 4px; gap:2px; vertical-align:middle; margin-right:5px; }
+  .latticeDot{ width:4px; height:4px; border-radius:50%; background:rgba(139,243,201,0.7); }
+  #dataTable .legendRow td{ padding-top:7px; border-top:1px solid #223028; color:#7a8a84; }
   .controls{ margin-top:20px; display:flex; align-items:center; gap:14px; }
   button{ background:#14201b; border:1px solid #2a3a33; color:#8bf3c9; font-family:inherit; font-size:12px; padding:8px 16px; border-radius:5px; cursor:pointer; }
   button.off{ color:#5a6b64; border-color:#22302a; }
@@ -224,6 +232,12 @@ function loadPattern(initial, period, filename){
 const CENTER = 110;
 function worldToCanvas(a, b, flipA){ const aa = flipA ? -a : a; return { cx: CENTER + aa*SCALE, cy: CENTER - b*SCALE }; }
 
+// shared by drawGrid and the table's legend row, so the two can never
+// silently disagree about what spacing is actually on screen.
+function getLatticeStep(){
+  return Math.max(1, Math.round(10 / SCALE));
+}
+
 function drawGrid(ctx, flipA){
   // lattice points instead of crossing lines — much less visually busy,
   // especially at high scale where a full line-grid gets dense fast.
@@ -231,7 +245,7 @@ function drawGrid(ctx, flipA){
   // of how zoomed-in a given pattern's scale happens to be, rather than
   // drawing one dot per integer unconditionally (which could mean tens
   // of thousands of points for a large, small-scale pattern).
-  const step = Math.max(1, Math.round(10 / SCALE));
+  const step = getLatticeStep();
   const range = Math.ceil(110 / SCALE) + step;
   ctx.fillStyle = 'rgba(139,243,201,0.3)';
   for (let ga=-range; ga<=range; ga+=step){
@@ -247,9 +261,9 @@ function drawGrid(ctx, flipA){
 // glass"). flipA on yz only, per the corrected cube orientation: top of
 // XY should align with left of YZ.
 const canvases = {
-  xz: { ctx: document.getElementById('xz').getContext('2d'), a:'x', b:'z', depth:'y', flipA:false },
-  yz: { ctx: document.getElementById('yz').getContext('2d'), a:'y', b:'z', depth:'x', flipA:true },
-  xy: { ctx: document.getElementById('xy').getContext('2d'), a:'x', b:'y', depth:'z', flipA:false },
+  xz: { ctx: document.getElementById('xz').getContext('2d'), a:'x', b:'z', depth:'y', flipA:false, flipDepth:false },
+  yz: { ctx: document.getElementById('yz').getContext('2d'), a:'y', b:'z', depth:'x', flipA:true, flipDepth:false },
+  xy: { ctx: document.getElementById('xy').getContext('2d'), a:'x', b:'y', depth:'z', flipA:false, flipDepth:true },
 };
 
 // per-axis min/max across the whole trajectory, so the full 0.5-0.9 size
@@ -268,7 +282,7 @@ let showTrails = true;
 let showVectors = false;
 
 function draw(){
-  Object.values(canvases).forEach(({ctx, a, b, depth, flipA})=>{
+  Object.values(canvases).forEach(({ctx, a, b, depth, flipA, flipDepth})=>{
     ctx.fillStyle = '#0f1815';
     ctx.fillRect(0,0,220,220);
     drawGrid(ctx, flipA);
@@ -324,7 +338,8 @@ function draw(){
       const pt = displayHistory[currentTick][pi];
       const {cx, cy} = worldToCanvas(pt[a], pt[b], flipA);
       const depthVal = pt[depth];
-      const t = dMax > dMin ? (depthVal - dMin) / (dMax - dMin) : 0.5;
+      let t = dMax > dMin ? (depthVal - dMin) / (dMax - dMin) : 0.5;
+      if (flipDepth) t = 1 - t;
       const diameterWorld = 0.5 + t * (0.9 - 0.5);
       const radiusPx = (diameterWorld / 2) * SCALE;
       const alpha = 0.4 + t * (1.0 - 0.4);
@@ -361,6 +376,8 @@ function updateTable(){
     const nbrs = '<span class="nbrs">' + t.tied.map(j=>'<span class="dot" style="background:'+COLORS[j]+'"></span>').join('') + '</span>';
     html += '<tr><td>'+dot+'</td><td>'+pos+'</td><td>'+vel+'</td><td>'+accel+'</td><td>'+nbrs+'</td></tr>';
   }
+  const latticeIcon = '<span class="latticeIcon"><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span></span>';
+  html += '<tr class="legendRow"><td colspan="5">' + latticeIcon + ' = ' + getLatticeStep() + '</td></tr>';
   table.innerHTML = html;
 }
 
