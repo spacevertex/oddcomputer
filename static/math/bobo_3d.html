@@ -94,6 +94,7 @@ const MASTER_COLORS = ['#8bf3c9', '#f2a65a', '#7aa7f2', '#e17dbf', '#e0c05a'];
 let manifestFiles = [];
 let currentFilename = null;
 let INITIAL, PERIOD, COLORS, history, displayHistory, tieInfo, DEPTH_RANGES, SCALE;
+let LATTICE_FRAC = {x:0, y:0, z:0};
 
 // Safety cap for a pattern that turns out to be broken (hand-edited,
 // wrong claimed period, or genuinely unbounded). Never trust the JSON's
@@ -211,6 +212,18 @@ function loadPattern(initial, period, filename){
   // number of units will have a half-integer center by simple arithmetic
   // (e.g. a span of 85 centers at 42.5) — that's expected here, and never
   // leaks into anything the table shows.
+  //
+  // Every raw (integer) position shares this SAME fractional remainder
+  // once shifted, since they're all integers minus the same constant. The
+  // lattice grid, though, is drawn at pure integers — so for any pattern
+  // whose center lands on a half-integer, particles would visually land
+  // exactly halfway between lattice dots instead of on one. Fixed by
+  // phase-shifting the lattice by this same fractional offset per axis.
+  LATTICE_FRAC = {
+    x: (((-gCenterX) % 1) + 1) % 1,
+    y: (((-gCenterY) % 1) + 1) % 1,
+    z: (((-gCenterZ) % 1) + 1) % 1,
+  };
   displayHistory = history.map(frame => frame.map(pt => ({
     x:pt.x-gCenterX, y:pt.y-gCenterY, z:pt.z-gCenterZ, vx:pt.vx, vy:pt.vy, vz:pt.vz
   })));
@@ -238,7 +251,7 @@ function getLatticeStep(){
   return Math.max(1, Math.round(10 / SCALE));
 }
 
-function drawGrid(ctx, flipA){
+function drawGrid(ctx, flipA, fracA, fracB){
   // lattice points instead of crossing lines — much less visually busy,
   // especially at high scale where a full line-grid gets dense fast.
   // Spacing is throttled so screen-space gaps stay reasonable regardless
@@ -246,11 +259,15 @@ function drawGrid(ctx, flipA){
   // drawing one dot per integer unconditionally (which could mean tens
   // of thousands of points for a large, small-scale pattern).
   const step = getLatticeStep();
-  const range = Math.ceil(110 / SCALE) + step;
+  const range = Math.ceil(CENTER / SCALE) + step;
   ctx.fillStyle = 'rgba(139,243,201,0.3)';
   for (let ga=-range; ga<=range; ga+=step){
     for (let gb=-range; gb<=range; gb+=step){
-      const {cx, cy} = worldToCanvas(ga, gb, flipA);
+      // fracA/fracB phase-shift the lattice to match wherever this
+      // pattern's own integer positions actually land after centering —
+      // without this, patterns with a half-integer center would show
+      // particles floating exactly between dots instead of on one.
+      const {cx, cy} = worldToCanvas(ga+fracA, gb+fracB, flipA);
       if (cx < -2 || cx > 322 || cy < -2 || cy > 322) continue;
       ctx.fillRect(cx-0.8, cy-0.8, 1.6, 1.6);
     }
@@ -285,7 +302,7 @@ function draw(){
   Object.values(canvases).forEach(({ctx, a, b, depth, flipA, flipDepth})=>{
     ctx.fillStyle = '#0f1815';
     ctx.fillRect(0,0,320,320);
-    drawGrid(ctx, flipA);
+    drawGrid(ctx, flipA, LATTICE_FRAC[a], LATTICE_FRAC[b]);
 
     if (showTrails){
       // draw the COMPLETE closed loop every frame — for a genuinely
