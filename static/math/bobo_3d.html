@@ -7,19 +7,19 @@
   body{ margin:0; background:#0c1210; color:#d8e4df; font-family:'IBM Plex Mono',monospace; display:flex; flex-direction:column; align-items:center; padding:24px; }
   h1{ font-size:15px; font-weight:600; color:#8bf3c9; letter-spacing:0.02em; margin:0 0 4px; }
   .sub{ font-size:12px; color:#7a8a84; margin-bottom:20px; text-align:center; max-width:460px; }
-  .panels{ display:grid; grid-template-columns:220px 220px; grid-template-rows:auto auto; gap:16px; }
+  .panels{ display:grid; grid-template-columns:320px 320px; grid-template-rows:auto auto; gap:16px; }
   .panel{ display:flex; flex-direction:column; align-items:center; }
   canvas{ background:#0f1815; border:1px solid #223028; border-radius:6px; }
   .label{ font-size:12px; color:#7a8a84; margin-top:8px; }
-  .table-box{ width:220px; height:220px; background:#0f1815; border:1px solid #223028; border-radius:6px; box-sizing:border-box; padding:5px 6px; overflow:hidden; }
+  .table-box{ width:320px; height:320px; background:#0f1815; border:1px solid #223028; border-radius:6px; box-sizing:border-box; padding:5px 6px; overflow:hidden; }
   #dataTable{ width:100%; table-layout:fixed; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:#c3d0ca; }
   #dataTable th{ font-size:8px; font-weight:600; color:#5a6b64; text-align:left; padding:0 2px 3px; overflow:hidden; }
   #dataTable td{ padding:2.5px 2px; white-space:nowrap; overflow:hidden; text-overflow:clip; }
-  #dataTable th:nth-child(1), #dataTable td:nth-child(1){ width:9%; }
-  #dataTable th:nth-child(2), #dataTable td:nth-child(2){ width:27%; }
+  #dataTable th:nth-child(1), #dataTable td:nth-child(1){ width:8%; }
+  #dataTable th:nth-child(2), #dataTable td:nth-child(2){ width:31%; }
   #dataTable th:nth-child(3), #dataTable td:nth-child(3){ width:27%; }
-  #dataTable th:nth-child(4), #dataTable td:nth-child(4){ width:27%; }
-  #dataTable th:nth-child(5), #dataTable td:nth-child(5){ width:10%; }
+  #dataTable th:nth-child(4), #dataTable td:nth-child(4){ width:22%; }
+  #dataTable th:nth-child(5), #dataTable td:nth-child(5){ width:12%; }
   .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; }
   .nbrs{ display:inline-flex; gap:2px; vertical-align:middle; }
   .latticeIcon{ display:inline-grid; grid-template-columns:4px 4px; grid-template-rows:4px 4px; gap:2px; vertical-align:middle; margin-right:5px; }
@@ -52,9 +52,9 @@
 </div>
 <div class="errorBanner" id="errorBanner" style="display:none;"></div>
 <div class="panels">
-  <div class="panel"><canvas id="xz" width="220" height="220"></canvas><div class="label">XZ</div></div>
-  <div class="panel"><canvas id="yz" width="220" height="220"></canvas><div class="label">YZ</div></div>
-  <div class="panel"><canvas id="xy" width="220" height="220"></canvas><div class="label">XY</div></div>
+  <div class="panel"><canvas id="xz" width="320" height="320"></canvas><div class="label">XZ</div></div>
+  <div class="panel"><canvas id="yz" width="320" height="320"></canvas><div class="label">YZ</div></div>
+  <div class="panel"><canvas id="xy" width="320" height="320"></canvas><div class="label">XY</div></div>
   <div class="panel"><div class="table-box"><table id="dataTable"></table></div></div>
 </div>
 <div class="controls">
@@ -164,7 +164,7 @@ function loadPattern(initial, period, filename){
   const extentY = check.ranges.y.max - check.ranges.y.min;
   const extentZ = check.ranges.z.max - check.ranges.z.min;
   const maxExtent = Math.max(extentX, extentY, extentZ, 0.0001);
-  const USABLE_RADIUS_PX = 100; // full canvas radius from center, minus a small margin
+  const USABLE_RADIUS_PX = 145; // full canvas radius from center, minus a small margin
   const MAX_DOT_RADIUS_WORLD = 0.45; // half of the largest dot diameter (0.9)
   // centering (not corner-anchoring) means the pattern uses the full
   // radius in every direction from screen-center, not just one quadrant —
@@ -229,7 +229,7 @@ function loadPattern(initial, period, filename){
   draw();
 }
 
-const CENTER = 110;
+const CENTER = 160;
 function worldToCanvas(a, b, flipA){ const aa = flipA ? -a : a; return { cx: CENTER + aa*SCALE, cy: CENTER - b*SCALE }; }
 
 // shared by drawGrid and the table's legend row, so the two can never
@@ -251,7 +251,7 @@ function drawGrid(ctx, flipA){
   for (let ga=-range; ga<=range; ga+=step){
     for (let gb=-range; gb<=range; gb+=step){
       const {cx, cy} = worldToCanvas(ga, gb, flipA);
-      if (cx < -2 || cx > 222 || cy < -2 || cy > 222) continue;
+      if (cx < -2 || cx > 322 || cy < -2 || cy > 322) continue;
       ctx.fillRect(cx-0.8, cy-0.8, 1.6, 1.6);
     }
   }
@@ -284,7 +284,7 @@ let showVectors = false;
 function draw(){
   Object.values(canvases).forEach(({ctx, a, b, depth, flipA, flipDepth})=>{
     ctx.fillStyle = '#0f1815';
-    ctx.fillRect(0,0,220,220);
+    ctx.fillRect(0,0,320,320);
     drawGrid(ctx, flipA);
 
     if (showTrails){
