@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "name": "Flowing brick around a fauxbobo (no backtrack)",
+  "period": 60,
+  "nearest": [
+    {
+      "x": -2,
+      "y": 3,
+      "z": -1,
+      "vx": -2,
+      "vy": 2,
+      "vz": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0
+    }
+  ],
+  "bobo": []
+}
