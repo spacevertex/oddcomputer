@@ -44,7 +44,7 @@
 </head>
 <body>
 <h1 id="mainTitle">Orthographic Particle Viewer</h1>
-<div class="sub" id="subLine">3 nearest particles &middot; period 210</div>
+
 <div class="patternRowWrapper">
   <button class="arrowBtn" id="arrowLeft">&#9664;</button>
   <div class="patternRowViewport" id="patternRowViewport">
@@ -233,8 +233,6 @@ function loadPattern(initial, period, filename){
 
   DEPTH_RANGES = { x: computeRange('x'), y: computeRange('y'), z: computeRange('z') };
 
-  document.getElementById('subLine').textContent =
-    INITIAL.length + ' nearest particles \u00b7 period ' + PERIOD;
   document.querySelectorAll('.patternBtn').forEach(b=>{
     b.classList.toggle('selected', b.dataset.filename === filename);
   });
@@ -426,7 +424,7 @@ function updateTable(){
   }
   const latticeIcon = '<span class="latticeIcon"><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span></span>';
   html += '<tr class="legendRow"><td colspan="5">' + latticeIcon + ' = ' + getLatticeStep() + '</td></tr>';
-  html += '<tr class="legendRow"><td colspan="5">tick ' + currentTick + ' / ' + PERIOD + '</td></tr>';
+  html += '<tr class="legendRow"><td colspan="5">tick ' + (currentTick+1) + ' / ' + PERIOD + '</td></tr>';
   table.innerHTML = html;
 }
 
