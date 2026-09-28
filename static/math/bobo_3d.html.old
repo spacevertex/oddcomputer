@@ -92,16 +92,7 @@ function step3D(particles){
 // manifest.json (just an array of filenames — no folders, no per-entry
 // metadata, since the button label IS the filename minus ".json").
 const PATTERNS_DIR = '3d_patterns/';
-// The first five are the original palette, unchanged, so existing patterns look exactly as before.
-// Entries 6-9 were added for larger systems (n=7 needed them); each sits at least ~29 delta-E (CIELAB)
-// from every other entry. Beyond nine, colorFor() generates spread-out hues instead of ever returning
-// undefined — an undefined fillStyle is silently ignored by canvas (the particle inherits the previous
-// particle's color) and an undefined CSS background renders as nothing, which is what n=7 first showed.
-const MASTER_COLORS = ['#8bf3c9', '#f2a65a', '#7aa7f2', '#e17dbf', '#e0c05a', '#ef6f6f', '#b28cf2', '#a8e05a', '#5ad6e0'];
-function colorFor(i){
-  if (i < MASTER_COLORS.length) return MASTER_COLORS[i];
-  return 'hsl(' + Math.round(((i - MASTER_COLORS.length) * 137.508 + 100) % 360) + ',72%,68%)';
-}
+const MASTER_COLORS = ['#8bf3c9', '#f2a65a', '#7aa7f2', '#e17dbf', '#e0c05a'];
 
 let manifestFiles = [];
 let currentFilename = null;
@@ -165,7 +156,7 @@ function loadPattern(initial, period, filename){
   currentFilename = filename;
   INITIAL = initial;
   PERIOD = period;
-  COLORS = INITIAL.map((_, i) => colorFor(i));
+  COLORS = MASTER_COLORS.slice(0, INITIAL.length);
 
   // dynamic scale: the pattern only occupies the positive region from the
   // corner-shifted origin (which sits at each panel's center), so the
