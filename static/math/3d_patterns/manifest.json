@@ -12,8 +12,6 @@
   "borg_n5p12.json",
   "n5p18.json",
   "n5p36.json",
-  "cthulhu_n5p180.json",
-  "yogsothoth_n5p1360.json",
   "n5p60.json",
   "n5p86.json",
   "n5p8.json",
@@ -28,6 +26,8 @@
   "n5p340.json",
   "n5p280.json",
   "n5p48.json",
+  "n5p1360.json",
+  "n5p180.json"
   "bobo_brick.json",
   "n4p12.json",
   "n4p30.json",
@@ -35,6 +35,4 @@
   "n4p50.json",
   "n4p90.json",
   "n7p244.json",
-  "n5p1360.json",
-  "n5p180.json"
 ]
