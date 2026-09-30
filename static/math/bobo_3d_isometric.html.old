@@ -310,7 +310,13 @@ function loadPattern(initial, period, filename){
   draw();
 }
 
-function drawFloor(ctx, zLevel){
+// Base transparency for a single isolated floor, before any count-based
+// scaling. Lower than before across all three — fill, outline, and dots.
+const FLOOR_FILL_ALPHA = 0.03;
+const FLOOR_OUTLINE_ALPHA = 0.07;
+const FLOOR_DOT_ALPHA = 0.14;
+
+function drawFloor(ctx, zLevel, floorCount){
   const step = FLOOR.step;
   // the parallelogram itself: a world-space rectangle at this height,
   // projected — a square in world space becomes a rhombus on screen here
@@ -320,8 +326,14 @@ function drawFloor(ctx, zLevel){
     worldToScreen( FLOOR.halfX,  FLOOR.halfY, zLevel),
     worldToScreen(-FLOOR.halfX,  FLOOR.halfY, zLevel),
   ];
-  ctx.fillStyle = 'rgba(139,243,201,0.05)';
-  ctx.strokeStyle = 'rgba(139,243,201,0.12)';
+  // more floors stacked means more overlapping translucent layers, which
+  // compounds visually even though each one is individually faint — scale
+  // every floor's alpha down as the count grows (sqrt, so it eases in
+  // gradually rather than snapping) so a pattern with many Z-levels stays
+  // legible instead of the floors washing the view out together.
+  const countScale = Math.sqrt(Math.max(1, floorCount));
+  ctx.fillStyle = 'rgba(139,243,201,' + (FLOOR_FILL_ALPHA/countScale).toFixed(4) + ')';
+  ctx.strokeStyle = 'rgba(139,243,201,' + (FLOOR_OUTLINE_ALPHA/countScale).toFixed(4) + ')';
   ctx.lineWidth = 1;
   ctx.beginPath();
   corners.forEach((c,i)=>{ if (i===0) ctx.moveTo(c.cx,c.cy); else ctx.lineTo(c.cx,c.cy); });
@@ -331,7 +343,7 @@ function drawFloor(ctx, zLevel){
 
   // grid dots on this floor, phase-aligned in X and Y the same way the
   // orthographic grid aligns to a pattern with a half-integer centre
-  ctx.fillStyle = 'rgba(139,243,201,0.22)';
+  ctx.fillStyle = 'rgba(139,243,201,' + (FLOOR_DOT_ALPHA/countScale).toFixed(4) + ')';
   const startX = -Math.ceil(FLOOR.halfX/step)*step, startY = -Math.ceil(FLOOR.halfY/step)*step;
   for (let gx=startX; gx<=FLOOR.halfX; gx+=step){
     for (let gy=startY; gy<=FLOOR.halfY; gy+=step){
@@ -357,12 +369,12 @@ function draw(){
   // floors, farthest (lowest Z, since Z feeds positively into depth) to
   // nearest, so a taller floor correctly overlaps a lower one where they
   // share screen space rather than the other way around
-  FLOOR.levels.slice().sort((a,b)=>a-b).forEach(z => drawFloor(ctx, z));
+  FLOOR.levels.slice().sort((a,b)=>a-b).forEach(z => drawFloor(ctx, z, FLOOR.levels.length));
 
   if (showTrails){
     for (let pi=0; pi<INITIAL.length; pi++){
       ctx.strokeStyle = COLORS[pi];
-      ctx.globalAlpha = 0.35;
+      ctx.globalAlpha = 0.65;
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       for (let t=0; t<PERIOD; t++){

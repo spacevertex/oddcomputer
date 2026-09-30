@@ -41,6 +41,10 @@
   button{ background:#14201b; border:1px solid #2a3a33; color:#8bf3c9; font-family:inherit; font-size:12px; padding:8px 16px; border-radius:5px; cursor:pointer; }
   button.off{ color:#5a6b64; border-color:#22302a; }
   button:hover{ background:#1a2a23; }
+  .perspectiveRow{ display:flex; gap:8px; margin-bottom:14px; }
+  .perspectiveBtn{ font-size:11px; padding:6px 12px; }
+  .perspectiveBtn.selected{ color:#0c1210; background:#8bf3c9; border-color:#8bf3c9; }
+  .perspectiveBtn.selected:hover{ background:#8bf3c9; }
 </style>
 </head>
 <body>
@@ -55,6 +59,7 @@
 </div>
 <div class="errorBanner" id="errorBanner" style="display:none;"></div>
 
+<div class="perspectiveRow" id="perspectiveRow"></div>
 <div class="isoStage">
   <canvas id="iso" width="640" height="640"></canvas>
 </div>
@@ -105,8 +110,38 @@ let currentFilename = null;
 let INITIAL, PERIOD, COLORS, history, displayHistory, tieInfo, SCALE;
 let LATTICE_FRAC = {x:0, y:0, z:0};
 let DEPTH_MIN = 0, DEPTH_MAX = 1;
-let FLOOR = { halfX:1, halfY:1, levels:[] };
+let FLOOR = { halfA:1, halfB:1, levels:[] };
 let ISO_CENTER = { x:0, y:0 };   // the projected bounding box's own center, in raw (pre-scale) iso units
+
+// ---- perspective: which axis is "up" -----------------------------------
+// The original orthographic viewer showed three panels, one per hidden
+// axis (XZ, YZ, XY). This is the isometric equivalent: three single-view
+// perspectives, one per "up" axis, cycled through instead of shown side
+// by side. Each is the same camera archetype, just with the three axes
+// permuted, so A/B (the floor) and up (what the sheets stack along) rotate
+// together: (x,y,z) -> (y,z,x) -> (z,x,y).
+const PERSPECTIVES = [
+  { label:'Z-up', A:'x', B:'y', up:'z' },
+  { label:'X-up', A:'y', B:'z', up:'x' },
+  { label:'Y-up', A:'z', B:'x', up:'y' },
+];
+let perspectiveIndex = 0;
+// one SCALE/ISO_CENTER/FLOOR per perspective, computed once when a pattern
+// loads (each perspective projects the same trajectory differently, so
+// each needs its own fit) — applyPerspective() below copies whichever is
+// current into the plain SCALE/ISO_CENTER/FLOOR globals every other
+// function already reads, so nothing downstream needs to know perspectives
+// exist at all.
+let PERSPECTIVE_STATE = [null, null, null];
+
+// build an {x,y,z} object from a value for the current perspective's floor
+// axis A, floor axis B, and up axis — the inverse of picking x/y/z apart
+// by role. Used anywhere a floor needs actual world coordinates.
+function axisTriple(p, aVal, bVal, upVal){
+  const o = {x:0, y:0, z:0};
+  o[p.A] = aVal; o[p.B] = bVal; o[p.up] = upVal;
+  return o;
+}
 
 const DIVERGE_THRESHOLD = 10000;
 const FALLBACK_CAP = 2000;
@@ -156,8 +191,13 @@ function hideError(){
 // means a single lattice-step formula can size the horizontal grid dots
 // and the vertical spacing between floors at once — see getLatticeStep().
 const COS30 = Math.cos(Math.PI/6), SIN30 = Math.sin(Math.PI/6);
+function projectWithPerspective(p, x, y, z){
+  const vals = {x, y, z};
+  const a = vals[p.A], b = vals[p.B], u = vals[p.up];
+  return { ix: (a - b) * COS30, iy: (a + b) * SIN30 - u };
+}
 function isoProject(x, y, z){
-  return { ix: (x - y) * COS30, iy: (x + y) * SIN30 - z };
+  return projectWithPerspective(PERSPECTIVES[perspectiveIndex], x, y, z);
 }
 // with only one camera (unlike the three orthographic panels, each hiding
 // a different axis) there is one honest depth value: how far the point
@@ -246,59 +286,66 @@ function loadPattern(initial, period, filename){
     if (d<DEPTH_MIN) DEPTH_MIN = d; if (d>DEPTH_MAX) DEPTH_MAX = d;
   }));
 
-  // ---- dynamic scale: fit the whole trajectory's PROJECTED shape, not
-  // its world-space extent — an isometric projection skews and mixes the
-  // three axes together, so the on-screen shape isn't simply proportional
-  // to any one axis's world extent the way an orthographic panel's is.
-  // Project every point at unit scale first, find the resulting on-screen
-  // bounding box, then solve for the scale (and the offset that centres
-  // it) the same way the orthographic viewer solves for a single radius.
-  let isoMinX=Infinity, isoMaxX=-Infinity, isoMinY=Infinity, isoMaxY=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(p => {
-    const {ix, iy} = isoProject(p.x, p.y, p.z);
-    if (ix<isoMinX) isoMinX=ix; if (ix>isoMaxX) isoMaxX=ix;
-    if (iy<isoMinY) isoMinY=iy; if (iy>isoMaxY) isoMaxY=iy;
-  }));
-  const isoW = Math.max(isoMaxX-isoMinX, 0.0001), isoH = Math.max(isoMaxY-isoMinY, 0.0001);
+  // ---- dynamic scale + floor, computed ONCE PER PERSPECTIVE -------------
+  // Each of the three perspectives projects the same trajectory
+  // differently (a permutation of which axis is "up"), so each needs its
+  // own scale fit and its own floor sizing — a pattern that's compact from
+  // one perspective can be sprawling from another. All three are computed
+  // up front here so switching perspectives later is instant, not a
+  // re-fit.
   const USABLE_HALF = CANVAS_CENTER - 20;       // small margin from the canvas edge
   const MAX_DOT_RADIUS_WORLD = 0.45;             // half of the largest dot diameter (0.9), same budget as the orthographic viewer
-  SCALE = Math.min(
-    USABLE_HALF / (isoW/2 + MAX_DOT_RADIUS_WORLD),
-    USABLE_HALF / (isoH/2 + MAX_DOT_RADIUS_WORLD)
-  );
-  ISO_CENTER = { x:(isoMinX+isoMaxX)/2, y:(isoMinY+isoMaxY)/2 };
 
-  // ---- floor sheets: one pale parallelogram per Z-height the pattern
-  // actually visits, spaced by the same lattice step as the grid dots (a
-  // one-unit step costs the same screen distance on every axis in this
-  // projection — see the note above isoProject), so the vertical rhythm
-  // between floors matches the horizontal rhythm of the dots on each one.
-  // Each floor is sized to the pattern's own X/Y extent plus one step of
-  // padding, the same "fit what's actually there" approach as the
-  // orthographic grid, rather than a fixed generic size.
-  const step = getLatticeStep();
-  const zr = computeRange('z');
-  // A floor's screen footprint is set by how far (x-y) and (x+y) actually
-  // range — the two combinations isoX and isoY are built from — not by X
-  // and Y's own separate extents. A pattern where particles move mostly
-  // diagonally (x approx y) can have a large X extent and a large Y
-  // extent that mostly cancel in (x-y), so sizing off X and Y alone would
-  // make the floor far bigger than what's actually needed to frame it.
-  // For an axis-aligned square of half-extent h, both (x-y) and (x+y)
-  // range over a full span of 4h, so solve h from whichever of the two
-  // actual spans is larger.
-  let uMin=Infinity, uMax=-Infinity, vMin=Infinity, vMax=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(p => {
-    const u=p.x-p.y, v=p.x+p.y;
-    if (u<uMin) uMin=u; if (u>uMax) uMax=u; if (v<vMin) vMin=v; if (v>vMax) vMax=v;
-  }));
-  const half = Math.max(uMax-uMin, vMax-vMin) / 4 + step;
-  const halfX = half, halfY = half;
-  const kMin = Math.floor((zr.min - step - LATTICE_FRAC.z) / step);
-  const kMax = Math.ceil((zr.max + step - LATTICE_FRAC.z) / step);
-  const levels = [];
-  for (let k=kMin; k<=kMax; k++) levels.push(k*step + LATTICE_FRAC.z);
-  FLOOR = { halfX, halfY, levels, step };
+  PERSPECTIVE_STATE = PERSPECTIVES.map(p => {
+    // fit the whole trajectory's PROJECTED shape, not its world-space
+    // extent — an isometric projection skews and mixes the three axes
+    // together, so the on-screen shape isn't simply proportional to any
+    // one axis's world extent the way an orthographic panel's is. Project
+    // every point at unit scale first, find the resulting on-screen
+    // bounding box, then solve for the scale (and the offset that centres
+    // it) the same way the orthographic viewer solves for a single radius.
+    let isoMinX=Infinity, isoMaxX=-Infinity, isoMinY=Infinity, isoMaxY=-Infinity;
+    displayHistory.forEach(frame => frame.forEach(pt => {
+      const {ix, iy} = projectWithPerspective(p, pt.x, pt.y, pt.z);
+      if (ix<isoMinX) isoMinX=ix; if (ix>isoMaxX) isoMaxX=ix;
+      if (iy<isoMinY) isoMinY=iy; if (iy>isoMaxY) isoMaxY=iy;
+    }));
+    const isoW = Math.max(isoMaxX-isoMinX, 0.0001), isoH = Math.max(isoMaxY-isoMinY, 0.0001);
+    const pScale = Math.min(
+      USABLE_HALF / (isoW/2 + MAX_DOT_RADIUS_WORLD),
+      USABLE_HALF / (isoH/2 + MAX_DOT_RADIUS_WORLD)
+    );
+    const pCenter = { x:(isoMinX+isoMaxX)/2, y:(isoMinY+isoMaxY)/2 };
+
+    // floor sheets: one pale parallelogram per height (along this
+    // perspective's "up" axis) the pattern actually visits, spaced by the
+    // same lattice step as the grid dots. Each floor is sized to what this
+    // perspective's own A/B extent actually needs — see the note on (x-y)
+    // and (x+y) below — plus one step of padding.
+    const pStep = Math.max(1, Math.round(10 / pScale));
+    const upR = computeRange(p.up);
+    let uMin=Infinity, uMax=-Infinity, vMin=Infinity, vMax=-Infinity;
+    displayHistory.forEach(frame => frame.forEach(pt => {
+      const a=pt[p.A], b=pt[p.B], u=a-b, v=a+b;
+      if (u<uMin) uMin=u; if (u>uMax) uMax=u; if (v<vMin) vMin=v; if (v>vMax) vMax=v;
+    }));
+    // A floor's screen footprint is set by how far (A-B) and (A+B) range —
+    // the two combinations isoX/isoY are actually built from — not by A
+    // and B's own separate extents. A pattern where A and B move together
+    // (e.g. x approx y) can have a large A extent and large B extent that
+    // mostly cancel in (A-B), so sizing off A and B alone would make the
+    // floor far bigger than what's actually needed to frame it. For an
+    // axis-aligned square of half-extent h, both (A-B) and (A+B) range
+    // over a full span of 4h, so solve h from whichever span is larger.
+    const half = Math.max(uMax-uMin, vMax-vMin) / 4 + pStep;
+    const kMin = Math.floor((upR.min - pStep - LATTICE_FRAC[p.up]) / pStep);
+    const kMax = Math.ceil((upR.max + pStep - LATTICE_FRAC[p.up]) / pStep);
+    const levels = [];
+    for (let k=kMin; k<=kMax; k++) levels.push(k*pStep + LATTICE_FRAC[p.up]);
+
+    return { SCALE:pScale, ISO_CENTER:pCenter, FLOOR:{ halfA:half, halfB:half, levels, step:pStep } };
+  });
+  applyPerspective(perspectiveIndex);
 
   document.querySelectorAll('.patternBtn').forEach(b=>{
     b.classList.toggle('selected', b.dataset.filename === filename);
@@ -310,21 +357,39 @@ function loadPattern(initial, period, filename){
   draw();
 }
 
+// switches which precomputed perspective is active. Perspective is a pure
+// view choice — like Trails/Vectors, it deliberately does NOT reset on a
+// new pattern load, and switching it never touches currentTick or playing.
+function applyPerspective(i){
+  perspectiveIndex = i;
+  const s = PERSPECTIVE_STATE[i];
+  if (!s) return;               // no pattern loaded yet
+  SCALE = s.SCALE;
+  ISO_CENTER = s.ISO_CENTER;
+  FLOOR = s.FLOOR;
+  document.querySelectorAll('.perspectiveBtn').forEach((b,idx)=>{
+    b.classList.toggle('selected', idx===i);
+  });
+}
+
 // Base transparency for a single isolated floor, before any count-based
 // scaling. Lower than before across all three — fill, outline, and dots.
 const FLOOR_FILL_ALPHA = 0.03;
 const FLOOR_OUTLINE_ALPHA = 0.07;
 const FLOOR_DOT_ALPHA = 0.14;
 
-function drawFloor(ctx, zLevel, floorCount){
+function drawFloor(ctx, upLevel, floorCount){
   const step = FLOOR.step;
-  // the parallelogram itself: a world-space rectangle at this height,
-  // projected — a square in world space becomes a rhombus on screen here
+  const p = PERSPECTIVES[perspectiveIndex];
+  const at = (aVal,bVal) => { const w = axisTriple(p, aVal, bVal, upLevel); return worldToScreen(w.x, w.y, w.z); };
+  // the parallelogram itself: a world-space rectangle at this height (along
+  // whichever axis is "up" in the current perspective), projected — a
+  // square in world space becomes a rhombus on screen here
   const corners = [
-    worldToScreen(-FLOOR.halfX, -FLOOR.halfY, zLevel),
-    worldToScreen( FLOOR.halfX, -FLOOR.halfY, zLevel),
-    worldToScreen( FLOOR.halfX,  FLOOR.halfY, zLevel),
-    worldToScreen(-FLOOR.halfX,  FLOOR.halfY, zLevel),
+    at(-FLOOR.halfA, -FLOOR.halfB),
+    at( FLOOR.halfA, -FLOOR.halfB),
+    at( FLOOR.halfA,  FLOOR.halfB),
+    at(-FLOOR.halfA,  FLOOR.halfB),
   ];
   // more floors stacked means more overlapping translucent layers, which
   // compounds visually even though each one is individually faint — scale
@@ -344,12 +409,13 @@ function drawFloor(ctx, zLevel, floorCount){
   // grid dots on this floor, phase-aligned in X and Y the same way the
   // orthographic grid aligns to a pattern with a half-integer centre
   ctx.fillStyle = 'rgba(139,243,201,' + (FLOOR_DOT_ALPHA/countScale).toFixed(4) + ')';
-  const startX = -Math.ceil(FLOOR.halfX/step)*step, startY = -Math.ceil(FLOOR.halfY/step)*step;
-  for (let gx=startX; gx<=FLOOR.halfX; gx+=step){
-    for (let gy=startY; gy<=FLOOR.halfY; gy+=step){
-      const wx = gx+LATTICE_FRAC.x, wy = gy+LATTICE_FRAC.y;
-      if (Math.abs(wx)>FLOOR.halfX+0.01 || Math.abs(wy)>FLOOR.halfY+0.01) continue;
-      const {cx,cy} = worldToScreen(wx, wy, zLevel);
+  const fracA = LATTICE_FRAC[p.A], fracB = LATTICE_FRAC[p.B];
+  const startA = -Math.ceil(FLOOR.halfA/step)*step, startB = -Math.ceil(FLOOR.halfB/step)*step;
+  for (let ga=startA; ga<=FLOOR.halfA; ga+=step){
+    for (let gb=startB; gb<=FLOOR.halfB; gb+=step){
+      const wa = ga+fracA, wb = gb+fracB;
+      if (Math.abs(wa)>FLOOR.halfA+0.01 || Math.abs(wb)>FLOOR.halfB+0.01) continue;
+      const {cx,cy} = at(wa, wb);
       ctx.fillRect(cx-1, cy-1, 2, 2);
     }
   }
@@ -525,6 +591,22 @@ function fetchAndLoad(filename){
     })
     .catch(err => showError('Could not load ' + filename + ': ' + err.message));
 }
+
+PERSPECTIVES.forEach((p, idx)=>{
+  const btn = document.createElement('button');
+  btn.className = 'perspectiveBtn' + (idx===0 ? ' selected' : '');
+  btn.textContent = p.label;
+  btn.addEventListener('click', ()=>{ applyPerspective(idx); draw(); });
+  document.getElementById('perspectiveRow').appendChild(btn);
+});
+// x = next perspective, z = previous — same convention as the 4D viewer's
+// view-cycling keys, for anyone used to that one
+window.addEventListener('keydown', (e)=>{
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === 'x'){ applyPerspective((perspectiveIndex+1) % PERSPECTIVES.length); draw(); }
+  else if (k === 'z'){ applyPerspective((perspectiveIndex+PERSPECTIVES.length-1) % PERSPECTIVES.length); draw(); }
+});
 
 const SCROLL_STEP_PX = 220;
 document.getElementById('arrowLeft').addEventListener('click', ()=>{
