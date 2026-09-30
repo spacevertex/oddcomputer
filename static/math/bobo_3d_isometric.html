@@ -224,8 +224,18 @@ function worldToScreen(x, y, z){
   return { cx: CANVAS_CENTER + (ix - ISO_CENTER.x) * SCALE, cy: CANVAS_CENTER + (iy - ISO_CENTER.y) * SCALE };
 }
 
+// Target on-screen gap between lattice dots, in pixels. Raised from the
+// original 10 — arbitrary rotation means a pattern can land on a much
+// higher scale than a fixed Z-up view ever gave it (viewed from its best
+// angle, a sprawling pattern's PROJECTED footprint can be far more compact
+// than its raw axis extents), and at high scale the old 10px target
+// pushed step down to its floor of 1 for most larger patterns, producing
+// tens of thousands of dots. 30 keeps small patterns' grids meaningfully
+// fine while cutting the worst offenders (79k dots at one extreme) down
+// to the low thousands.
+const LATTICE_TARGET_PX = 30;
 function getLatticeStep(){
-  return Math.max(1, Math.round(10 / SCALE));
+  return Math.max(1, Math.round(LATTICE_TARGET_PX / SCALE));
 }
 
 function computeRange(axis){
