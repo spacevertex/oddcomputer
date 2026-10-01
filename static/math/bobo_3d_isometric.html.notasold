@@ -113,52 +113,47 @@ let ISO_CENTER = { x:0, y:0 };   // the projected bounding box's own center, in 
 // ---- camera rotation ----------------------------------------------------
 // The floor is always the XY plane, stacked along Z — that never changes.
 // What changes is the camera's orientation around that fixed structure,
-// tracked as three orthonormal world-space vectors — right, up, and
-// forward (the viewing direction) — rather than a rotation matrix. This is
-// the standard orbit-camera model: a/d spin the view around the camera's
-// OWN current up vector, w/s tilt it around the camera's OWN current
-// right vector, both always relative to wherever the view currently is,
-// never to a fixed world axis. That's what makes left/right and up/down
-// mean "as the user currently sees them" rather than "around world Z" or
-// "around whatever used to be on the left" — the previous scheme's
-// (correct, but different) convention.
-function dot3(a,b){ return a[0]*b[0]+a[1]*b[1]+a[2]*b[2]; }
-function cross3(a,b){ return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
-function norm3(v){ const m=Math.hypot(v[0],v[1],v[2]); return [v[0]/m, v[1]/m, v[2]/m]; }
-// Rodrigues' rotation formula: rotate vector v by `deg` around unit axis k
-function rotateAround(v, k, deg){
-  const r = deg*Math.PI/180, c = Math.cos(r), s = Math.sin(r);
-  const kxv = cross3(k, v), kdotv = dot3(k, v);
+// held as a plain 3x3 rotation matrix (identity = the original fixed
+// view). World coordinates are rotated by this matrix before the same
+// fixed isometric formula projects them, so "which way is the camera
+// looking" and "how a point maps to the screen" stay cleanly separate.
+function matMul(A,B){
+  const R = [[0,0,0],[0,0,0],[0,0,0]];
+  for (let i=0;i<3;i++) for (let j=0;j<3;j++) for (let k=0;k<3;k++) R[i][j] += A[i][k]*B[k][j];
+  return R;
+}
+function applyMat(M, v){
   return [
-    v[0]*c + kxv[0]*s + k[0]*kdotv*(1-c),
-    v[1]*c + kxv[1]*s + k[1]*kdotv*(1-c),
-    v[2]*c + kxv[2]*s + k[2]*kdotv*(1-c),
+    M[0][0]*v[0] + M[0][1]*v[1] + M[0][2]*v[2],
+    M[1][0]*v[0] + M[1][1]*v[1] + M[1][2]*v[2],
+    M[2][0]*v[0] + M[2][1]*v[1] + M[2][2]*v[2],
   ];
 }
-// The baseline (identity) view, expressed this way: these three were
-// derived so that K*(P.camRight), -K*(P.camUp) reproduce the original
-// fixed isometric formula exactly (verified to within 1e-14 before this
-// was ever wired up) — so the default view is pixel-identical to before,
-// this is just a different, more rotation-friendly way of holding it.
-const BASE_RIGHT = norm3([1,-1,0]);
-const BASE_UP = norm3([-1,-1,2]);
-const BASE_FORWARD = norm3([1,1,1]);
-const ISO_K = Math.sqrt(6)/2;
-let camRight = BASE_RIGHT, camUp = BASE_UP, camForward = BASE_FORWARD;
+function rotZ(deg){ const r=deg*Math.PI/180, c=Math.cos(r), s=Math.sin(r); return [[c,-s,0],[s,c,0],[0,0,1]]; }
+function rotX(deg){ const r=deg*Math.PI/180, c=Math.cos(r), s=Math.sin(r); return [[1,0,0],[0,c,-s],[0,s,c]]; }
+const IDENTITY_ROT = [[1,0,0],[0,1,0],[0,0,1]];
+let ROT = IDENTITY_ROT;
 
-const ROT_STEP_DEG = 15;   // shared by a/d and w/s now, for an equally smooth feel on both
+const YAW_STEP_DEG = 15;   // a/d: fine enough steps to feel like free rotation, not a handful of fixed snaps
 
-function yaw(deg){   // a/d: spin around the camera's OWN current up vector (up itself unchanged)
-  camRight = norm3(rotateAround(camRight, camUp, deg));
-  camForward = norm3(rotateAround(camForward, camUp, deg));
-  recompute(); draw();
-}
-function tilt(deg){  // w/s: tip around the camera's OWN current right vector (right itself unchanged)
-  camUp = norm3(rotateAround(camUp, camRight, deg));
-  camForward = norm3(rotateAround(camForward, camRight, deg));
-  recompute(); draw();
-}
-function resetView(){ camRight = BASE_RIGHT; camUp = BASE_UP; camForward = BASE_FORWARD; recompute(); draw(); }
+// a/d spin the camera around the world's true vertical axis — always Z,
+// regardless of any tilt already applied, so left/right stays predictable
+// no matter how the view has been tilted. Right-multiplying applies the
+// rotation to the raw world point BEFORE any existing camera orientation,
+// which is what keeps it tied to the true, fixed world Z rather than
+// whatever the current tilt happens to call "vertical".
+function yaw(deg){ ROT = matMul(ROT, rotZ(deg)); recompute(); draw(); }
+// w/s tilt around whatever the camera's OWN current horizontal axis is —
+// left-multiplying applies the rotation to the EXISTING camera-space
+// result, which is what makes "up" mean "take whatever's currently on the
+// left and swing it to the top", not "always swing the original world Y
+// up" once some yaw has already been applied. Both this and the yaw
+// convention above were verified together — swapping one without the
+// other breaks the invariant that yaw ignores tilt entirely — against a
+// labelled test pattern before shipping: rotX(+90) is what actually moves
+// the current left face to the top.
+function tilt(deg){ ROT = matMul(rotX(deg), ROT); recompute(); draw(); }
+function resetView(){ ROT = IDENTITY_ROT; recompute(); draw(); }
 
 const DIVERGE_THRESHOLD = 10000;
 const FALLBACK_CAP = 2000;
@@ -196,20 +191,30 @@ function hideError(){
 // ---- isometric projection ---------------------------------------------
 // XY is the floor, Z is "up" on screen — the reverse of a screen's own
 // axes, which is why this needs its own projection rather than reusing
-// worldToCanvas from the orthographic viewer. A point's screen position is
-// just how far it sits along the camera's current right and up vectors,
-// scaled by the one constant (ISO_K) that reproduces the original fixed
-// isometric look at the baseline orientation.
+// worldToCanvas from the orthographic viewer. This is the plain
+// orthographic projection of a camera sitting out along the (1,1,1)
+// direction looking back at the origin: X and Y both feed into screen-X
+// through a 30-degree-rotated basis, and Z purely lifts the point upward
+// on screen (subtracted, since canvas Y grows downward).
+//
+// One convenient property of this exact split (cos(30), sin(30)) is that
+// a one-unit step along X, Y, or Z moves the projected point by the same
+// screen distance in every case, since cos^2(30)+sin^2(30) = 1. That
+// means a single lattice-step formula can size the horizontal grid dots
+// and the vertical spacing between floors at once — see getLatticeStep().
+const COS30 = Math.cos(Math.PI/6), SIN30 = Math.sin(Math.PI/6);
 function isoProject(x, y, z){
-  const P = [x, y, z];
-  return { ix: ISO_K * dot3(P, camRight), iy: -ISO_K * dot3(P, camUp) };
+  const [rx, ry, rz] = applyMat(ROT, [x, y, z]);
+  return { ix: (rx - ry) * COS30, iy: (rx + ry) * SIN30 - rz };
 }
-// depth is how far a point sits along the camera's current forward
-// (viewing) direction — larger means closer to the camera. Since the
-// camera orientation now rotates freely, this has to be measured against
-// the CURRENT camForward every time, not assumed fixed.
+// depth is "how far along the camera's own (1,1,1) viewing direction",
+// measured AFTER rotation — with arbitrary rotation this is no longer the
+// same value regardless of axis order (unlike the old fixed-axis version,
+// a general rotation doesn't preserve x+y+z), so it has to be recomputed
+// from the rotated point every time, not just summed from the raw one.
 function depthOf(x, y, z){
-  return dot3([x, y, z], camForward);
+  const [rx, ry, rz] = applyMat(ROT, [x, y, z]);
+  return rx + ry + rz;
 }
 
 const CANVAS_SIZE = 640;
@@ -585,18 +590,17 @@ function fetchAndLoad(filename){
 }
 
 document.getElementById('resetViewBtn').addEventListener('click', resetView);
-// a/d spin the view left/right around whatever's currently "up" on screen.
-// w/s tip the view up/down around whatever's currently "right" on screen.
-// Both are user-perspective, orbit-camera controls — relative to the
-// CURRENT view, not any fixed world axis — and both now share the same
-// step size, for an equally smooth feel in every direction.
+// a/d: yaw left/right around the true vertical, in fine steps.
+// w/s: tilt so whichever face is currently on the left swings to the top
+// (w) or the bottom (s) — a fixed 90-degree step, not a continuous drag,
+// since "which face is up" is inherently a discrete question.
 window.addEventListener('keydown', (e)=>{
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   const k = e.key.toLowerCase();
-  if (k === 'a') yaw(-ROT_STEP_DEG);
-  else if (k === 'd') yaw(ROT_STEP_DEG);
-  else if (k === 'w') tilt(ROT_STEP_DEG);
-  else if (k === 's') tilt(-ROT_STEP_DEG);
+  if (k === 'a') yaw(-YAW_STEP_DEG);
+  else if (k === 'd') yaw(YAW_STEP_DEG);
+  else if (k === 'w') tilt(90);
+  else if (k === 's') tilt(-90);
 });
 
 const SCROLL_STEP_PX = 220;
