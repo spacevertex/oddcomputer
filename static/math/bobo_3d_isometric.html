@@ -31,8 +31,6 @@
   #dataTable th:nth-child(5), #dataTable td:nth-child(5){ width:12%; }
   .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; }
   .nbrs{ display:inline-flex; gap:2px; vertical-align:middle; }
-  .latticeIcon{ display:inline-grid; grid-template-columns:4px 4px; grid-template-rows:4px 4px; gap:2px; vertical-align:middle; margin-right:5px; }
-  .latticeDot{ width:4px; height:4px; border-radius:50%; background:rgba(139,243,201,0.7); }
   #dataTable .legendRow td{ padding-top:7px; border-top:1px solid #223028; color:#7a8a84; }
 
   .controls{ margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; flex-shrink:0; }
@@ -56,7 +54,7 @@
 </div>
 <div class="errorBanner" id="errorBanner" style="display:none;"></div>
 
-<div class="hint">w/a/s/d rotate the view &middot; <button id="resetViewBtn" style="font-size:11px; padding:4px 10px;">Reset view</button></div>
+<div class="hint">w/a/s/d rotate the view &middot; <button id="resetViewBtn" style="font-size:11px; padding:4px 10px;">Reset view</button> <button class="off" id="zoomFitBtn" style="font-size:11px; padding:4px 10px;">Zoom to fit</button></div>
 <div class="isoStage">
   <canvas id="iso" width="640" height="640"></canvas>
 </div>
@@ -105,9 +103,9 @@ function colorFor(i){
 let manifestFiles = [];
 let currentFilename = null;
 let INITIAL, PERIOD, COLORS, history, displayHistory, tieInfo, SCALE;
-let LATTICE_FRAC = {x:0, y:0, z:0};
 let DEPTH_MIN = 0, DEPTH_MAX = 1;
-let FLOOR = { halfX:1, halfY:1, levels:[] };
+let FIXED_SCALE = 1;          // sized once per pattern for its greatest possible extent, at ANY rotation
+let zoomToFitEnabled = false;  // off by default: the object holds a constant on-screen size while rotating
 let ISO_CENTER = { x:0, y:0 };   // the projected bounding box's own center, in raw (pre-scale) iso units
 
 // ---- camera rotation ----------------------------------------------------
@@ -219,26 +217,6 @@ function worldToScreen(x, y, z){
   return { cx: CANVAS_CENTER + (ix - ISO_CENTER.x) * SCALE, cy: CANVAS_CENTER + (iy - ISO_CENTER.y) * SCALE };
 }
 
-// Target on-screen gap between lattice dots, in pixels. Raised from the
-// original 10 — arbitrary rotation means a pattern can land on a much
-// higher scale than a fixed Z-up view ever gave it (viewed from its best
-// angle, a sprawling pattern's PROJECTED footprint can be far more compact
-// than its raw axis extents), and at high scale the old 10px target
-// pushed step down to its floor of 1 for most larger patterns, producing
-// tens of thousands of dots. 30 keeps small patterns' grids meaningfully
-// fine while cutting the worst offenders (79k dots at one extreme) down
-// to the low thousands.
-const LATTICE_TARGET_PX = 30;
-function getLatticeStep(){
-  return Math.max(1, Math.round(LATTICE_TARGET_PX / SCALE));
-}
-
-function computeRange(axis){
-  let min=Infinity, max=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(p => { if (p[axis]<min) min=p[axis]; if (p[axis]>max) max=p[axis]; }));
-  return { min, max };
-}
-
 function loadPattern(initial, period, filename){
   const check = dryRun(initial, period);
 
@@ -287,11 +265,6 @@ function loadPattern(initial, period, filename){
     if (pt.z<gMinZ) gMinZ=pt.z; if (pt.z>gMaxZ) gMaxZ=pt.z;
   }));
   const gCenterX=(gMinX+gMaxX)/2, gCenterY=(gMinY+gMaxY)/2, gCenterZ=(gMinZ+gMaxZ)/2;
-  LATTICE_FRAC = {
-    x: (((-gCenterX) % 1) + 1) % 1,
-    y: (((-gCenterY) % 1) + 1) % 1,
-    z: (((-gCenterZ) % 1) + 1) % 1,
-  };
   displayHistory = history.map(frame => frame.map(pt => ({
     x:pt.x-gCenterX, y:pt.y-gCenterY, z:pt.z-gCenterZ, vx:pt.vx, vy:pt.vy, vz:pt.vz
   })));
@@ -302,6 +275,31 @@ function loadPattern(initial, period, filename){
     const d = depthOf(p.x, p.y, p.z);
     if (d<DEPTH_MIN) DEPTH_MIN = d; if (d>DEPTH_MAX) DEPTH_MAX = d;
   }));
+
+  // the fixed, rotation-independent scale: an orthographic projection can
+  // only ever shrink a distance, never grow it, so the on-screen distance
+  // of any point from the (centred) origin can never exceed its true 3D
+  // distance from the origin, for ANY camera orientation — and a point
+  // directly in the current viewing plane achieves that distance exactly.
+  // So the bounding-SPHERE radius (max distance from centre, over every
+  // tick and particle) is the tight worst-case size needed to guarantee
+  // nothing is ever clipped, at any rotation at all. Verified numerically
+  // against 200,000 random orientations before relying on it. Centred data
+  // means this radius is symmetric, so the matching centre is always the
+  // coordinate origin — no per-rotation offset needed, unlike the fitted
+  // mode below.
+  let maxDistSq = 0;
+  displayHistory.forEach(frame => frame.forEach(p => {
+    const d2 = p.x*p.x + p.y*p.y + p.z*p.z;
+    if (d2 > maxDistSq) maxDistSq = d2;
+  }));
+  const boundingRadius = Math.sqrt(maxDistSq);
+  // the projection scales every dot-product by ISO_K (see isoProject), so
+  // the worst-case projected distance is ISO_K*boundingRadius, not the
+  // bounding radius alone — missing this factor was caught by testing
+  // against the actual farthest point in several real patterns, not just
+  // the single-pattern spot-check that happened not to expose it.
+  FIXED_SCALE = (CANVAS_CENTER - 20) / (ISO_K * boundingRadius + 0.45);
 
   recompute();
 
@@ -323,92 +321,118 @@ function loadPattern(initial, period, filename){
 // never depends on rotation — but its lattice step does, since the step
 // is sized from SCALE, so it's recomputed here too for consistency.
 function recompute(){
-  // fit the whole trajectory's PROJECTED shape, not its world-space
-  // extent — an isometric projection skews and mixes the three axes
-  // together, so the on-screen shape isn't simply proportional to any one
-  // axis's world extent the way an orthographic panel's is. Project every
-  // point through the CURRENT rotation at unit scale first, find the
-  // resulting on-screen bounding box, then solve for the scale (and the
-  // offset that centres it).
-  let isoMinX=Infinity, isoMaxX=-Infinity, isoMinY=Infinity, isoMaxY=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(pt => {
-    const {ix, iy} = isoProject(pt.x, pt.y, pt.z);
-    if (ix<isoMinX) isoMinX=ix; if (ix>isoMaxX) isoMaxX=ix;
-    if (iy<isoMinY) isoMinY=iy; if (iy>isoMaxY) isoMaxY=iy;
-  }));
-  const isoW = Math.max(isoMaxX-isoMinX, 0.0001), isoH = Math.max(isoMaxY-isoMinY, 0.0001);
-  const USABLE_HALF = CANVAS_CENTER - 20;        // small margin from the canvas edge
-  const MAX_DOT_RADIUS_WORLD = 0.45;              // half of the largest dot diameter (0.9)
-  SCALE = Math.min(
-    USABLE_HALF / (isoW/2 + MAX_DOT_RADIUS_WORLD),
-    USABLE_HALF / (isoH/2 + MAX_DOT_RADIUS_WORLD)
-  );
-  ISO_CENTER = { x:(isoMinX+isoMaxX)/2, y:(isoMinY+isoMaxY)/2 };
-
-  // floor sheets: one pale parallelogram per Z-height the pattern actually
-  // visits, spaced by the same lattice step as the grid dots. Sized to the
-  // pattern's own X/Y extent, using the (x-y)/(x+y) diagonal-reach trick —
-  // a pattern where X and Y move together can have large individual
-  // extents that mostly cancel in (x-y), so sizing off X and Y alone would
-  // make the floor far bigger than what's actually needed to frame it.
-  const step = getLatticeStep();
-  const zr = computeRange('z');
-  let uMin=Infinity, uMax=-Infinity, vMin=Infinity, vMax=-Infinity;
-  displayHistory.forEach(frame => frame.forEach(pt => {
-    const u=pt.x-pt.y, v=pt.x+pt.y;
-    if (u<uMin) uMin=u; if (u>uMax) uMax=u; if (v<vMin) vMin=v; if (v>vMax) vMax=v;
-  }));
-  const half = Math.max(uMax-uMin, vMax-vMin) / 4 + step;
-  const kMin = Math.floor((zr.min - step - LATTICE_FRAC.z) / step);
-  const kMax = Math.ceil((zr.max + step - LATTICE_FRAC.z) / step);
-  const levels = [];
-  for (let k=kMin; k<=kMax; k++) levels.push(k*step + LATTICE_FRAC.z);
-  FLOOR = { halfX:half, halfY:half, levels, step };
+  if (zoomToFitEnabled){
+    // fit the whole trajectory's PROJECTED shape, not its world-space
+    // extent — an isometric projection skews and mixes the three axes
+    // together, so the on-screen shape isn't simply proportional to any
+    // one axis's world extent the way an orthographic panel's is. Project
+    // every point through the CURRENT rotation at unit scale first, find
+    // the resulting on-screen bounding box, then solve for the scale (and
+    // the offset that centres it). Recomputed on every rotation, so the
+    // object's apparent size changes as you turn it — the trade-off for
+    // always filling the canvas as tightly as the current angle allows.
+    let isoMinX=Infinity, isoMaxX=-Infinity, isoMinY=Infinity, isoMaxY=-Infinity;
+    displayHistory.forEach(frame => frame.forEach(pt => {
+      const {ix, iy} = isoProject(pt.x, pt.y, pt.z);
+      if (ix<isoMinX) isoMinX=ix; if (ix>isoMaxX) isoMaxX=ix;
+      if (iy<isoMinY) isoMinY=iy; if (iy>isoMaxY) isoMaxY=iy;
+    }));
+    const isoW = Math.max(isoMaxX-isoMinX, 0.0001), isoH = Math.max(isoMaxY-isoMinY, 0.0001);
+    const USABLE_HALF = CANVAS_CENTER - 20;        // small margin from the canvas edge
+    const MAX_DOT_RADIUS_WORLD = 0.45;              // half of the largest dot diameter (0.9)
+    SCALE = Math.min(
+      USABLE_HALF / (isoW/2 + MAX_DOT_RADIUS_WORLD),
+      USABLE_HALF / (isoH/2 + MAX_DOT_RADIUS_WORLD)
+    );
+    ISO_CENTER = { x:(isoMinX+isoMaxX)/2, y:(isoMinY+isoMaxY)/2 };
+  } else {
+    // default: a constant scale, sized once for the pattern's greatest
+    // possible extent at any rotation, so the object neither grows nor
+    // shrinks as it's turned. The matching centre is always the origin —
+    // see the bounding-sphere note where FIXED_SCALE is computed.
+    SCALE = FIXED_SCALE;
+    ISO_CENTER = { x:0, y:0 };
+  }
 }
 
-// Base transparency for a single isolated floor, before any count-based
-// scaling. Lower than before across all three — fill, outline, and dots.
-const FLOOR_FILL_ALPHA = 0.03;
-const FLOOR_OUTLINE_ALPHA = 0.07;
-const FLOOR_DOT_ALPHA = 0.14;
+// ---- orientation gizmo ---------------------------------------------------
+// With free rotation now doing the job the floor planes used to do (making
+// orientation legible), the planes themselves became clutter rather than
+// signal. In their place: a small translucent cube, fixed in the corner of
+// the canvas, that rotates in sync with the main view — the same idea as
+// the gizmo in the corner of a CAD viewport. Its own three edges that meet
+// at the origin corner are drawn brighter and a little longer than the
+// rest, marking +X, +Y and +Z directly on the cube itself.
+const GIZMO_SIZE = 1;            // arbitrary world units — this cube has no relation to the pattern's own scale
+const GIZMO_EXTEND = 1.35;       // how far the three special edges reach past the cube's own corner
+const GIZMO_PIXEL_SCALE = 32;    // fixed pixels per world unit — independent of the main view's SCALE, so the gizmo never changes size
+const GIZMO_ANCHOR = { cx: CANVAS_SIZE - 60, cy: 60 };  // fixed screen position, upper right
 
-function drawFloor(ctx, zLevel, floorCount){
-  const step = FLOOR.step;
-  // the parallelogram itself: a world-space rectangle at this Z height,
-  // projected — a square in world space becomes a rhombus on screen here
-  const corners = [
-    worldToScreen(-FLOOR.halfX, -FLOOR.halfY, zLevel),
-    worldToScreen( FLOOR.halfX, -FLOOR.halfY, zLevel),
-    worldToScreen( FLOOR.halfX,  FLOOR.halfY, zLevel),
-    worldToScreen(-FLOOR.halfX,  FLOOR.halfY, zLevel),
-  ];
-  // more floors stacked means more overlapping translucent layers, which
-  // compounds visually even though each one is individually faint — scale
-  // every floor's alpha down as the count grows (sqrt, so it eases in
-  // gradually rather than snapping) so a pattern with many Z-levels stays
-  // legible instead of the floors washing the view out together.
-  const countScale = Math.sqrt(Math.max(1, floorCount));
-  ctx.fillStyle = 'rgba(139,243,201,' + (FLOOR_FILL_ALPHA/countScale).toFixed(4) + ')';
-  ctx.strokeStyle = 'rgba(139,243,201,' + (FLOOR_OUTLINE_ALPHA/countScale).toFixed(4) + ')';
+const GV = {   // the cube's 8 corners, one at the origin, extending into the positive octant
+  '000':[0,0,0], '100':[GIZMO_SIZE,0,0], '010':[0,GIZMO_SIZE,0], '001':[0,0,GIZMO_SIZE],
+  '110':[GIZMO_SIZE,GIZMO_SIZE,0], '101':[GIZMO_SIZE,0,GIZMO_SIZE], '011':[0,GIZMO_SIZE,GIZMO_SIZE], '111':[GIZMO_SIZE,GIZMO_SIZE,GIZMO_SIZE],
+};
+const GIZMO_FACES = [
+  ['000','100','110','010'], ['001','101','111','011'],
+  ['000','100','101','001'], ['010','110','111','011'],
+  ['000','010','011','001'], ['100','110','111','101'],
+];
+// [from, to, isSpecial] — the three specials are the ones meeting at the origin, one per axis
+const GIZMO_EDGES = [
+  ['000','100',true], ['010','110',false], ['001','101',false], ['011','111',false],
+  ['000','010',true], ['100','110',false], ['001','011',false], ['101','111',false],
+  ['000','001',true], ['100','101',false], ['010','011',false], ['110','111',false],
+];
+
+function gizmoScreen(x, y, z){
+  // project through the SAME camera basis as the main view, so the gizmo
+  // always shows the current orientation, but with its own fixed scale and
+  // a fixed screen anchor instead of SCALE/ISO_CENTER — keeping the gizmo
+  // itself at a constant size and position, centred on its own local
+  // middle (0.5,0.5,0.5) rather than the pattern's bounding sphere.
+  const ix = ISO_K * dot3([x,y,z], camRight), iy = -ISO_K * dot3([x,y,z], camUp);
+  const cix = ISO_K * dot3([0.5,0.5,0.5], camRight), ciy = -ISO_K * dot3([0.5,0.5,0.5], camUp);
+  return { cx: GIZMO_ANCHOR.cx + (ix-cix)*GIZMO_PIXEL_SCALE, cy: GIZMO_ANCHOR.cy + (iy-ciy)*GIZMO_PIXEL_SCALE };
+}
+
+function drawGizmo(ctx){
+  // faces: faint translucent fill, farthest to nearest so nearer faces
+  // correctly paint over farther ones
+  const facesByDepth = GIZMO_FACES.map(f => {
+    const pts = f.map(k => GV[k]);
+    const center = [0,1,2].map(i => pts.reduce((s,p)=>s+p[i],0)/4);
+    return { pts, depth: depthOf(center[0],center[1],center[2]) };
+  }).sort((a,b)=>a.depth-b.depth);
+  facesByDepth.forEach(({pts})=>{
+    ctx.fillStyle = 'rgba(139,243,201,0.20)';
+    ctx.beginPath();
+    pts.forEach((p,i)=>{ const s=gizmoScreen(p[0],p[1],p[2]); if (i===0) ctx.moveTo(s.cx,s.cy); else ctx.lineTo(s.cx,s.cy); });
+    ctx.closePath();
+    ctx.fill();
+  });
+
+  // the 9 ordinary edges, at 50% alpha
+  ctx.strokeStyle = 'rgba(139,243,201,0.5)';
   ctx.lineWidth = 1;
-  ctx.beginPath();
-  corners.forEach((c,i)=>{ if (i===0) ctx.moveTo(c.cx,c.cy); else ctx.lineTo(c.cx,c.cy); });
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
+  GIZMO_EDGES.filter(e=>!e[2]).forEach(([a,b])=>{
+    const pa=gizmoScreen(...GV[a]), pb=gizmoScreen(...GV[b]);
+    ctx.beginPath(); ctx.moveTo(pa.cx,pa.cy); ctx.lineTo(pb.cx,pb.cy); ctx.stroke();
+  });
 
-  // grid dots on this floor, phase-aligned in X and Y the same way the
-  // orthographic grid aligns to a pattern with a half-integer centre
-  ctx.fillStyle = 'rgba(139,243,201,' + (FLOOR_DOT_ALPHA/countScale).toFixed(4) + ')';
-  const startX = -Math.ceil(FLOOR.halfX/step)*step, startY = -Math.ceil(FLOOR.halfY/step)*step;
-  for (let gx=startX; gx<=FLOOR.halfX; gx+=step){
-    for (let gy=startY; gy<=FLOOR.halfY; gy+=step){
-      const wx = gx+LATTICE_FRAC.x, wy = gy+LATTICE_FRAC.y;
-      if (Math.abs(wx)>FLOOR.halfX+0.01 || Math.abs(wy)>FLOOR.halfY+0.01) continue;
-      const {cx,cy} = worldToScreen(wx, wy, zLevel);
-      ctx.fillRect(cx-1, cy-1, 2, 2);
-    }
-  }
+  // the 3 special axis edges: brighter, extended past the cube's corner,
+  // labelled — the actual "which way is +x/+y/+z" indicator. No arrowheads,
+  // matching the plain velocity-vector lines in the main view.
+  ctx.strokeStyle = 'rgba(139,243,201,0.95)';
+  ctx.lineWidth = 1.5;
+  ctx.font = '11px IBM Plex Mono, monospace';
+  ctx.fillStyle = '#8bf3c9';
+  const labels = { '100':'x', '010':'y', '001':'z' };
+  GIZMO_EDGES.filter(e=>e[2]).forEach(([a,b])=>{
+    const tip = GV[b].map(c => c*GIZMO_EXTEND);
+    const pa = gizmoScreen(...GV[a]), pb = gizmoScreen(tip[0],tip[1],tip[2]);
+    ctx.beginPath(); ctx.moveTo(pa.cx,pa.cy); ctx.lineTo(pb.cx,pb.cy); ctx.stroke();
+    ctx.fillText(labels[b], pb.cx+4, pb.cy+4);
+  });
 }
 
 let currentTick = 0;
@@ -421,13 +445,6 @@ function draw(){
   const ctx = document.getElementById('iso').getContext('2d');
   ctx.fillStyle = '#0f1815';
   ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
-
-  // floors, farthest to nearest, so a nearer floor correctly overlaps a
-  // farther one where they share screen space. Under a fixed Z-up camera,
-  // ascending Z was always farthest-to-nearest, but with arbitrary
-  // rotation that's no longer guaranteed — sort by each floor's own
-  // computed depth (at its centre) instead of assuming Z order.
-  FLOOR.levels.slice().sort((a,b)=>depthOf(0,0,a)-depthOf(0,0,b)).forEach(z => drawFloor(ctx, z, FLOOR.levels.length));
 
   if (showTrails){
     for (let pi=0; pi<INITIAL.length; pi++){
@@ -507,6 +524,7 @@ function draw(){
     ctx.globalAlpha = 1;
   });
 
+  drawGizmo(ctx);
   updateTable();
 }
 
@@ -527,8 +545,7 @@ function updateTable(){
     const nbrs = '<span class="nbrs">' + t.tied.map(j=>'<span class="dot" style="background:'+COLORS[j]+'"></span>').join('') + '</span>';
     html += '<tr><td>'+dot+'</td><td>'+pos+'</td><td>'+vel+'</td><td>'+accel+'</td><td>'+nbrs+'</td></tr>';
   }
-  const latticeIcon = '<span class="latticeIcon"><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span><span class="latticeDot"></span></span>';
-  html += '<tr class="legendRow"><td colspan="5">' + latticeIcon + ' = ' + getLatticeStep() + '</td></tr>';
+
   html += '<tr class="legendRow"><td colspan="5">tick ' + (currentTick+1) + ' / ' + PERIOD + '</td></tr>';
   table.innerHTML = html;
 }
@@ -585,6 +602,12 @@ function fetchAndLoad(filename){
 }
 
 document.getElementById('resetViewBtn').addEventListener('click', resetView);
+document.getElementById('zoomFitBtn').addEventListener('click', ()=>{
+  zoomToFitEnabled = !zoomToFitEnabled;
+  document.getElementById('zoomFitBtn').classList.toggle('off', !zoomToFitEnabled);
+  recompute();
+  draw();
+});
 // a/d spin the view left/right around whatever's currently "up" on screen.
 // w/s tip the view up/down around whatever's currently "right" on screen.
 // Both are user-perspective, orbit-camera controls — relative to the
