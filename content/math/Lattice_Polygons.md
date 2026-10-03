@@ -8,7 +8,7 @@ A sample of a lattice polygon. The formula is called "Pick's Theorem" and in thi
 ![Four by one rectangular lattice polygon on a coordinate grid showing the first example of a shape with exactly four border lattice points and one interior lattice point](/images/LatticePolygons/02_basic_square.png)
 Now we turn our attention to the attempt to count all of the ways we can make a lattice polygon that has exactly 4 border points, and 1 interior point. This is an image of the first such polygon that comes to mind.
 ### Figure 3: Probably all [4:1] possibilities
-![Five different quadrilateral arrangements on a coordinate grid, each with four border lattice points and one interior lattice point, representing the initial collection of possible [4:1] configurations](/images/LatticePolygons/03_first_finds.png)
+![Five different quadrilateral arrangements on a coordinate grid, each with four border lattice points and one interior lattice point, representing the initial collection of possible 4:1 configurations](/images/LatticePolygons/03_first_finds.png)
 When first confronted with this thought, I sketched out these five figures and thought there were a few more maybe.
 ### Figure 4: The first couple concave finds
 ![A quadrilateral lattice polygon on a coordinate grid illustrating another set of probable arrangements with four border lattice points and one interior lattice point in a mathematical diagram, includes two new ones which are concave](/images/LatticePolygons/04_second_finds.png)
