@@ -6,6 +6,7 @@
 <title>Skewered Cube — Petal Explorer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root{
     --paper: #eef2f6;
@@ -164,6 +165,12 @@
     border: 1px solid var(--paper-line);
     border-radius: 3px;
   }
+  #cubeCanvas{
+    height: 420px;
+    cursor: grab;
+    touch-action: none;
+  }
+  #cubeCanvas:active{ cursor: grabbing; }
   .canvas-caption{
     margin-top: 10px;
     font-size: 13px;
@@ -220,7 +227,12 @@
     </div>
 
     <div>
-      <canvas id="flowerCanvas"></canvas>
+      <div id="threeDWrap">
+        <canvas id="cubeCanvas"></canvas>
+        <div class="canvas-caption">Rolling pinned at P, with the flower traced flat on the ground &mdash; drag to orbit.</div>
+      </div>
+
+      <canvas id="flowerCanvas" style="margin-top:20px;"></canvas>
       <div class="canvas-caption" id="caption"></div>
     </div>
   </div>
@@ -541,6 +553,7 @@ function update(){
 
   resizeCanvas();
   animate(geo, path);
+  rebuild3D(currentAxis, a, geo, path);
 }
 
 function selectAxis(axisKey){
@@ -561,6 +574,374 @@ document.querySelectorAll('input[name="axis"]').forEach(radio=>{
 
 slider.addEventListener('input', update);
 window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
+
+/* =========================================================================
+   3D MODULE
+   Reconstructs the actual rigid-body orientation of the cube at each
+   discrete "edge flush on the plane" step, by solving: align the contact
+   edge to a reference axis, then find the one remaining rotation (about
+   that edge) for which the fixed axle-end point P also lands on the plane.
+   This is the same method verified against an independent simulation
+   earlier, just ported to plain 3x3 matrices here.
+   ========================================================================= */
+(function(){
+
+  // ---- vector / matrix helpers (plain arrays, not three.js, for clarity) ----
+  const V = {
+    sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],
+    add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],
+    scale:(a,s)=>[a[0]*s,a[1]*s,a[2]*s],
+    dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+    cross:(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]],
+    norm:(a)=>Math.sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]),
+    normalize:(a)=>{ const n=V.norm(a); return [a[0]/n,a[1]/n,a[2]/n]; }
+  };
+  function matVec(M,v){
+    return [M[0][0]*v[0]+M[0][1]*v[1]+M[0][2]*v[2],
+            M[1][0]*v[0]+M[1][1]*v[1]+M[1][2]*v[2],
+            M[2][0]*v[0]+M[2][1]*v[1]+M[2][2]*v[2]];
+  }
+  function matMul(A,B){
+    const R=[[0,0,0],[0,0,0],[0,0,0]];
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++){ let s=0; for(let k=0;k<3;k++) s+=A[i][k]*B[k][j]; R[i][j]=s; }
+    return R;
+  }
+  function identity3(){ return [[1,0,0],[0,1,0],[0,0,1]]; }
+  function rotX(phi){ const c=Math.cos(phi), s=Math.sin(phi); return [[1,0,0],[0,c,-s],[0,s,c]]; }
+  function rotZ(phi){ const c=Math.cos(phi), s=Math.sin(phi); return [[c,-s,0],[s,c,0],[0,0,1]]; }
+
+  function rotationAligning(e, target){
+    e = V.normalize(e); target = V.normalize(target);
+    const v = V.cross(e,target), s = V.norm(v), c = V.dot(e,target);
+    if(s < 1e-12){
+      if(c>0) return identity3();
+      let axis = Math.abs(e[0])<0.9 ? [1,0,0] : [0,1,0];
+      axis = V.normalize(V.sub(axis, V.scale(e, V.dot(axis,e))));
+      const K=[[0,-axis[2],axis[1]],[axis[2],0,-axis[0]],[-axis[1],axis[0],0]], K2=matMul(K,K);
+      return [[1+2*K2[0][0],2*K2[0][1],2*K2[0][2]],[2*K2[1][0],1+2*K2[1][1],2*K2[1][2]],[2*K2[2][0],2*K2[2][1],1+2*K2[2][2]]];
+    }
+    const K=[[0,-v[2],v[1]],[v[2],0,-v[0]],[-v[1],v[0],0]], K2=matMul(K,K), f=(1-c)/(s*s);
+    return [[1+K[0][0]+f*K2[0][0], K[0][1]+f*K2[0][1], K[0][2]+f*K2[0][2]],
+            [K[1][0]+f*K2[1][0], 1+K[1][1]+f*K2[1][1], K[1][2]+f*K2[1][2]],
+            [K[2][0]+f*K2[2][0], K[2][1]+f*K2[2][1], 1+K[2][2]+f*K2[2][2]]];
+  }
+
+  // Solve the rigid placement for edge (V1,V2) flush on the plane with the
+  // fixed axle point also on the plane, returning BOTH candidate branches
+  // (the axle can swing to either side of a given ground edge) tagged with
+  // validity. Picking between them independently per-step turned out to
+  // silently flip chirality edge-to-edge — see computeStepMatrices, which
+  // instead chains a single consistent choice through the whole sequence.
+  function placeEdgeBranches(V1, V2, a, Qbody, Rbody, allVerts){
+    const e = V.sub(V2,V1);
+    const R0 = rotationAligning(e, [1,0,0]);
+    const axleDir = V.normalize(V.sub(Qbody,Rbody));
+    const Pbody = V.add(Qbody, V.scale(axleDir, a));
+    const P0 = matVec(R0, V.sub(Pbody,V1));
+    const base = Math.atan2(P0[2], P0[1]);
+    return [-base, Math.PI-base].map(phi=>{
+      const Rtotal = matMul(rotX(phi), R0);
+      let minz = Infinity;
+      for(const v of allVerts){ const p = matVec(Rtotal, V.sub(v,V1)); if(p[2]<minz) minz=p[2]; }
+      return { Rtotal, Pbody, minz, valid: minz >= -1e-6 };
+    });
+  }
+
+  // Extracts the signed axis-angle (axis, theta) of rotation matrix M,
+  // with the axis sign folded into theta so axisAngleMatrix(axis,theta)
+  // reconstructs M exactly (no separate sign-guessing needed).
+  function signedAxisAngle(M){
+    const x = M[2][1]-M[1][2], y = M[0][2]-M[2][0], z = M[1][0]-M[0][1];
+    const s = Math.hypot(x,y,z);
+    const c = M[0][0]+M[1][1]+M[2][2]-1;
+    const theta = Math.atan2(s,c);
+    const axis = s > 1e-9 ? [x/s,y/s,z/s] : [1,0,0];
+    return { axis, theta };
+  }
+  function axisAngleMatrix(axis, theta){
+    const [x,y,z]=axis, c=Math.cos(theta), s=Math.sin(theta), C=1-c;
+    return [[x*x*C+c, x*y*C-z*s, x*z*C+y*s],
+            [y*x*C+z*s, y*y*C+c, y*z*C-x*s],
+            [z*x*C-y*s, z*y*C+x*s, z*z*C+c]];
+  }
+
+  // Body-frame geometry (cube corners at +/-0.5 so a plain THREE.BoxGeometry(1,1,1) matches).
+  const CUBE = [
+    [-.5,-.5,-.5],[.5,-.5,-.5],[-.5,.5,-.5],[.5,.5,-.5],
+    [-.5,-.5,.5],[.5,-.5,.5],[-.5,.5,.5],[.5,.5,.5]
+  ];
+  // indices into CUBE matching the unshifted 0/1 labeling used throughout this file
+  const IDX = {'000':0,'100':1,'010':2,'110':3,'001':4,'101':5,'011':6,'111':7};
+  function c(x,y,z){ return CUBE[IDX[''+x+y+z]]; }
+
+  const BODY = {
+    vertex: {
+      Q: c(0,0,0), R: c(1,1,1),
+      belt: [c(1,0,0), c(1,1,0), c(0,1,0), c(0,1,1), c(0,0,1), c(1,0,1)]
+    },
+    face: {
+      Q: [0, -.5, 0], R: [0, .5, 0],   // (recomputed below with actual shifted centers)
+      belt: [c(0,0,0), c(1,0,0), c(1,1,0), c(0,1,0)]
+    },
+    edge: {
+      Q: V.scale(V.add(c(0,0,0), c(1,0,0)), 0.5),
+      R: V.scale(V.add(c(0,1,1), c(1,1,1)), 0.5),
+      belt: [c(0,0,0), c(0,1,0), c(1,1,0), c(1,0,0), c(1,0,1), c(0,0,1)]
+    }
+  };
+  // fix face axis Q/R properly: centers of the z=-0.5 and z=+0.5 faces
+  BODY.face.Q = [0,0,-0.5];
+  BODY.face.R = [0,0,0.5];
+
+  // Builds a fully self-consistent sequence of orientations by chaining
+  // one edge to the next (always taking the same branch choice), deriving
+  // each step's ground angle from the ACTUAL 3D geometry rather than
+  // assuming it matches the abstract 2D flower's sign convention — those
+  // turned out to disagree (a mirror ambiguity), which is what caused the
+  // previous slerp animation to dip through the floor. Also returns the
+  // shared-vertex (axis, theta) between each consecutive pair, which is
+  // the real physical rotation of that tip — not a generic interpolation.
+  function computeStepMatrices(axisKey, a, numSteps){
+    const body = BODY[axisKey];
+    const belt = body.belt, beltLen = belt.length;
+    const mats = [], positions = [];
+    let targetAngle = 0, Pbody = null;
+    for(let k=0; k<numSteps; k++){
+      const i = k % beltLen;
+      const V1 = belt[i], V2 = belt[(i+1)%beltLen];
+      const allBranches = placeEdgeBranches(V1, V2, a, body.Q, body.R, CUBE);
+      const valid = allBranches.filter(b=>b.valid);
+      // Falls back to the least-invalid branch rather than throwing — this can
+      // happen on the vertex axis's negative-a branch, where the belt-vertex
+      // assumption that works for a>0 doesn't hold and would need its own
+      // derivation (not yet done). Degrades gracefully instead of crashing.
+      const picked = valid.length ? valid[0] : allBranches.reduce((a,b)=> a.minz>b.minz? a:b);
+      Pbody = picked.Pbody;
+      const localP = matVec(picked.Rtotal, V.sub(Pbody, V1));
+      const localAngleV1 = Math.atan2(-localP[1], -localP[0]);
+      const extra = targetAngle - localAngleV1;
+      mats.push(matMul(rotZ(extra), picked.Rtotal));
+      const r = Math.hypot(localP[0], localP[1]);
+      positions.push({ x: r*Math.cos(targetAngle), y: r*Math.sin(targetAngle) });
+
+      const localV2 = matVec(picked.Rtotal, V.sub(V2,V1));
+      const angV2 = Math.atan2(localV2[1]-localP[1], localV2[0]-localP[0]);
+      let diff = angV2 - localAngleV1;
+      while(diff>Math.PI) diff -= 2*Math.PI;
+      while(diff<-Math.PI) diff += 2*Math.PI;
+      targetAngle += diff;
+    }
+    // the real rotation for each tip, about the (P, shared-vertex) axis
+    const transitions = [];
+    for(let k=0; k<mats.length-1; k++){
+      const i = k % beltLen;
+      const sharedBody = belt[(i+1)%beltLen];
+      const dM = matMul(mats[k+1], transpose3(mats[k]));
+      const { axis: extractedAxis, theta } = signedAxisAngle(dM);
+      const sharedWorld = matVec(mats[k], V.sub(sharedBody, Pbody));
+      const sharedDir = V.normalize(sharedWorld);
+      const sign = V.dot(extractedAxis, sharedDir) >= 0 ? 1 : -1;
+      transitions.push({ axis: sharedDir, theta: sign*theta });
+    }
+    return { mats, positions, transitions, Pbody };
+  }
+  function transpose3(M){ return [[M[0][0],M[1][0],M[2][0]],[M[0][1],M[1][1],M[2][1]],[M[0][2],M[1][2],M[2][2]]]; }
+
+  // ---- three.js scene ----
+  let renderer, scene, camera, cubeMesh, edgesMesh, axleMesh, pivotDot, group, flowerLine;
+  let orbit = { theta: 0.65, phi: 0.9553, radius: 4.2 }; // phi = true isometric elevation
+  const canvas3d = document.getElementById('cubeCanvas');
+
+  function initThree(){
+    renderer = new THREE.WebGLRenderer({ canvas: canvas3d, antialias: false, alpha: true, powerPreference: 'low-power' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+    const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+    dl.position.set(3,5,2);
+    scene.add(dl);
+
+    // ground
+    const groundGeo = new THREE.PlaneGeometry(10,10);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness:1, metalness:0 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = -0.001;
+    scene.add(ground);
+    const grid = new THREE.GridHelper(10, 20, 0xc9d4e0, 0xdbe3ec);
+    scene.add(grid);
+
+    group = new THREE.Object3D();
+    scene.add(group);
+
+    const boxGeo = new THREE.BoxGeometry(1,1,1);
+    const boxMat = new THREE.MeshStandardMaterial({ color: 0x3a5d94, transparent:true, opacity:0.92, roughness:0.4, metalness:0.05 });
+    cubeMesh = new THREE.Mesh(boxGeo, boxMat);
+    group.add(cubeMesh);
+    const edgeGeo = new THREE.EdgesGeometry(boxGeo);
+    edgesMesh = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: 0x16233a, linewidth:1.5 }));
+    group.add(edgesMesh);
+
+    const axleMat = new THREE.MeshStandardMaterial({ color: 0xb5793a, metalness:0.6, roughness:0.35 });
+    axleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.018,0.018,1,12), axleMat);
+    group.add(axleMesh);
+
+    pivotDot = new THREE.Mesh(new THREE.SphereGeometry(0.035,16,16), new THREE.MeshStandardMaterial({color:0x16233a}));
+    scene.add(pivotDot);
+    pivotDot.position.set(0,0,0);
+
+    flowerLine = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x2b4c7e, linewidth:2 }));
+    scene.add(flowerLine);
+
+    canvas3d.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+  }
+
+  let dragging=false, lastX=0, lastY=0;
+  function onPointerDown(e){ dragging=true; lastX=e.clientX; lastY=e.clientY; }
+  function onPointerUp(){ dragging=false; }
+  function onPointerMove(e){
+    if(!dragging) return;
+    const dx = e.clientX-lastX, dy = e.clientY-lastY;
+    lastX=e.clientX; lastY=e.clientY;
+    orbit.theta -= dx*0.008;
+    orbit.phi = Math.max(0.2, Math.min(Math.PI-0.2, orbit.phi - dy*0.008));
+  }
+
+  function updateCamera(){
+    const {theta, phi, radius} = orbit;
+    camera.position.set(
+      radius*Math.sin(phi)*Math.sin(theta),
+      radius*Math.cos(phi) + 0.3,
+      radius*Math.sin(phi)*Math.cos(theta)
+    );
+    camera.lookAt(0,0.25,0);
+  }
+
+  let lastW = 0, lastH = 0;
+  function resizeThree(){
+    const rect = canvas3d.getBoundingClientRect();
+    if(rect.width<2 || rect.height<2) return;
+    if(rect.width===lastW && rect.height===lastH) return; // avoid reflow + GPU resize every frame
+    lastW = rect.width; lastH = rect.height;
+    renderer.setSize(rect.width, rect.height, false);
+    camera.aspect = rect.width/rect.height;
+    camera.updateProjectionMatrix();
+  }
+
+  // math (x,y,z) -> three.js (x, z, y): our "up/ground-normal" axis was z, three.js up is y.
+  function toThree(v){ return new THREE.Vector3(v[0], v[2], v[1]); }
+  // Converting a ROTATION (not just a position) between the two axis
+  // conventions needs a similarity transform, P @ M @ P — swapping each
+  // column's labels independently silently flips handedness (det -1),
+  // which is what was rendering the cube as a sheared parallelogram.
+  const SWAP_YZ = [[1,0,0],[0,0,1],[0,1,0]];
+  function mat3ToQuat(M){
+    const M3 = matMul(matMul(SWAP_YZ, M), SWAP_YZ);
+    const col = (j)=> new THREE.Vector3(M3[0][j], M3[1][j], M3[2][j]);
+    const m = new THREE.Matrix4().makeBasis(col(0), col(1), col(2));
+    return new THREE.Quaternion().setFromRotationMatrix(m);
+  }
+
+  let rafId = null;
+  let seq = null;        // current {mats, positions, transitions, Pbody}
+  let seqAxis = null;
+  let animPhase = 0;
+
+  // Ground flower is drawn from the 3D module's OWN self-consistent
+  // positions (not the 2D canvas's path.pts) — those two can wind in
+  // opposite directions (a harmless mirror ambiguity), so deriving both
+  // the drawn flower and the cube's resting points from one sequence is
+  // what keeps them lined up.
+  function updateFlowerMesh(positions){
+    const buf = new Float32Array(positions.length*3);
+    positions.forEach((p,i)=>{
+      buf[i*3+0] = p.x;
+      buf[i*3+1] = 0.002; // just above the ground plane to avoid z-fighting
+      buf[i*3+2] = p.y;
+    });
+    flowerLine.geometry.dispose();
+    flowerLine.geometry = new THREE.BufferGeometry();
+    flowerLine.geometry.setAttribute('position', new THREE.BufferAttribute(buf,3));
+    flowerLine.geometry.setDrawRange(0, 0); // drawn progressively as the cube rolls, see loop3D
+  }
+
+  function rebuild3D(axisKey, a, geo, path){
+    if(!renderer) initThree();
+    seqAxis = axisKey;
+    const numSteps = Math.max(path.steps+1, BODY[axisKey].belt.length*3);
+    seq = computeStepMatrices(axisKey, a, numSteps);
+    updateFlowerMesh(seq.positions);
+
+    const trueMaxR = seq.positions.reduce((m,p)=>Math.max(m, Math.hypot(p.x,p.y)), 0);
+    const maxR = Math.max(trueMaxR, 1); // never zoom in tighter than the cube itself needs
+    orbit.radius = maxR * 3.4;
+
+    // axle geometry in body coords: from Pbody to slightly past R, as a fixed pin.
+    // Fixed for the whole animation — only the group's rotation/position change per frame.
+    const body = BODY[axisKey];
+    const dir = V.normalize(V.sub(body.R, seq.Pbody));
+    const overshoot = V.add(body.R, V.scale(dir, 0.12));
+    const pStart = toThree(seq.Pbody), pEnd = toThree(overshoot);
+    const mid = pStart.clone().add(pEnd).multiplyScalar(0.5);
+    const len = pStart.distanceTo(pEnd);
+    axleMesh.geometry.dispose();
+    axleMesh.geometry = new THREE.CylinderGeometry(0.016,0.016,len,12);
+    axleMesh.position.copy(mid);
+    axleMesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), pEnd.clone().sub(pStart).normalize());
+
+    pivotDot.position.set(0,0,0);
+    animPhase = 0;
+    resizeThree();
+    if(!rafId) rafId = requestAnimationFrame(loop3D);
+  }
+
+  function applyPose(M){
+    const q = mat3ToQuat(M);
+    group.quaternion.copy(q);
+    const Pbody3 = toThree(seq.Pbody);
+    group.position.copy(Pbody3.clone().negate().applyQuaternion(q));
+  }
+
+  const FRAME_INTERVAL = 1000/30; // throttle to ~30fps — this is a slow tumble, doesn't need 60
+  let lastRenderT = 0;
+
+  function loop3D(t){
+    rafId = requestAnimationFrame(loop3D);
+    if(document.hidden) return; // don't burn GPU on a backgrounded tab
+    if(t - lastRenderT < FRAME_INTERVAL) return;
+    const dt = lastRenderT ? (t-lastRenderT)/1000 : 0;
+    lastRenderT = t;
+
+    if(seq && seq.transitions.length>0){
+      animPhase += dt * 1.2; // tips per second
+      const span = seq.transitions.length;
+      const wrapped = animPhase % span;
+      const k = Math.floor(wrapped);
+      const frac = wrapped - k;
+      const { axis, theta } = seq.transitions[k];
+      const Mt = matMul(axisAngleMatrix(axis, theta*frac), seq.mats[k]);
+      applyPose(Mt);
+
+      // Edge k is genuinely flush exactly at frac=0 of this transition —
+      // that's what mats[k] actually represents, both its endpoints real
+      // ground contacts. So it pops in fully right then and stays drawn
+      // as history; the NEXT edge (k+1) isn't flush until frac reaches 1,
+      // so it must not appear before that — no interpolating toward it.
+      flowerLine.geometry.setDrawRange(0, k+2);
+    }
+
+    updateCamera();
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', ()=>{ if(renderer) resizeThree(); });
+
+  window.rebuild3D = rebuild3D;
+})();
 
 selectAxis('vertex');
 </script>
