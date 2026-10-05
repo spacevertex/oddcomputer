@@ -1296,6 +1296,7 @@
     previewArr = null;
     previewTrails = null;
     previewFrozen = false;
+    previewTickCount = 0;
     updatePlacementUI();
     draw();
   }
@@ -1448,6 +1449,11 @@
     updateWatchPanel();
     hideContextMenu();
     cancelAdd(); // mutual exclusion with the add-particle flow
+    // tear down any existing pending placement first — safe to call even
+    // when nothing is pending. Without this, loading a second pattern
+    // while a first is still uncommitted silently overwrote pendingPattern
+    // in place, skipping the normal abort/cleanup path entirely.
+    cancelPlacement();
 
     const nearestIn = data.nearest || [];
     const boboIn = data.bobo || [];

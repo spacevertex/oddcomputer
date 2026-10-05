@@ -499,6 +499,7 @@
   let lastNewSnapshot = null;
 
   function reset(){
+    revertPreview(); // Roll replaces the live particles array; a running preview's snapshot would otherwise go stale under it
     spawn();
     lastNewSnapshot = particles.map(p => ({...p}));
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
@@ -512,6 +513,7 @@
 
   function redo(){
     if (!lastNewSnapshot) return;
+    revertPreview(); // same reasoning as reset(): Recall also replaces the live particles array wholesale
     playing = false;
     playBtn.textContent = 'Play';
     watch = null;
@@ -530,13 +532,13 @@
   // individual (sign(dx), sign(dy)) contributions, then takes sign() of the
   // summed components. With a single closest neighbor this reduces to the
   // original one-neighbor rule; with a tie it blends the tied directions.
-  function neighborDelta(i){
-    const p = particles[i];
+  function neighborDeltaIn(arr, i){
+    const p = arr[i];
     let bestDistSq = Infinity;
     let tied = [];
-    for (let j=0;j<particles.length;j++){
+    for (let j=0;j<arr.length;j++){
       if (j===i) continue;
-      const q = particles[j];
+      const q = arr[j];
       const dx = q.x - p.x, dy = q.y - p.y;
       const d2 = dx*dx + dy*dy;
       if (d2 < bestDistSq){ bestDistSq = d2; tied = [j]; }
@@ -544,11 +546,34 @@
     }
     let sumX = 0, sumY = 0;
     tied.forEach(j=>{
-      const q = particles[j];
+      const q = arr[j];
       sumX += sign(q.x - p.x);
       sumY += sign(q.y - p.y);
     });
     return { dvx: sign(sumX), dvy: sign(sumY), tieCount: tied.length, tied };
+  }
+  // the real simulation always operates on the live `particles` array; the
+  // array-parametrized core above also lets the hand-off preview (below)
+  // run the identical physics against its own private array, without ever
+  // touching the real one.
+  function neighborDelta(i){ return neighborDeltaIn(particles, i); }
+
+  // single-tick physics update for an arbitrary particle array — the same
+  // simultaneous-update rule as step() (compute every delta from current
+  // positions first, then apply them all), minus step()'s trail/tick/watch
+  // bookkeeping, which is specific to the real simulation's own state.
+  function stepArrayOnce(arr){
+    const deltas = arr.map((p, i)=>{
+      if (p.type !== 'nearest') return null;
+      return neighborDeltaIn(arr, i);
+    });
+    arr.forEach((p,i)=>{
+      if (p.type !== 'nearest') return;
+      p.vx += deltas[i].dvx;
+      p.vy += deltas[i].dvy;
+      p.x += p.vx;
+      p.y += p.vy;
+    });
   }
 
   // ---------- oscillator watch ----------
@@ -725,15 +750,16 @@
   // displayed — not cached from the last tick's decision-making, which
   // would show the bobo that *was* closest a moment ago rather than the
   // one that *is* closest in the frozen frame you're actually looking at.
-  function computeActiveBobos(){
+  function computeActiveBobosIn(arr){
     const set = new Set();
-    particles.forEach((p,i)=>{
+    arr.forEach((p,i)=>{
       if (p.type !== 'nearest') return;
-      const { tied } = neighborDelta(i);
-      tied.forEach(j=>{ if (particles[j].type === 'bobo') set.add(j); });
+      const { tied } = neighborDeltaIn(arr, i);
+      tied.forEach(j=>{ if (arr[j].type === 'bobo') set.add(j); });
     });
     return set;
   }
+  function computeActiveBobos(){ return computeActiveBobosIn(particles); }
 
   function step(){
     // simultaneous update: compute deltas from current positions first.
@@ -828,12 +854,19 @@
     ctx.moveTo(0, origin.sy+0.5); ctx.lineTo(W, origin.sy+0.5);
     ctx.stroke();
 
+    // During an active preview, draw from the preview's own evolving array
+    // instead of the real (frozen, untouched) one — ghost entries render
+    // in the fixed ghost colour throughout; live entries keep their own.
+    const drawArr = previewActive ? previewArr : particles;
+    const drawTrails = previewActive ? previewTrails : trails;
+    const colorForDraw = (i) => (previewActive && i >= previewLiveCount) ? GHOST_COLOR : drawArr[i].color;
+
     // trails (nearest particles only) — independent of vector view now
     if (showTrails){
-      particles.forEach((p, i)=>{
-        const t = trails[i];
+      drawArr.forEach((p, i)=>{
+        const t = drawTrails[i];
         if (!t) return;
-        ctx.strokeStyle = p.color;
+        ctx.strokeStyle = colorForDraw(i);
         ctx.globalAlpha = 0.3;
         ctx.lineWidth = 1.2;
         ctx.beginPath();
@@ -849,11 +882,11 @@
       // a plain line segment per nearest particle from its current
       // position to position+velocity — no arrowhead. Often jumps to a
       // different segment next tick since velocity itself changes.
-      particles.forEach((p)=>{
+      drawArr.forEach((p, i)=>{
         if (p.type !== 'nearest') return;
         const a = worldToScreen(p.x, p.y);
         const b = worldToScreen(p.x + p.vx, p.y + p.vy);
-        ctx.strokeStyle = p.color;
+        ctx.strokeStyle = colorForDraw(i);
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(a.sx, a.sy);
@@ -865,11 +898,11 @@
     // bobo particles: static squares, no glow. Slightly brighter grey when
     // currently serving as a (tied-)nearest neighbor for some particle,
     // computed fresh from the positions actually being drawn this frame.
-    const activeBobosNow = computeActiveBobos();
-    particles.forEach((p,i)=>{
+    const activeBobosNow = computeActiveBobosIn(drawArr);
+    drawArr.forEach((p,i)=>{
       if (p.type !== 'bobo') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
-      ctx.fillStyle = activeBobosNow.has(i) ? '#c9d6dc' : p.color;
+      ctx.fillStyle = activeBobosNow.has(i) ? '#c9d6dc' : colorForDraw(i);
       const s = 5;
       ctx.fillRect(sx-s/2, sy-s/2, s, s);
     });
@@ -878,10 +911,10 @@
     // per color instead of recomputing shadowBlur (an expensive per-pixel
     // blur convolution) on every particle, every frame.
     const glowSize = 18;
-    particles.forEach((p)=>{
+    drawArr.forEach((p, i)=>{
       if (p.type !== 'nearest') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
-      const sprite = getGlowSprite(p.color);
+      const sprite = getGlowSprite(colorForDraw(i));
       ctx.drawImage(sprite, sx-glowSize/2, sy-glowSize/2, glowSize, glowSize);
     });
 
@@ -920,8 +953,11 @@
 
     // pending-pattern ghost preview: bounding box + translucent particles,
     // shown at whatever the current candidate center is (set by mouse or
-    // by ijkl), never the real particle field.
-    if (placementActive && pendingPattern){
+    // by ijkl), never the real particle field. Suppressed while an actual
+    // hand-off preview is running — drawArr above already renders the
+    // ghost's (moving) position, and a static box around it would be both
+    // redundant and conceptually wrong once the group is no longer rigid.
+    if (placementActive && pendingPattern && !previewActive){
       const boxTL = worldToScreen(
         placementCenterX - pendingPattern.width/2,
         placementCenterY + pendingPattern.height/2
@@ -1009,14 +1045,35 @@
   function loop(now){
     const dt = (now - last)/1000;
     last = now;
-    if (playing){
+    if (playing || previewActive){
       acc += dt;
       const interval = 1/TICKS_PER_SEC;
       let stepped = false;
       while (acc >= interval){
-        step();
+        if (previewActive){
+          if (!previewFrozen){
+            if (previewTickCount < PREVIEW_MAX_TICKS && !previewDiverged()){
+              stepArrayOnce(previewArr);
+              previewTrails.forEach((t,i)=>{
+                if (!t) return;
+                t.push({x:previewArr[i].x, y:previewArr[i].y});
+                if (t.length > 500) t.shift();
+              });
+              previewTickCount++;
+              stepped = true;
+            } else {
+              // safety net tripped: freeze in place rather than revert,
+              // waiting for the user to move on, replay, or place
+              previewFrozen = true;
+              updatePlacementUI();
+              stepped = true; // one final repaint to show the frozen state
+            }
+          }
+        } else {
+          step();
+          stepped = true;
+        }
         acc -= interval;
-        stepped = true;
       }
       if (stepped) draw(); // only repaint when the scene actually changed
     }
@@ -1101,6 +1158,7 @@
   // reasoning as delete) but leaves playback state and tick count alone —
   // this is a structural edit, not a field reset.
   function debobo(){
+    revertPreview(); // debobo rebuilds the live particles array; same staleness risk as reset()/redo()
     const boboColor = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
     const newParticles = [];
     const newTrails = [];
@@ -1176,6 +1234,114 @@
   let placementCenterX = 0;
   let placementCenterY = 0;
 
+  // ---------- preview-while-placing ----------
+  // Lets you watch what a loaded pattern would actually do, chained
+  // against the live field, before committing to it — built specifically
+  // so a daisy-chained hand-off between oscillators can be checked without
+  // a save/load/retry cycle. Implemented as a fully separate, parallel
+  // simulation: a one-time snapshot of the live particles plus the ghost
+  // (at its exact current candidate position and orientation) is cloned
+  // into previewArr and stepped with the identical physics as the real
+  // sim, while the real particles/trails/tick are never touched at all.
+  // That makes "revert" trivial and risk-free — there's nothing to
+  // restore, because nothing real ever changed in the first place.
+  let previewActive = false;
+  let previewArr = null;
+  let previewTrails = null;
+  let previewLiveCount = 0;
+  let previewTickCount = 0;
+  let previewFrozen = false;     // true once the safety net below has tripped
+  const PREVIEW_MAX_TICKS = 5000;
+  const PREVIEW_DIVERGE_LIMIT = 100000;
+  const GHOST_COLOR = '#8bf3c9';
+
+  function startPreview(){
+    if (!placementActive || !pendingPattern) return;
+    // belt and suspenders: entering a preview always pauses the real sim,
+    // even in the unlikely case placement began while it was running
+    if (playing){ playing = false; playBtn.textContent = 'Play'; }
+    const liveClones = particles.map(p => ({ type:p.type, x:p.x, y:p.y, vx:p.vx, vy:p.vy, color:p.color }));
+    const ghostNearest = pendingPattern.nearestRel.map(p => ({
+      type:'nearest',
+      x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
+      vx: p.vx, vy: p.vy,
+    }));
+    const ghostBobo = pendingPattern.boboRel.map(p => ({
+      type:'bobo',
+      x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
+      vx: 0, vy: 0,
+    }));
+    previewLiveCount = liveClones.length;
+    previewArr = liveClones.concat(ghostNearest, ghostBobo);
+    previewTrails = previewArr.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
+    previewTickCount = 0;
+    previewFrozen = false;
+    previewActive = true;
+    acc = 0; last = performance.now(); // avoid a startup catch-up burst of steps
+    updatePlacementUI();
+    draw();
+  }
+
+  function previewDiverged(){
+    return previewArr.some(p => Math.abs(p.x) > PREVIEW_DIVERGE_LIMIT || Math.abs(p.y) > PREVIEW_DIVERGE_LIMIT);
+  }
+
+  // called from every path that would reposition, reshape, replace, or
+  // discard the pending pattern — movement (mouse or ijkl), rotate/mirror,
+  // re-preview, commit, cancel, and (defensively) anything that could
+  // replace the live particles array out from under a running preview.
+  function revertPreview(){
+    if (!previewActive) return;
+    previewActive = false;
+    previewArr = null;
+    previewTrails = null;
+    previewFrozen = false;
+    updatePlacementUI();
+    draw();
+  }
+
+  // ---------- pre-roll: advance the ghost's own clock before previewing ----------
+  // Timing often matters for a hand-off, so semicolon lets you tick the
+  // ghost forward on ITS OWN — entirely self-contained, no interaction
+  // with the live field at all, exactly as if this file had been loaded
+  // and played by itself — before you ever start the interactive preview.
+  // Reuses stepArrayOnce, the same core the preview itself runs on, just
+  // applied to the ghost's relative shape alone.
+  function preRollPendingPattern(){
+    if (!pendingPattern) return;
+    const nNearest = pendingPattern.nearestRel.length;
+    const arr = pendingPattern.nearestRel.map(p => ({ type:'nearest', x:p.x, y:p.y, vx:p.vx, vy:p.vy }))
+      .concat(pendingPattern.boboRel.map(p => ({ type:'bobo', x:p.x, y:p.y, vx:0, vy:0 })));
+    stepArrayOnce(arr);
+    pendingPattern.nearestRel = arr.slice(0, nNearest).map(p => ({ x:p.x, y:p.y, vx:p.vx, vy:p.vy }));
+    pendingPattern.boboRel = arr.slice(nNearest).map(p => ({ x:p.x, y:p.y }));
+    pendingPattern.preRollTicks++;
+    updatePlacementUI();
+    draw();
+  }
+
+  // restores the ghost to its un-ticked shape (whatever rotation/mirror
+  // you've applied, but with zero pre-roll) — called on a genuine abort,
+  // never on a replay, so repeating an unsatisfying attempt means
+  // starting the tick count fresh rather than compounding on top of it
+  function resetPreRoll(){
+    if (!pendingPattern) return;
+    pendingPattern.nearestRel = pendingPattern.unrolledNearestRel.map(p => ({...p}));
+    pendingPattern.boboRel = pendingPattern.unrolledBoboRel.map(p => ({...p}));
+    pendingPattern.preRollTicks = 0;
+  }
+
+  // the "this preview is being abandoned, not replayed" path — used by
+  // every action that represents the user deliberately changing their
+  // setup (move, ijkl, rotate, mirror, another pre-roll tick, Escape) as
+  // opposed to pressing p again, which is a true replay and keeps the
+  // pre-roll exactly as it was.
+  function abortPreview(){
+    revertPreview();
+    resetPreRoll();
+    draw();
+  }
+
   // ---------- add a single particle by hand ----------
   // Same candidate-tracking mechanics as pattern placement (shared
   // placementCenterX/Y, mousemove/ijkl/Enter). Nearest particles need two
@@ -1197,8 +1363,15 @@
       canvas.classList.add('placing');
       stepBtn.disabled = true;
       playBtnEl.disabled = true;
-      if (placementActive){
-        banner.innerHTML = 'Click, or ijkl + Enter/p, to place pattern &middot; o to rotate, u to mirror <span class="hint">(Esc to cancel)</span>';
+      if (placementActive && previewFrozen){
+        banner.innerHTML = 'Preview reached its safety limit &middot; move, press a key, or p to replay <span class="hint">(Enter to place as shown, Esc to cancel)</span>';
+      } else if (placementActive && previewActive){
+        banner.innerHTML = 'Previewing the hand-off &middot; move, press a key, or p to replay <span class="hint">(Enter to place as shown, Esc to cancel)</span>';
+      } else if (placementActive){
+        const preRollNote = pendingPattern && pendingPattern.preRollTicks > 0
+          ? ' &middot; pre-rolled ' + pendingPattern.preRollTicks + ' tick' + (pendingPattern.preRollTicks===1?'':'s')
+          : '';
+        banner.innerHTML = 'Click, or ijkl + Enter, to place pattern &middot; p to preview &middot; o to rotate, u to mirror &middot; ; to pre-roll' + preRollNote + ' <span class="hint">(Esc to cancel)</span>';
       } else if (addKind === 'bobo'){
         banner.innerHTML = 'Click, or ijkl + Enter, to place new bobo <span class="hint">(Esc to cancel)</span>';
       } else {
@@ -1296,9 +1469,19 @@
     const cx = (minX + maxX) / 2;
     const cy = (minY + maxY) / 2;
 
+    const relNearest = nearestIn.map(p => ({ x: p.x - cx, y: p.y - cy, vx: p.vx, vy: p.vy }));
+    const relBobo = boboIn.map(p => ({ x: p.x - cx, y: p.y - cy }));
     pendingPattern = {
-      nearestRel: nearestIn.map(p => ({ x: p.x - cx, y: p.y - cy, vx: p.vx, vy: p.vy })),
-      boboRel: boboIn.map(p => ({ x: p.x - cx, y: p.y - cy })),
+      nearestRel: relNearest,
+      boboRel: relBobo,
+      // the shape with zero pre-roll ticks applied — kept in sync with
+      // rotate/mirror (both commute with pre-roll stepping, verified
+      // directly before relying on it) so a pre-roll reset always returns
+      // to "whatever orientation you've chosen, un-ticked", never to the
+      // as-loaded orientation if you've since rotated or mirrored it.
+      unrolledNearestRel: relNearest.map(p => ({...p})),
+      unrolledBoboRel: relBobo.map(p => ({...p})),
+      preRollTicks: 0,
       width: maxX - minX,
       height: maxY - minY,
     };
@@ -1319,10 +1502,15 @@
   // mirroring doesn't change the box dimensions.
   function rotatePendingPattern(){
     if (!pendingPattern) return;
-    pendingPattern.nearestRel = pendingPattern.nearestRel.map(p => ({
-      x: -p.y, y: p.x, vx: -p.vy, vy: p.vx
-    }));
-    pendingPattern.boboRel = pendingPattern.boboRel.map(p => ({ x: -p.y, y: p.x }));
+    const rotN = p => ({ x: -p.y, y: p.x, vx: -p.vy, vy: p.vx });
+    const rotB = p => ({ x: -p.y, y: p.x });
+    pendingPattern.nearestRel = pendingPattern.nearestRel.map(rotN);
+    pendingPattern.boboRel = pendingPattern.boboRel.map(rotB);
+    // rotation and pre-roll stepping commute (verified directly before
+    // this was built), so transforming the unrolled base the same way
+    // keeps a later pre-roll reset consistent with this new orientation
+    pendingPattern.unrolledNearestRel = pendingPattern.unrolledNearestRel.map(rotN);
+    pendingPattern.unrolledBoboRel = pendingPattern.unrolledBoboRel.map(rotB);
     const oldWidth = pendingPattern.width, oldHeight = pendingPattern.height;
     pendingPattern.width = oldHeight;
     pendingPattern.height = oldWidth;
@@ -1331,10 +1519,12 @@
 
   function mirrorPendingPattern(){
     if (!pendingPattern) return;
-    pendingPattern.nearestRel = pendingPattern.nearestRel.map(p => ({
-      x: -p.x, y: p.y, vx: -p.vx, vy: p.vy
-    }));
-    pendingPattern.boboRel = pendingPattern.boboRel.map(p => ({ x: -p.x, y: p.y }));
+    const mirN = p => ({ x: -p.x, y: p.y, vx: -p.vx, vy: p.vy });
+    const mirB = p => ({ x: -p.x, y: p.y });
+    pendingPattern.nearestRel = pendingPattern.nearestRel.map(mirN);
+    pendingPattern.boboRel = pendingPattern.boboRel.map(mirB);
+    pendingPattern.unrolledNearestRel = pendingPattern.unrolledNearestRel.map(mirN);
+    pendingPattern.unrolledBoboRel = pendingPattern.unrolledBoboRel.map(mirB);
     draw();
   }
 
@@ -1358,6 +1548,7 @@
 
   function commitPlacement(centerX, centerY){
     if (!pendingPattern) return;
+    revertPreview();
     const boboColor = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
     pendingPattern.nearestRel.forEach(p=>{
       const x = Math.round(centerX + p.x);
@@ -1379,6 +1570,7 @@
   }
 
   function cancelPlacement(){
+    abortPreview();
     pendingPattern = null;
     placementActive = false;
     updatePlacementUI();
@@ -1396,24 +1588,50 @@
       if (placementActive) cancelPlacement(); else cancelAdd();
       return;
     }
-    if (key === 'enter' || key === 'p'){
+    if (key === 'p'){
       e.preventDefault();
-      if (placementActive) commitPlacement(placementCenterX, placementCenterY);
-      else advanceAdd(placementCenterX, placementCenterY);
+      if (placementActive){
+        // pressed once, starts a preview; pressed again mid-preview,
+        // reverts to the snapshot and immediately replays from scratch —
+        // a deterministic re-run, since nothing about the snapshot changed
+        if (previewActive) revertPreview();
+        startPreview();
+      } else {
+        advanceAdd(placementCenterX, placementCenterY); // unchanged for single-particle add
+      }
+      return;
+    }
+    if (key === 'enter'){
+      e.preventDefault();
+      if (placementActive){
+        if (previewActive) revertPreview();
+        commitPlacement(placementCenterX, placementCenterY);
+      } else {
+        advanceAdd(placementCenterX, placementCenterY);
+      }
       return;
     }
     if (placementActive && key === 'o'){
       e.preventDefault();
+      if (previewActive) abortPreview();
       rotatePendingPattern();
       return;
     }
     if (placementActive && key === 'u'){
       e.preventDefault();
+      if (previewActive) abortPreview();
       mirrorPendingPattern();
+      return;
+    }
+    if (placementActive && key === ';'){
+      e.preventDefault();
+      if (previewActive) abortPreview();
+      preRollPendingPattern();
       return;
     }
     if (!['i','j','k','l'].includes(key)) return;
     e.preventDefault();
+    if (previewActive) abortPreview();
     const step = e.shiftKey ? 10 : 1;
     if (key === 'i'){ placementCenterY += step; updatePlacementIndicator(); }
     else if (key === 'k'){ placementCenterY -= step; updatePlacementIndicator(); }
@@ -1426,6 +1644,7 @@
       document.getElementById('coord-indicator').classList.remove('visible');
       return;
     }
+    if (previewActive) abortPreview();
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left, my = e.clientY - rect.top;
     const w = screenToWorld(mx, my);
@@ -1440,6 +1659,7 @@
     const clickY = e.clientY - rect.top;
 
     if (placementActive){
+      if (previewActive) revertPreview();
       const w = screenToWorld(clickX, clickY);
       commitPlacement(Math.round(w.x), Math.round(w.y));
       return;
