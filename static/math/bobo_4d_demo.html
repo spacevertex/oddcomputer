@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>4D Shadows</title>
+<style>
+  body{ margin:0; background:#0c1210; color:#d8e4df; font-family:'IBM Plex Mono',monospace; display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{ font-size:15px; font-weight:600; color:#8bf3c9; letter-spacing:0.02em; margin:0 0 4px; }
+  .sub{ font-size:12px; color:#7a8a84; margin-bottom:8px; text-align:center; max-width:600px; }
+  .status{ font-size:12px; color:#8bf3c9; margin-bottom:16px; min-height:16px; }
+  .grid{ display:grid; grid-template-columns:440px 440px; grid-template-rows:440px 440px; gap:16px; }
+  .panel{ display:flex; flex-direction:column; align-items:center; }
+  canvas{ background:#0f1815; border:1px solid #223028; border-radius:6px; }
+  .label{ font-size:11px; color:#7a8a84; margin-top:6px; }
+</style>
+</head>
+<body>
+<h1>4D Shadows</h1>
+<div class="sub">Four 3D shadows of one oscillator at a time — each panel drops one of x/y/z/w entirely. Runs itself: the particles move for a while, then the whole thing rotates through one plane at a time, cycling x &rarr; y &rarr; z &rarr; w &rarr; x forever. Press space to switch to a different oscillator.</div>
+<div class="status" id="status"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+function sign(v){ return v>0?1:(v<0?-1:0); }
+
+// ---- three verified, genuinely 4D (rank-4), asymmetric, cold-started oscillators ----
+// Each confirmed with the original slow methods before this page was built: exact minimal
+// period, rank 4 (not 3D-degenerate), no self-sufficient subset across all proper subsets,
+// every particle essential by removal. Space bar cycles between them.
+const OSCILLATORS = [
+  { label:'period 72, extents (4,16,9,2)', period:72, initial:[
+    {x:-1, y:-2, z:2,  w:1,  vx:0, vy:0, vz:0, vw:0},
+    {x:1,  y:-1, z:-2, w:0,  vx:0, vy:0, vz:0, vw:0},
+    {x:3,  y:-2, z:2,  w:-1, vx:0, vy:0, vz:0, vw:0},
+  ]},
+  { label:'period 40, extents (2,4,6,2)', period:40, initial:[
+    {x:0, y:-1, z:0,  w:0, vx:0, vy:0, vz:0, vw:0},
+    {x:2, y:-3, z:3,  w:1, vx:0, vy:0, vz:0, vw:0},
+    {x:1, y:1,  z:-3, w:2, vx:0, vy:0, vz:0, vw:0},
+  ]},
+  { label:'period 80, extents (33,6,33,36)', period:80, initial:[
+    {x:1,  y:0,  z:1,  w:1,  vx:0, vy:0, vz:0, vw:0},
+    {x:-1, y:3,  z:0,  w:-3, vx:0, vy:0, vz:0, vw:0},
+    {x:0,  y:-3, z:-1, w:-3, vx:0, vy:0, vz:0, vw:0},
+  ]},
+];
+const COLORS = ['#8bf3c9', '#f2a65a', '#7aa7f2'];
+let oscIndex = 0;
+let PERIOD, INITIAL;
+
+function step4D(ps){
+  const deltas = ps.map((p,i)=>{
+    let best=Infinity, tied=[];
+    for (let j=0;j<ps.length;j++){
+      if (j===i) continue;
+      const q=ps[j];
+      const d2=(q.x-p.x)**2+(q.y-p.y)**2+(q.z-p.z)**2+(q.w-p.w)**2;
+      if (d2<best){ best=d2; tied=[j]; } else if (d2===best) tied.push(j);
+    }
+    let sx=0,sy=0,sz=0,sw=0;
+    tied.forEach(j=>{ const q=ps[j]; sx+=sign(q.x-p.x); sy+=sign(q.y-p.y); sz+=sign(q.z-p.z); sw+=sign(q.w-p.w); });
+    return { dvx:sign(sx), dvy:sign(sy), dvz:sign(sz), dvw:sign(sw) };
+  });
+  ps.forEach((p,i)=>{
+    p.vx+=deltas[i].dvx; p.vy+=deltas[i].dvy; p.vz+=deltas[i].dvz; p.vw+=deltas[i].dvw;
+    p.x+=p.vx; p.y+=p.vy; p.z+=p.vz; p.w+=p.vw;
+  });
+}
+
+const ISO_K = Math.sqrt(6)/2;
+const CANVAS_SIZE = 440, CANVAS_CENTER = CANVAS_SIZE/2;
+let history, displayHistory, boundingRadius4D, SCALE, DEPTH_MIN, DEPTH_MAX;
+
+// Precomputes everything that depends on which oscillator is active: its whole period (raw
+// exact integers), the display-shift centring (rendering only, never the physics — same
+// convention as every other viewer in this project), and the scale/depth-range sized for the
+// WORST CASE across every possible rotation, not just the current one. An orthogonal
+// projection can only shrink a distance, never grow it — true regardless of how many
+// dimensions are involved — so the 4D bounding-sphere radius (max distance from the centred
+// origin, across the whole period) bounds EVERY 3-axis shadow at ANY rotation. Verified
+// numerically (400,000 random rotation sequences across all four panel selections) before this
+// was relied on architecturally: the shadow norm never exceeds the 4D radius, and |depth| (the
+// sum of whichever 3 rotated coordinates a panel shows) never exceeds sqrt(3) times it.
+function loadOscillator(idx){
+  oscIndex = idx;
+  const osc = OSCILLATORS[idx];
+  PERIOD = osc.period; INITIAL = osc.initial;
+
+  history = [];
+  const ps = INITIAL.map(p=>({...p}));
+  for (let t=0; t<=PERIOD; t++){
+    history.push(ps.map(p=>({x:p.x,y:p.y,z:p.z,w:p.w})));
+    if (t<PERIOD) step4D(ps);
+  }
+  let gMin={x:Infinity,y:Infinity,z:Infinity,w:Infinity}, gMax={x:-Infinity,y:-Infinity,z:-Infinity,w:-Infinity};
+  history.forEach(fr=>fr.forEach(p=>['x','y','z','w'].forEach(ax=>{ if(p[ax]<gMin[ax]) gMin[ax]=p[ax]; if(p[ax]>gMax[ax]) gMax[ax]=p[ax]; })));
+  const gCenter = {}; ['x','y','z','w'].forEach(ax=> gCenter[ax] = (gMin[ax]+gMax[ax])/2 );
+  displayHistory = history.map(fr=>fr.map(p=>({ x:p.x-gCenter.x, y:p.y-gCenter.y, z:p.z-gCenter.z, w:p.w-gCenter.w })));
+
+  boundingRadius4D = 0;
+  displayHistory.forEach(fr=>fr.forEach(p=>{ const d=Math.hypot(p.x,p.y,p.z,p.w); if (d>boundingRadius4D) boundingRadius4D=d; }));
+  SCALE = (CANVAS_CENTER-20) / (ISO_K*boundingRadius4D + 0.45);
+  DEPTH_MAX = Math.sqrt(3)*boundingRadius4D; DEPTH_MIN = -DEPTH_MAX;
+}
+
+// ---- the four panels: each shows three of the four axes, dropping the fourth entirely.
+// The last of the three shown axes plays "up"; the other two play the floor, in that order —
+// the same convention as the ordinary isometric viewer applied consistently across all four.
+const AXIS_INDEX = { x:0, y:1, z:2, w:3 };
+const PANELS = [
+  { drops:'w', axes:['x','y','z'] },
+  { drops:'z', axes:['x','y','w'] },
+  { drops:'y', axes:['x','z','w'] },
+  { drops:'x', axes:['y','z','w'] },
+];
+
+// ---- the shared 4D rotation state ----
+// No user steering here — this just runs itself — so a plain, world-fixed 4x4 rotation matrix
+// is all that's needed (no reason for the orbit-camera, rotate-around-the-current-basis
+// machinery the interactive isometric viewer needed for WASD). "Rotate around X" has no single
+// meaning in 4D the way it does in 3D (the orthogonal complement of one axis is a 3D space, not
+// a plane) — this resolves it as a specific, consistent choice: treating the axes as a cycle
+// x->y->z->w->x, each named phase rotates the pair immediately following it. x-phase turns y-z,
+// y-phase turns z-w, z-phase turns w-x, w-phase turns x-y. That's 4 of the 6 possible coordinate
+// planes, each touched once per full cycle; the two "diagonal" pairs (x-z, y-w) are never
+// rotated by this scheme.
+const ROT_PLANES = { x:[1,2], y:[2,3], z:[3,0], w:[0,1] };
+const PHASE_ORDER = ['x','y','z','w'];
+let phaseIndex = 0;
+let R = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
+function matVec4(M, v){ return M.map(row => row[0]*v[0]+row[1]*v[1]+row[2]*v[2]+row[3]*v[3]); }
+function matMul4(A, B){
+  const out = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  for (let i=0;i<4;i++) for (let j=0;j<4;j++) for (let k=0;k<4;k++) out[i][j] += A[i][k]*B[k][j];
+  return out;
+}
+function planeRotation(i, j, deg){
+  const r = deg*Math.PI/180, c = Math.cos(r), s = Math.sin(r);
+  const M = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
+  M[i][i]=c; M[i][j]=-s; M[j][i]=s; M[j][j]=c;
+  return M;
+}
+
+// ---- the per-panel wiggle ----
+// Each of the four shadows is a genuine 3D object, but the isometric view only ever shows it
+// from one fixed angle — the same limitation a single frozen 2D view of a true 3D object has,
+// which is the whole reason free rotation mattered for the ordinary 3D viewer. This gives each
+// panel a brief, independent nod of its own: a small rotation, in that panel's own three-axis
+// space only, that swings out and back to identity. It never touches the shared 4D rotation R,
+// never affects the other panels, and only ever happens during "move" (never alongside the main
+// 4D rotation, so the two motions are never confused with each other) — most of the time every
+// panel sits at zero wiggle, which is what keeps the plain fixed view the primary picture.
+function rotateAroundAxis3(v, axis, deg){
+  const r = deg*Math.PI/180, c = Math.cos(r), s = Math.sin(r);
+  const dot = axis[0]*v[0]+axis[1]*v[1]+axis[2]*v[2];
+  const cross = [ axis[1]*v[2]-axis[2]*v[1], axis[2]*v[0]-axis[0]*v[2], axis[0]*v[1]-axis[1]*v[0] ];
+  return [
+    v[0]*c + cross[0]*s + axis[0]*dot*(1-c),
+    v[1]*c + cross[1]*s + axis[1]*dot*(1-c),
+    v[2]*c + cross[2]*s + axis[2]*dot*(1-c),
+  ];
+}
+function norm3(v){ const m=Math.hypot(v[0],v[1],v[2]); return [v[0]/m,v[1]/m,v[2]/m]; }
+// a different pair of (orthogonal-ish) axes per panel, so all four visibly turn independently
+// rather than in lockstep
+const WIGGLE_AXIS_PAIRS = [
+  [[0,1,0], [1,0,0]],
+  [[0,0,1], [0,1,0]],
+  [[1,0,0], [0,0,1]],
+  [norm3([1,1,0]), norm3([0,1,1])],
+];
+const WIGGLE_START_MS = 1000, WIGGLE_DURATION_MS = 1500, WIGGLE_MAX_DEG = 20;
+// smooth ease in/out across each quarter (zero slope at both ends of 0..1), so each of the
+// four legs below starts and stops gently rather than changing velocity abruptly
+function wiggleEase(u){ return (1 - Math.cos(u*Math.PI)) / 2; }
+// the L-shaped path, traced out and back: tilt up (axisY) to the peak, then — while still held
+// up — tilt sideways (axisX) out to the peak, then back to zero, then finally un-tilt back down.
+// Four quarters, continuous in position and velocity at every boundary (verified numerically
+// before this was wired in), always ending exactly back at zero on both axes.
+function wiggleAnglesForPanel(panelIndex, now){
+  if (mode !== 'move') return null;                 // never during the 4D rotation phase
+  const elapsed = now - modeStart;
+  if (elapsed < WIGGLE_START_MS || elapsed > WIGGLE_START_MS+WIGGLE_DURATION_MS) return null;
+  const t = (elapsed - WIGGLE_START_MS) / WIGGLE_DURATION_MS;
+  let angleY = 0, angleX = 0;
+  if (t < 0.25){ angleY = WIGGLE_MAX_DEG * wiggleEase(t/0.25); }
+  else if (t < 0.5){ angleY = WIGGLE_MAX_DEG; angleX = WIGGLE_MAX_DEG * wiggleEase((t-0.25)/0.25); }
+  else if (t < 0.75){ angleY = WIGGLE_MAX_DEG; angleX = WIGGLE_MAX_DEG * (1-wiggleEase((t-0.5)/0.25)); }
+  else { angleY = WIGGLE_MAX_DEG * (1-wiggleEase((t-0.75)/0.25)); angleX = 0; }
+  const [axisY, axisX] = WIGGLE_AXIS_PAIRS[panelIndex];
+  return { axisY, angleY, axisX, angleX };
+}
+function applyWiggle(abc, panelIndex, now){
+  const w = wiggleAnglesForPanel(panelIndex, now);
+  if (!w) return abc;
+  let result = rotateAroundAxis3(abc, w.axisY, w.angleY);
+  result = rotateAroundAxis3(result, w.axisX, w.angleX);
+  return result;
+}
+
+// ---- projection: rotate the full 4D point through R, then a panel just reads off whichever
+// three (rotated) coordinates it shows, in its own fixed floor-A/floor-B/up roles — then a tiny
+// panel-local wiggle, if one is currently active ----
+const COS30 = Math.cos(Math.PI/6), SIN30 = Math.sin(Math.PI/6);
+function projectABC(a, b, c){ return { ix:(a-b)*COS30, iy:(a+b)*SIN30 - c }; }
+function panelLocalABC(panel, panelIndex, rawPoint, now){
+  const v = [rawPoint.x, rawPoint.y, rawPoint.z, rawPoint.w];
+  const rv = matVec4(R, v);
+  let abc = [ rv[AXIS_INDEX[panel.axes[0]]], rv[AXIS_INDEX[panel.axes[1]]], rv[AXIS_INDEX[panel.axes[2]]] ];
+  if (panelIndex !== undefined) abc = applyWiggle(abc, panelIndex, now !== undefined ? now : lastFrame);
+  return abc;
+}
+function worldToScreen(panel, rawPoint, panelIndex){
+  const [a,b,c] = panelLocalABC(panel, panelIndex, rawPoint);
+  const {ix, iy} = projectABC(a, b, c);
+  return { cx: CANVAS_CENTER + ix*SCALE, cy: CANVAS_CENTER + iy*SCALE, depth: a+b+c };
+}
+
+// ---- gizmo: for a given panel, the three edges meeting at its origin corner are the TRUE
+// (rotated) 4D unit vectors for that panel's three shown axes, projected the same way the
+// particles are — not a static cube. As R rotates, a true axis can visibly shrink or skew in a
+// given shadow, since part of it has rotated into the one dimension that shadow cannot show;
+// that is the honest, intended behaviour, not an approximation to hide.
+const GIZMO_SIZE = 1, GIZMO_EXTEND = 1.35, GIZMO_PIXEL_SCALE = 26;
+const GIZMO_ANCHOR = { cx: CANVAS_SIZE-55, cy: 55 };
+function axisUnit4(name){ const v=[0,0,0,0]; v[AXIS_INDEX[name]]=1; return v; }
+function gizmoBasis(panel, panelIndex){
+  // the three TRUE 4D unit vectors this panel shows, rotated by R, then reduced to this
+  // panel's own three shown components (a,b,c) -- generally no longer unit length or
+  // mutually orthogonal once reduced, which is the point. Also carries the same wiggle as
+  // the particles, so the gizmo never shows an orientation other than what's actually on screen.
+  return panel.axes.map(name=>{
+    const rv = matVec4(R, axisUnit4(name));
+    let abc = [ rv[AXIS_INDEX[panel.axes[0]]], rv[AXIS_INDEX[panel.axes[1]]], rv[AXIS_INDEX[panel.axes[2]]] ];
+    if (panelIndex !== undefined) abc = applyWiggle(abc, panelIndex, lastFrame);
+    return abc;
+  });
+}
+function gizmoScreen(vec3){
+  const {ix, iy} = projectABC(vec3[0], vec3[1], vec3[2]);
+  const {ix:cix, iy:ciy} = projectABC(0.5,0.5,0.5); // fixed centring reference, matches the ordinary gizmo
+  return { cx: GIZMO_ANCHOR.cx + (ix-cix)*GIZMO_PIXEL_SCALE, cy: GIZMO_ANCHOR.cy + (iy-ciy)*GIZMO_PIXEL_SCALE };
+}
+function drawGizmo(ctx, panel, panelIndex){
+  const basis = gizmoBasis(panel, panelIndex).map(v => v.map(c => c*GIZMO_SIZE));
+  const corner = (bits) => { // bits like [1,0,0] -> sum of the selected basis vectors
+    const p=[0,0,0]; bits.forEach((bit,i)=>{ if (bit) for (let k=0;k<3;k++) p[k]+=basis[i][k]; }); return p;
+  };
+  const V = {
+    '000':[0,0,0], '100':corner([1,0,0]), '010':corner([0,1,0]), '001':corner([0,0,1]),
+    '110':corner([1,1,0]), '101':corner([1,0,1]), '011':corner([0,1,1]), '111':corner([1,1,1]),
+  };
+  const FACES = [
+    ['000','100','110','010'], ['001','101','111','011'],
+    ['000','100','101','001'], ['010','110','111','011'],
+    ['000','010','011','001'], ['100','110','111','101'],
+  ];
+  const EDGES = [
+    ['000','100',true], ['010','110',false], ['001','101',false], ['011','111',false],
+    ['000','010',true], ['100','110',false], ['001','011',false], ['101','111',false],
+    ['000','001',true], ['100','101',false], ['010','011',false], ['110','111',false],
+  ];
+  const depthOfLocal = (p) => p[0]+p[1]+p[2]; // consistent with the panel's own depth convention
+
+  FACES.map(f=>{
+    const pts = f.map(k=>V[k]);
+    const c = [0,1,2].map(i=>pts.reduce((s,p)=>s+p[i],0)/4);
+    return { pts, depth: depthOfLocal(c) };
+  }).sort((a,b)=>a.depth-b.depth).forEach(({pts})=>{
+    ctx.fillStyle = 'rgba(139,243,201,0.20)';
+    ctx.beginPath();
+    pts.forEach((p,i)=>{ const s=gizmoScreen(p); if (i===0) ctx.moveTo(s.cx,s.cy); else ctx.lineTo(s.cx,s.cy); });
+    ctx.closePath(); ctx.fill();
+  });
+
+  ctx.strokeStyle = 'rgba(139,243,201,0.5)'; ctx.lineWidth = 1;
+  EDGES.filter(e=>!e[2]).forEach(([a,b])=>{
+    const pa=gizmoScreen(V[a]), pb=gizmoScreen(V[b]);
+    ctx.beginPath(); ctx.moveTo(pa.cx,pa.cy); ctx.lineTo(pb.cx,pb.cy); ctx.stroke();
+  });
+
+  ctx.strokeStyle = 'rgba(139,243,201,0.95)'; ctx.lineWidth = 1.5;
+  ctx.font = '10px IBM Plex Mono, monospace'; ctx.fillStyle = '#8bf3c9';
+  const labelOf = { '100':panel.axes[0], '010':panel.axes[1], '001':panel.axes[2] };
+  EDGES.filter(e=>e[2]).forEach(([a,b])=>{
+    const tip = V[b].map(c=>c*GIZMO_EXTEND);
+    const pa=gizmoScreen(V[a]), pb=gizmoScreen(tip);
+    ctx.beginPath(); ctx.moveTo(pa.cx,pa.cy); ctx.lineTo(pb.cx,pb.cy); ctx.stroke();
+    ctx.fillText(labelOf[b], pb.cx+4, pb.cy+4);
+  });
+}
+
+// ---- page setup: four canvases in a 2x2 grid ----
+const grid = document.getElementById('grid');
+const canvases = PANELS.map(panel => {
+  const wrap = document.createElement('div'); wrap.className = 'panel';
+  const cv = document.createElement('canvas'); cv.width = CANVAS_SIZE; cv.height = CANVAS_SIZE;
+  const lbl = document.createElement('div'); lbl.className = 'label';
+  lbl.textContent = panel.axes.join('').toUpperCase() + ' (drops ' + panel.drops + ')';
+  wrap.appendChild(cv); wrap.appendChild(lbl); grid.appendChild(wrap);
+  return cv.getContext('2d');
+});
+
+// ---- the automatic cycle: move for a while, then rotate smoothly through one plane, repeat ----
+const MOVE_MS = 4000, ROTATE_MS = 5000;
+let mode = 'move', modeStart = performance.now(), currentTick = 0, lastFrame = performance.now();
+const TICKS_PER_SEC = 10;
+let tickAcc = 0;
+
+function draw(){
+  PANELS.forEach((panel, pi) => {
+    const ctx = canvases[pi];
+    ctx.fillStyle = '#0f1815';
+    ctx.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+
+    // trails: the whole period, always -- a fixed shape, drawn complete every frame
+    INITIAL.forEach((_, i) => {
+      ctx.strokeStyle = COLORS[i];
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      for (let t=0; t<PERIOD; t++){
+        const s = worldToScreen(panel, displayHistory[t][i], pi);
+        if (t===0) ctx.moveTo(s.cx, s.cy); else ctx.lineTo(s.cx, s.cy);
+      }
+      ctx.closePath(); ctx.stroke(); ctx.globalAlpha = 1;
+    });
+
+    // particles: same depth-cued size/alpha and occlusion rule as the ordinary isometric
+    // viewer, just computed against this panel's own three shown (rotated) axes
+    const dotInfos = INITIAL.map((_, i) => {
+      const pt = displayHistory[currentTick][i];
+      const s = worldToScreen(panel, pt, pi);
+      let t = DEPTH_MAX > DEPTH_MIN ? (s.depth - DEPTH_MIN) / (DEPTH_MAX - DEPTH_MIN) : 0.5;
+      t = Math.max(0, Math.min(1, t));
+      const diameterWorld = 0.5 + t*(0.9-0.5);
+      const radiusPx = (diameterWorld/2) * SCALE;
+      const alpha = 0.4 + t*(1.0-0.4);
+      return { i, cx:s.cx, cy:s.cy, radiusPx, alpha, t, pt };
+    });
+    const hidden = new Array(dotInfos.length).fill(false);
+    for (let a=0; a<dotInfos.length; a++){
+      for (let b=0; b<dotInfos.length; b++){
+        if (a===b) continue;
+        const A=dotInfos[a], B=dotInfos[b];
+        if (B.t <= A.t) continue;
+        if (A.pt.x===B.pt.x && A.pt.y===B.pt.y && A.pt.z===B.pt.z && A.pt.w===B.pt.w) continue;
+        const dx=A.cx-B.cx, dy=A.cy-B.cy, distSq=dx*dx+dy*dy, radiusSum=A.radiusPx+B.radiusPx;
+        if (distSq < radiusSum*radiusSum){ hidden[a]=true; break; }
+      }
+    }
+    dotInfos.forEach((d, idx)=>{
+      if (hidden[idx]) return;
+      ctx.globalAlpha = d.alpha;
+      ctx.fillStyle = COLORS[d.i];
+      ctx.beginPath(); ctx.arc(d.cx, d.cy, d.radiusPx, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    drawGizmo(ctx, panel, pi);
+  });
+}
+
+function updateStatus(){
+  const phase = PHASE_ORDER[phaseIndex];
+  const which = 'object ' + (oscIndex+1) + '/' + OSCILLATORS.length + ' (' + OSCILLATORS[oscIndex].label + ')';
+  const activity = mode === 'move'
+    ? 'particles moving \u00b7 tick ' + (currentTick+1) + ' / ' + PERIOD
+    : 'rotating around ' + phase + ' (turning the ' + ROT_PLANES_LABEL[phase] + ' plane)';
+  document.getElementById('status').textContent = which + ' \u00b7 ' + activity + ' \u00b7 space to switch objects';
+}
+const ROT_PLANES_LABEL = { x:'y-z', y:'z-w', z:'w-x', w:'x-y' };
+
+function switchOscillator(){
+  loadOscillator((oscIndex + 1) % OSCILLATORS.length);
+  // a clean, fresh start on the new object rather than carrying over the
+  // previous one's rotation or tick position
+  R = [[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]];
+  currentTick = 0; tickAcc = 0;
+  mode = 'move'; phaseIndex = 0;
+  modeStart = performance.now(); lastFrame = performance.now(); lastRotateRepaint = 0; lastWiggleRepaint = 0;
+  updateStatus();
+  draw();
+}
+window.addEventListener('keydown', (e)=>{
+  if (e.code === 'Space' || e.key === ' '){ e.preventDefault(); switchOscillator(); }
+});
+
+// Redrawing four canvases (trails, particles, and a gizmo apiece) on every
+// animation frame regardless of whether anything changed is real, avoidable
+// work — most "move" frames fall between ticks (the tick rate is far below
+// 60fps) and would repaint an identical scene. Only redraw when the tick
+// actually advances during movement, and throttle rotation to ~30fps —
+// still visually smooth, half the canvas work.
+const ROTATE_REPAINT_MS = 1000/30;
+let lastRotateRepaint = 0, lastWiggleRepaint = 0;
+
+function loop(now){
+  const dt = now - lastFrame;
+  lastFrame = now;
+  const elapsed = now - modeStart;
+  let changed = false;
+
+  if (mode === 'move'){
+    tickAcc += dt;
+    const interval = 1000/TICKS_PER_SEC;
+    while (tickAcc >= interval){
+      currentTick = (currentTick + 1) % PERIOD;
+      tickAcc -= interval;
+      changed = true;
+    }
+    // the wiggle itself needs smooth, frequent repaints during its own brief
+    // window, same throttle as the 4D rotation — otherwise it would only
+    // update whenever a tick happens to land (roughly 10 times a second),
+    // which would make a supposedly smooth nod look stepped and jerky
+    const inWiggleWindow = elapsed >= WIGGLE_START_MS && elapsed <= WIGGLE_START_MS+WIGGLE_DURATION_MS;
+    if (inWiggleWindow && now - lastWiggleRepaint >= ROTATE_REPAINT_MS){ lastWiggleRepaint = now; changed = true; }
+    if (elapsed >= MOVE_MS){ mode = 'rotate'; modeStart = now; lastRotateRepaint = 0; changed = true; }
+  } else {
+    const plane = ROT_PLANES[PHASE_ORDER[phaseIndex]];
+    const degPerMs = 360 / ROTATE_MS;
+    R = matMul4(planeRotation(plane[0], plane[1], degPerMs*dt), R);
+    if (now - lastRotateRepaint >= ROTATE_REPAINT_MS){ lastRotateRepaint = now; changed = true; }
+    if (elapsed >= ROTATE_MS){
+      mode = 'move'; modeStart = now; tickAcc = 0; lastWiggleRepaint = 0;
+      phaseIndex = (phaseIndex + 1) % PHASE_ORDER.length;
+      changed = true;
+    }
+  }
+
+  if (changed){ updateStatus(); draw(); }
+  requestAnimationFrame(loop);
+}
+loadOscillator(0);
+draw();
+updateStatus();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
