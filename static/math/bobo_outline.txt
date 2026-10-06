@@ -1,0 +1,19 @@
+**I. The Rules**
+1. Everything is integers, everything is deterministic — state it up front, it's the foundation everything else rests on.
+2. What "nearest" means — a pair of particles, tick by tick, just a few steps.
+3. Add a bobo — a nearest particle settling into orbit, shown tick by tick, then let it run free.
+4. The tie-breaking rule — and since this is the one idea that doesn't read clearly through motion alone, give it one beat where the actual arithmetic appears on screen for a single tied tick (sum the signs, then take the sign of the sum) so the determinism claim has something concrete to point at, not just particles that happen to agree on a direction. Illustrate with bobos-plus-one-nearest, but say plainly that it scales to any number of tied neighbors.
+5. Payoff: a random start, let it run.
+
+**II. Compared to Conway's Life**
+1. Three familiar properties in one quick beat — deterministic, symmetry-preserving, fully simultaneous per tick. State and move on; your audience already half-expects these from "cellular automaton" and doesn't need convincing.
+2. The butterfly effect, as its own dedicated moment — gliders fired at oscillators in both Life and Bobo, side by side, the Bobo one restarted with the launch point nudged a pixel at a time. This is your best visual beat *and* a free teaser for the preview tool, so give it room.
+3. Engineered structures, also its own moment — a glider gun next to the 16 daggos chained together. Two "someone built a machine out of this" images back to back.
+4. The real difference: movement — Life has no persistent object, just birth ahead and death behind that *looks* like motion; a bobo particle actually moves, carries velocity, has continuity. This is the sharpest contrast in the whole video — don't rush it.
+5. One combined wrap-up beat — population never changes here (Life's does), and where Life tends to settle into a handful of iconic static/drifting forms, nearest particles mostly just run off in twos and threes unless deliberately engineered to oscillate. Quick, factual, closes the section.
+
+**III. Show and Tell**
+1. Thruples vs. pairs in general, then the engineered thruple spaceships and their n4/n5 cousins.
+2. The sprawling n3/n5 patterns — pure visual variety.
+3. The payoff: use the preview tool live to connect two oscillators, build up to the big interconnected chain that transmits a particle end to end. Close with a tease of 3D.
+

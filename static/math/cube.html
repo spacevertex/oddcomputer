@@ -58,7 +58,7 @@
   }
   .layout{
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 420px 1fr;
     gap: 28px;
     align-items: start;
   }
@@ -98,9 +98,12 @@
     gap: 8px;
   }
   .axis-option{
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
     align-items: center;
-    gap: 8px;
+    column-gap: 8px;
+    row-gap: 2px;
     font-size: 14px;
     color: var(--ink);
     cursor: pointer;
@@ -111,9 +114,55 @@
     cursor: default;
   }
   .axis-option .tag{
+    grid-column: 2;
+    margin: 0;
     font-size: 11px;
     color: var(--ink-soft);
     font-style: italic;
+  }
+  .axis-row{ display:flex; gap:16px; align-items:flex-start; }
+  .axis-options{ flex:0 0 auto; }
+  .custom-pad{
+    flex:1; min-width:0;
+    display:flex; flex-direction:column; gap:12px;
+    padding-left:16px; border-left:1px solid var(--paper-line);
+    transition: opacity .15s;
+  }
+  .custom-pad.dim{ opacity:.55; }
+  .custom-pad.dim:hover{ opacity:.9; }
+  .pad-title{
+    display:flex; justify-content:space-between; white-space:nowrap;
+    font-size:12px; color:var(--ink-soft); margin-bottom:4px;
+  }
+  .pad-title b{ color:var(--brass); font-weight:600; }
+  .pad-row{ display:flex; gap:10px; align-items:flex-end; }
+  .pad{
+    position:relative; flex:none; width:100px; height:100px;
+    border:1px solid var(--blue-soft); border-radius:2px; cursor:crosshair; touch-action:none;
+    background:
+      linear-gradient(var(--paper-line),var(--paper-line)) 50% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--paper-line),var(--paper-line)) 0 50% / 100% 1px no-repeat,
+      #fbfcfe;
+  }
+  .pad-dot{
+    position:absolute; width:11px; height:11px; margin:-6px 0 0 -6px; border-radius:50%;
+    background:var(--brass); border:2px solid #fff; box-shadow:0 0 0 1px var(--brass); pointer-events:none;
+  }
+  .pad-fields{ display:flex; flex-direction:column; gap:6px; }
+  .pad-fields label{
+    display:flex; align-items:center; gap:6px; margin:0;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft);
+  }
+  .pad-fields input{
+    width:54px; font:inherit; padding:3px 4px; color:var(--ink); background:#fff;
+    border:1px solid var(--paper-line); border-radius:2px;
+  }
+  .pin-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-size:12px; color:var(--ink-soft); }
+  .pin-row label{ display:inline-flex; align-items:center; gap:4px; margin:0; font-size:12px; cursor:pointer; }
+  .pin-row input{ accent-color: var(--brass); }
+  @media (max-width: 800px){
+    .axis-row{ flex-wrap:wrap; }
+    .custom-pad{ border-left:none; padding-left:0; flex-basis:100%; }
   }
   .control-block.is-disabled{ opacity: 0.45; pointer-events: none; }
   .presets{
@@ -165,6 +214,13 @@
     border: 1px solid var(--paper-line);
     border-radius: 3px;
   }
+  #threeDWrap{ position:relative; }
+  .canvas-note{
+    position:absolute; left:0; right:0; top:0; height:420px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:0 48px; font-size:14px; line-height:1.55; color:var(--ink-soft); pointer-events:none;
+  }
+  .canvas-note[hidden]{ display:none; }
   #cubeCanvas{
     height: 420px;
     cursor: grab;
@@ -195,17 +251,57 @@
   <div class="layout">
     <div class="panel">
       <div class="control-block">
-        <label>Axle direction through the cube</label>
-        <div class="axis-options" id="axisOptions">
-          <label class="axis-option">
-            <input type="radio" name="axis" value="vertex" checked> Vertex &harr; vertex
-          </label>
-          <label class="axis-option">
-            <input type="radio" name="axis" value="edge"> Edge &harr; edge
-          </label>
-          <label class="axis-option">
-            <input type="radio" name="axis" value="face"> Face &harr; face
-          </label>
+        <label>Axle through the cube</label>
+        <div class="axis-row">
+          <div class="axis-options" id="axisOptions">
+            <label class="axis-option">
+              <input type="radio" name="axis" value="vertex" checked> Vertex &harr; vertex
+            </label>
+            <label class="axis-option">
+              <input type="radio" name="axis" value="edge"> Edge &harr; edge
+            </label>
+            <label class="axis-option">
+              <input type="radio" name="axis" value="face"> Face &harr; face
+            </label>
+            <label class="axis-option">
+              <input type="radio" name="axis" value="cornerEdge"> Corner &rarr; edge
+              <span class="tag">pinned at corner</span>
+            </label>
+            <label class="axis-option">
+              <input type="radio" name="axis" value="edgeCorner"> Edge &rarr; corner
+              <span class="tag">pinned at edge</span>
+            </label>
+            <label class="axis-option">
+              <input type="radio" name="axis" value="custom"> Custom
+            </label>
+          </div>
+          <div class="custom-pad dim" id="customPad">
+          <div class="pad-wrap">
+            <div class="pad-title"><span>Face 1 &middot; bottom</span><b id="pinTag1"></b></div>
+            <div class="pad-row">
+              <div class="pad" id="pad1"><div class="pad-dot" id="dot1"></div></div>
+              <div class="pad-fields">
+                <label>x <input type="number" id="x1" min="0" max="1" step="0.05"></label>
+                <label>y <input type="number" id="y1" min="0" max="1" step="0.05"></label>
+              </div>
+            </div>
+          </div>
+          <div class="pad-wrap">
+            <div class="pad-title"><span>Face 2 &middot; top</span><b id="pinTag2"></b></div>
+            <div class="pad-row">
+              <div class="pad" id="pad2"><div class="pad-dot" id="dot2"></div></div>
+              <div class="pad-fields">
+                <label>x <input type="number" id="x2" min="0" max="1" step="0.05"></label>
+                <label>y <input type="number" id="y2" min="0" max="1" step="0.05"></label>
+              </div>
+            </div>
+          </div>
+            <div class="pin-row">
+              <span>Pivot at</span>
+              <label><input type="radio" name="pin" value="1" checked> face 1</label>
+              <label><input type="radio" name="pin" value="2"> face 2</label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -229,6 +325,7 @@
     <div>
       <div id="threeDWrap">
         <canvas id="cubeCanvas"></canvas>
+        <div class="canvas-note" id="canvasNote" hidden></div>
         <div class="canvas-caption">Rolling pinned at P, with the flower traced flat on the ground &mdash; drag to orbit.</div>
       </div>
 
@@ -329,6 +426,179 @@ function aForNEdge(nTarget){
   return (lo+hi)/2;
 }
 
+
+// ---- General rolling simulator ----
+// Makes no symmetry assumption: starts from any valid flush edge, then
+// repeatedly pivots about the line through P and the leading ground vertex
+// until the next vertex touches down. Used for axles with no symmetry,
+// where the contact sequence can't be read off a fixed "belt".
+const SIM_CUBE = [];
+for(let i=0;i<8;i++) SIM_CUBE.push([(i&1)-.5, ((i>>1)&1)-.5, ((i>>2)&1)-.5]);
+const SIM_EDGES = [];
+for(let i=0;i<8;i++) for(let b=1;b<8;b<<=1) if(!(i&b)) SIM_EDGES.push([i,i|b]);
+const s3 = {
+  sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],
+  add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],
+  mul:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+  dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+  cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],
+  unit:(a)=>{const n=Math.hypot(a[0],a[1],a[2]);return [a[0]/n,a[1]/n,a[2]/n];},
+  mv:(M,v)=>[M[0][0]*v[0]+M[0][1]*v[1]+M[0][2]*v[2],M[1][0]*v[0]+M[1][1]*v[1]+M[1][2]*v[2],M[2][0]*v[0]+M[2][1]*v[1]+M[2][2]*v[2]],
+  mm:(A,B)=>A.map(r=>[0,1,2].map(j=>r[0]*B[0][j]+r[1]*B[1][j]+r[2]*B[2][j])),
+  rot:(u,t)=>{const [x,y,z]=u,c=Math.cos(t),s=Math.sin(t),C=1-c;
+    return [[x*x*C+c,x*y*C-z*s,x*z*C+y*s],[y*x*C+z*s,y*y*C+c,y*z*C-x*s],[z*x*C-y*s,z*y*C+x*s,z*z*C+c]];}
+};
+
+// First valid pose with an edge flush on the ground plane through P and the whole cube above it.
+function simStart(P){
+  for(const [i,j] of SIM_EDGES){
+    const A = s3.sub(SIM_CUBE[i],P), B = s3.sub(SIM_CUBE[j],P);
+    const n = s3.cross(A,B), nl = Math.hypot(n[0],n[1],n[2]);
+    if(nl < 1e-9) continue;
+    for(const sg of [1,-1]){
+      const z3 = s3.mul(n, sg/nl);
+      if(SIM_CUBE.some(v=>s3.dot(z3, s3.sub(v,P)) < -1e-9)) continue;
+      // a whole face lying on the plane is not an edge contact (happens when the axle runs along a face)
+      if(SIM_CUBE.filter(v=>Math.abs(s3.dot(z3, s3.sub(v,P))) < 1e-9).length > 2) continue;
+      const e1 = s3.unit(A), e2 = s3.cross(z3,e1);
+      return { Rw:[e1,e2,z3], i, j };
+    }
+  }
+  return null;
+}
+
+// Axle runs from pinned end Qb through the cube to Rb; P is a units beyond Qb.
+// Returns world rotations per resting pose (mats), the real tip rotations
+// (transitions), ground contact points (positions), plus per-edge polar
+// radii/angles and the detected repeat (k0, m) of the contact sequence.
+function simulateRoll(Qb, Rb, a, numSteps){
+  const P = s3.add(Qb, s3.mul(s3.unit(s3.sub(Qb,Rb)), a));
+  const st = simStart(P);
+  if(!st) return null;
+  let M = st.Rw;
+  let W = SIM_CUBE.map(v=>s3.mv(M, s3.sub(v,P)));
+  let ga = st.i, gb = st.j;
+  if(W[ga][0]*W[gb][1]-W[ga][1]*W[gb][0] < 0){ const t=ga; ga=gb; gb=t; } // travel counter-clockwise
+  const g=[ga,gb], mats=[M], transitions=[], radii=[], thetas=[];
+  const positions=[{x:W[ga][0],y:W[ga][1]},{x:W[gb][0],y:W[gb][1]}];
+  let minZ = Infinity;
+  for(let k=0;k<numSteps-1;k++){
+    const old=g[k], piv=g[k+1], wo=W[old], wp=W[piv];
+    radii.push(Math.hypot(wo[0],wo[1]));
+    thetas.push(Math.atan2(wo[0]*wp[1]-wo[1]*wp[0], wo[0]*wp[0]+wo[1]*wp[1]));
+    const u = s3.unit([wp[0],wp[1],0]);
+    const d = p=>u[0]*p[1]-u[1]*p[0];
+    const s = d(wo) >= 0 ? 1 : -1;            // direction that lifts the trailing vertex
+    let best=Infinity, bj=-1, bleft=-Infinity;
+    for(let j=0;j<8;j++){
+      if(j===old||j===piv||W[j][2]<1e-9) continue;
+      const phi = Math.atan2(s*d(W[j]), W[j][2]) + Math.PI/2;   // first descent through z=0
+      if(phi < best-1e-9 || (Math.abs(phi-best)<1e-9 && d(W[j])>bleft)){ best=phi; bj=j; bleft=d(W[j]); }
+    }
+    if(bj<0) break;
+    const R = s3.rot(u, s*best);
+    W = W.map(v=>s3.mv(R,v));
+    M = s3.mm(R,M);
+    mats.push(M);
+    transitions.push({axis:u, theta:s*best});
+    g.push(bj);
+    positions.push({x:W[bj][0], y:W[bj][1]});
+    for(const v of W) if(v[2]<minZ) minZ=v[2];
+  }
+  const seen=new Map(); let k0=-1, m=0;
+  for(let k=0;k<g.length-1;k++){
+    const key=g[k]*8+g[k+1];
+    if(seen.has(key)){ k0=seen.get(key); m=k-k0; break; }
+    seen.set(key,k);
+  }
+  return { mats, positions, transitions, Pbody:P, radii, thetas, g, k0, m, minZ };
+}
+
+// Same {radii, steps, N, n, PE, PF} shape as the closed-form axes. The repeating
+// unit ("petal") is the shortest run of steps after which radii AND turn angles repeat,
+// so n matches the earlier convention (vertex: 2 edges, edge: 3 edges, face: 1 edge).
+// An axle lying in the plane of a cube face (both points on the same square border) lets the cube
+// land flat on that face, which is not an edge contact, so the edge-rolling model does not apply.
+function axleInFacePlane(Qb, Rb){
+  for(const i of [0,1]) if(Math.abs(Qb[i]-Rb[i])<1e-6 && Math.abs(Math.abs(Qb[i])-0.5)<1e-6) return true;
+  return false;
+}
+function geomRoll(Qb, Rb, a){
+  const fail = (why)=>({ radii:[1], steps:[0.5], N:NaN, n:NaN, PE:1, PF:1, ok:false, why });
+  if(axleInFacePlane(Qb,Rb)) return fail('This axle runs along a face of the cube, so the cube can simply rest flat on that face instead of rolling on an edge. Move one of the points off the border of its square.');
+  const s = simulateRoll(Qb, Rb, a, 60);
+  if(!s) return fail('No resting pose exists at this axle length.');
+  if(s.m===0) return fail('No repeating contact pattern was found at this axle length.');
+  const rad = s.radii.slice(s.k0, s.k0+s.m), th = s.thetas.slice(s.k0, s.k0+s.m);
+  let p = s.m;
+  for(let q=1;q<=s.m;q++){
+    if(s.m%q) continue;
+    let same = true;
+    for(let k=0;k<s.m && same;k++) same = Math.abs(rad[k]-rad[(k+q)%s.m])<1e-7 && Math.abs(th[k]-th[(k+q)%s.m])<1e-7;
+    if(same){ p=q; break; }
+  }
+  const r = rad.slice(0,p), t = th.slice(0,p), tot = t.reduce((x,y)=>x+y,0), N = 2*Math.PI/tot;
+  if(!(tot>1e-6)) return fail('This axle makes no net progress around P at this length.');
+  return { radii:r, steps:t, N, n:N, PE:Math.min(...r), PF:Math.max(...r), ok:true, p, m:s.m };
+}
+
+// Axle from a corner to the midpoint of an edge at the opposite corner (a true chord through the interior).
+// No symmetry at all, so the contact sequence comes from simulateRoll, not a fixed belt.
+const CE_CORNER = [-.5,-.5,-.5], CE_EDGE = [0,.5,.5];
+function aForNRoll(Qb, Rb, nTarget){
+  let lo = 0.02, hi = 14;               // n(a) increases monotonically on this range
+  for(let i=0;i<80;i++){
+    const mid=(lo+hi)/2;
+    if(geomRoll(Qb,Rb,mid).n < nTarget) lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+
+
+// Drop any pre-periodic opening steps so the animation and the drawn flower start on the repeating cycle.
+function trimPreperiod(s){
+  if(!s || !(s.k0>0)) return s;
+  const k = s.k0;
+  return Object.assign({}, s, { mats:s.mats.slice(k), positions:s.positions.slice(k), transitions:s.transitions.slice(k), g:s.g.slice(k), k0:0 });
+}
+
+// n(a) for any axle: sample once, then root-find each target petal count on the first
+// bracket where n crosses it (a jump in n is not mistaken for a root).
+function presetsForAxle(Q, R, targets){
+  targets = targets || [2,3,4,5,6,8];
+  const pts = [];
+  for(let a=0.02; a<=8.0001; a+=0.04){ const g=geomRoll(Q,R,a); pts.push([a, g.ok ? g.n : NaN]); }
+  const out = [];
+  for(const target of targets){
+    for(let i=0;i<pts.length-1;i++){
+      const [a0,n0]=pts[i], [a1,n1]=pts[i+1];
+      if(!isFinite(n0)||!isFinite(n1)||(n0-target)*(n1-target)>0) continue;
+      let lo=a0, hi=a1; const up = n1>=n0;
+      for(let k=0;k<50;k++){ const m=(lo+hi)/2, nm=geomRoll(Q,R,m).n; if((nm<target)===up) lo=m; else hi=m; }
+      const a=(lo+hi)/2, nn=geomRoll(Q,R,a).n;
+      if(Math.abs(nn-target)<1e-3){ out.push({ label:'n='+target, a }); break; }
+    }
+  }
+  return out;
+}
+
+// ---- Custom axle: a point on each of two opposite faces ----
+// Both squares are drawn as seen from above (x right, y up); face 1 is the bottom face (z=-0.5),
+// face 2 the top (z=+0.5). (0,0)->(1,1) is corner to corner; (.5,0)->(.5,1) is edge to edge.
+const PRESET_PADS = {
+  vertex:     { p1:[0,0],   p2:[1,1],   pin:1 },
+  edge:       { p1:[.5,0],  p2:[.5,1],  pin:1 },
+  face:       { p1:[.5,.5], p2:[.5,.5], pin:1 },
+  cornerEdge: { p1:[0,0],   p2:[.5,1],  pin:1 },
+  edgeCorner: { p1:[0,0],   p2:[.5,1],  pin:2 },
+};
+const customState = { p1:[0,0], p2:[1,1], pin:1 };
+function customQR(){
+  const f1 = [customState.p1[0]-.5, customState.p1[1]-.5, -.5];
+  const f2 = [customState.p2[0]-.5, customState.p2[1]-.5,  .5];
+  return customState.pin===1 ? { Q:f1, R:f2 } : { Q:f2, R:f1 };
+}
+
 const AXES = {
   vertex: {
     key:'vertex', available:true, word:'petal', range:[-3,3], default:0.61,
@@ -349,6 +619,27 @@ const AXES = {
     presets: [2,3,4,5,6,8,10].map(n=>({ label:'n='+n+(n===2?' (a=0)':''), a:aForNEdge(n) }))
       .concat([{ label:'min (a\u2248-0.461)', a:EDGE_A_MIN, centroid:true }]),
     blurb: 'Axle through opposite edge midpoints. Only 2-fold symmetric, so the contact vertices trace a hexagonal belt with 3 distinct steps per repeat (not a simple zig-zag) &mdash; found by direct rigid-body simulation. A "petal" here is 3 unit edges.',
+  },
+  cornerEdge: {
+    key:'cornerEdge', available:true, sim:true, word:'petal', range:[0.02,8], default:aForNRoll(CE_CORNER,CE_EDGE,2),
+    geom: (a)=>geomRoll(CE_CORNER, CE_EDGE, a),
+    presets: [2,3,4,5,6,8].map(n=>({ label:'n='+n, a:aForNRoll(CE_CORNER,CE_EDGE,n) })),
+    blurb: 'Axle from a corner to the midpoint of an edge at the opposite corner, pinned at the corner. No symmetry: all six belt vertices touch down at different distances, so one "petal" is six unit edges. The contact sequence comes from a general rigid-body roll simulation.',
+  },
+  edgeCorner: {
+    key:'edgeCorner', available:true, sim:true, word:'petal', range:[0.02,8], default:aForNRoll(CE_EDGE,CE_CORNER,2),
+    geom: (a)=>geomRoll(CE_EDGE, CE_CORNER, a),
+    presets: [2,3,4,5,6,8].map(n=>({ label:'n='+n, a:aForNRoll(CE_EDGE,CE_CORNER,n) })),
+    blurb: 'The same axle, pinned at the edge midpoint instead. Near a\u22481.49 the set of vertices that touch down changes (one drops out of the cycle, then a different one joins), so the flower\u2019s shape shifts there even though n varies smoothly.',
+  },
+  custom: {
+    key:'custom', available:true, sim:true, word:'petal', range:[0.02,8], default:1.5,
+    defaultFn: ()=>{ const q=customQR(); const p=presetsForAxle(q.Q,q.R,[2,3,4,5]); return p.length ? p[0].a : 1.5; },
+    geom: (a)=>{ const q=customQR(); return geomRoll(q.Q, q.R, a); },
+    QR: customQR,
+    presetsFn: ()=>{ const q=customQR(); return presetsForAxle(q.Q, q.R); },
+    presets: [],
+    blurb: 'Custom axle between a point on face 1 (bottom) and a point on face 2 (top), both squares seen from above. Corner to corner is (0,0)\u2192(1,1); edge to edge is (.5,0)\u2192(.5,1). Click or drag a square (clicks snap to 0, \u00bd and 1) or type values; the pivot sits beyond the face you choose. Contact order comes from the general roll simulation.',
   }
 };
 
@@ -491,6 +782,7 @@ const readoutEl = document.getElementById('readout');
 const captionEl = document.getElementById('caption');
 const presetRow = document.getElementById('presetRow');
 const sliderBlock = document.getElementById('sliderBlock');
+const noteEl = document.getElementById('canvasNote');
 const presetBlock = document.getElementById('presetBlock');
 const readoutBlock = document.getElementById('readoutBlock');
 
@@ -501,7 +793,14 @@ function fmt(x, d=3){ return x.toFixed(d); }
 function rebuildPresets(){
   presetRow.innerHTML = '';
   const axis = AXES[currentAxis];
-  axis.presets.forEach(p=>{
+  const list = axis.presetsFn ? axis.presetsFn() : axis.presets;
+  if(!list.length){
+    const hint = document.createElement('span');
+    hint.style.cssText = 'font-size:12px;color:var(--ink-soft);font-style:italic';
+    hint.textContent = 'none within the slider range for this axle';
+    presetRow.appendChild(hint);
+  }
+  list.forEach(p=>{
     const btn = document.createElement('button');
     btn.textContent = p.label;
     if(p.centroid) btn.classList.add('centroid');
@@ -534,6 +833,17 @@ function update(){
   const a = parseFloat(slider.value);
   aValueEl.textContent = fmt(a);
   const geo = axis.geom(a);
+  if(geo.ok===false){
+    if(animFrame) cancelAnimationFrame(animFrame);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    captionEl.innerHTML = `${axis.blurb}<br><br>${geo.why || 'No resting pose exists at this axle length.'}`;
+    readoutEl.innerHTML = `<div class="row"><span>n (petals)</span><span>&mdash;</span></div>`;
+    noteEl.textContent = geo.why || 'No resting pose exists at this axle length.';
+    noteEl.hidden = false;
+    if(window.hide3D) window.hide3D();
+    return;
+  }
+  noteEl.hidden = true;
   const path = buildPath(geo);
 
   const wordCap = axis.word.charAt(0).toUpperCase()+axis.word.slice(1);
@@ -556,20 +866,110 @@ function update(){
   rebuild3D(currentAxis, a, geo, path);
 }
 
-function selectAxis(axisKey){
+function selectAxis(axisKey, opts){
+  opts = opts || {};
   currentAxis = axisKey;
   const axis = AXES[axisKey];
   if(axis.available){
     slider.min = axis.range[0];
     slider.max = axis.range[1];
-    slider.value = axis.default;
+    if(opts.keepA){
+      slider.value = Math.min(axis.range[1], Math.max(axis.range[0], parseFloat(slider.value)));
+    } else {
+      slider.value = axis.defaultFn ? axis.defaultFn() : axis.default;
+    }
     rebuildPresets();
   }
+  renderPads();
   update();
 }
 
+/* ---- Custom axle pads ---- */
+const padEls = [1,2].map(i=>({
+  pad:document.getElementById('pad'+i), dot:document.getElementById('dot'+i),
+  x:document.getElementById('x'+i), y:document.getElementById('y'+i), tag:document.getElementById('pinTag'+i)
+}));
+const customPadEl = document.getElementById('customPad');
+const pinRadios = document.querySelectorAll('input[name="pin"]');
+
+function shownPads(){ return currentAxis==='custom' ? customState : (PRESET_PADS[currentAxis] || customState); }
+function fmtPad(v){ return String(Math.round(v*1000)/1000); }
+function renderPads(){
+  const st = shownPads();
+  [st.p1, st.p2].forEach((pt,i)=>{
+    const e = padEls[i];
+    e.dot.style.left = (pt[0]*100)+'%';
+    e.dot.style.top  = ((1-pt[1])*100)+'%';
+    if(document.activeElement!==e.x) e.x.value = fmtPad(pt[0]);
+    if(document.activeElement!==e.y) e.y.value = fmtPad(pt[1]);
+    e.tag.textContent = (st.pin===i+1) ? 'pivot end' : '';
+  });
+  pinRadios.forEach(r=>{ r.checked = (parseInt(r.value,10)===st.pin); });
+  customPadEl.classList.toggle('dim', currentAxis!=='custom');
+}
+
+// Touching the squares (or the pin choice) while a preset is selected switches to Custom,
+// starting from that preset's own axle and keeping the current axle length.
+function activateCustom(){
+  if(currentAxis==='custom') return;
+  const src = PRESET_PADS[currentAxis] || customState;
+  customState.p1 = src.p1.slice(); customState.p2 = src.p2.slice(); customState.pin = src.pin;
+  document.querySelector('input[name="axis"][value="custom"]').checked = true;
+  selectAxis('custom', { keepA:true });
+}
+let presetTimer = null;
+function onCustomEdited(){
+  renderPads();
+  clearTimeout(presetTimer);
+  presetTimer = setTimeout(rebuildPresets, 120);   // presets re-solve shortly after edits settle
+  update();
+}
+const clamp01 = (v)=> Math.min(1, Math.max(0, v));
+function snapPad(v){
+  for(const s of [0,0.5,1]) if(Math.abs(v-s)<0.04) return s;
+  return Math.round(v*100)/100;
+}
+padEls.forEach((e,i)=>{
+  const key = 'p'+(i+1);
+  const setFromPointer = (ev)=>{
+    const r = e.pad.getBoundingClientRect();
+    const x = snapPad(clamp01((ev.clientX-r.left)/r.width));
+    const y = snapPad(clamp01(1-(ev.clientY-r.top)/r.height));
+    activateCustom();
+    customState[key] = [x,y];
+    onCustomEdited();
+  };
+  let dragging = false;
+  e.pad.addEventListener('pointerdown', (ev)=>{
+    dragging = true;
+    if(e.pad.setPointerCapture){ try{ e.pad.setPointerCapture(ev.pointerId); }catch(_){} }
+    setFromPointer(ev);
+    ev.preventDefault();
+  });
+  e.pad.addEventListener('pointermove', (ev)=>{ if(dragging) setFromPointer(ev); });
+  const stop = ()=>{ dragging = false; };
+  e.pad.addEventListener('pointerup', stop);
+  e.pad.addEventListener('pointercancel', stop);
+  [['x',0],['y',1]].forEach(([k,j])=>{
+    e[k].addEventListener('input', ()=>{
+      const v = parseFloat(e[k].value);
+      if(!isFinite(v)) return;
+      activateCustom();
+      customState[key][j] = clamp01(v);
+      onCustomEdited();
+    });
+  });
+});
+pinRadios.forEach(r=>r.addEventListener('change', ()=>{
+  activateCustom();
+  customState.pin = parseInt(r.value,10);
+  onCustomEdited();
+}));
+
 document.querySelectorAll('input[name="axis"]').forEach(radio=>{
-  radio.addEventListener('change', (e)=> selectAxis(e.target.value));
+  radio.addEventListener('change', (e)=>{
+    if(e.target.value==='custom') activateCustom(); else selectAxis(e.target.value);
+  });
 });
 
 slider.addEventListener('input', update);
@@ -689,6 +1089,8 @@ window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
       belt: [c(0,0,0), c(0,1,0), c(1,1,0), c(1,0,0), c(1,0,1), c(0,0,1)]
     }
   };
+  BODY.cornerEdge = { Q: [-.5,-.5,-.5], R: [0,.5,.5] };
+  BODY.edgeCorner = { Q: [0,.5,.5], R: [-.5,-.5,-.5] };
   // fix face axis Q/R properly: centers of the z=-0.5 and z=+0.5 faces
   BODY.face.Q = [0,0,-0.5];
   BODY.face.R = [0,0,0.5];
@@ -871,9 +1273,17 @@ window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
 
   function rebuild3D(axisKey, a, geo, path){
     if(!renderer) initThree();
+    [group, flowerLine, pivotDot].forEach(o=>{ o.visible = true; });
     seqAxis = axisKey;
-    const numSteps = Math.max(path.steps+1, BODY[axisKey].belt.length*3);
-    seq = computeStepMatrices(axisKey, a, numSteps);
+    const axisDef = AXES[axisKey];
+    const body = axisDef.QR ? axisDef.QR() : BODY[axisKey];
+    if(axisDef.sim){
+      const numSteps = Math.min(Math.max(path.steps+1, 18)+30, 270);
+      seq = trimPreperiod(simulateRoll(body.Q, body.R, a, numSteps));
+    } else {
+      const numSteps = Math.max(path.steps+1, BODY[axisKey].belt.length*3);
+      seq = computeStepMatrices(axisKey, a, numSteps);
+    }
     updateFlowerMesh(seq.positions);
 
     const trueMaxR = seq.positions.reduce((m,p)=>Math.max(m, Math.hypot(p.x,p.y)), 0);
@@ -882,7 +1292,6 @@ window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
 
     // axle geometry in body coords: from Pbody to slightly past R, as a fixed pin.
     // Fixed for the whole animation — only the group's rotation/position change per frame.
-    const body = BODY[axisKey];
     const dir = V.normalize(V.sub(body.R, seq.Pbody));
     const overshoot = V.add(body.R, V.scale(dir, 0.12));
     const pStart = toThree(seq.Pbody), pEnd = toThree(overshoot);
@@ -940,7 +1349,14 @@ window.addEventListener('resize', ()=>{ resizeCanvas(); update(); });
 
   window.addEventListener('resize', ()=>{ if(renderer) resizeThree(); });
 
+  // When the current axle cannot roll, hide the scene rather than leave the previous axle on screen.
+  function hide3D(){
+    seq = null;
+    if(renderer){ [group, flowerLine, pivotDot].forEach(o=>{ o.visible = false; }); }
+  }
+
   window.rebuild3D = rebuild3D;
+  window.hide3D = hide3D;
 })();
 
 selectAxis('vertex');
