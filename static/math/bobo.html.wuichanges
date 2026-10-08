@@ -31,8 +31,6 @@
   #stage{ position:relative; flex:1 1 auto; min-height:0; }
   canvas{ display:block; width:100%; height:100%; cursor:pointer; }
   canvas.placing{ cursor: crosshair; }
-  canvas.panning{ cursor: grabbing; }
-  canvas{ touch-action:none; } /* touch drags pan the field instead of scrolling the page */
 
   #watch-panel{
     position:absolute; top:14px; right:14px;
@@ -465,12 +463,7 @@
   let zoomed = false;
   let showTrails = true;
   let showVectors = false;
-  // camera center in world units, shared by both zoom levels. Zooming in
-  // (context menu) jumps it to the clicked particle — a static snapshot,
-  // not tracked. Dragging the canvas pans it at either zoom level.
-  // Unzoom keeps it, so the wide view stays centered wherever you've
-  // panned to; only Clear sends it back to 0,0.
-  let camX = 0, camY = 0;
+  let zoomCenterX = 0, zoomCenterY = 0; // static snapshot of the clicked particle's position — not tracked
 
   function computeCell(){
     const span = WORLD_MAX - WORLD_MIN; // 200
@@ -480,7 +473,7 @@
 
   function setZoom(active, cx, cy){
     zoomed = active;
-    if (active){ camX = cx; camY = cy; }
+    if (active){ zoomCenterX = cx; zoomCenterY = cy; }
     document.getElementById('btn-unzoom').style.display = zoomed ? 'block' : 'none';
     draw();
   }
@@ -876,7 +869,8 @@
 
   function worldToScreen(x, y){
     const cell = zoomed ? ZOOM_CELL : CELL;
-    const cx = camX, cy = camY;
+    const cx = zoomed ? zoomCenterX : 0;
+    const cy = zoomed ? zoomCenterY : 0;
     return {
       sx: W/2 + (x - cx) * cell,
       sy: H/2 - (y - cy) * cell, // flipped: positive y is up, negative y is down
@@ -885,7 +879,8 @@
 
   function screenToWorld(sx, sy){
     const cell = zoomed ? ZOOM_CELL : CELL;
-    const cx = camX, cy = camY;
+    const cx = zoomed ? zoomCenterX : 0;
+    const cy = zoomed ? zoomCenterY : 0;
     return {
       x: (sx - W/2) / cell + cx,
       y: (H/2 - sy) / cell + cy,
@@ -904,6 +899,8 @@
     // full-width coverage instead of gridlines stopping partway across.
     const gridStep = zoomed ? 1 : 10;
     const activeCell = zoomed ? ZOOM_CELL : CELL;
+    const camX = zoomed ? zoomCenterX : 0;
+    const camY = zoomed ? zoomCenterY : 0;
     const halfWorldW = (W/2) / activeCell;
     const halfWorldH = (H/2) / activeCell;
     const gxStart = Math.floor((camX - halfWorldW) / gridStep) * gridStep;
@@ -1740,59 +1737,11 @@
     else if (key === 'l'){ placementCenterX += step; updatePlacementIndicator(); }
   });
 
-  // ---------- camera panning ----------
-  // Drag anywhere on the canvas (left button, or a touch) to pan, at
-  // either zoom level, running or stopped. A press only becomes a pan once
-  // it travels PAN_THRESHOLD px, so ordinary clicks still open the context
-  // menu / commit a placement / place a particle. A completed pan swallows
-  // the click that follows its release.
-  //
-  // During placement or add, the button-down suppresses the ghost-follows-
-  // cursor logic below, so a pan neither drags the ghost to a new lattice
-  // point nor aborts a running hand-off preview: the ghost stays pinned to
-  // its world position and simply rides along with the field.
-  const PAN_THRESHOLD = 4;
-  let panState = null;          // set while the button is down on the canvas
-  let suppressNextClick = false;
-  canvas.addEventListener('pointerdown', (e)=>{
-    if (e.button !== 0) return;
-    panState = { id:e.pointerId, startX:e.clientX, startY:e.clientY, lastX:e.clientX, lastY:e.clientY, moved:false };
-  });
-  canvas.addEventListener('pointermove', (e)=>{
-    if (!panState || e.pointerId !== panState.id) return;
-    if (!panState.moved){
-      if (Math.hypot(e.clientX - panState.startX, e.clientY - panState.startY) < PAN_THRESHOLD) return;
-      panState.moved = true;
-      canvas.setPointerCapture(e.pointerId); // keep panning even if the cursor leaves the canvas
-      canvas.classList.add('panning');
-      hideContextMenu(); // it's anchored in screen space and would detach from its particle
-    }
-    const cell = zoomed ? ZOOM_CELL : CELL;
-    camX -= (e.clientX - panState.lastX) / cell;
-    camY += (e.clientY - panState.lastY) / cell; // screen y is flipped relative to world y
-    panState.lastX = e.clientX;
-    panState.lastY = e.clientY;
-    if (placementActive || addActive) updatePlacementIndicator(); // re-anchors the coord label, and draws
-    else draw();
-  });
-  function endPan(e){
-    if (!panState || e.pointerId !== panState.id) return;
-    if (panState.moved){
-      canvas.classList.remove('panning');
-      suppressNextClick = true;
-      setTimeout(()=>{ suppressNextClick = false; }, 0); // in case no click follows (e.g. released off-canvas)
-    }
-    panState = null;
-  }
-  canvas.addEventListener('pointerup', endPan);
-  canvas.addEventListener('pointercancel', endPan);
-
   canvas.addEventListener('mousemove', (e)=>{
     if (!placementActive && !addActive){
       document.getElementById('coord-indicator').classList.remove('visible');
       return;
     }
-    if (panState) return; // button is down: a possible pan, so leave the ghost (and any preview) alone
     if (previewActive) abortPreview();
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left, my = e.clientY - rect.top;
@@ -1803,7 +1752,6 @@
   });
 
   canvas.addEventListener('click', (e)=>{
-    if (suppressNextClick){ suppressNextClick = false; return; } // end of a pan, not a click
     const rect = canvas.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const clickY = e.clientY - rect.top;
@@ -2014,7 +1962,6 @@
     trails = [];
     tick = 0;
     colorCounter = 0;
-    camX = 0; camY = 0; // Clear recenters the camera on the origin (zoom level is kept)
     updateHud();
     draw();
   });
