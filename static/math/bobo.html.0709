@@ -946,7 +946,7 @@
         if (!t) return;
         ctx.strokeStyle = colorForDraw(i);
         ctx.globalAlpha = 0.3;
-        ctx.lineWidth = zoomed ? 2 : 1.2; // a touch heavier up close, where lattice steps are large
+        ctx.lineWidth = 1.2;
         ctx.beginPath();
         t.forEach((pt, idx)=>{
           const {sx, sy} = worldToScreen(pt.x, pt.y);
