@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infinity graph paper</title>
+<style>
+:root{--bg:#fafaf8;--text:#1f1e1d;--muted:#6b6a66;--border:rgba(0,0,0,.10);--border-strong:rgba(0,0,0,.25);--axis:#6b6a66;--field:#fff;--danger:#b42318;--unlock:#0F6E56;--unlock-bg:#E1F5EE}
+@media (prefers-color-scheme: dark){:root{--bg:#1d1d1b;--text:#ecebe6;--muted:#a3a29c;--border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.28);--axis:#a3a29c;--field:#2a2a28;--danger:#f08b84;--unlock:#9FE1CB;--unlock-bg:#085041}}
+:root.phosphor{--bg:#1a1c1a;--text:#d8f5d0;--muted:#7fbf75;--border:rgba(57,255,20,.16);--border-strong:rgba(57,255,20,.38);--axis:#39ff14;--field:#232623;--danger:#ff8a7a;--unlock:#1a1c1a;--unlock-bg:#39ff14}
+:root.phosphor select,:root.phosphor input[type=text]{border-color:rgba(57,255,20,.45)}
+:root.phosphor .formula{color:#39ff14}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:22px;font-weight:500;margin:0 0 4px}
+p.sub{margin:0 0 20px;color:var(--muted);font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0 0 12px;font-size:14px;color:var(--muted)}
+.row label{display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--text)}
+.sw{display:inline-block;width:16px;height:3px;border-radius:2px}
+select,input[type=text]{background:var(--field);color:var(--text);border:1px solid var(--border-strong);border-radius:8px;height:34px;padding:0 10px;font:inherit}
+input[type=text]{font-family:ui-monospace,Menlo,Consolas,monospace;width:200px}
+.formula{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:19px;text-align:center;margin:6px 0 4px;color:var(--text)}
+.inv{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:15px;text-align:center;color:var(--muted);margin:0 0 14px}
+.err{font-size:13px;color:var(--danger)}
+.unlock{font-size:13px;font-weight:500;color:var(--unlock);background:var(--unlock-bg);padding:3px 10px;border-radius:8px;animation:pop .45s ease-out}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.reveal{animation:slide .35s ease-out}
+@keyframes slide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.hidden{display:none !important}
+.locked-name{color:var(--text);font-weight:500}
+canvas{width:100%;aspect-ratio:1;display:block;touch-action:none}
+#read{text-align:center;font-size:13px;color:var(--muted);font-family:ui-monospace,Menlo,Consolas,monospace;min-height:20px;margin-top:8px}
+.hint{font-size:13px;color:var(--muted);margin-top:16px}
+</style>
+</head>
+<body>
+<main>
+<h1>Infinity graph paper</h1>
+<p class="sub">Every real number on both axes fits inside the square. The edges are ±∞.</p>
+
+<div class="row">
+  <span>Transform</span>
+  <span class="locked-name" id="lockedName">Halving</span>
+  <select id="map" class="hidden" style="flex:1;min-width:240px">
+    <option value="half">Halving</option>
+    <option value="sq">Inverse square</option>
+    <option value="rat">Rational</option>
+    <option value="atan">Arctangent</option>
+    <option value="tanh">Hyperbolic tangent</option>
+  </select>
+  <span class="unlock hidden" id="m-map">New transforms unlocked!</span>
+</div>
+<div class="row hidden" id="rowDark">
+  <label><input type="checkbox" id="dark">Dark mode</label>
+  <span class="unlock hidden" id="m-dark">You tried every transform. Dark mode unlocked!</span>
+</div>
+<div class="formula" id="formula"></div>
+<div class="inv hidden" id="inv"></div>
+
+<div class="row">
+  <label><input type="checkbox" id="c0"><span class="sw" style="background:#D85A30"></span>y = x²</label>
+  <label><input type="checkbox" id="c1"><span class="sw" style="background:#1D9E75"></span>y = cos(x)</label>
+  <label><input type="checkbox" id="c2" checked><span class="sw" style="background:#7F77DD"></span>y = 3x</label>
+  <label><input type="checkbox" id="c3"><span class="sw" style="background:#BA7517"></span>y = x(x²−1)(x²−4)</label>
+</div>
+<div class="row hidden" id="row4">
+  <label><input type="checkbox" id="c4"><span class="sw" style="background:#D4537E"></span>y =</label>
+  <input type="text" id="e4" placeholder="1/x" aria-label="Free-form equation 1">
+  <span class="unlock hidden" id="m4">Free-form entry unlocked!</span>
+  <span class="err" id="r4"></span>
+</div>
+<div class="row hidden" id="row5">
+  <label><input type="checkbox" id="c5"><span class="sw" style="background:#378ADD"></span>y =</label>
+  <input type="text" id="e5" placeholder="exp(x)" aria-label="Free-form equation 2">
+  <span class="unlock hidden" id="m5">Free-form entry unlocked!</span>
+  <span class="err" id="r5"></span>
+</div>
+
+<canvas id="cv"></canvas>
+<div id="read">Hover the paper to read true coordinates</div>
+<p class="hint hidden" id="hint">Free-form fields accept JavaScript math: x^3, sin(x), exp(x), log(x), sqrt(x), abs(x), PI, E. Write multiplication explicitly, like 2*x.</p>
+</main>
+
+<script>
+const sgn = Math.sign, abs = Math.abs;
+const $ = id => document.getElementById(id);
+const MAPS = {
+  half: { T:"T(x) = sgn(x) · (1 − 2<sup>−|x|</sup>)", I:"T<sup>−1</sup>(u) = −sgn(u) · log₂(1 − |u|)",
+    f:x=>sgn(x)*(1-Math.pow(2,-abs(x))), g:u=>-sgn(u)*Math.log2(1-abs(u)) },
+  sq: { T:"T(x) = sgn(x) · (1 − 1 / (1 + |x|)<sup>2</sup>)", I:"T<sup>−1</sup>(u) = sgn(u) · (1/√(1 − |u|) − 1)",
+    f:x=>sgn(x)*(1-1/Math.pow(1+abs(x),2)), g:u=>sgn(u)*(1/Math.sqrt(1-abs(u))-1) },
+  rat: { T:"T(x) = x / (1 + |x|)", I:"T<sup>−1</sup>(u) = u / (1 − |u|)",
+    f:x=>x/(1+abs(x)), g:u=>u/(1-abs(u)) },
+  atan: { T:"T(x) = (2/π) · arctan(x)", I:"T<sup>−1</sup>(u) = tan(πu/2)",
+    f:x=>2/Math.PI*Math.atan(x), g:u=>Math.tan(Math.PI*u/2) },
+  tanh: { T:"T(x) = tanh(x)", I:"T<sup>−1</sup>(u) = artanh(u)",
+    f:x=>Math.tanh(x), g:u=>Math.atanh(u) }
+};
+
+const cv = $('cv'), ctx = cv.getContext('2d');
+const mapSel = $('map'), read = $('read');
+const COLORS = ['#D85A30','#1D9E75','#7F77DD','#BA7517','#D4537E','#378ADD'];
+const fns = [ x=>x*x, x=>Math.cos(x), x=>3*x, x=>x*(x*x-1)*(x*x-4), null, null ];
+
+/* ---------- unlock progression ---------- */
+const state = { free1:false, free2:false, transforms:false, actions:0 };
+const ACTIONS_NEEDED = 3;
+
+function showUnlock(rowId, msgId, focusEl){
+  const row = $(rowId); if (row){ row.classList.remove('hidden'); row.classList.add('reveal'); }
+  const msg = $(msgId); msg.classList.remove('hidden');
+  const hide = () => msg.classList.add('hidden');
+  focusEl.addEventListener('focus', hide, { once:true });
+  focusEl.addEventListener('pointerdown', hide, { once:true });
+}
+function unlockFree1(){
+  if (state.free1) return; state.free1 = true;
+  showUnlock('row4','m4',$('e4'));
+  $('hint').classList.remove('hidden');
+}
+function unlockFree2(){
+  if (state.free2) return; state.free2 = true;
+  showUnlock('row5','m5',$('e5'));
+}
+function unlockTransforms(){
+  if (state.transforms) return; state.transforms = true;
+  $('lockedName').classList.add('hidden');
+  mapSel.classList.remove('hidden'); mapSel.classList.add('reveal');
+  $('inv').classList.remove('hidden'); $('inv').classList.add('reveal');
+  showUnlock(null,'m-map',mapSel);
+}
+function countAction(){
+  if (!state.free2 || state.transforms) return;
+  state.actions++;
+  if (state.actions >= ACTIONS_NEEDED) unlockTransforms();
+}
+
+/* stock checkboxes */
+[0,1,2,3].forEach(k=>{
+  $('c'+k).addEventListener('change', e=>{
+    if (e.target.checked) countAction();
+    unlockFree1();
+    draw();
+  });
+});
+
+/* free-form fields */
+function compile(src){
+  if (!src.trim()) throw new Error('empty');
+  const f = new Function('x','with(Math){return ('+src.replace(/\^/g,'**')+');}');
+  if (typeof f(1.37) !== 'number') throw new Error('not a number');
+  return f;
+}
+[4,5].forEach(k=>{
+  const inp = $('e'+k), er = $('r'+k), cb = $('c'+k);
+  let timer = null, lastCommitted = null;
+  inp.addEventListener('input', ()=>{
+    er.textContent = '';
+    clearTimeout(timer);
+    let ok = false;
+    try { fns[k] = compile(inp.value); ok = true; cb.checked = true; draw(); }
+    catch(e){ if (inp.value.trim()) er.textContent = 'Check the expression'; }
+    if (!ok) return;
+    timer = setTimeout(()=>{
+      const v = inp.value.trim();
+      if (v === lastCommitted) return;
+      lastCommitted = v;
+      countAction();
+      if (k === 4) unlockFree2();
+    }, 700);
+  });
+  cb.addEventListener('change', ()=>{ if (cb.checked) countAction(); draw(); });
+});
+
+mapSel.addEventListener('change', ()=>{
+  visited.add(mapSel.value);
+  if (visited.size === mapSel.options.length) unlockDark();
+  draw();
+});
+
+const visited = new Set(['half']);
+let darkUnlocked = false;
+function unlockDark(){
+  if (darkUnlocked) return; darkUnlocked = true;
+  showUnlock('rowDark','m-dark',$('dark'));
+}
+$('dark').addEventListener('change', e=>{
+  document.documentElement.classList.toggle('phosphor', e.target.checked);
+  draw();
+});
+
+/* ---------- drawing ---------- */
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const M = () => MAPS[mapSel.value];
+function T(x){ if (x===Infinity) return 1; if (x===-Infinity) return -1; return M().f(x); }
+
+let S, P, W;
+const px = u => P + (u+1)/2*W;
+const py = v => P + (1-v)/2*W;
+
+function draw(){
+  const m = M();
+  $('formula').innerHTML = m.T;
+  $('inv').innerHTML = m.I;
+
+  const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  cv.width = r.width*d; cv.height = r.width*d; ctx.setTransform(d,0,0,d,0,0);
+  S = r.width; P = 30; W = S - 2*P;
+  ctx.clearRect(0,0,S,S);
+
+  const bd = cssv('--border'), bs = cssv('--border-strong'), ax = cssv('--axis'), tx = cssv('--text');
+
+  ctx.lineWidth = 0.5;
+  for (let n=1; n<100000; n++){
+    const a = T(n), b = T(n+1);
+    ctx.strokeStyle = n%5===0 ? bs : bd;
+    for (const s of [1,-1]){
+      const u = s*a;
+      ctx.beginPath(); ctx.moveTo(px(u),P); ctx.lineTo(px(u),P+W); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(P,py(u)); ctx.lineTo(P+W,py(u)); ctx.stroke();
+    }
+    if ((b-a)*W/2 < 1.2) break;
+  }
+  ctx.strokeStyle = bs; ctx.lineWidth = 1; ctx.strokeRect(P,P,W,W);
+
+  ctx.strokeStyle = ax; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(px(0),P); ctx.lineTo(px(0),P+W);
+  ctx.moveTo(P,py(0)); ctx.lineTo(P+W,py(0));
+  ctx.stroke();
+
+  ctx.fillStyle = ax; ctx.font = '11px system-ui,sans-serif'; ctx.textBaseline = 'middle';
+  let last = px(0);
+  for (const n of [1,2,3,4,5,10,20,50,100,1000]){
+    const X = px(T(n)); if (X-last < 18) continue; last = X;
+    ctx.textAlign='center';
+    ctx.fillText(n, X, py(0)+11); ctx.fillText(-n, px(T(-n)), py(0)+11);
+    ctx.textAlign='right';
+    ctx.fillText(n, px(0)-5, py(T(n))); ctx.fillText(-n, px(0)-5, py(T(-n)));
+  }
+  ctx.fillStyle = tx; ctx.font = '14px system-ui,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('+∞', P+W+14, py(0)); ctx.fillText('−∞', P-15, py(0));
+  ctx.fillText('+∞', px(0), P-14);   ctx.fillText('−∞', px(0), P+W+15);
+
+  const N = 8000;
+  for (let k=0; k<fns.length; k++){
+    if (!fns[k] || !$('c'+k).checked) continue;
+    ctx.strokeStyle = COLORS[k]; ctx.lineWidth = 2; ctx.lineJoin='round';
+    ctx.beginPath();
+    let pen = false, pv = null;
+    for (let i=1; i<N; i++){
+      const u = -1 + 2*i/N, x = m.g(u);
+      let y; try { y = fns[k](x); } catch(e){ y = NaN; }
+      if (typeof y !== 'number' || Number.isNaN(y)){ pen=false; pv=null; continue; }
+      const v = T(y);
+      if (pv!==null && k>=4 && abs(v-pv) > 1.2) pen = false;
+      if (!pen){ ctx.moveTo(px(u),py(v)); pen=true; } else ctx.lineTo(px(u),py(v));
+      pv = v;
+    }
+    ctx.stroke();
+  }
+}
+
+function fmt(x){
+  if (!isFinite(x)) return x>0 ? '∞' : '−∞';
+  const a = abs(x);
+  if (a >= 1e5) return x.toExponential(2);
+  if (a >= 100) return x.toFixed(0);
+  return x.toFixed(3);
+}
+cv.addEventListener('pointermove', e=>{
+  const r = cv.getBoundingClientRect();
+  const u = (e.clientX-r.left-P)/W*2-1, v = 1-(e.clientY-r.top-P)/W*2;
+  if (abs(u)>=1 || abs(v)>=1){ read.textContent = 'Edge of paper = ±∞'; return; }
+  read.textContent = 'x = '+fmt(M().g(u))+',   y = '+fmt(M().g(v));
+});
+cv.addEventListener('pointerleave', ()=>{ read.textContent = 'Hover the paper to read true coordinates'; });
+
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+new ResizeObserver(draw).observe(cv);
+draw();
+</script>
+</body>
+</html>
