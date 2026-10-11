@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Density tank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #e4eaee;
+    --stage: #f2f6f8;
+    --bench: #d3dce2;
+    --ink: #14222b;
+    --ink-2: #4f6570;
+    --line: #c2ced5;
+    --field: #ffffff;
+    --accent: #0f5c6e;
+    --accent-ink: #ffffff;
+    --air: rgba(255,255,255,0.55);
+    --glass: rgba(84,118,134,0.55);
+    --glass-hi: rgba(255,255,255,0.75);
+    --dark: 0;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e161a;
+      --stage: #16232a;
+      --bench: #0b1215;
+      --ink: #e7f0f3;
+      --ink-2: #93a9b3;
+      --line: #2a3a43;
+      --field: #1b2b33;
+      --accent: #6cc7d9;
+      --accent-ink: #06222a;
+      --air: rgba(255,255,255,0.05);
+      --glass: rgba(170,205,220,0.45);
+      --glass-hi: rgba(255,255,255,0.28);
+      --dark: 1;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e161a;
+    --stage: #16232a;
+    --bench: #0b1215;
+    --ink: #e7f0f3;
+    --ink-2: #93a9b3;
+    --line: #2a3a43;
+    --field: #1b2b33;
+    --accent: #6cc7d9;
+    --accent-ink: #06222a;
+    --air: rgba(255,255,255,0.05);
+    --glass: rgba(170,205,220,0.45);
+    --glass-hi: rgba(255,255,255,0.28);
+    --dark: 1;
+    color-scheme: dark;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 15px/1.5 "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .lab {
+    display: grid;
+    grid-template-columns: minmax(320px, 392px) minmax(0, 1fr);
+    grid-template-areas: "head stage" "ctrl stage";
+    grid-template-rows: auto 1fr;
+    gap: 16px 44px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(16px, 3vw, 44px);
+    align-items: start;
+  }
+  .head { grid-area: head; }
+  .ctrl { grid-area: ctrl; }
+  .stage {
+    grid-area: stage;
+    position: sticky;
+    top: 20px;
+    height: min(84vh, 800px);
+    min-height: 520px;
+    background: var(--stage);
+    border-radius: 22px;
+    overflow: hidden;
+  }
+  .stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(30px, 3.6vw, 40px);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  .lede { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.45; max-width: 44ch; }
+
+  .pick {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    column-gap: 14px;
+    align-items: center;
+    padding: 9px 0;
+  }
+  .pick + .pick { border-top: 1px solid var(--line); }
+  .pick .sw { grid-column: 1; grid-row: 1 / span 2; width: 36px; height: 36px; }
+  .pick .lbl { grid-column: 2; grid-row: 1; font-size: 13px; font-weight: 500; color: var(--ink-2); margin-bottom: 3px; }
+  .pick .sel { grid-column: 2; grid-row: 2; position: relative; }
+  .pick .val {
+    grid-column: 3; grid-row: 1 / span 2;
+    text-align: right;
+    font-size: 24px; font-weight: 650; line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .pick .val small { display: block; margin-top: 4px; font-size: 11.5px; font-weight: 500; color: var(--ink-2); letter-spacing: 0; }
+  .drop {
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 28%, rgba(255,255,255,0.65), rgba(255,255,255,0) 46%),
+      var(--c, #4a9de0);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18);
+  }
+
+  select {
+    appearance: none; -webkit-appearance: none;
+    width: 100%;
+    font: 600 16px/1.2 inherit;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--field);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 9px 34px 9px 11px;
+    cursor: pointer;
+  }
+  .sel::after {
+    content: ""; position: absolute; right: 13px; top: 50%;
+    width: 7px; height: 7px;
+    border-right: 2px solid var(--ink-2); border-bottom: 2px solid var(--ink-2);
+    transform: translateY(-72%) rotate(45deg);
+    pointer-events: none;
+  }
+  select:focus-visible, input:focus-visible, .btn:focus-visible, .seg button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+
+  .rowline { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 500; color: var(--ink-2); }
+  .rowline output { color: var(--ink); font-weight: 650; font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; margin: 6px 0 0; accent-color: var(--accent); }
+  .custom, .ratio { padding: 10px 0 4px; border-top: 1px solid var(--line); }
+  .custom[hidden] { display: none; }
+
+  .scale { margin: 10px 0 0; }
+  .scale svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .scale .axis { stroke: var(--ink-2); stroke-width: 1.5; }
+  .scale .tick { stroke: var(--ink-2); stroke-width: 1.5; }
+  .scale text { fill: var(--ink-2); font: 500 11px "Bricolage Grotesque", system-ui, sans-serif; }
+  .scale .mval { fill: var(--ink); font-weight: 650; font-size: 13px; }
+  .scale figcaption { margin-top: 2px; font-size: 12px; color: var(--ink-2); }
+
+  .verdict { margin-top: 14px; }
+  .verdict h2 { margin: 0 0 6px; font-size: 22px; line-height: 1.15; font-weight: 650; letter-spacing: -0.015em; }
+  .verdict p { margin: 0; max-width: 44ch; }
+  .verdict .note {
+    margin-top: 12px; font-size: 13px; color: var(--ink-2);
+    border-left: 2px solid var(--line); padding-left: 10px;
+  }
+  .verdict .note:empty { display: none; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; align-items: center; }
+  .btn {
+    font: inherit; font-weight: 600; font-size: 14.5px;
+    padding: 9px 14px; border-radius: 9px;
+    border: 1px solid var(--line); background: transparent; color: var(--ink);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--ink-2); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-weight: 600; font-size: 14px;
+    background: transparent; color: var(--ink-2);
+    border: 0; padding: 9px 12px; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .speed { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 13px; font-weight: 500; color: var(--ink-2); }
+  .tip { margin: 12px 0 0; font-size: 13px; color: var(--ink-2); max-width: 42ch; }
+
+  @media (max-width: 860px) {
+    .lab { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "stage" "ctrl"; grid-template-rows: auto; gap: 18px; }
+    .stage { position: relative; top: auto; height: 480px; min-height: 0; border-radius: 18px; }
+  }
+</style>
+</head>
+<body>
+<main class="lab">
+  <header class="head">
+    <h1>Density tank</h1>
+    <p class="lede">Pick two liquids and a solid. Everything settles by density, and a solid in between finds its level.</p>
+  </header>
+
+  <section class="stage" id="stage">
+    <canvas id="cv" role="img" aria-label="A glass tank holding two liquids and a solid"></canvas>
+  </section>
+
+  <section class="ctrl">
+    <div class="picks">
+      <div class="pick">
+        <span class="sw drop" id="sw1"></span>
+        <label class="lbl" for="liq1">First liquid</label>
+        <div class="sel"><select id="liq1"></select></div>
+        <div class="val" id="v1"></div>
+      </div>
+      <div class="pick">
+        <span class="sw drop" id="sw2"></span>
+        <label class="lbl" for="liq2">Second liquid</label>
+        <div class="sel"><select id="liq2"></select></div>
+        <div class="val" id="v2"></div>
+      </div>
+      <div class="pick">
+        <canvas class="sw" id="sw3" width="72" height="72"></canvas>
+        <label class="lbl" for="sol">Solid</label>
+        <div class="sel"><select id="sol"></select></div>
+        <div class="val" id="v3"></div>
+      </div>
+      <div class="custom" id="customRow" hidden>
+        <div class="rowline"><label for="cust">Custom density</label><output id="custOut"></output></div>
+        <input type="range" id="cust" min="-0.699" max="1.301" step="0.002">
+      </div>
+      <div class="ratio">
+        <div class="rowline"><label for="ratio">Share of the first liquid</label><output id="ratioOut"></output></div>
+        <input type="range" id="ratio" min="20" max="80" step="5" value="50">
+      </div>
+    </div>
+
+    <figure class="scale">
+      <div id="scale"></div>
+      <figcaption>Density in g/cm³. The bar spans the two liquids; the arrow is the solid.</figcaption>
+    </figure>
+
+    <div class="verdict" aria-live="polite">
+      <h2 id="vHead"></h2>
+      <p id="vBody"></p>
+      <p class="note" id="vNote"></p>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" id="bShake" type="button">Shake liquids</button>
+      <button class="btn" id="bDrop" type="button">Drop solid</button>
+      <button class="btn" id="bSettle" type="button">Settle now</button>
+    </div>
+    <div class="speed">
+      <span id="speedLbl">Speed</span>
+      <div class="seg" role="group" aria-labelledby="speedLbl" id="seg">
+        <button type="button" data-s="0.5" aria-pressed="false">0.5×</button>
+        <button type="button" data-s="1" aria-pressed="true">1×</button>
+        <button type="button" data-s="2" aria-pressed="false">2×</button>
+        <button type="button" data-s="4" aria-pressed="false">4×</button>
+      </div>
+    </div>
+    <p class="tip">Drag the solid to move it. Drag through the liquid to stir it.</p>
+  </section>
+</main>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- constants ---------- */
+const W = 56, H = 112, FILL = 69, SURF = H - FILL, AIR = 2, KX = 6;
+const G = 600, K1 = 0.0171, K2 = 0.05, LIN0 = 1.0;
+const FONT = '"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif';
+
+const LIQUIDS = [
+  { id: 'mercury', name: 'Mercury',         d: 13.53, eta: 1.5,   color: [186, 196, 204], wb: false },
+  { id: 'honey',   name: 'Honey',           d: 1.42,  eta: 10000, color: [204, 124, 22],  wb: true  },
+  { id: 'syrup',   name: 'Corn syrup',      d: 1.33,  eta: 3000,  color: [240, 214, 130], wb: true  },
+  { id: 'soap',    name: 'Dish soap',       d: 1.06,  eta: 300,   color: [56, 190, 138],  wb: true  },
+  { id: 'water',   name: 'Water',           d: 1.00,  eta: 1,     color: [60, 154, 226],  wb: true  },
+  { id: 'oil',     name: 'Olive oil',       d: 0.91,  eta: 80,    color: [206, 190, 48],  wb: false },
+  { id: 'alcohol', name: 'Rubbing alcohol', d: 0.79,  eta: 2.4,   color: [226, 94, 124],  wb: true  }
+];
+
+const SOLIDS = [
+  { id: 'cork',  name: 'Cork',           d: 0.24,  kind: 'cork',  w: 11, h: 20 },
+  { id: 'pine',  name: 'Pine wood',      d: 0.50,  kind: 'wood',  w: 22, h: 10 },
+  { id: 'wax',   name: 'Candle wax',     d: 0.90,  kind: 'wax',   w: 15, h: 15 },
+  { id: 'ice',   name: 'Ice cube',       d: 0.917, kind: 'ice',   w: 15, h: 15 },
+  { id: 'cap',   name: 'Bottle cap',     d: 0.95,  kind: 'cap',   w: 20, h: 11 },
+  { id: 'egg',   name: 'Raw egg',        d: 1.03,  kind: 'egg',   w: 13, h: 21 },
+  { id: 'brick', name: 'Plastic brick',  d: 1.05,  kind: 'brick', w: 22, h: 10 },
+  { id: 'glass', name: 'Glass marble',   d: 2.50,  kind: 'glass', w: 17, h: 17 },
+  { id: 'alu',   name: 'Aluminum block', d: 2.70,  kind: 'metal', w: 15, h: 15, c: ['#f1f4f6', '#a3afb7'] },
+  { id: 'steel', name: 'Steel ball',     d: 7.85,  kind: 'ball',  w: 17, h: 17, c: ['#eef2f5', '#39444e'] },
+  { id: 'lead',  name: 'Lead block',     d: 11.34, kind: 'metal', w: 15, h: 15, c: ['#9099a5', '#3f4853'] },
+  { id: 'gold',  name: 'Gold bar',       d: 19.32, kind: 'metal', w: 22, h: 10, c: ['#ffe68f', '#c28808'] },
+  { id: 'custom',name: 'Custom ball',    d: 3.0,   kind: 'ball',  w: 17, h: 17, c: ['#eae2ff', '#6650c9'], custom: true }
+];
+
+const state = { l1: 5, l2: 4, s: 4, ratio: 0.5, speed: 1 };
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const fmt = d => d.toFixed(2);
+const rgb = c => `rgb(${c[0]},${c[1]},${c[2]})`;
+const solD = () => SOLIDS[state.s].d;
+
+/* ---------- simulation state ---------- */
+const cells = new Uint8Array(W * H);
+const moved = new Int32Array(W * H);
+let stamp = 0, sweepCount = 0;
+const dens = [1, 1, 0.0012];
+const eta = [1, 1, 0.018];
+const logEta = [0, 0, Math.log10(0.018)];
+const P = new Float32Array(9), PL = new Float32Array(9);
+let col = [LIQUIDS[5].color, LIQUIDS[4].color];
+let nRows0 = 34, nRows1 = 35, lastMis = 9999;
+let dirty = true, fluidRest = false;
+const comY = [SURF + 10, SURF + 40];
+
+const sol = { x: W / 2, y: 10, vy: 0, held: false, def: SOLIDS[4] };
+let cols = new Float32Array(0);
+let solidAsleep = false, calm = 0, drawnY = -999;
+
+/* ---------- run loop: only animate while something is changing ---------- */
+let running = false, last = 0;
+function wake() {
+  if (running) return;
+  running = true; last = performance.now();
+  requestAnimationFrame(frame);
+}
+function kick() { needDraw = true; wake(); }
+
+function computeRows() {
+  nRows0 = clamp(Math.round(state.ratio * FILL), 6, FILL - 6);
+  nRows1 = FILL - nRows0;
+}
+
+function computeRates() {
+  P.fill(0); PL.fill(0);
+  for (let a = 0; a < 2; a++) for (let b = 0; b < 2; b++) {
+    if (dens[a] > dens[b]) {
+      const dr = dens[a] - dens[b], e = Math.sqrt(eta[a] * eta[b]);
+      let p = 4 * Math.pow(dr, 0.7) / Math.pow(e, 0.35);
+      p = clamp(p, 0.03, 0.9);
+      P[a * 3 + b] = p;
+      PL[a * 3 + b] = Math.max(p, 0.4);
+    }
+  }
+}
+
+function sweep() {
+  stamp++;
+  for (let y = H - 1; y >= SURF; y--) {
+    const rowI = y * W;
+    const fwd = Math.random() < 0.5;
+    for (let k = 0; k < W; k++) {
+      const x = fwd ? k : W - 1 - k;
+      const i = rowI + x;
+      if (moved[i] === stamp) continue;
+      const a = cells[i], da = dens[a];
+      if (y < H - 1) {
+        const r = Math.random();
+        let nx = x + (r < 0.5 ? 0 : (r < 0.75 ? -1 : 1));
+        if (nx < 0 || nx >= W) nx = x;
+        const j = i + W + (nx - x), b = cells[j];
+        if (da > dens[b] && moved[j] !== stamp && Math.random() < P[a * 3 + b]) {
+          cells[i] = b; cells[j] = a; moved[i] = stamp; moved[j] = stamp;
+          continue;
+        }
+      }
+      const nx2 = x + (Math.random() < 0.5 ? -1 : 1);
+      if (nx2 >= 0 && nx2 < W) {
+        const m = rowI + nx2, c = cells[m];
+        if (da > dens[c] && moved[m] !== stamp && Math.random() < PL[a * 3 + c]) {
+          cells[i] = c; cells[m] = a; moved[i] = stamp; moved[m] = stamp;
+        }
+      }
+    }
+  }
+  dirty = true;
+  sweepCount++;
+  if (sweepCount % 15 === 0) {
+    lastMis = mismatch();
+    if (lastMis <= 22) { snapSorted(); fluidRest = true; lastMis = 0; }
+  }
+}
+
+function heavyType() { return dens[0] > dens[1] ? 0 : 1; }
+
+function mismatch() {
+  const hv = heavyType(), lt = 1 - hv, hrows = hv === 0 ? nRows0 : nRows1;
+  let bad = 0;
+  for (let y = SURF; y < H; y++) {
+    const t = y >= H - hrows ? hv : lt, o = y * W;
+    for (let x = 0; x < W; x++) if (cells[o + x] !== t) bad++;
+  }
+  return bad;
+}
+
+function snapSorted() {
+  const hv = heavyType(), lt = 1 - hv, hrows = hv === 0 ? nRows0 : nRows1;
+  for (let y = SURF; y < H; y++) cells.fill(y >= H - hrows ? hv : lt, y * W, (y + 1) * W);
+  dirty = true;
+}
+
+function computeCOM() {
+  const s = [0, 0], n = [0, 0];
+  for (let y = SURF; y < H; y++) {
+    const o = y * W;
+    for (let x = 0; x < W; x++) { const t = cells[o + x]; s[t] += y; n[t]++; }
+  }
+  comY[0] = n[0] ? s[0] / n[0] : SURF; comY[1] = n[1] ? s[1] / n[1] : SURF;
+}
+
+function shake() {
+  const n = W * FILL;
+  let a = new Float32Array(n), b = new Float32Array(n);
+  for (let i = 0; i < n; i++) a[i] = Math.random();
+  for (let pass = 0; pass < 6; pass++) {
+    for (let y = 0; y < FILL; y++) for (let x = 0; x < W; x++) {
+      let s = 0, c = 0;
+      for (let dy = -1; dy <= 1; dy++) {
+        const yy = y + dy; if (yy < 0 || yy >= FILL) continue;
+        for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx; if (xx < 0 || xx >= W) continue;
+          s += a[yy * W + xx]; c++;
+        }
+      }
+      b[y * W + x] = s / c;
+    }
+    const t = a; a = b; b = t;
+  }
+  const idx = Array.from({ length: n }, (_, i) => i).sort((p, q) => a[p] - a[q]);
+  const n0 = nRows0 * W;
+  cells.fill(AIR, 0, SURF * W);
+  for (let k = 0; k < n; k++) cells[SURF * W + idx[k]] = k < n0 ? 0 : 1;
+  fluidRest = false; dirty = true; sweepCount = 0; lastMis = 9999; solidAsleep = false;
+  wake();
+}
+
+function stirAt(gx, gy) {
+  const R = 6;
+  for (let k = 0; k < 50; k++) {
+    const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * R;
+    const x1 = Math.round(gx + Math.cos(a) * r), y1 = Math.round(gy + Math.sin(a) * r);
+    const a2 = Math.random() * 6.283, r2 = 1 + Math.random() * 3;
+    const x2 = Math.round(x1 + Math.cos(a2) * r2), y2 = Math.round(y1 + Math.sin(a2) * r2);
+    if (x1 < 0 || x1 >= W || x2 < 0 || x2 >= W || y1 < SURF || y1 >= H || y2 < SURF || y2 >= H) continue;
+    const i = y1 * W + x1, j = y2 * W + x2, t = cells[i];
+    cells[i] = cells[j]; cells[j] = t;
+  }
+  fluidRest = false; dirty = true; lastMis = 9999; solidAsleep = false;
+  wake();
+}
+function stirLine(p, q) {
+  const dx = q.x - p.x, dy = q.y - p.y, n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 2));
+  for (let k = 1; k <= n; k++) stirAt(p.x + dx * k / n, p.y + dy * k / n);
+}
+
+/* ---------- solid physics ---------- */
+/* the solid as vertical columns (x offset, half-height); buoyancy integrates each
+   column's exact overlap with the cell rows, so the force varies smoothly with
+   position and a floating solid comes to rest instead of buzzing around a cell edge */
+function buildOffsets(sd) {
+  const hw = sd.w / 2, hh = sd.h / 2, step = 0.5, arr = [];
+  const round = sd.kind === 'ball' || sd.kind === 'glass' || sd.kind === 'egg';
+  for (let ox = -hw + step / 2; ox < hw; ox += step) {
+    let hy = hh;
+    if (round) { const nx = ox / hw; hy = hh * Math.sqrt(Math.max(0, 1 - nx * nx)); }
+    if (hy > 0) arr.push(ox, hy);
+  }
+  cols = Float32Array.from(arr);
+}
+
+function substep(h) {
+  let sumD = 0, sumE = 0, area = 0;
+  const dAir = dens[AIR], eAir = logEta[AIR];
+  for (let k = 0; k < cols.length; k += 2) {
+    const cx = clamp(Math.floor(sol.x + cols[k]), 0, W - 1), hy = cols[k + 1];
+    const bot = sol.y + hy;
+    let y = sol.y - hy;
+    area += 2 * hy;
+    if (y < 0) { const e = Math.min(bot, 0), len = e - y; sumD += dAir * len; sumE += eAir * len; y = e; }
+    while (y < bot) {
+      const r = Math.floor(y), e = Math.min(bot, r + 1), len = e - y;
+      const t = cells[(r < H ? r : H - 1) * W + cx];
+      sumD += dens[t] * len; sumE += logEta[t] * len;
+      y = e;
+    }
+  }
+  const rf = sumD / area, etaS = Math.pow(10, sumE / area), rho = solD();
+  const mEff = rho + 0.5 * rf;
+  const aNet = G * (rho - rf) / mEff;
+  const wet = Math.min(1, rf / 0.2);
+  const lin = wet * LIN0 + K1 * etaS / mEff;
+  const quad = K2 * rf / mEff;
+  let v = sol.vy;
+  v = (v + aNet * h) / (1 + (lin + quad * Math.abs(v)) * h);
+  sol.y += v * h;
+  const hh = sol.def.h / 2;
+  if (sol.y + hh >= H) {
+    sol.y = H - hh;
+    v = v > 30 ? -v * 0.12 : Math.min(v, 0);
+  }
+  if (sol.y - hh < -40) { sol.y = -40 + hh; v = Math.max(v, 0); }
+  sol.vy = v;
+}
+function stepSolid(dt) {
+  if (sol.held) return;
+  const n = 8, h = dt / n;
+  for (let k = 0; k < n; k++) substep(h);
+}
+
+function dropSolid() {
+  sol.x = W / 2; sol.y = sol.def.h / 2 + 2; sol.vy = 0; sol.held = false;
+  solidAsleep = false; calm = 0; kick();
+}
+
+function settleNow() {
+  snapSorted(); fluidRest = true;
+  sol.held = false;
+  let calm = 0;
+  for (let i = 0; i < 4500; i++) {
+    for (let k = 0; k < 2; k++) substep(1 / 240);
+    if (Math.abs(sol.vy) < 0.02) { if (++calm > 80) break; } else calm = 0;
+  }
+  sol.vy = 0; solidAsleep = false; calm = 0;
+  kick();
+}
+
+/* ---------- drawing helpers ---------- */
+function rrPath(c, x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2);
+  c.beginPath();
+  c.moveTo(x + r, y);
+  c.arcTo(x + w, y, x + w, y + h, r);
+  c.arcTo(x + w, y + h, x, y + h, r);
+  c.arcTo(x, y + h, x, y, r);
+  c.arcTo(x, y, x + w, y, r);
+  c.closePath();
+}
+function speckle(c, x, y, w, h, n, seed, color, rad) {
+  let s = seed;
+  c.fillStyle = color;
+  for (let i = 0; i < n; i++) {
+    s = (s * 16807) % 2147483647; const px = x + (s / 2147483647) * w;
+    s = (s * 16807) % 2147483647; const py = y + (s / 2147483647) * h;
+    c.beginPath(); c.arc(px, py, rad, 0, 6.283); c.fill();
+  }
+}
+
+function paintShape(c, def, cx, cy, S) {
+  const w = def.w * S, h = def.h * S, x = cx - w / 2, y = cy - h / 2, lw = Math.max(1, S * 0.2);
+  c.save();
+  c.lineWidth = lw;
+  switch (def.kind) {
+    case 'ball': {
+      const r = w / 2, g = c.createRadialGradient(cx - r * 0.35, cy - r * 0.4, r * 0.1, cx, cy, r);
+      g.addColorStop(0, def.c[0]); g.addColorStop(1, def.c[1]);
+      c.fillStyle = g; c.beginPath(); c.arc(cx, cy, r, 0, 6.283); c.fill();
+      c.strokeStyle = 'rgba(0,0,0,0.35)'; c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.55)';
+      c.beginPath(); c.ellipse(cx - r * 0.36, cy - r * 0.42, r * 0.22, r * 0.12, -0.7, 0, 6.283); c.fill();
+      break;
+    }
+    case 'glass': {
+      const r = w / 2, g = c.createRadialGradient(cx - r * 0.3, cy - r * 0.35, r * 0.1, cx, cy, r);
+      g.addColorStop(0, 'rgba(190,245,238,0.85)'); g.addColorStop(1, 'rgba(38,150,150,0.75)');
+      c.fillStyle = g; c.beginPath(); c.arc(cx, cy, r, 0, 6.283); c.fill();
+      c.strokeStyle = 'rgba(232,102,86,0.85)'; c.lineWidth = Math.max(1.5, S * 0.75);
+      c.beginPath(); c.arc(cx, cy, r * 0.5, 0.4, 2.7); c.stroke();
+      c.strokeStyle = 'rgba(247,196,64,0.85)';
+      c.beginPath(); c.arc(cx + r * 0.1, cy, r * 0.32, 3.5, 5.9); c.stroke();
+      c.lineWidth = lw; c.strokeStyle = 'rgba(255,255,255,0.75)';
+      c.beginPath(); c.arc(cx, cy, r, 0, 6.283); c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.7)';
+      c.beginPath(); c.ellipse(cx - r * 0.4, cy - r * 0.45, r * 0.2, r * 0.11, -0.7, 0, 6.283); c.fill();
+      break;
+    }
+    case 'egg': {
+      const rx = w / 2, ry = h / 2, g = c.createRadialGradient(cx - rx * 0.35, cy - ry * 0.35, rx * 0.1, cx, cy, ry);
+      g.addColorStop(0, '#fdf4e0'); g.addColorStop(1, '#d6bf96');
+      c.fillStyle = g; c.beginPath(); c.ellipse(cx, cy, rx, ry, 0, 0, 6.283); c.fill();
+      c.strokeStyle = 'rgba(96,66,24,0.4)'; c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.6)';
+      c.beginPath(); c.ellipse(cx - rx * 0.38, cy - ry * 0.4, rx * 0.16, ry * 0.12, -0.5, 0, 6.283); c.fill();
+      break;
+    }
+    case 'metal': {
+      const g = c.createLinearGradient(x, y, x + w, y + h);
+      g.addColorStop(0, def.c[0]); g.addColorStop(1, def.c[1]);
+      rrPath(c, x, y, w, h, S * 1.1); c.fillStyle = g; c.fill();
+      c.save(); rrPath(c, x, y, w, h, S * 1.1); c.clip();
+      c.fillStyle = 'rgba(255,255,255,0.38)'; c.fillRect(x, y, w, h * 0.22);
+      c.fillStyle = 'rgba(0,0,0,0.16)'; c.fillRect(x, y + h * 0.82, w, h * 0.18);
+      c.restore();
+      rrPath(c, x, y, w, h, S * 1.1); c.strokeStyle = 'rgba(0,0,0,0.38)'; c.stroke();
+      break;
+    }
+    case 'wax': {
+      const g = c.createLinearGradient(x, y, x + w, y + h);
+      g.addColorStop(0, '#fcf6e2'); g.addColorStop(1, '#e2d1a0');
+      rrPath(c, x, y, w, h, S * 2); c.fillStyle = g; c.fill();
+      c.strokeStyle = 'rgba(126,104,44,0.45)'; c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.55)'; rrPath(c, x + w * 0.12, y + h * 0.12, w * 0.3, h * 0.12, S * 0.6); c.fill();
+      break;
+    }
+    case 'ice': {
+      rrPath(c, x, y, w, h, S * 1.4);
+      const g = c.createLinearGradient(x, y, x + w, y + h);
+      g.addColorStop(0, 'rgba(236,250,255,0.88)'); g.addColorStop(1, 'rgba(150,212,238,0.7)');
+      c.fillStyle = g; c.fill();
+      c.save(); rrPath(c, x, y, w, h, S * 1.4); c.clip();
+      c.strokeStyle = 'rgba(255,255,255,0.85)'; c.lineWidth = Math.max(1.5, S * 0.7);
+      c.beginPath(); c.moveTo(x + w * 0.2, y + h); c.lineTo(x + w, y + h * 0.2); c.stroke();
+      c.beginPath(); c.moveTo(x, y + h * 0.7); c.lineTo(x + w * 0.7, y); c.stroke();
+      c.restore();
+      rrPath(c, x, y, w, h, S * 1.4); c.strokeStyle = 'rgba(88,168,206,0.95)'; c.lineWidth = lw; c.stroke();
+      break;
+    }
+    case 'wood': {
+      const g = c.createLinearGradient(x, y, x, y + h);
+      g.addColorStop(0, '#e6c28c'); g.addColorStop(1, '#c48f55');
+      rrPath(c, x, y, w, h, S * 0.5); c.fillStyle = g; c.fill();
+      c.save(); rrPath(c, x, y, w, h, S * 0.5); c.clip();
+      c.strokeStyle = 'rgba(112,64,20,0.35)'; c.lineWidth = Math.max(1, S * 0.16);
+      for (let i = 1; i < 6; i++) {
+        const yy = y + h * i / 6;
+        c.beginPath(); c.moveTo(x, yy);
+        c.bezierCurveTo(x + w * 0.3, yy - S * 0.5, x + w * 0.6, yy + S * 0.5, x + w, yy - S * 0.2); c.stroke();
+      }
+      c.restore();
+      rrPath(c, x, y, w, h, S * 0.5); c.strokeStyle = 'rgba(74,42,10,0.55)'; c.lineWidth = lw; c.stroke();
+      break;
+    }
+    case 'cork': {
+      const g = c.createLinearGradient(x, y, x + w, y);
+      g.addColorStop(0, '#d8a96f'); g.addColorStop(0.5, '#e0b57d'); g.addColorStop(1, '#bd8a52');
+      rrPath(c, x, y, w, h, S * 1.2); c.fillStyle = g; c.fill();
+      c.save(); rrPath(c, x, y, w, h, S * 1.2); c.clip();
+      speckle(c, x, y, w, h, 34, 7, 'rgba(96,56,20,0.55)', Math.max(0.8, S * 0.22));
+      c.restore();
+      rrPath(c, x, y, w, h, S * 1.2); c.strokeStyle = 'rgba(88,50,14,0.55)'; c.stroke();
+      break;
+    }
+    case 'brick': {
+      const g = c.createLinearGradient(x, y, x, y + h);
+      g.addColorStop(0, '#f0483a'); g.addColorStop(1, '#b3241a');
+      const sw = w / 5.4, sh = S * 1.5;
+      c.fillStyle = g;
+      for (let i = 0; i < 4; i++) {
+        const sx = x + w * (0.1 + i * 0.235);
+        rrPath(c, sx, y - sh + 1, sw, sh + 1, S * 0.4); c.fill();
+        c.strokeStyle = 'rgba(80,10,5,0.5)'; c.stroke();
+      }
+      rrPath(c, x, y, w, h, S * 0.5); c.fillStyle = g; c.fill();
+      c.strokeStyle = 'rgba(80,10,5,0.55)'; c.stroke();
+      c.fillStyle = 'rgba(255,255,255,0.28)'; c.fillRect(x + S * 0.5, y + S * 0.4, w - S, h * 0.14);
+      break;
+    }
+    case 'cap': {
+      const g = c.createLinearGradient(x, y, x, y + h);
+      g.addColorStop(0, '#ffffff'); g.addColorStop(1, '#c4cbd0');
+      rrPath(c, x, y, w, h, S * 1.0); c.fillStyle = g; c.fill();
+      c.save(); rrPath(c, x, y, w, h, S * 1.0); c.clip();
+      c.strokeStyle = 'rgba(40,60,74,0.2)'; c.lineWidth = Math.max(1, S * 0.2);
+      for (let xx = x + S * 1.4; xx < x + w; xx += S * 1.6) { c.beginPath(); c.moveTo(xx, y + h * 0.3); c.lineTo(xx, y + h); c.stroke(); }
+      c.fillStyle = 'rgba(40,60,74,0.14)'; c.fillRect(x, y + h * 0.24, w, Math.max(1, S * 0.3));
+      c.restore();
+      rrPath(c, x, y, w, h, S * 1.0); c.strokeStyle = 'rgba(40,60,74,0.6)'; c.lineWidth = lw; c.stroke();
+      break;
+    }
+  }
+  c.restore();
+}
+
+/* ---------- canvas + layout ---------- */
+const stage = $('stage'), cv = $('cv'), ctx = cv.getContext('2d');
+let cw = 300, ch = 400, dpr = 1, S = 4, tx = 0, ty = 0, tw = 0, th = 0, rb = 12, WT = 6, benchY = 0, labelX = 0, labelW = 190, narrow = false;
+let needDraw = true, keepDrawing = false;
+const labY = [undefined, undefined, undefined];
+let T = {};
+const stacked = matchMedia('(max-width: 860px)');
+
+function readTheme() {
+  const cs = getComputedStyle(document.documentElement), g = n => cs.getPropertyValue(n).trim();
+  T = { ink: g('--ink'), ink2: g('--ink-2'), line: g('--line'), bench: g('--bench'), air: g('--air'), glass: g('--glass'), glassHi: g('--glass-hi'), dark: g('--dark') === '1' };
+  buildLayers();
+  kick();
+}
+
+function layout() {
+  const r = stage.getBoundingClientRect();
+  cw = Math.max(200, r.width); ch = Math.max(240, r.height);
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+  narrow = cw < 560;
+  labelW = narrow ? 118 : 196;
+  const gapX = narrow ? 16 : 28, padT = narrow ? 26 : 36, padB = narrow ? 44 : 52, padX = narrow ? 14 : 24;
+  WT = Math.max(4, Math.min(9, cw / 70));
+  const avW = cw - padX * 2 - labelW - gapX - WT * 2 - 14;
+  if (stacked.matches) {
+    /* single column: let the width decide the tank size and shrink the stage to fit it */
+    const want = Math.round(padT + padB + WT + (avW / W) * H);
+    const cap = Math.max(360, Math.round(window.innerHeight * 0.8));
+    const hNow = Math.min(want, cap);
+    if (Math.abs(hNow - ch) > 1) { stage.style.height = hNow + 'px'; ch = hNow; cv.height = Math.round(ch * dpr); }
+  } else if (stage.style.height) { stage.style.height = ''; ch = stage.getBoundingClientRect().height; cv.height = Math.round(ch * dpr); }
+  const avH = ch - padT - padB - WT;
+  S = Math.max(1.5, Math.min(avW / W, avH / H));
+  tw = W * S; th = H * S; rb = Math.min(tw * 0.16, 26);
+  const groupW = tw + WT * 2 + gapX + labelW;
+  tx = (cw - groupW) / 2 + WT + 6;
+  ty = padT + (avH - th) / 2;
+  benchY = ty + th + WT;
+  labelX = tx + tw + WT + gapX;
+  buildLayers();
+  kick();
+}
+
+/* hi-res liquid image with smooth, crisp boundaries */
+const HW = W * KX, HL = FILL * KX;
+const liqCv = document.createElement('canvas'); liqCv.width = HW; liqCv.height = HL;
+const liqCtx = liqCv.getContext('2d');
+const liqImg = liqCtx.createImageData(HW, HL);
+const liq32 = new Uint32Array(liqImg.data.buffer);
+const X0 = new Int16Array(HW), X1 = new Int16Array(HW), FX = new Float32Array(HW);
+const Y0 = new Int16Array(HL), Y1 = new Int16Array(HL), FY = new Float32Array(HL);
+for (let p = 0; p < HW; p++) { const u = (p + 0.5) / KX - 0.5, x0 = Math.floor(u); X0[p] = clamp(x0, 0, W - 1); X1[p] = clamp(x0 + 1, 0, W - 1); FX[p] = u - x0; }
+for (let p = 0; p < HL; p++) { const v = (p + 0.5) / KX - 0.5, y0 = Math.floor(v); Y0[p] = clamp(y0, 0, FILL - 1); Y1[p] = clamp(y0 + 1, 0, FILL - 1); FY[p] = v - y0; }
+
+/* colour lookup: blend amount (0..256) -> packed RGBA pixel, smoothstep baked in */
+const LUT = new Uint32Array(257);
+function buildLUT() {
+  const c0 = col[0], c1 = col[1];
+  for (let i = 0; i <= 256; i++) {
+    let t = (i / 256 - 0.38) / 0.24;
+    t = t < 0 ? 0 : t > 1 ? 1 : t; t = t * t * (3 - 2 * t);
+    const r = Math.round(c0[0] + (c1[0] - c0[0]) * t), g = Math.round(c0[1] + (c1[1] - c0[1]) * t), b = Math.round(c0[2] + (c1[2] - c0[2]) * t);
+    LUT[i] = ((255 << 24) | (b << 16) | (g << 8) | r) >>> 0; /* little-endian RGBA */
+  }
+}
+const depthGrad = liqCtx.createLinearGradient(0, 0, 0, HL);
+depthGrad.addColorStop(0, 'rgba(255,255,255,0.10)'); depthGrad.addColorStop(1, 'rgba(0,0,0,0.20)');
+
+function buildImage() {
+  const p0 = LUT[0], p1 = LUT[256];
+  let o = 0;
+  for (let py = 0; py < HL; py++) {
+    const i0 = (SURF + Y0[py]) * W, i1 = (SURF + Y1[py]) * W, fy = FY[py];
+    for (let px = 0; px < HW; px++) {
+      const x0 = X0[px], x1 = X1[px];
+      const v00 = cells[i0 + x0], v01 = cells[i0 + x1], v10 = cells[i1 + x0], v11 = cells[i1 + x1];
+      if (v00 === v01 && v10 === v11 && v00 === v10) { liq32[o++] = v00 === 1 ? p1 : p0; continue; }
+      const fx = FX[px];
+      const a = v00 === 1 ? 1 : 0, b = v01 === 1 ? 1 : 0, c = v10 === 1 ? 1 : 0, d = v11 === 1 ? 1 : 0;
+      const top = a + (b - a) * fx, bot = c + (d - c) * fx;
+      liq32[o++] = LUT[(top + (bot - top) * fy) * 256 | 0];
+    }
+  }
+  liqCtx.putImageData(liqImg, 0, 0);
+  /* bake the depth shading into the liquid image instead of painting it every frame */
+  liqCtx.fillStyle = depthGrad; liqCtx.fillRect(0, 0, HW, HL);
+}
+
+function interiorPath(c) {
+  c.beginPath();
+  c.moveTo(tx, ty); c.lineTo(tx, ty + th - rb);
+  c.arcTo(tx, ty + th, tx + rb, ty + th, rb);
+  c.lineTo(tx + tw - rb, ty + th);
+  c.arcTo(tx + tw, ty + th, tx + tw, ty + th - rb, rb);
+  c.lineTo(tx + tw, ty);
+}
+
+function darker(c, f) { return `rgb(${Math.round(c[0] * f)},${Math.round(c[1] * f)},${Math.round(c[2] * f)})`; }
+
+/* ---------- cached layers: everything that only changes on resize/theme/material ---------- */
+const backCv = document.createElement('canvas'), frontCv = document.createElement('canvas'), solCv = document.createElement('canvas');
+let solPad = 0;
+function layerCtx(c) {
+  c.width = cv.width; c.height = cv.height;
+  const g = c.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return g;
+}
+
+function buildLayers() {
+  if (!T.ink || !tw) return;
+  /* back: bench, shadow, air */
+  let c = layerCtx(backCv);
+  c.fillStyle = T.bench; c.fillRect(0, benchY, cw, ch - benchY);
+  c.fillStyle = T.line; c.fillRect(0, benchY, cw, 1);
+  c.save();
+  c.translate(tx + tw / 2, benchY + 8); c.scale(1, 0.16);
+  const sg = c.createRadialGradient(0, 0, 2, 0, 0, tw * 0.8);
+  sg.addColorStop(0, 'rgba(0,0,0,0.32)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+  c.fillStyle = sg; c.beginPath(); c.arc(0, 0, tw * 0.8, 0, 6.283); c.fill();
+  c.restore();
+  c.save(); interiorPath(c); c.closePath(); c.clip();
+  c.fillStyle = T.air; c.fillRect(tx, ty, tw, th);
+  c.restore();
+
+  /* front: glass sheen, walls, lips, graduations */
+  c = layerCtx(frontCv);
+  c.save(); interiorPath(c); c.closePath(); c.clip();
+  const cg = c.createLinearGradient(tx, 0, tx + tw, 0);
+  cg.addColorStop(0, 'rgba(0,0,0,0.16)'); cg.addColorStop(0.09, 'rgba(255,255,255,0)');
+  cg.addColorStop(0.15, T.dark ? 'rgba(255,255,255,0.13)' : 'rgba(255,255,255,0.26)'); cg.addColorStop(0.23, 'rgba(255,255,255,0)');
+  cg.addColorStop(0.84, 'rgba(255,255,255,0)'); cg.addColorStop(0.88, 'rgba(255,255,255,0.10)');
+  cg.addColorStop(0.92, 'rgba(255,255,255,0)'); cg.addColorStop(1, 'rgba(0,0,0,0.22)');
+  c.fillStyle = cg; c.fillRect(tx, ty, tw, th);
+  c.restore();
+  const o = WT / 2;
+  c.lineJoin = 'round'; c.lineCap = 'butt';
+  c.strokeStyle = T.glass; c.lineWidth = WT;
+  c.beginPath();
+  c.moveTo(tx - o, ty - 4); c.lineTo(tx - o, ty + th - rb);
+  c.arcTo(tx - o, ty + th + o, tx + rb, ty + th + o, rb + o);
+  c.lineTo(tx + tw - rb, ty + th + o);
+  c.arcTo(tx + tw + o, ty + th + o, tx + tw + o, ty + th - rb, rb + o);
+  c.lineTo(tx + tw + o, ty - 4);
+  c.stroke();
+  c.strokeStyle = T.glassHi; c.lineWidth = 1;
+  interiorPath(c); c.stroke();
+  c.fillStyle = T.glass;
+  rrPath(c, tx - WT - 5, ty - 7, WT + 8, 4, 2); c.fill();
+  rrPath(c, tx + tw - 3, ty - 7, WT + 8, 4, 2); c.fill();
+  c.strokeStyle = T.ink2; c.globalAlpha = 0.5; c.lineWidth = 1;
+  for (let i = 1; i <= 20; i++) {
+    const yy = Math.round(ty + th - th * i / 20) + 0.5, len = i % 5 === 0 ? 10 : 5;
+    c.beginPath(); c.moveTo(tx - WT - 3, yy); c.lineTo(tx - WT - 3 - len, yy); c.stroke();
+  }
+  c.globalAlpha = 1;
+
+  buildSolidSprite();
+}
+
+/* the solid with its drop shadow, painted once instead of blurred every frame */
+function buildSolidSprite() {
+  if (!tw) return;
+  const def = sol.def;
+  solPad = Math.ceil(S * 3);
+  const w = def.w * S + solPad * 2, h = def.h * S + solPad * 2 + (def.kind === 'brick' ? S * 2 : 0);
+  solCv.width = Math.ceil(w * dpr); solCv.height = Math.ceil(h * dpr);
+  const c = solCv.getContext('2d');
+  c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  c.shadowColor = 'rgba(0,0,0,0.25)'; c.shadowBlur = S * 1.2; c.shadowOffsetY = S * 0.3;
+  paintShape(c, def, w / 2, h - solPad - def.h * S / 2, S);
+}
+
+function draw() {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  ctx.drawImage(backCv, 0, 0);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  /* liquid, clipped to the rounded floor */
+  ctx.save();
+  interiorPath(ctx); ctx.closePath(); ctx.clip();
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';
+  ctx.drawImage(liqCv, tx, ty + SURF * S, tw, FILL * S);
+  ctx.restore();
+
+  /* surface line */
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(tx + 2, ty + SURF * S + 0.75); ctx.lineTo(tx + tw - 2, ty + SURF * S + 0.75); ctx.stroke();
+
+  /* solid */
+  drawnY = sol.y;
+  const sx = tx + sol.x * S, sy = ty + sol.y * S;
+  const sw = solCv.width / dpr, sh = solCv.height / dpr;
+  ctx.drawImage(solCv, sx - sw / 2, sy + sol.def.h * S / 2 + solPad - sh, sw, sh);
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(frontCv, 0, 0);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  /* labels */
+  const A = LIQUIDS[state.l1], B = LIQUIDS[state.l2];
+  const items = [
+    { key: 0, ay: ty + (comY[0] + 0.5) * S, name: A.name, d: A.d, col: T.dark ? rgb(A.color) : darker(A.color, 0.8), solid: false },
+    { key: 1, ay: ty + (comY[1] + 0.5) * S, name: B.name, d: B.d, col: T.dark ? rgb(B.color) : darker(B.color, 0.8), solid: false },
+    { key: 2, ay: sy, name: sol.def.name, d: solD(), col: T.ink, solid: true }
+  ];
+  items.sort((p, q) => p.ay - q.ay);
+  const gapY = 40, minY = ty + 18, maxY = ty + th - 10;
+  const ys = items.map(it => clamp(it.ay, minY, maxY));
+  for (let i = 1; i < 3; i++) if (ys[i] < ys[i - 1] + gapY) ys[i] = ys[i - 1] + gapY;
+  if (ys[2] > maxY) { ys[2] = maxY; for (let i = 1; i >= 0; i--) if (ys[i] > ys[i + 1] - gapY) ys[i] = ys[i + 1] - gapY; }
+  let moving = false;
+  items.forEach((it, i) => {
+    const k = it.key;
+    labY[k] = labY[k] === undefined ? ys[i] : labY[k] + (ys[i] - labY[k]) * 0.22;
+    if (Math.abs(ys[i] - labY[k]) > 0.3) moving = true; else labY[k] = ys[i];
+    it.ly = labY[k];
+  });
+  const wallR = tx + tw + WT + 3, nf = narrow ? 12.5 : 14, df = narrow ? 11.5 : 12.5;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  for (const it of items) {
+    ctx.strokeStyle = it.col; ctx.lineWidth = 1.5; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(wallR, it.ay); ctx.lineTo(wallR + 10, it.ay); ctx.lineTo(labelX - 8, it.ly); ctx.stroke();
+    ctx.fillStyle = it.col;
+    if (it.solid) ctx.fillRect(wallR - 3.5, it.ay - 3.5, 7, 7);
+    else { ctx.beginPath(); ctx.arc(wallR, it.ay, 3.5, 0, 6.283); ctx.fill(); }
+    ctx.fillStyle = T.ink; ctx.font = `650 ${nf}px ${FONT}`;
+    ctx.fillText(it.name, labelX, it.ly - 2, labelW - 10);
+    ctx.fillStyle = T.ink2; ctx.font = `500 ${df}px ${FONT}`;
+    ctx.fillText(fmt(it.d) + ' g/cm³', labelX, it.ly + 14, labelW - 10);
+  }
+  keepDrawing = moving;
+}
+
+/* ---------- UI ---------- */
+const el = {
+  liq1: $('liq1'), liq2: $('liq2'), sol: $('sol'),
+  sw1: $('sw1'), sw2: $('sw2'), sw3: $('sw3'),
+  v1: $('v1'), v2: $('v2'), v3: $('v3'),
+  scale: $('scale'), vHead: $('vHead'), vBody: $('vBody'), vNote: $('vNote'),
+  customRow: $('customRow'), cust: $('cust'), custOut: $('custOut'),
+  ratio: $('ratio'), ratioOut: $('ratioOut')
+};
+
+function fillSelect(sel, list, value, disabledIdx) {
+  sel.innerHTML = '';
+  list.forEach((it, i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = `${it.name} (${fmt(it.d)})`; o.disabled = i === disabledIdx;
+    sel.appendChild(o);
+  });
+  sel.value = value;
+}
+
+function drawSwatch() {
+  const c = el.sw3, g = c.getContext('2d'), d = SOLIDS[state.s];
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, c.width, c.height);
+  const s = 52 / Math.max(d.w, d.h + (d.kind === 'brick' ? 2 : 0));
+  paintShape(g, d, c.width / 2, c.height / 2 + (d.kind === 'brick' ? 4 : 0), s);
+}
+
+function verdict() {
+  const A = LIQUIDS[state.l1], B = LIQUIDS[state.l2];
+  const lt = A.d < B.d ? A : B, hv = A.d < B.d ? B : A, sd = SOLIDS[state.s], ds = sd.d;
+  const sn = sd.name, ln = lt.name.toLowerCase(), hn = hv.name.toLowerCase();
+  let h, p;
+  if (ds < lt.d) {
+    const pct = Math.round(ds / lt.d * 100);
+    h = 'Floats on top';
+    p = `${sn} (${fmt(ds)}) is lighter than both liquids, so it rides on the ${ln} with about ${pct}% of it under the surface.`;
+  } else if (ds > hv.d) {
+    h = 'Sinks to the bottom';
+    p = `${sn} (${fmt(ds)}) is denser than both liquids, so it drops through the ${ln} and the ${hn} and rests on the floor.`;
+  } else {
+    const pct = Math.round((ds - lt.d) / (hv.d - lt.d) * 100);
+    h = 'Floats between the liquids';
+    p = `${sn} (${fmt(ds)}) is heavier than ${ln} (${fmt(lt.d)}) and lighter than ${hn} (${fmt(hv.d)}), so it hangs at the boundary with about ${pct}% of it in the ${hn}.`;
+  }
+  const note = (A.wb && B.wb) ? 'Both liquids are water-based, so in a real jar they would slowly blend. Here they stay separate so the density difference is easy to see.' : '';
+  return { h, p, note };
+}
+
+const NICE = [0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.5, 3, 4, 5, 6, 8, 10, 15, 20, 30];
+function scaleSVG() {
+  const wv = 340, hv = 84, px = 18, ax = 50;
+  const A = LIQUIDS[state.l1], B = LIQUIDS[state.l2];
+  const lt = A.d < B.d ? A : B, hv2 = A.d < B.d ? B : A, ds = solD();
+  /* zoom the axis to the densities in play so "between" is easy to see */
+  let lo = Math.min(lt.d, ds) / 1.3, hi = Math.max(hv2.d, ds) * 1.3;
+  if (hi / lo < 2.4) { const k = Math.sqrt(2.4 / (hi / lo)); lo /= k; hi *= k; }
+  const L0 = Math.log10(lo), L1 = Math.log10(hi);
+  const X = d => px + (Math.log10(d) - L0) / (L1 - L0) * (wv - 2 * px);
+  const xl = X(lt.d), xh = X(hv2.d), xs = X(ds);
+  let s = `<svg viewBox="0 0 ${wv} ${hv}" aria-hidden="true"><defs><linearGradient id="bandg" x1="0" x2="1"><stop offset="0" stop-color="${rgb(lt.color)}"/><stop offset="1" stop-color="${rgb(hv2.color)}"/></linearGradient></defs>`;
+  s += `<line class="axis" x1="${px}" x2="${wv - px}" y1="${ax}" y2="${ax}"/>`;
+  let lastX = -99;
+  for (const t of NICE) {
+    if (t < lo || t > hi) continue;
+    const x = X(t); if (x - lastX < 40) continue; lastX = x;
+    s += `<line class="tick" x1="${x}" x2="${x}" y1="${ax - 5}" y2="${ax + 5}"/><text x="${x}" y="${ax + 22}" text-anchor="middle">${t}</text>`;
+  }
+  s += `<rect x="${xl}" y="${ax - 8}" width="${Math.max(0, xh - xl)}" height="16" rx="8" fill="url(#bandg)"/>`;
+  s += `<circle cx="${xl}" cy="${ax}" r="8" fill="${rgb(lt.color)}" stroke="var(--stage)" stroke-width="2"/>`;
+  s += `<circle cx="${xh}" cy="${ax}" r="8" fill="${rgb(hv2.color)}" stroke="var(--stage)" stroke-width="2"/>`;
+  s += `<path d="M${xs} ${ax - 11} L${xs - 7} ${ax - 23} L${xs + 7} ${ax - 23} Z" fill="var(--ink)" stroke="var(--stage)" stroke-width="1.5" stroke-linejoin="round"/>`;
+  s += `<text class="mval" x="${xs}" y="${ax - 31}" text-anchor="middle">${fmt(ds)}</text></svg>`;
+  return s;
+}
+
+function updateUI() {
+  const A = LIQUIDS[state.l1], B = LIQUIDS[state.l2], sd = SOLIDS[state.s];
+  el.sw1.style.setProperty('--c', rgb(A.color));
+  el.sw2.style.setProperty('--c', rgb(B.color));
+  el.v1.innerHTML = `${fmt(A.d)}<small>g/cm³</small>`;
+  el.v2.innerHTML = `${fmt(B.d)}<small>g/cm³</small>`;
+  el.v3.innerHTML = `${fmt(sd.d)}<small>g/cm³</small>`;
+  el.customRow.hidden = !sd.custom;
+  el.custOut.textContent = fmt(SOLIDS[SOLIDS.length - 1].d) + ' g/cm³';
+  el.ratioOut.textContent = Math.round(state.ratio * 100) + '%';
+  drawSwatch();
+  el.scale.innerHTML = scaleSVG();
+  const v = verdict();
+  el.vHead.textContent = v.h; el.vBody.textContent = v.p; el.vNote.textContent = v.note;
+  cv.setAttribute('aria-label', `Glass tank with ${A.name} and ${B.name} and a ${sd.name.toLowerCase()}. ${v.h}.`);
+  kick();
+}
+
+function applyMaterials() {
+  const A = LIQUIDS[state.l1], B = LIQUIDS[state.l2];
+  dens[0] = A.d; dens[1] = B.d; eta[0] = A.eta; eta[1] = B.eta;
+  logEta[0] = Math.log10(A.eta); logEta[1] = Math.log10(B.eta);
+  col = [A.color, B.color]; buildLUT();
+  computeRows(); computeRates();
+  sol.def = SOLIDS[state.s]; buildOffsets(sol.def); buildSolidSprite();
+  solidAsleep = false; calm = 0;
+  labY[0] = labY[1] = labY[2] = undefined;
+  updateUI();
+}
+
+function resetAll() { applyMaterials(); shake(); dropSolid(); }
+
+/* ---------- wiring ---------- */
+fillSelect(el.liq1, LIQUIDS, state.l1, state.l2);
+fillSelect(el.liq2, LIQUIDS, state.l2, state.l1);
+fillSelect(el.sol, SOLIDS, state.s, -1);
+el.cust.value = Math.log10(SOLIDS[SOLIDS.length - 1].d);
+el.ratio.value = Math.round(state.ratio * 100);
+
+el.liq1.addEventListener('change', () => {
+  state.l1 = +el.liq1.value; fillSelect(el.liq2, LIQUIDS, state.l2, state.l1); resetAll();
+});
+el.liq2.addEventListener('change', () => {
+  state.l2 = +el.liq2.value; fillSelect(el.liq1, LIQUIDS, state.l1, state.l2); resetAll();
+});
+el.sol.addEventListener('change', () => { state.s = +el.sol.value; resetAll(); });
+el.cust.addEventListener('input', () => {
+  SOLIDS[SOLIDS.length - 1].d = Math.pow(10, +el.cust.value);
+  fillSelect(el.sol, SOLIDS, state.s, -1);
+  solidAsleep = false; calm = 0;
+  updateUI();
+});
+el.ratio.addEventListener('input', () => {
+  state.ratio = +el.ratio.value / 100; computeRows(); updateUI(); shake();
+});
+$('bShake').addEventListener('click', shake);
+$('bDrop').addEventListener('click', dropSolid);
+$('bSettle').addEventListener('click', settleNow);
+$('seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  state.speed = +b.dataset.s;
+  for (const x of $('seg').children) x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+});
+
+/* pointer interaction */
+let stirring = false, stirLast = null, grab = { dx: 0, dy: 0 };
+function toGrid(e) {
+  const r = cv.getBoundingClientRect();
+  return { x: (e.clientX - r.left - tx) / S, y: (e.clientY - r.top - ty) / S };
+}
+function hitSolid(g) {
+  return Math.abs(g.x - sol.x) <= sol.def.w / 2 + 1.5 && Math.abs(g.y - sol.y) <= sol.def.h / 2 + 1.5;
+}
+function inLiquid(g) { return g.x >= 0 && g.x <= W && g.y >= SURF && g.y <= H; }
+function placeSolid(x, y) {
+  const hw = sol.def.w / 2, hh = sol.def.h / 2;
+  sol.x = clamp(x, hw, W - hw); sol.y = clamp(y, -40 + hh, H - hh); sol.vy = 0;
+}
+cv.addEventListener('pointerdown', e => {
+  const g = toGrid(e);
+  if (hitSolid(g)) {
+    sol.held = true; grab = { dx: sol.x - g.x, dy: sol.y - g.y }; sol.vy = 0; solidAsleep = false; calm = 0;
+    cv.setPointerCapture(e.pointerId); cv.style.cursor = 'grabbing'; e.preventDefault();
+  } else if (inLiquid(g)) {
+    stirring = true; stirLast = g; cv.setPointerCapture(e.pointerId); stirAt(g.x, g.y); e.preventDefault();
+  }
+});
+cv.addEventListener('pointermove', e => {
+  const g = toGrid(e);
+  if (sol.held) { placeSolid(g.x + grab.dx, g.y + grab.dy); kick(); }
+  else if (stirring) { stirLine(stirLast, g); stirLast = g; }
+  else cv.style.cursor = hitSolid(g) ? 'grab' : (inLiquid(g) ? 'crosshair' : 'default');
+});
+function release() { sol.held = false; stirring = false; cv.style.cursor = 'default'; solidAsleep = false; calm = 0; wake(); }
+cv.addEventListener('pointerup', release);
+cv.addEventListener('pointercancel', release);
+
+/* theme + resize */
+new ResizeObserver(() => layout()).observe(stage);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readTheme);
+new MutationObserver(readTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(kick);
+
+/* ---------- main loop ---------- */
+let passAcc = 0;
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!fluidRest) {
+    /* the last few stray cells are cheap to resolve, so run the tail faster */
+    const boost = lastMis < 250 ? 1 + 7 * (1 - lastMis / 250) : 1;
+    passAcc += dt * 120 * state.speed * boost;
+    const passes = Math.min(64, Math.floor(passAcc)); passAcc -= Math.floor(passAcc);
+    for (let k = 0; k < passes; k++) sweep();
+  }
+  let solidMoved = false;
+  if (!sol.held && !solidAsleep) {
+    stepSolid(dt * state.speed);
+    /* slow creep (e.g. through honey) only redraws once it has moved a visible amount */
+    solidMoved = Math.abs(sol.y - drawnY) * S * dpr > 0.35;
+    /* once the liquid is still and the solid has stopped, put it to sleep */
+    if (fluidRest && Math.abs(sol.vy) < 0.02) { if (++calm > 20) { solidAsleep = true; sol.vy = 0; } }
+    else calm = 0;
+  }
+  if (dirty) { computeCOM(); buildImage(); dirty = false; needDraw = true; }
+  if (needDraw || solidMoved || keepDrawing) { needDraw = false; draw(); }
+  const busy = !fluidRest || (!solidAsleep && !sol.held) || keepDrawing || needDraw || stirring;
+  if (busy) requestAnimationFrame(frame); else running = false;
+}
+
+/* stir while held still */
+setInterval(() => { if (stirring && stirLast) stirAt(stirLast.x, stirLast.y); }, 40);
+
+readTheme();
+layout();
+resetAll();
+wake();
+
+window.__dbg = { get running(){return running;}, get asleep(){return solidAsleep;}, get lastMis(){return lastMis;}, cells, dens, sweep, mismatch, snapSorted, shake, sol, stepSolid, substep, settleNow, applyMaterials, state, resetAll, comY, W, H, SURF };
+})();
+</script>
+</body>
+</html>
