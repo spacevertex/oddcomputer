@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slope Distance Coordinates · oddComputer.com</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="../index.html">oddComputer.com</a>
+    <nav>
+      <a class="active" href="index.html">Math</a>
+      <a href="../cybersecurity/index.html">Cybersecurity</a>
+      <a href="../electronics/index.html">Electronics</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Slope Distance Coordinates</h1>
+  <p class="lede">Like polar coordinates, but with slope instead of angle. Also see the <a href="Slope_Distance_Coordinates.html">interactive version</a> and the <a href="infinity-graph-paper.html">infinity graph paper</a>.</p>
+
+  <h3>Figure 1: The md coordinate system</h3>
+  <figure><img src="images/mdCoordinates/md_coordinate_system.jpg" alt="Diagram illustrating, with a right triangle, how to convert between x,y coordinates and m,d coordinates"></figure>
+  <p>A coordinate system that locates a point by the slope of the line that would intersect it and the origin (m), and its distance from the origin (d). This is not much different from polar, just slope instead of angle. Functions will be d as a function of m.</p>
+
+  <h3>Figure 2: d = 10</h3>
+  <figure><img src="../images/mdCoordinates/md_d_eq_10.png" alt="The md representation of d = 10, the right half of a circle with radius 10 centered on the origin"></figure>
+  <p>Note the small space between what would be the y axis and the graph. The only place an md graph can touch this vertical axis is at zero. It can get arbitrarily close, of course, but this graph's domain was -20 &lt; m &lt; 15.</p>
+
+  <h3>Figure 3: d = m</h3>
+  <figure>
+    <video muted playsinline controls poster="../images/mdCoordinates/md_d_eq_m.png">
+      <source src="../images/mdCoordinates/md_d_eq_m.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <p>Where Figure 2 was maybe trivial but still instructive, the graph of d = m is less obvious. The next few figures will illustrate what happens when we show classic x,y graphs on this m,d graph paper.</p>
+
+  <h3>Figure 4: d = m - 7</h3>
+  <figure>
+    <video loop muted playsinline controls>
+      <source src="../images/mdCoordinates/md_d_eq_mm7.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <p>Keeping it simple, d = m - 7. This is obviously a very cool graph, and I conjecture that it would make a good Formula 1 curve. The dotted line tracks with the value of m.</p>
+
+  <h3>Figure 5: d = cos(m)</h3>
+  <figure>
+    <video muted playsinline controls>
+      <source src="../images/mdCoordinates/md_d_eq_cosm.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <p>This graph shows how more and more information is displayed as m → infinity. It also shows the solutions where d &lt; 0 appear to the left of the m = infinity axis (I'd rather not call it the y-axis).</p>
+
+  <h3>Figure 6: d = sin(5m) + 5</h3>
+  <figure>
+    <video class="dim" muted playsinline controls preload="none">
+      <source src="../images/mdCoordinates/md_slinky.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <p>Trigonometric functions look better when pushed away from the origin. I multiplied the argument by 5 to fit more spring activity between -1 and 1, where fully half of the graph gets drawn in md.</p>
+
+  <h3>Figure 7: Polynomials make knots</h3>
+  <figure>
+    <video class="dim" muted playsinline controls preload="none">
+      <source src="../images/mdCoordinates/md_polynom.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <p>Lots of different polynomials look pretty cool, I chose this cubic. Note it passes through the origin three times, at the appropriate slope value.</p>
+
+  <!-- Figures 8-11: the original page pointed these at LatticePolygons images as placeholders.
+       Swap in the real md images when you have them, then remove the "draft" class. -->
+  <h3>Figure 8: Drawing fake x,y graphs in m,d</h3>
+  <p class="draft">[Image to come: a vertical straight line passing through the m axis at d = 3]</p>
+  <p>Undoing the transformation carefully yields some familiar looking graphs, starting with one that looks like y = 3. Important note: it never touches the 'y' axis, so it differs from y = 3 in that respect.</p>
+
+  <h3>Figure 9: What about other lines?</h3>
+  <p class="draft">[Image to come: a straight line meant to look like y = 5x + 3]</p>
+  <p>The same idea of having a classic x,y graph appear on the m,d plane.</p>
+
+  <h3>Figure 10: Adding md flavor to these 'x,y' classics</h3>
+  <p class="draft">[Image to come: the vertical line again, with bumps from an added md sin curve that run together toward the top]</p>
+  <p>At this point just trying to make cool looking pictures.</p>
+
+  <h3>Figure 11: Another spring looking shape</h3>
+  <p class="draft">[Image to come: a 'spring' affixed below the origin as in Figure 6, with the other end going right then vertical like in Figure 10]</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">oddComputer.com</div>
+</footer>
+</body>
+</html>

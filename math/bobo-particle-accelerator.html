@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bobo Particle Accelerator · oddComputer.com</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="../index.html">oddComputer.com</a>
+    <nav>
+      <a class="active" href="index.html">Math</a>
+      <a href="../cybersecurity/index.html">Cybersecurity</a>
+      <a href="../electronics/index.html">Electronics</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Bobo Particle Accelerator</h1>
+  <p class="lede">Deterministic particle motion simulator.</p>
+  <a class="launch" href="bobo.html">Launch the simulator →</a>
+  <p>Also try the <a href="bobo_3d.html">3D version</a>, the <a href="bobo_3d_isometric.html">isometric 3D view</a>, or the <a href="bobo_4d_demo.html">4D demo</a>.</p>
+
+  <p>It has more in common with Conway's Life than it does with a gravity sim. Particles are only influenced by the closest particle to them at the beginning of each turn.</p>
+
+  <h2>Two particle types</h2>
+  <ul>
+    <li><strong>nearest</strong>: receives an acceleration of -1, 0, or 1 in each of the x and y directions each turn, depending on its closest neighbor.</li>
+    <li><strong>bobo</strong>: does not move, only influences passing 'nearest' particles.</li>
+  </ul>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">oddComputer.com</div>
+</footer>
+</body>
+</html>

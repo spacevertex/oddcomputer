@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lattice Polygons · oddComputer.com</title>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="../index.html">oddComputer.com</a>
+    <nav>
+      <a class="active" href="index.html">Math</a>
+      <a href="../cybersecurity/index.html">Cybersecurity</a>
+      <a href="../electronics/index.html">Electronics</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Lattice Polygons</h1>
+  <p class="lede">How many ways can you make a polygon with exactly 4 border points and 1 interior point? Also see the <a href="lattice.html">interactive lattice page</a>.</p>
+
+  <h3>Figure 1: An example lattice polygon</h3>
+  <figure><img src="../images/LatticePolygons/01_PicksTheorem.png" alt="A quadrilateral lattice polygon on a coordinate grid with four lattice vertices enclosing one interior lattice point"></figure>
+  <p>A sample of a lattice polygon. The formula is called "Pick's Theorem" and in this example B=8, and I=1. This paper is not about Pick's Theorem, but it uses the same rules for counting border points. They do not have to be vertices of the polygon, they can also be points along an edge. For fun notice that A=(8/2)+1-1=4. Try this out on several shapes if you like, but be informed that the rest of this paper will ignore the results of Pick's and do something way simpler.</p>
+
+  <h3>Figure 2: The Basic [4:1] Lattice Polygon</h3>
+  <figure><img src="../images/LatticePolygons/02_basic_square.png" alt="A lattice polygon with exactly four border lattice points and one interior lattice point"></figure>
+  <p>Now we turn our attention to the attempt to count all of the ways we can make a lattice polygon that has exactly 4 border points, and 1 interior point. This is an image of the first such polygon that comes to mind.</p>
+
+  <h3>Figure 3: Probably all [4:1] possibilities</h3>
+  <figure><img src="../images/LatticePolygons/03_first_finds.png" alt="Five different arrangements on a coordinate grid, each with four border lattice points and one interior lattice point"></figure>
+  <p>When first confronted with this thought, I sketched out these five figures and thought there were a few more maybe.</p>
+
+  <h3>Figure 4: The first couple concave finds</h3>
+  <figure><img src="../images/LatticePolygons/04_second_finds.png" alt="More 4:1 arrangements, including two new ones which are concave"></figure>
+  <p>Still using pencil and paper, I had a little breakthrough and found 2 more examples, which excitingly were concave, and I was fairly sure I had found the majority of the possibilities.</p>
+
+  <h3>Figure 5: Oops they are infinite</h3>
+  <figure><img src="../images/LatticePolygons/Diamond_Flexible.gif" alt="A quadrilateral lattice polygon whose points move while still satisfying the 4:1 constraint, so there are infinitely many"></figure>
+  <p>This should have been obvious from the start, but the vertices can be shifted carefully along a line and still conform to the [4:1] rule.</p>
+
+  <h3>Figure 6: Some have to skip vertices</h3>
+  <figure><img src="../images/LatticePolygons/Triangle_Flexible.gif" alt="A triangular lattice polygon whose points move while still satisfying the 4:1 constraint"></figure>
+  <p>What was less obvious was that how 'flexible' the shapes can be varies greatly. For example the basic triangle, the simplest [4:1] shape with an edge border, and which itself is a carefully flexed diamond, shows the behavior that flexing the peak requires moving the interior point. Also notice that the peak has to jump 2 every time so the interior point can jump one.</p>
+
+  <h3>Figure 7: Some have options but are bounded</h3>
+  <figure><img src="../images/LatticePolygons/two_cool_ones.png" alt="Two starburst figures showing all the solutions for the fourth point when three starting points are chosen"></figure>
+  <p>The style of how to get these across keeps changing, because I like drawing them and some look better static. In these two versions of the same idea, you start with three points and then figure out where the fourth has to be. If it's hard to tell, each shows 5 solutions that are [4:1] shapes, two green on the concave side of the starting three, and three purple on the convex side. The little + shows the interior point. Notice that continuing along the line won't get you another solution.</p>
+
+  <h3>Figure 8: Pick the simplest three non-collinear starting points</h3>
+  <figure><img src="../images/LatticePolygons/humble_right_angle.png" alt="Starting with the three points 0,0 1,0 1,1 the infinite number of solutions are suggested by a starburst figure"></figure>
+  <p>This figure pushes the boundary of what can be shown legibly by having overlapping colored polygons, but notice:</p>
+  <ul>
+    <li>This is as simple as three non-collinear points can get (the little pink backward capital L in the middle)</li>
+    <li>There are three different sets of solutions
+      <ul>
+        <li>green on the concave side of the L</li>
+        <li>blue symmetrically using either side of the L</li>
+        <li>purple on the convex side, which has only three solutions</li>
+      </ul>
+    </li>
+    <li>Unlike in Figure 7, there are infinitely many solutions (at least for two of the solution sets)</li>
+    <li>I didn't bother marking the interior points in this figure</li>
+  </ul>
+
+  <h3>Figure 9: Another attempt to show solutions</h3>
+  <figure><img src="../images/LatticePolygons/06_ugly_stretch.png" alt="Solutions mapped on a line parallel to two of the three starting points"></figure>
+  <p>The same idea of having three starting points as before, but solutions mapped on a line lying parallel to two of the starting points. No attempt to draw all of the polygons. Note the one with the vertical line is just the starter pack diamond with the flexibility shown in the animated Figure 5.</p>
+
+  <h3>Figure 10: What if we only had 2 starting points</h3>
+  <figure><img src="../images/LatticePolygons/08_most_general.png" alt="Starting with two points, the origin and x,y where gcd(x,y)=1"></figure>
+  <p>This is a conjecture, but it seems likely that you can make a [4:1] starting with any segment that has an edge that is x,y if x and y are relatively prime. So the side touches only two lattice points. The graphs show 4 ways to solve for 23,31. The points on the graph represent the next integer up from the initial line. I don't have an algorithmic way to solve but it works for the 5 shapes shown. Try the 9,13 for yourself, graph provided.</p>
+
+  <h3>Figure 11: Bonus figure - a picture of some [3:1] shapes</h3>
+  <figure><img src="../images/LatticePolygons/many_3_1.png" alt="A double wedge shape of some [3:1] lattice polygons"></figure>
+  <p>My original idea was to plot how many of each combination of B and I existed. For example, [3:5]→0, there are no shapes with 3 borders and 5 interiors. Except there are, and they are just as interesting as the [4:1] stuff. I don't think there are any combinations that aren't either zero or infinitely many solutions. Find some for yourself, it's another rabbit hole. As a parting thought, Figure 11 shows a few [3:1].</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">oddComputer.com</div>
+</footer>
+</body>
+</html>

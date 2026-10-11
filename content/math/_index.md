@@ -1,3 +1,0 @@
----
-title: "math and sims"
----
