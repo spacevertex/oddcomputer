@@ -23,11 +23,6 @@ url = "/cybersecurity/"
 weight = 30
 
 [[menu.main]]
-name = "Electronics"
-url = "/electronics/"
-weight = 40
-
-[[menu.main]]
 name = "Math"
 url = "/math/"
 weight = 50
