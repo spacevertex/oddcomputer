@@ -1995,10 +1995,14 @@
   // framed to fit. Patterns that never repeat within THUMB_MAX_TICKS
   // (gliders, aliens, runaways) draw their first THUMB_OPEN_TICKS ticks
   // instead, framed on the middle 94% of their path so one escapee can't
-  // shrink the rest to a speck. Rendered lazily as cards scroll into view,
+  // shrink the rest to a speck. Spaceships are caught separately: their
+  // state repeats up to a shift in position, so we also hash every tick
+  // relative to the first particle; the first such repeat with a nonzero
+  // shift gives the ship's true period, and the thumbnail draws exactly
+  // one period of travel (badge shows the period plus a heading arrow). Rendered lazily as cards scroll into view,
   // one per frame, and cached as images for the rest of the session.
   const THUMB_MAX_TICKS = 2000;
-  const THUMB_OPEN_TICKS = 600;
+  const THUMB_OPEN_TICKS = 35;   // fallback for patterns with no period of either kind
   const THUMB_PX = 128;   // css px; rendered at 2x for sharpness
   const zooThumbCache = new Map(); // path -> Promise<{url, period}>
 
@@ -2012,10 +2016,26 @@
     const frames = [];                 // nearest positions at each tick
     const activeBobos = new Set();
     let cycleStart = -1, period = 0;
+    const relSeen = new Map();         // translation-invariant state -> [tick, x0, y0]
+    let shipStart = -1, shipPeriod = 0, shipDX = 0, shipDY = 0;
     for (let t = 0; t <= THUMB_MAX_TICKS; t++){
       const key = nIdx.map(i => { const p = arr[i]; return p.x+','+p.y+','+p.vx+','+p.vy; }).join('|');
       if (seen.has(key)){ cycleStart = seen.get(key); period = t - cycleStart; break; }
       seen.set(key, t);
+      if (nIdx.length){
+        // only the nearest particles are compared; bobos are fixed, so a
+        // ship sailing past them is treated as repeating once it's clear
+        const ox = arr[nIdx[0]].x, oy = arr[nIdx[0]].y;
+        const relKey = nIdx.map(i => { const p = arr[i]; return (p.x-ox)+','+(p.y-oy)+','+p.vx+','+p.vy; }).join('|');
+        const prev = relSeen.get(relKey);
+        if (prev){
+          shipStart = prev[0]; shipPeriod = t - prev[0];
+          shipDX = ox - prev[1]; shipDY = oy - prev[2];
+          frames.push(nIdx.map(i => [arr[i].x, arr[i].y]));
+          break; // nonzero shift guaranteed: a zero shift would have matched the exact key above
+        }
+        relSeen.set(relKey, [t, ox, oy]);
+      }
       frames.push(nIdx.map(i => [arr[i].x, arr[i].y]));
       if (t === THUMB_MAX_TICKS || nIdx.length === 0) break;
       if (nIdx.some(i => Math.abs(arr[i].x) > 1e5 || Math.abs(arr[i].y) > 1e5)) break;
@@ -2023,13 +2043,19 @@
       deltas.forEach(d => { if (d) d.tied.forEach(j => { if (arr[j].type === 'bobo') activeBobos.add(j); }); });
     }
     const cycled = cycleStart >= 0;
-    // a cycle closes back on its own first frame; an open run just stops
-    const drawn = cycled ? frames.slice(cycleStart).concat([frames[cycleStart]]) : frames.slice(0, THUMB_OPEN_TICKS);
-    return { arr, nIdx, drawn, cycled, period, activeBobos };
+    const ship = shipStart >= 0;
+    // a cycle closes back on its own first frame; a ship draws one period
+    // of travel (start to its shifted twin); anything else, a short opening
+    let drawn;
+    if (cycled) drawn = frames.slice(cycleStart).concat([frames[cycleStart]]);
+    else if (ship) drawn = frames.slice(shipStart, shipStart + shipPeriod + 1);
+    else drawn = frames.slice(0, THUMB_OPEN_TICKS + 1);
+    return { arr, nIdx, drawn, cycled, period, activeBobos,
+             ship, shipPeriod, shipDX, shipDY };
   }
 
   function renderThumb(data){
-    const { arr, nIdx, drawn, cycled, period, activeBobos } = simulateThumb(data);
+    const { arr, nIdx, drawn, cycled, period, activeBobos, ship, shipPeriod, shipDX, shipDY } = simulateThumb(data);
 
     // framing
     let xs = [], ys = [];
@@ -2037,7 +2063,7 @@
     if (cycled) activeBobos.forEach(j => { xs.push(arr[j].x); ys.push(arr[j].y); });
     if (xs.length === 0) arr.forEach(p => { xs.push(p.x); ys.push(p.y); }); // bobo-only file
     let minX, maxX, minY, maxY;
-    if (cycled || xs.length < 20){
+    if (cycled || ship || xs.length < 20){
       minX = Math.min(...xs); maxX = Math.max(...xs);
       minY = Math.min(...ys); maxY = Math.max(...ys);
     } else {
@@ -2102,7 +2128,14 @@
         g.beginPath(); g.arc(px, py, 4, 0, Math.PI * 2); g.fill();
       });
     }
-    return { url: c.toDataURL('image/png'), period: cycled ? period : 0 };
+    // badge: "p16" for an oscillator, "p12 ↗" for a ship (arrow = heading)
+    let label = '';
+    if (cycled) label = 'p' + period;
+    else if (ship){
+      const arrows = { '1,0':'→', '-1,0':'←', '0,1':'↑', '0,-1':'↓', '1,1':'↗', '-1,1':'↖', '1,-1':'↘', '-1,-1':'↙' };
+      label = 'p' + shipPeriod + ' ' + (arrows[Math.sign(shipDX) + ',' + Math.sign(shipDY)] || '');
+    }
+    return { url: c.toDataURL('image/png'), label };
   }
 
   // render queue: one thumbnail per animation frame keeps scrolling smooth
@@ -2129,7 +2162,7 @@
   const zooThumbReady = new Map(); // path -> {url, period}, for instant re-render
   function applyThumb(card, t){
     card.querySelector('img').src = t.url;
-    if (t.period) card.querySelector('.zoo-period').textContent = 'p' + t.period;
+    if (t.label) card.querySelector('.zoo-period').textContent = t.label;
   }
   let zooObserver = null;
   function observeThumbCard(card, path){
