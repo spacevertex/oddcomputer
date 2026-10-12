@@ -8,7 +8,7 @@
       },
       {
         "file": "16_daggos_ticked.json",
-        "name": "16_daggos_ticked.json"
+        "name": "16_daggos_alt"
       },
       {
         "file": "32_daggos.json",
@@ -19,68 +19,24 @@
         "name": "6_daggoos.json"
       },
       {
-        "file": "8_bobo_square.json",
-        "name": "8_bobo_square.json"
-      },
-      {
         "file": "8_daggoos_watched.json",
-        "name": "8_daggoos_watched.json"
+        "name": "8_daggoos"
       },
       {
         "file": "DoubleX_n4_b0.json",
         "name": "DoubleX_n4_b0.json"
       },
       {
-        "file": "Glider1andGlider2.json",
-        "name": "Glider1andGlider2.json"
-      },
-      {
-        "file": "Gliders_1_2and3.json",
-        "name": "Gliders_1_2and3.json"
-      },
-      {
         "file": "Repeater_n3_b0.json",
         "name": "Repeater_n3_b0.json"
       },
       {
-        "file": "_test.json",
-        "name": "_test.json"
-      },
-      {
-        "file": "accel_glider_braid_nw.json",
-        "name": "accel_glider_braid_nw.json"
-      },
-      {
-        "file": "accel_glider_north_line.json",
-        "name": "accel_glider_north_line.json"
-      },
-      {
-        "file": "accel_glider_qm_wavy.json",
-        "name": "accel_glider_qm_wavy.json"
-      },
-      {
-        "file": "accel_glider_sse.json",
-        "name": "accel_glider_sse.json"
-      },
-      {
-        "file": "accel_glider_west.json",
-        "name": "accel_glider_west.json"
-      },
-      {
-        "file": "accelerating_glider_down.json",
-        "name": "accelerating_glider_down.json"
-      },
-      {
-        "file": "accelerating_glider_n3_b0_.json",
-        "name": "accelerating_glider_n3_b0_.json"
+        "file": "accel.json",
+        "name": "accel.json"
       },
       {
         "file": "ampersand168.json",
         "name": "ampersand168.json"
-      },
-      {
-        "file": "bellawashere.json",
-        "name": "bellawashere.json"
       },
       {
         "file": "bobo_lattice_border30_every3.json",
@@ -103,10 +59,6 @@
         "name": "bobo_screen.json"
       },
       {
-        "file": "checkspeed.json",
-        "name": "checkspeed.json"
-      },
-      {
         "file": "daggo_circuit.json",
         "name": "daggo_circuit.json"
       },
@@ -115,272 +67,36 @@
         "name": "daggo_left.json"
       },
       {
-        "file": "dead_pixel (1).json",
-        "name": "dead_pixel (1).json"
-      },
-      {
         "file": "dead_pixel.json",
         "name": "dead_pixel.json"
-      },
-      {
-        "file": "degen16.json",
-        "name": "degen16.json"
-      },
-      {
-        "file": "degen24a.json",
-        "name": "degen24a.json"
-      },
-      {
-        "file": "degen84a.json",
-        "name": "degen84a.json"
-      },
-      {
-        "file": "degen84a_1.json",
-        "name": "degen84a_1.json"
-      },
-      {
-        "file": "empty_16.json",
-        "name": "empty_16.json"
-      },
-      {
-        "file": "empty_daggo.json",
-        "name": "empty_daggo.json"
-      },
-      {
-        "file": "empty_daggo_repaired.json",
-        "name": "empty_daggo_repaired.json"
-      },
-      {
-        "file": "fauxbobo_test.json",
-        "name": "fauxbobo_test.json"
       },
       {
         "file": "fbb_test_big.json",
         "name": "fbb_test_big.json"
       },
       {
-        "file": "full_n1_b13.json",
-        "name": "full_n1_b13.json"
-      },
-      {
-        "file": "full_n20_b20 (1).json",
-        "name": "full_n20_b20 (1).json"
-      },
-      {
-        "file": "full_n20_b20 (2).json",
-        "name": "full_n20_b20 (2).json"
-      },
-      {
-        "file": "full_n20_b20.json",
-        "name": "full_n20_b20.json"
-      },
-      {
-        "file": "full_n20_b20_test1.json",
-        "name": "full_n20_b20_test1.json"
-      },
-      {
-        "file": "glider_abs_sin_2.json",
-        "name": "glider_abs_sin_2.json"
-      },
-      {
-        "file": "glider_and_pair_north.json",
-        "name": "glider_and_pair_north.json"
-      },
-      {
-        "file": "glider_basic_2_n.json",
-        "name": "glider_basic_2_n.json"
-      },
-      {
-        "file": "glider_basic_qm_sw.json",
-        "name": "glider_basic_qm_sw.json"
-      },
-      {
-        "file": "glider_bumpy3_north.json",
-        "name": "glider_bumpy3_north.json"
-      },
-      {
-        "file": "glider_bumpy_s.json",
-        "name": "glider_bumpy_s.json"
-      },
-      {
-        "file": "glider_coil_ene.json",
-        "name": "glider_coil_ene.json"
-      },
-      {
-        "file": "glider_degenerate.json",
-        "name": "glider_degenerate.json"
-      },
-      {
-        "file": "glider_dna_south.json",
-        "name": "glider_dna_south.json"
-      },
-      {
-        "file": "glider_down_n3_b0.json",
-        "name": "glider_down_n3_b0.json"
-      },
-      {
-        "file": "glider_edit2.json",
-        "name": "glider_edit2.json"
-      },
-      {
-        "file": "glider_edit3.json",
-        "name": "glider_edit3.json"
-      },
-      {
-        "file": "glider_ene.json",
-        "name": "glider_ene.json"
-      },
-      {
-        "file": "glider_fuzzy_west.json",
-        "name": "glider_fuzzy_west.json"
-      },
-      {
-        "file": "glider_huge_amplitude_north.json",
-        "name": "glider_huge_amplitude_north.json"
-      },
-      {
-        "file": "glider_n3_b0_abs_sin.json",
-        "name": "glider_n3_b0_abs_sin.json"
-      },
-      {
-        "file": "glider_n3_b0_left_two_pert.json",
-        "name": "glider_n3_b0_left_two_pert.json"
-      },
-      {
-        "file": "glider_n3_b0_tight_up_left.json",
-        "name": "glider_n3_b0_tight_up_left.json"
-      },
-      {
-        "file": "glider_ne_complex_large.json",
-        "name": "glider_ne_complex_large.json"
-      },
-      {
-        "file": "glider_nne_script.json",
-        "name": "glider_nne_script.json"
-      },
-      {
-        "file": "glider_pretty_ne.json",
-        "name": "glider_pretty_ne.json"
-      },
-      {
-        "file": "glider_qm_large_se.json",
-        "name": "glider_qm_large_se.json"
-      },
-      {
-        "file": "glider_right_n3_b0.json",
-        "name": "glider_right_n3_b0.json"
-      },
-      {
-        "file": "glider_slow_wide_nw.json",
-        "name": "glider_slow_wide_nw.json"
-      },
-      {
-        "file": "glider_sm_sin_2.json",
-        "name": "glider_sm_sin_2.json"
-      },
-      {
-        "file": "glider_sm_sin_sse.json",
-        "name": "glider_sm_sin_sse.json"
-      },
-      {
-        "file": "glider_small_down.json",
-        "name": "glider_small_down.json"
-      },
-      {
-        "file": "glider_sse.json",
-        "name": "glider_sse.json"
-      },
-      {
-        "file": "glider_straight_ne.json",
-        "name": "glider_straight_ne.json"
-      },
-      {
-        "file": "glider_sw_tight_2.json",
-        "name": "glider_sw_tight_2.json"
-      },
-      {
-        "file": "glider_wsw_braid.json",
-        "name": "glider_wsw_braid.json"
-      },
-      {
-        "file": "gliders.json",
-        "name": "gliders.json"
-      },
-      {
-        "file": "gliders_comp.json",
-        "name": "gliders_comp.json"
-      },
-      {
-        "file": "gliders_edit.json",
-        "name": "gliders_edit.json"
-      },
-      {
         "file": "gun.json",
         "name": "gun.json"
-      },
-      {
-        "file": "hash.json",
-        "name": "hash.json"
       },
       {
         "file": "lighter28a.json",
         "name": "lighter28a.json"
       },
       {
-        "file": "n5_osc_comp.json",
-        "name": "n5_osc_comp.json"
-      },
-      {
         "file": "nbb_isolate.json",
         "name": "nbb_isolate.json"
-      },
-      {
-        "file": "nearest-full-1788480940007.json",
-        "name": "nearest-full-1788480940007.json"
-      },
-      {
-        "file": "nearest-full-1788486102606.json",
-        "name": "nearest-full-1788486102606.json"
-      },
-      {
-        "file": "nearest-full-1788551422376.json",
-        "name": "nearest-full-1788551422376.json"
-      },
-      {
-        "file": "nearest-oscillator-1788477294246.json",
-        "name": "nearest-oscillator-1788477294246.json"
-      },
-      {
-        "file": "nearest-oscillator-1788480363901.json",
-        "name": "nearest-oscillator-1788480363901.json"
-      },
-      {
-        "file": "nearest-oscillator-1788482119450.json",
-        "name": "nearest-oscillator-1788482119450.json"
-      },
-      {
-        "file": "nearest-oscillator-1788551933066.json",
-        "name": "nearest-oscillator-1788551933066.json"
       },
       {
         "file": "orbit_4_bobos.json",
         "name": "orbit_4_bobos.json"
       },
       {
-        "file": "osc-100.json",
-        "name": "osc-100.json"
+        "file": "orbiters.json",
+        "name": "orbiters.json"
       },
       {
         "file": "osc-circle.json",
         "name": "osc-circle.json"
-      },
-      {
-        "file": "osc_1n2b_offsetfig8.json",
-        "name": "osc_1n2b_offsetfig8.json"
-      },
-      {
-        "file": "osc_1n2b_scurve.json",
-        "name": "osc_1n2b_scurve.json"
       },
       {
         "file": "osc_2446.json",
@@ -395,76 +111,8 @@
         "name": "osc_2n2b_clock.json"
       },
       {
-        "file": "osc_comp_qs2.json",
-        "name": "osc_comp_qs2.json"
-      },
-      {
-        "file": "osc_comp_quicksave.json",
-        "name": "osc_comp_quicksave.json"
-      },
-      {
-        "file": "osc_n1_b11_p538.json",
-        "name": "osc_n1_b11_p538.json"
-      },
-      {
-        "file": "osc_n1_b12_p374.json",
-        "name": "osc_n1_b12_p374.json"
-      },
-      {
-        "file": "osc_n1_b13_p608.json",
-        "name": "osc_n1_b13_p608.json"
-      },
-      {
-        "file": "osc_n1_b1_p80.json",
-        "name": "osc_n1_b1_p80.json"
-      },
-      {
-        "file": "osc_n1_b26_p76.json",
-        "name": "osc_n1_b26_p76.json"
-      },
-      {
-        "file": "osc_n1_b2_p12_dbl_star.json",
-        "name": "osc_n1_b2_p12_dbl_star.json"
-      },
-      {
-        "file": "osc_n1_b2_p424.json",
-        "name": "osc_n1_b2_p424.json"
-      },
-      {
-        "file": "osc_n1_b3_p166.json",
-        "name": "osc_n1_b3_p166.json"
-      },
-      {
-        "file": "osc_n1_b61_p1158.json",
-        "name": "osc_n1_b61_p1158.json"
-      },
-      {
-        "file": "osc_n1_b66_p3226.json",
-        "name": "osc_n1_b66_p3226.json"
-      },
-      {
-        "file": "osc_n1_b8_p678.json",
-        "name": "osc_n1_b8_p678.json"
-      },
-      {
         "file": "osc_n2_b2_p96.json",
         "name": "osc_n2_b2_p96.json"
-      },
-      {
-        "file": "osc_n3_b0_p16_triple_cross.json",
-        "name": "osc_n3_b0_p16_triple_cross.json"
-      },
-      {
-        "file": "osc_n3_b0_p38.json",
-        "name": "osc_n3_b0_p38.json"
-      },
-      {
-        "file": "osc_n3_compilation3.json",
-        "name": "osc_n3_compilation3.json"
-      },
-      {
-        "file": "osc_n4_X.json",
-        "name": "osc_n4_X.json"
       },
       {
         "file": "osc_n4_b0_p12_4.json",
@@ -499,274 +147,6 @@
         "name": "osc_n4_wand.json"
       },
       {
-        "file": "osc_n5_b0_2dpaths_p20.json",
-        "name": "osc_n5_b0_2dpaths_p20.json"
-      },
-      {
-        "file": "osc_n5_b0_Daggoo_p64.json",
-        "name": "osc_n5_b0_Daggoo_p64.json"
-      },
-      {
-        "file": "osc_n5_b0_Famous_p324_1.json",
-        "name": "osc_n5_b0_Famous_p324_1.json"
-      },
-      {
-        "file": "osc_n5_b0_Ishmael_p120.json",
-        "name": "osc_n5_b0_Ishmael_p120.json"
-      },
-      {
-        "file": "osc_n5_b0_Moby_p228 (1).json",
-        "name": "osc_n5_b0_Moby_p228 (1).json"
-      },
-      {
-        "file": "osc_n5_b0_Moby_p228.json",
-        "name": "osc_n5_b0_Moby_p228.json"
-      },
-      {
-        "file": "osc_n5_b0_Queequeg_p170.json",
-        "name": "osc_n5_b0_Queequeg_p170.json"
-      },
-      {
-        "file": "osc_n5_b0_alien2_p72.json",
-        "name": "osc_n5_b0_alien2_p72.json"
-      },
-      {
-        "file": "osc_n5_b0_alien3_p84.json",
-        "name": "osc_n5_b0_alien3_p84.json"
-      },
-      {
-        "file": "osc_n5_b0_alien4_p288.json",
-        "name": "osc_n5_b0_alien4_p288.json"
-      },
-      {
-        "file": "osc_n5_b0_alien6_p288.json",
-        "name": "osc_n5_b0_alien6_p288.json"
-      },
-      {
-        "file": "osc_n5_b0_alien7_p112.json",
-        "name": "osc_n5_b0_alien7_p112.json"
-      },
-      {
-        "file": "osc_n5_b0_alien8_p312.json",
-        "name": "osc_n5_b0_alien8_p312.json"
-      },
-      {
-        "file": "osc_n5_b0_alien9_p20.json",
-        "name": "osc_n5_b0_alien9_p20.json"
-      },
-      {
-        "file": "osc_n5_b0_clean_p30_1.json",
-        "name": "osc_n5_b0_clean_p30_1.json"
-      },
-      {
-        "file": "osc_n5_b0_clean_p30_4.json",
-        "name": "osc_n5_b0_clean_p30_4.json"
-      },
-      {
-        "file": "osc_n5_b0_clean_p40_7.json",
-        "name": "osc_n5_b0_clean_p40_7.json"
-      },
-      {
-        "file": "osc_n5_b0_clean_p60_6.json",
-        "name": "osc_n5_b0_clean_p60_6.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p100_7 (1).json",
-        "name": "osc_n5_b0_final5_p100_7 (1).json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p100_7.json",
-        "name": "osc_n5_b0_final5_p100_7.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p28_4.json",
-        "name": "osc_n5_b0_final5_p28_4.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p30_2.json",
-        "name": "osc_n5_b0_final5_p30_2.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p30_5.json",
-        "name": "osc_n5_b0_final5_p30_5.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p30_6.json",
-        "name": "osc_n5_b0_final5_p30_6.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p30_8.json",
-        "name": "osc_n5_b0_final5_p30_8.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p40_10.json",
-        "name": "osc_n5_b0_final5_p40_10.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p42_3.json",
-        "name": "osc_n5_b0_final5_p42_3.json"
-      },
-      {
-        "file": "osc_n5_b0_final5_p6_1.json",
-        "name": "osc_n5_b0_final5_p6_1.json"
-      },
-      {
-        "file": "osc_n5_b0_intelligent1_p30.json",
-        "name": "osc_n5_b0_intelligent1_p30.json"
-      },
-      {
-        "file": "osc_n5_b0_p128.json",
-        "name": "osc_n5_b0_p128.json"
-      },
-      {
-        "file": "osc_n5_b0_p12_8.json",
-        "name": "osc_n5_b0_p12_8.json"
-      },
-      {
-        "file": "osc_n5_b0_p12_connected.json",
-        "name": "osc_n5_b0_p12_connected.json"
-      },
-      {
-        "file": "osc_n5_b0_p4_10.json",
-        "name": "osc_n5_b0_p4_10.json"
-      },
-      {
-        "file": "osc_n5_b0_p4_3.json",
-        "name": "osc_n5_b0_p4_3.json"
-      },
-      {
-        "file": "osc_n5_b0_p6_6.json",
-        "name": "osc_n5_b0_p6_6.json"
-      },
-      {
-        "file": "osc_n5_b0_p84.json",
-        "name": "osc_n5_b0_p84.json"
-      },
-      {
-        "file": "osc_n5_b0_p8_1.json",
-        "name": "osc_n5_b0_p8_1.json"
-      },
-      {
-        "file": "osc_n5_b0_shuffle_4_p168.json",
-        "name": "osc_n5_b0_shuffle_4_p168.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship1_p244.json",
-        "name": "osc_n5_b0_spaceship1_p244.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship2_p420.json",
-        "name": "osc_n5_b0_spaceship2_p420.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship3_p42.json",
-        "name": "osc_n5_b0_spaceship3_p42.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship4_p76.json",
-        "name": "osc_n5_b0_spaceship4_p76.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship5_p68.json",
-        "name": "osc_n5_b0_spaceship5_p68.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship6_p174.json",
-        "name": "osc_n5_b0_spaceship6_p174.json"
-      },
-      {
-        "file": "osc_n5_b0_spaceship7_p62.json",
-        "name": "osc_n5_b0_spaceship7_p62.json"
-      },
-      {
-        "file": "osc_n5_b0_subgroupfiltered_p6.json",
-        "name": "osc_n5_b0_subgroupfiltered_p6.json"
-      },
-      {
-        "file": "osc_n5_b0_whale2_p100_2.json",
-        "name": "osc_n5_b0_whale2_p100_2.json"
-      },
-      {
-        "file": "osc_n5_b0_whale2_p100_3.json",
-        "name": "osc_n5_b0_whale2_p100_3.json"
-      },
-      {
-        "file": "osc_n5_b0_whale2_p100_4.json",
-        "name": "osc_n5_b0_whale2_p100_4.json"
-      },
-      {
-        "file": "osc_n5_b0_whale2_p100_5.json",
-        "name": "osc_n5_b0_whale2_p100_5.json"
-      },
-      {
-        "file": "osc_n5_b0_whale2_p114_1.json",
-        "name": "osc_n5_b0_whale2_p114_1.json"
-      },
-      {
-        "file": "osc_n5_b0_whale3_p154_1.json",
-        "name": "osc_n5_b0_whale3_p154_1.json"
-      },
-      {
-        "file": "osc_n5_b0_whale3_p154_3.json",
-        "name": "osc_n5_b0_whale3_p154_3.json"
-      },
-      {
-        "file": "osc_n5_b0_whale3_p936_4.json",
-        "name": "osc_n5_b0_whale3_p936_4.json"
-      },
-      {
-        "file": "osc_n5_b0_whale3_p936_5.json",
-        "name": "osc_n5_b0_whale3_p936_5.json"
-      },
-      {
-        "file": "osc_n5_b0_whale_p164_1.json",
-        "name": "osc_n5_b0_whale_p164_1.json"
-      },
-      {
-        "file": "osc_n5_b0_whale_p164_4.json",
-        "name": "osc_n5_b0_whale_p164_4.json"
-      },
-      {
-        "file": "osc_n5_b0_whale_p172_5.json",
-        "name": "osc_n5_b0_whale_p172_5.json"
-      },
-      {
-        "file": "osc_n5_b0_whale_p324_2.json",
-        "name": "osc_n5_b0_whale_p324_2.json"
-      },
-      {
-        "file": "osc_n5_b0_whale_p324_3.json",
-        "name": "osc_n5_b0_whale_p324_3.json"
-      },
-      {
-        "file": "osc_n5_best.json",
-        "name": "osc_n5_best.json"
-      },
-      {
-        "file": "osc_n5_cool.json",
-        "name": "osc_n5_cool.json"
-      },
-      {
-        "file": "osc_n5_good.json",
-        "name": "osc_n5_good.json"
-      },
-      {
-        "file": "osc_n5_ok.json",
-        "name": "osc_n5_ok.json"
-      },
-      {
-        "file": "osc_n5_slight_degen.json",
-        "name": "osc_n5_slight_degen.json"
-      },
-      {
-        "file": "osc_n5_snake.json",
-        "name": "osc_n5_snake.json"
-      },
-      {
-        "file": "osc_n5_yes.json",
-        "name": "osc_n5_yes.json"
-      },
-      {
         "file": "osc_offsetweb.json",
         "name": "osc_offsetweb.json"
       },
@@ -785,10 +165,6 @@
       {
         "file": "p00.json",
         "name": "p00.json"
-      },
-      {
-        "file": "p5_comp.json",
-        "name": "p5_comp.json"
       },
       {
         "file": "pair_scales_nw.json",
@@ -819,10 +195,6 @@
         "name": "rmok.json"
       },
       {
-        "file": "round_orbiters (1).json",
-        "name": "round_orbiters (1).json"
-      },
-      {
         "file": "single.json",
         "name": "single.json"
       },
@@ -851,24 +223,16 @@
         "name": "test_daggoo.json"
       },
       {
-        "file": "testrot (1).json",
-        "name": "testrot (1).json"
-      },
-      {
-        "file": "testrot.json",
-        "name": "testrot.json"
-      },
-      {
         "file": "tilde30a.json",
         "name": "tilde30a.json"
       },
       {
-        "file": "tosser.json",
-        "name": "tosser.json"
-      },
-      {
         "file": "tv12a.json",
         "name": "tv12a.json"
+      },
+      {
+        "file": "whale.json",
+        "name": "whale.json"
       }
     ]
   },
@@ -880,7 +244,7 @@
         "items": [
           {
             "file": "3_nearest_plus.json",
-            "name": "3_nearest_plus"
+            "name": "3_nearest_plus.json"
           },
           {
             "file": "ampersand168.json",
@@ -901,6 +265,14 @@
           {
             "file": "lighter28a.json",
             "name": "lighter28a.json"
+          },
+          {
+            "file": "osc_n3_b0_p16_triple_cross.json",
+            "name": "osc_n3_b0_p16_triple_cross.json"
+          },
+          {
+            "file": "osc_n3_b0_p38.json",
+            "name": "osc_n3_b0_p38.json"
           },
           {
             "file": "rattle16a.json",
@@ -945,115 +317,331 @@
         "items": [
           {
             "file": "osc_n5_b0_Blinker_w_Catccher_p48_5.json",
-            "name": "Blinker_w_Catcher"
+            "name": "osc_n5_b0_Blinker_w_Catccher_p48_5.json"
           },
           {
             "file": "osc_n5_b0_Bloop_p196_2.json",
-            "name": "Bloop"
+            "name": "osc_n5_b0_Bloop_p196_2.json"
           },
           {
             "file": "osc_n5_b0_Daggo_w_Catcher_p40_3.json",
-            "name": "Daggo_w_Catcher"
+            "name": "osc_n5_b0_Daggo_w_Catcher_p40_3.json"
           },
           {
             "file": "osc_n5_b0_Daggo_w_Cross_p164_2.json",
-            "name": "Daggo_w_Cross"
+            "name": "osc_n5_b0_Daggo_w_Cross_p164_2.json"
+          },
+          {
+            "file": "osc_n5_b0_Daggoo_p64.json",
+            "name": "osc_n5_b0_Daggoo_p64.json"
           },
           {
             "file": "osc_n5_b0_DiagRot_p84_9.json",
-            "name": "induku"
+            "name": "osc_n5_b0_DiagRot_p84_9.json"
           },
           {
             "file": "osc_n5_b0_DiagShake_p18_7.json",
-            "name": "Shaker18"
+            "name": "osc_n5_b0_DiagShake_p18_7.json"
           },
           {
             "file": "osc_n5_b0_DiagShake_p20_3.json",
-            "name": "Shaker20"
+            "name": "osc_n5_b0_DiagShake_p20_3.json"
           },
           {
             "file": "osc_n5_b0_DiagShake_p20_9.json",
-            "name": "Shaker20a"
+            "name": "osc_n5_b0_DiagShake_p20_9.json"
+          },
+          {
+            "file": "osc_n5_b0_Famous_p324_1.json",
+            "name": "osc_n5_b0_Famous_p324_1.json"
           },
           {
             "file": "osc_n5_b0_Flask_p172_10.json",
-            "name": "Flask172"
+            "name": "osc_n5_b0_Flask_p172_10.json"
           },
           {
             "file": "osc_n5_b0_Flask_p88.json",
-            "name": "Flask88"
+            "name": "osc_n5_b0_Flask_p88.json"
           },
           {
             "file": "osc_n5_b0_HourGlass_p90.json",
-            "name": "HourGlass90"
+            "name": "osc_n5_b0_HourGlass_p90.json"
+          },
+          {
+            "file": "osc_n5_b0_Ishmael_p120.json",
+            "name": "osc_n5_b0_Ishmael_p120.json"
+          },
+          {
+            "file": "osc_n5_b0_Moby_p228.json",
+            "name": "osc_n5_b0_Moby_p228.json"
           },
           {
             "file": "osc_n5_b0_NineThirtySix_p936_8.json",
-            "name": "NineThirtySix"
+            "name": "osc_n5_b0_NineThirtySix_p936_8.json"
           },
           {
             "file": "osc_n5_b0_Pip_p100.json",
-            "name": "pip"
+            "name": "osc_n5_b0_Pip_p100.json"
           },
           {
             "file": "osc_n5_b0_Pivot_p24_1.json",
-            "name": "pivot24"
+            "name": "osc_n5_b0_Pivot_p24_1.json"
           },
           {
             "file": "osc_n5_b0_Pivot_p36_1.json",
-            "name": "pivot36"
+            "name": "osc_n5_b0_Pivot_p36_1.json"
           },
           {
             "file": "osc_n5_b0_Pump_p154_3.json",
-            "name": "pump154"
+            "name": "osc_n5_b0_Pump_p154_3.json"
           },
           {
             "file": "osc_n5_b0_Pump_p42_4.json",
-            "name": "pump42"
+            "name": "osc_n5_b0_Pump_p42_4.json"
           },
           {
             "file": "osc_n5_b0_Queequeg_p170.json",
-            "name": "Queequeg170"
+            "name": "osc_n5_b0_Queequeg_p170.json"
           },
           {
             "file": "osc_n5_b0_Shake_p22_9.json",
-            "name": "shaker22a"
+            "name": "osc_n5_b0_Shake_p22_9.json"
           },
           {
             "file": "osc_n5_b0_Snake_p14_9.json",
-            "name": "Snake14"
+            "name": "osc_n5_b0_Snake_p14_9.json"
           },
           {
             "file": "osc_n5_b0_Snake_p24_10.json",
-            "name": "Snake24"
+            "name": "osc_n5_b0_Snake_p24_10.json"
           },
           {
             "file": "osc_n5_b0_Snake_p28_8.json",
-            "name": "snake24"
+            "name": "osc_n5_b0_Snake_p28_8.json"
           },
           {
             "file": "osc_n5_b0_Starbuck_p128.json",
-            "name": "Starbuck128"
+            "name": "osc_n5_b0_Starbuck_p128.json"
           },
           {
             "file": "osc_n5_b0_Stubb_p164.json",
-            "name": "Stubb164"
+            "name": "osc_n5_b0_Stubb_p164.json"
           },
           {
             "file": "osc_n5_b0_Tashtego_p176.json",
-            "name": "Tashtego176"
+            "name": "osc_n5_b0_Tashtego_p176.json"
           },
           {
             "file": "osc_n5_b0_ThreeSwitch_p100_9.json",
-            "name": "PipDuplicateIthink"
+            "name": "osc_n5_b0_ThreeSwitch_p100_9.json"
           },
           {
             "file": "osc_n5_b0_Trade_p32_10.json",
-            "name": "trade32"
+            "name": "osc_n5_b0_Trade_p32_10.json"
           },
           {
             "file": "osc_n5_b0_ZShake_p30_6.json",
-            "name": "shaker30"
+            "name": "osc_n5_b0_ZShake_p30_6.json"
+          },
+          {
+            "file": "osc_n5_b0_alien2_p72.json",
+            "name": "osc_n5_b0_alien2_p72.json"
+          },
+          {
+            "file": "osc_n5_b0_alien3_p84.json",
+            "name": "osc_n5_b0_alien3_p84.json"
+          },
+          {
+            "file": "osc_n5_b0_alien4_p288.json",
+            "name": "osc_n5_b0_alien4_p288.json"
+          },
+          {
+            "file": "osc_n5_b0_alien7_p112.json",
+            "name": "osc_n5_b0_alien7_p112.json"
+          },
+          {
+            "file": "osc_n5_b0_alien9_p20.json",
+            "name": "osc_n5_b0_alien9_p20.json"
+          },
+          {
+            "file": "osc_n5_b0_clean_p30_1.json",
+            "name": "osc_n5_b0_clean_p30_1.json"
+          },
+          {
+            "file": "osc_n5_b0_clean_p30_4.json",
+            "name": "osc_n5_b0_clean_p30_4.json"
+          },
+          {
+            "file": "osc_n5_b0_clean_p40_7.json",
+            "name": "osc_n5_b0_clean_p40_7.json"
+          },
+          {
+            "file": "osc_n5_b0_clean_p60_6.json",
+            "name": "osc_n5_b0_clean_p60_6.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p100_7.json",
+            "name": "osc_n5_b0_final5_p100_7.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p28_4.json",
+            "name": "osc_n5_b0_final5_p28_4.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p30_2.json",
+            "name": "osc_n5_b0_final5_p30_2.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p30_5.json",
+            "name": "osc_n5_b0_final5_p30_5.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p30_6.json",
+            "name": "osc_n5_b0_final5_p30_6.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p30_8.json",
+            "name": "osc_n5_b0_final5_p30_8.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p40_10.json",
+            "name": "osc_n5_b0_final5_p40_10.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p42_3.json",
+            "name": "osc_n5_b0_final5_p42_3.json"
+          },
+          {
+            "file": "osc_n5_b0_final5_p6_1.json",
+            "name": "osc_n5_b0_final5_p6_1.json"
+          },
+          {
+            "file": "osc_n5_b0_intelligent1_p30.json",
+            "name": "osc_n5_b0_intelligent1_p30.json"
+          },
+          {
+            "file": "osc_n5_b0_p128.json",
+            "name": "osc_n5_b0_p128.json"
+          },
+          {
+            "file": "osc_n5_b0_p4_10.json",
+            "name": "osc_n5_b0_p4_10.json"
+          },
+          {
+            "file": "osc_n5_b0_p4_3.json",
+            "name": "osc_n5_b0_p4_3.json"
+          },
+          {
+            "file": "osc_n5_b0_p6_6.json",
+            "name": "osc_n5_b0_p6_6.json"
+          },
+          {
+            "file": "osc_n5_b0_p84.json",
+            "name": "osc_n5_b0_p84.json"
+          },
+          {
+            "file": "osc_n5_b0_p8_1.json",
+            "name": "osc_n5_b0_p8_1.json"
+          },
+          {
+            "file": "osc_n5_b0_shuffle_4_p168.json",
+            "name": "osc_n5_b0_shuffle_4_p168.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship1_p244.json",
+            "name": "osc_n5_b0_spaceship1_p244.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship2_p420.json",
+            "name": "osc_n5_b0_spaceship2_p420.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship3_p42.json",
+            "name": "osc_n5_b0_spaceship3_p42.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship4_p76.json",
+            "name": "osc_n5_b0_spaceship4_p76.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship5_p68.json",
+            "name": "osc_n5_b0_spaceship5_p68.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship6_p174.json",
+            "name": "osc_n5_b0_spaceship6_p174.json"
+          },
+          {
+            "file": "osc_n5_b0_spaceship7_p62.json",
+            "name": "osc_n5_b0_spaceship7_p62.json"
+          },
+          {
+            "file": "osc_n5_b0_subgroupfiltered_p6.json",
+            "name": "osc_n5_b0_subgroupfiltered_p6.json"
+          },
+          {
+            "file": "osc_n5_b0_whale3_p154_1.json",
+            "name": "osc_n5_b0_whale3_p154_1.json"
+          },
+          {
+            "file": "osc_n5_b0_whale3_p154_3.json",
+            "name": "osc_n5_b0_whale3_p154_3.json"
+          },
+          {
+            "file": "osc_n5_b0_whale3_p936_4.json",
+            "name": "osc_n5_b0_whale3_p936_4.json"
+          },
+          {
+            "file": "osc_n5_b0_whale3_p936_5.json",
+            "name": "osc_n5_b0_whale3_p936_5.json"
+          },
+          {
+            "file": "osc_n5_b0_whale_p164_1.json",
+            "name": "osc_n5_b0_whale_p164_1.json"
+          },
+          {
+            "file": "osc_n5_b0_whale_p164_4.json",
+            "name": "osc_n5_b0_whale_p164_4.json"
+          },
+          {
+            "file": "osc_n5_b0_whale_p172_5.json",
+            "name": "osc_n5_b0_whale_p172_5.json"
+          },
+          {
+            "file": "osc_n5_b0_whale_p324_2.json",
+            "name": "osc_n5_b0_whale_p324_2.json"
+          },
+          {
+            "file": "osc_n5_b0_whale_p324_3.json",
+            "name": "osc_n5_b0_whale_p324_3.json"
+          },
+          {
+            "file": "osc_n5_best.json",
+            "name": "osc_n5_best.json"
+          },
+          {
+            "file": "osc_n5_cool.json",
+            "name": "osc_n5_cool.json"
+          },
+          {
+            "file": "osc_n5_good.json",
+            "name": "osc_n5_good.json"
+          },
+          {
+            "file": "osc_n5_ok.json",
+            "name": "osc_n5_ok.json"
+          },
+          {
+            "file": "osc_n5_slight_degen.json",
+            "name": "osc_n5_slight_degen.json"
+          },
+          {
+            "file": "osc_n5_snake.json",
+            "name": "osc_n5_snake.json"
+          },
+          {
+            "file": "osc_n5_yes.json",
+            "name": "osc_n5_yes.json"
           }
         ]
       },
@@ -1064,7 +652,136 @@
     ]
   },
   {
-    "file": "Glider_large_amplitude.json",
-    "name": "3n_Large_Amplitude"
+    "folder": "gliders",
+    "items": [
+      {
+        "file": "Glider_large_amplitude.json",
+        "name": "Glider_large_amplitude.json"
+      },
+      {
+        "file": "glider_abs_sin_2.json",
+        "name": "glider_abs_sin_2.json"
+      },
+      {
+        "file": "glider_and_pair_north.json",
+        "name": "glider_and_pair_north.json"
+      },
+      {
+        "file": "glider_basic_2_n.json",
+        "name": "glider_basic_2_n.json"
+      },
+      {
+        "file": "glider_basic_qm_sw.json",
+        "name": "glider_basic_qm_sw.json"
+      },
+      {
+        "file": "glider_bumpy3_north.json",
+        "name": "glider_bumpy3_north.json"
+      },
+      {
+        "file": "glider_bumpy_s.json",
+        "name": "glider_bumpy_s.json"
+      },
+      {
+        "file": "glider_coil_ene.json",
+        "name": "glider_coil_ene.json"
+      },
+      {
+        "file": "glider_degenerate.json",
+        "name": "glider_degenerate.json"
+      },
+      {
+        "file": "glider_dna_south.json",
+        "name": "glider_dna_south.json"
+      },
+      {
+        "file": "glider_down_n3_b0.json",
+        "name": "glider_down_n3_b0.json"
+      },
+      {
+        "file": "glider_edit3.json",
+        "name": "glider_edit3.json"
+      },
+      {
+        "file": "glider_ene.json",
+        "name": "glider_ene.json"
+      },
+      {
+        "file": "glider_fuzzy_west.json",
+        "name": "glider_fuzzy_west.json"
+      },
+      {
+        "file": "glider_huge_amplitude_north.json",
+        "name": "glider_huge_amplitude_north.json"
+      },
+      {
+        "file": "glider_n3_b0_abs_sin.json",
+        "name": "glider_n3_b0_abs_sin.json"
+      },
+      {
+        "file": "glider_n3_b0_left_two_pert.json",
+        "name": "glider_n3_b0_left_two_pert.json"
+      },
+      {
+        "file": "glider_n3_b0_tight_up_left.json",
+        "name": "glider_n3_b0_tight_up_left.json"
+      },
+      {
+        "file": "glider_ne_complex_large.json",
+        "name": "glider_ne_complex_large.json"
+      },
+      {
+        "file": "glider_nne_script.json",
+        "name": "glider_nne_script.json"
+      },
+      {
+        "file": "glider_p30.json",
+        "name": "glider_p30.json"
+      },
+      {
+        "file": "glider_pretty_ne.json",
+        "name": "glider_pretty_ne.json"
+      },
+      {
+        "file": "glider_qm_large_se.json",
+        "name": "glider_qm_large_se.json"
+      },
+      {
+        "file": "glider_right_n3_b0.json",
+        "name": "glider_right_n3_b0.json"
+      },
+      {
+        "file": "glider_slow_wide_nw.json",
+        "name": "glider_slow_wide_nw.json"
+      },
+      {
+        "file": "glider_sm_sin_sse.json",
+        "name": "glider_sm_sin_sse.json"
+      },
+      {
+        "file": "glider_small_down.json",
+        "name": "glider_small_down.json"
+      },
+      {
+        "file": "glider_sse.json",
+        "name": "glider_sse.json"
+      },
+      {
+        "file": "glider_sw_tight_2.json",
+        "name": "glider_sw_tight_2.json"
+      },
+      {
+        "file": "glider_wsw_braid.json",
+        "name": "glider_wsw_braid.json"
+      },
+      {
+        "file": "gliders.json",
+        "name": "gliders.json"
+      },
+      {
+        "file": "gliders_comp.json",
+        "name": "gliders_comp.json"
+      }
+    ]
   }
 ]
