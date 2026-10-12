@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "type": "full",
+  "nearest": [
+    {
+      "x": -18,
+      "y": 0,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "bobo": []
+}
