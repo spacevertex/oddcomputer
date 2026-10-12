@@ -2121,7 +2121,11 @@
     });
     g.globalAlpha = 1;
     if (drawn.length){
-      const f0 = drawn[0];
+      // particles sit at the head of their trails, as in the main view.
+      // An oscillator's orbit closes on itself so either end works; for a
+      // ship or an open run, drawing them at the start would put them at
+      // the tail and make the pattern read as moving backwards.
+      const f0 = cycled ? drawn[0] : drawn[drawn.length - 1];
       nIdx.forEach((_, k) => {
         const [px, py] = toPx(f0[k][0], f0[k][1]);
         g.fillStyle = `hsl(${hue(k)}, 65%, 62%)`;
