@@ -4,159 +4,159 @@
     "items": [
       {
         "file": "Glider_large_amplitude.json",
-        "name": "Glider_large_amplitude.json"
+        "name": "Glider_large_amplitude"
       },
       {
         "file": "accel.json",
-        "name": "accel.json"
+        "name": "accel"
       },
       {
         "file": "glider_abs_sin_2.json",
-        "name": "glider_abs_sin_2.json"
+        "name": "glider_abs_sin_2"
       },
       {
         "file": "glider_and_pair_north.json",
-        "name": "glider_and_pair_north.json"
+        "name": "glider_and_pair_north"
       },
       {
         "file": "glider_basic_2_n.json",
-        "name": "glider_basic_2_n.json"
+        "name": "glider_basic_2_n"
       },
       {
         "file": "glider_basic_qm_sw.json",
-        "name": "glider_basic_qm_sw.json"
+        "name": "glider_basic_qm_sw"
       },
       {
         "file": "glider_bumpy3_north.json",
-        "name": "glider_bumpy3_north.json"
+        "name": "glider_bumpy3_north"
       },
       {
         "file": "glider_bumpy_s.json",
-        "name": "glider_bumpy_s.json"
+        "name": "glider_bumpy_s"
       },
       {
         "file": "glider_coil_ene.json",
-        "name": "glider_coil_ene.json"
+        "name": "glider_coil_ene"
       },
       {
         "file": "glider_degenerate.json",
-        "name": "glider_degenerate.json"
+        "name": "glider_degenerate"
       },
       {
         "file": "glider_dna_south.json",
-        "name": "glider_dna_south.json"
+        "name": "glider_dna_south"
       },
       {
         "file": "glider_down_n3_b0.json",
-        "name": "glider_down_n3_b0.json"
+        "name": "glider_down_n3_b0"
       },
       {
         "file": "glider_edit3.json",
-        "name": "glider_edit3.json"
+        "name": "glider_edit3"
       },
       {
         "file": "glider_ene.json",
-        "name": "glider_ene.json"
+        "name": "glider_ene"
       },
       {
         "file": "glider_fuzzy_west.json",
-        "name": "glider_fuzzy_west.json"
+        "name": "glider_fuzzy_west"
       },
       {
         "file": "glider_huge_amplitude_north.json",
-        "name": "glider_huge_amplitude_north.json"
+        "name": "glider_huge_amplitude_north"
       },
       {
         "file": "glider_n3_b0_abs_sin.json",
-        "name": "glider_n3_b0_abs_sin.json"
+        "name": "glider_n3_b0_abs_sin"
       },
       {
         "file": "glider_n3_b0_left_two_pert.json",
-        "name": "glider_n3_b0_left_two_pert.json"
+        "name": "glider_n3_b0_left_two_pert"
       },
       {
         "file": "glider_n3_b0_tight_up_left.json",
-        "name": "glider_n3_b0_tight_up_left.json"
+        "name": "glider_n3_b0_tight_up_left"
       },
       {
         "file": "glider_ne_complex_large.json",
-        "name": "glider_ne_complex_large.json"
+        "name": "glider_ne_complex_large"
       },
       {
         "file": "glider_nne_script.json",
-        "name": "glider_nne_script.json"
+        "name": "glider_nne_script"
       },
       {
         "file": "glider_p30.json",
-        "name": "glider_p30.json"
+        "name": "glider_p30"
       },
       {
         "file": "glider_pretty_ne.json",
-        "name": "glider_pretty_ne.json"
+        "name": "glider_pretty_ne"
       },
       {
         "file": "glider_qm_large_se.json",
-        "name": "glider_qm_large_se.json"
+        "name": "glider_qm_large_se"
       },
       {
         "file": "glider_right_n3_b0.json",
-        "name": "glider_right_n3_b0.json"
+        "name": "glider_right_n3_b0"
       },
       {
         "file": "glider_slow_wide_nw.json",
-        "name": "glider_slow_wide_nw.json"
+        "name": "glider_slow_wide_nw"
       },
       {
         "file": "glider_sm_sin_sse.json",
-        "name": "glider_sm_sin_sse.json"
+        "name": "glider_sm_sin_sse"
       },
       {
         "file": "glider_small_down.json",
-        "name": "glider_small_down.json"
+        "name": "glider_small_down"
       },
       {
         "file": "glider_sse.json",
-        "name": "glider_sse.json"
+        "name": "glider_sse"
       },
       {
         "file": "glider_sw_tight_2.json",
-        "name": "glider_sw_tight_2.json"
+        "name": "glider_sw_tight_2"
       },
       {
         "file": "glider_wsw_braid.json",
-        "name": "glider_wsw_braid.json"
+        "name": "glider_wsw_braid"
       },
       {
         "file": "gliders.json",
-        "name": "gliders.json"
+        "name": "gliders"
       },
       {
         "file": "spaceship1_p244.json",
-        "name": "spaceship1_p244.json"
+        "name": "spaceship1_p244"
       },
       {
         "file": "spaceship2_p420.json",
-        "name": "spaceship2_p420.json"
+        "name": "spaceship2_p420"
       },
       {
         "file": "spaceship3_p42.json",
-        "name": "spaceship3_p42.json"
+        "name": "spaceship3_p42"
       },
       {
         "file": "spaceship4_p76.json",
-        "name": "spaceship4_p76.json"
+        "name": "spaceship4_p76"
       },
       {
         "file": "spaceship5_p68.json",
-        "name": "spaceship5_p68.json"
+        "name": "spaceship5_p68"
       },
       {
         "file": "spaceship6_p174.json",
-        "name": "spaceship6_p174.json"
+        "name": "spaceship6_p174"
       },
       {
         "file": "spaceship7_p62.json",
-        "name": "spaceship7_p62.json"
+        "name": "spaceship7_p62"
       }
     ]
   },
@@ -165,367 +165,367 @@
     "items": [
       {
         "file": "3_nearest_plus.json",
-        "name": "3_nearest_plus.json"
+        "name": "3_nearest_plus"
       },
       {
         "file": "Blinker_w_Catccher_p48_5.json",
-        "name": "Blinker_w_Catccher_p48_5.json"
+        "name": "Blinker_w_Catccher_p48_5"
       },
       {
         "file": "Bloop_p196_2.json",
-        "name": "Bloop_p196_2.json"
+        "name": "Bloop_p196_2"
       },
       {
         "file": "Daggo_w_Catcher_p40_3.json",
-        "name": "Daggo_w_Catcher_p40_3.json"
+        "name": "Daggo_w_Catcher_p40_3"
       },
       {
         "file": "Daggo_w_Cross_p164_2.json",
-        "name": "Daggo_w_Cross_p164_2.json"
+        "name": "Daggo_w_Cross_p164_2"
       },
       {
         "file": "Daggoo_p64.json",
-        "name": "Daggoo_p64.json"
+        "name": "Daggoo_p64"
       },
       {
         "file": "DiagRot_p84_9.json",
-        "name": "DiagRot_p84_9.json"
+        "name": "DiagRot_p84_9"
       },
       {
         "file": "DiagShake_p18_7.json",
-        "name": "DiagShake_p18_7.json"
+        "name": "DiagShake_p18_7"
       },
       {
         "file": "DiagShake_p20_3.json",
-        "name": "DiagShake_p20_3.json"
+        "name": "DiagShake_p20_3"
       },
       {
         "file": "DiagShake_p20_9.json",
-        "name": "DiagShake_p20_9.json"
+        "name": "DiagShake_p20_9"
       },
       {
         "file": "Flask_p172_10.json",
-        "name": "Flask_p172_10.json"
+        "name": "Flask_p172_10"
       },
       {
         "file": "Flask_p324.json",
-        "name": "Flask_p324.json"
+        "name": "Flask_p324"
       },
       {
         "file": "Flask_p88.json",
-        "name": "Flask_p88.json"
+        "name": "Flask_p88"
       },
       {
         "file": "HourGlass_p90.json",
-        "name": "HourGlass_p90.json"
+        "name": "HourGlass_p90"
       },
       {
         "file": "Moby_p228.json",
-        "name": "Moby_p228.json"
+        "name": "Moby_p228"
       },
       {
         "file": "NineThirtySix.json",
-        "name": "NineThirtySix.json"
+        "name": "NineThirtySix"
       },
       {
         "file": "Pip_p100.json",
-        "name": "Pip_p100.json"
+        "name": "Pip_p100"
       },
       {
         "file": "Pivot_p24_1.json",
-        "name": "Pivot_p24_1.json"
+        "name": "Pivot_p24_1"
       },
       {
         "file": "Pivot_p36_1.json",
-        "name": "Pivot_p36_1.json"
+        "name": "Pivot_p36_1"
       },
       {
         "file": "Pump_p154_3.json",
-        "name": "Pump_p154_3.json"
+        "name": "Pump_p154_3"
       },
       {
         "file": "Pump_p42_4.json",
-        "name": "Pump_p42_4.json"
+        "name": "Pump_p42_4"
       },
       {
         "file": "Queequeg_p170.json",
-        "name": "Queequeg_p170.json"
+        "name": "Queequeg_p170"
       },
       {
         "file": "Shake_p22_9.json",
-        "name": "Shake_p22_9.json"
+        "name": "Shake_p22_9"
       },
       {
         "file": "Snake_p14.json",
-        "name": "Snake_p14.json"
+        "name": "Snake_p14"
       },
       {
         "file": "Snake_p24.json",
-        "name": "Snake_p24.json"
+        "name": "Snake_p24"
       },
       {
         "file": "Snake_p28.json",
-        "name": "Snake_p28.json"
+        "name": "Snake_p28"
       },
       {
         "file": "Starbuck_p128.json",
-        "name": "Starbuck_p128.json"
+        "name": "Starbuck_p128"
       },
       {
         "file": "Stubb_p164.json",
-        "name": "Stubb_p164.json"
+        "name": "Stubb_p164"
       },
       {
         "file": "Tashtego_p176.json",
-        "name": "Tashtego_p176.json"
+        "name": "Tashtego_p176"
       },
       {
         "file": "ThreeSwitch_p100_9.json",
-        "name": "ThreeSwitch_p100_9.json"
+        "name": "ThreeSwitch_p100_9"
       },
       {
         "file": "Trade_p32_10.json",
-        "name": "Trade_p32_10.json"
+        "name": "Trade_p32_10"
       },
       {
         "file": "ZShake_p30_6.json",
-        "name": "ZShake_p30_6.json"
+        "name": "ZShake_p30_6"
       },
       {
         "file": "alien2_p72.json",
-        "name": "alien2_p72.json"
+        "name": "alien2_p72"
       },
       {
         "file": "alien3_p84.json",
-        "name": "alien3_p84.json"
+        "name": "alien3_p84"
       },
       {
         "file": "alien4_p288.json",
-        "name": "alien4_p288.json"
+        "name": "alien4_p288"
       },
       {
         "file": "alien7_p112.json",
-        "name": "alien7_p112.json"
+        "name": "alien7_p112"
       },
       {
         "file": "alien9_p20.json",
-        "name": "alien9_p20.json"
+        "name": "alien9_p20"
       },
       {
         "file": "ampersand.json",
-        "name": "ampersand.json"
+        "name": "ampersand"
       },
       {
         "file": "ampersand168.json",
-        "name": "ampersand168.json"
+        "name": "ampersand168"
       },
       {
         "file": "best.json",
-        "name": "best.json"
+        "name": "best"
       },
       {
         "file": "clean_p30_1.json",
-        "name": "clean_p30_1.json"
+        "name": "clean_p30_1"
       },
       {
         "file": "clean_p30_4.json",
-        "name": "clean_p30_4.json"
+        "name": "clean_p30_4"
       },
       {
         "file": "clean_p40_7.json",
-        "name": "clean_p40_7.json"
+        "name": "clean_p40_7"
       },
       {
         "file": "clean_p60_6.json",
-        "name": "clean_p60_6.json"
+        "name": "clean_p60_6"
       },
       {
         "file": "cool.json",
-        "name": "cool.json"
+        "name": "cool"
       },
       {
         "file": "degen16.json",
-        "name": "degen16.json"
+        "name": "degen16"
       },
       {
         "file": "degen24a.json",
-        "name": "degen24a.json"
+        "name": "degen24a"
       },
       {
         "file": "degen84a.json",
-        "name": "degen84a.json"
+        "name": "degen84a"
       },
       {
         "file": "final5_p28_4.json",
-        "name": "final5_p28_4.json"
+        "name": "final5_p28_4"
       },
       {
         "file": "final5_p30_2.json",
-        "name": "final5_p30_2.json"
+        "name": "final5_p30_2"
       },
       {
         "file": "final5_p30_5.json",
-        "name": "final5_p30_5.json"
+        "name": "final5_p30_5"
       },
       {
         "file": "final5_p30_6.json",
-        "name": "final5_p30_6.json"
+        "name": "final5_p30_6"
       },
       {
         "file": "final5_p30_8.json",
-        "name": "final5_p30_8.json"
+        "name": "final5_p30_8"
       },
       {
         "file": "final5_p40_10.json",
-        "name": "final5_p40_10.json"
+        "name": "final5_p40_10"
       },
       {
         "file": "final5_p42_3.json",
-        "name": "final5_p42_3.json"
+        "name": "final5_p42_3"
       },
       {
         "file": "final5_p6_1.json",
-        "name": "final5_p6_1.json"
+        "name": "final5_p6_1"
       },
       {
         "file": "good.json",
-        "name": "good.json"
+        "name": "good"
       },
       {
         "file": "intelligent1_p30.json",
-        "name": "intelligent1_p30.json"
+        "name": "intelligent1_p30"
       },
       {
         "file": "lighter28a.json",
-        "name": "lighter28a.json"
+        "name": "lighter28a"
       },
       {
         "file": "ok.json",
-        "name": "ok.json"
+        "name": "ok"
       },
       {
         "file": "orthoAccel.json",
-        "name": "orthoAccel.json"
+        "name": "orthoAccel"
       },
       {
         "file": "p128.json",
-        "name": "p128.json"
+        "name": "p128"
       },
       {
         "file": "p16_triple_cross.json",
-        "name": "p16_triple_cross.json"
+        "name": "p16_triple_cross"
       },
       {
         "file": "p38.json",
-        "name": "p38.json"
+        "name": "p38"
       },
       {
         "file": "p4_10.json",
-        "name": "p4_10.json"
+        "name": "p4_10"
       },
       {
         "file": "p4_3.json",
-        "name": "p4_3.json"
+        "name": "p4_3"
       },
       {
         "file": "p6_6.json",
-        "name": "p6_6.json"
+        "name": "p6_6"
       },
       {
         "file": "p84.json",
-        "name": "p84.json"
+        "name": "p84"
       },
       {
         "file": "p8_1.json",
-        "name": "p8_1.json"
+        "name": "p8_1"
       },
       {
         "file": "pair_scales_nw.json",
-        "name": "pair_scales_nw.json"
+        "name": "pair_scales_nw"
       },
       {
         "file": "rattle16a.json",
-        "name": "rattle16a.json"
+        "name": "rattle16a"
       },
       {
         "file": "rattle16b.json",
-        "name": "rattle16b.json"
+        "name": "rattle16b"
       },
       {
         "file": "rattle16c.json",
-        "name": "rattle16c.json"
+        "name": "rattle16c"
       },
       {
         "file": "rattle16d.json",
-        "name": "rattle16d.json"
+        "name": "rattle16d"
       },
       {
         "file": "rattle16e.json",
-        "name": "rattle16e.json"
+        "name": "rattle16e"
       },
       {
         "file": "shuffle_4_p168.json",
-        "name": "shuffle_4_p168.json"
+        "name": "shuffle_4_p168"
       },
       {
         "file": "slight_degen.json",
-        "name": "slight_degen.json"
+        "name": "slight_degen"
       },
       {
         "file": "snake.json",
-        "name": "snake.json"
+        "name": "snake"
       },
       {
         "file": "subgroupfiltered_p6.json",
-        "name": "subgroupfiltered_p6.json"
+        "name": "subgroupfiltered_p6"
       },
       {
         "file": "swap16a.json",
-        "name": "swap16a.json"
+        "name": "swap16a"
       },
       {
         "file": "swap26a.json",
-        "name": "swap26a.json"
+        "name": "swap26a"
       },
       {
         "file": "tilde30a.json",
-        "name": "tilde30a.json"
+        "name": "tilde30a"
       },
       {
         "file": "tv12a.json",
-        "name": "tv12a.json"
+        "name": "tv12a"
       },
       {
         "file": "whale3_p154_1.json",
-        "name": "whale3_p154_1.json"
+        "name": "whale3_p154_1"
       },
       {
         "file": "whale3_p154_3.json",
-        "name": "whale3_p154_3.json"
+        "name": "whale3_p154_3"
       },
       {
         "file": "whale_p164_1.json",
-        "name": "whale_p164_1.json"
+        "name": "whale_p164_1"
       },
       {
         "file": "whale_p164_4.json",
-        "name": "whale_p164_4.json"
+        "name": "whale_p164_4"
       },
       {
         "file": "whale_p172_5.json",
-        "name": "whale_p172_5.json"
+        "name": "whale_p172_5"
       },
       {
         "file": "whale_p324_2.json",
-        "name": "whale_p324_2.json"
+        "name": "whale_p324_2"
       },
       {
         "file": "whale_p324_3.json",
-        "name": "whale_p324_3.json"
+        "name": "whale_p324_3"
       },
       {
         "file": "yes.json",
-        "name": "yes.json"
+        "name": "yes"
       }
     ]
   },
@@ -534,163 +534,163 @@
     "items": [
       {
         "file": "16_daggos.json",
-        "name": "16_daggos.json"
+        "name": "16_daggos"
       },
       {
         "file": "16_daggos_ticked.json",
-        "name": "16_daggos_ticked.json"
+        "name": "16_daggos_ticked"
       },
       {
         "file": "32_daggos.json",
-        "name": "32_daggos.json"
+        "name": "32_daggos"
       },
       {
         "file": "6_daggoos.json",
-        "name": "6_daggoos.json"
+        "name": "6_daggoos"
       },
       {
         "file": "8_daggoos_watched.json",
-        "name": "8_daggoos_watched.json"
+        "name": "8_daggoos_watched"
       },
       {
         "file": "DoubleX_n4_b0.json",
-        "name": "DoubleX_n4_b0.json"
+        "name": "DoubleX_n4_b0"
       },
       {
         "file": "Repeater_n3_b0.json",
-        "name": "Repeater_n3_b0.json"
+        "name": "Repeater_n3_b0"
       },
       {
         "file": "bobo_lattice_border30_every3.json",
-        "name": "bobo_lattice_border30_every3.json"
+        "name": "bobo_lattice_border30_every3"
       },
       {
         "file": "bobo_lattice_border30_every4.json",
-        "name": "bobo_lattice_border30_every4.json"
+        "name": "bobo_lattice_border30_every4"
       },
       {
         "file": "bobo_lattice_border30_every5.json",
-        "name": "bobo_lattice_border30_every5.json"
+        "name": "bobo_lattice_border30_every5"
       },
       {
         "file": "bobo_lattice_border30_every8.json",
-        "name": "bobo_lattice_border30_every8.json"
+        "name": "bobo_lattice_border30_every8"
       },
       {
         "file": "bobo_screen.json",
-        "name": "bobo_screen.json"
+        "name": "bobo_screen"
       },
       {
         "file": "daggo_circuit.json",
-        "name": "daggo_circuit.json"
+        "name": "daggo_circuit"
       },
       {
         "file": "daggo_left.json",
-        "name": "daggo_left.json"
+        "name": "daggo_left"
       },
       {
         "file": "dead_pixel.json",
-        "name": "dead_pixel.json"
+        "name": "dead_pixel"
       },
       {
         "file": "fbb_test_big.json",
-        "name": "fbb_test_big.json"
+        "name": "fbb_test_big"
       },
       {
         "file": "fragile.json",
-        "name": "fragile.json"
+        "name": "fragile"
       },
       {
         "file": "lighter.json",
-        "name": "lighter.json"
+        "name": "lighter"
       },
       {
         "file": "nbb_isolate.json",
-        "name": "nbb_isolate.json"
+        "name": "nbb_isolate"
       },
       {
         "file": "orbit_4_bobos.json",
-        "name": "orbit_4_bobos.json"
+        "name": "orbit_4_bobos"
       },
       {
         "file": "orbiters.json",
-        "name": "orbiters.json"
+        "name": "orbiters"
       },
       {
         "file": "osc-circle.json",
-        "name": "osc-circle.json"
+        "name": "osc-circle"
       },
       {
         "file": "osc_2n2b_clock.json",
-        "name": "osc_2n2b_clock.json"
+        "name": "osc_2n2b_clock"
       },
       {
         "file": "osc_n2_b2_p96.json",
-        "name": "osc_n2_b2_p96.json"
+        "name": "osc_n2_b2_p96"
       },
       {
         "file": "osc_n4_b0_p12_4.json",
-        "name": "osc_n4_b0_p12_4.json"
+        "name": "osc_n4_b0_p12_4"
       },
       {
         "file": "osc_n4_b0_p28.json",
-        "name": "osc_n4_b0_p28.json"
+        "name": "osc_n4_b0_p28"
       },
       {
         "file": "osc_n4_cool_big.json",
-        "name": "osc_n4_cool_big.json"
+        "name": "osc_n4_cool_big"
       },
       {
         "file": "osc_n4_diode.json",
-        "name": "osc_n4_diode.json"
+        "name": "osc_n4_diode"
       },
       {
         "file": "osc_n4_glasses.json",
-        "name": "osc_n4_glasses.json"
+        "name": "osc_n4_glasses"
       },
       {
         "file": "osc_n4_hourglass.json",
-        "name": "osc_n4_hourglass.json"
+        "name": "osc_n4_hourglass"
       },
       {
         "file": "osc_n4_rocker.json",
-        "name": "osc_n4_rocker.json"
+        "name": "osc_n4_rocker"
       },
       {
         "file": "osc_n4_wand.json",
-        "name": "osc_n4_wand.json"
+        "name": "osc_n4_wand"
       },
       {
         "file": "osc_offsetweb.json",
-        "name": "osc_offsetweb.json"
+        "name": "osc_offsetweb"
       },
       {
         "file": "osc_pair.json",
-        "name": "osc_pair.json"
+        "name": "osc_pair"
       },
       {
         "file": "osc_tight2osc_in_middle.json",
-        "name": "osc_tight2osc_in_middle.json"
+        "name": "osc_tight2osc_in_middle"
       },
       {
         "file": "rmok.json",
-        "name": "rmok.json"
+        "name": "rmok"
       },
       {
         "file": "start_and_stop.json",
-        "name": "start_and_stop.json"
+        "name": "start_and_stop"
       },
       {
         "file": "swap.json",
-        "name": "swap.json"
+        "name": "swap"
       },
       {
         "file": "tilde30a.json",
-        "name": "tilde30a.json"
+        "name": "tilde30a"
       },
       {
         "file": "whale.json",
-        "name": "whale.json"
+        "name": "whale"
       }
     ]
   }

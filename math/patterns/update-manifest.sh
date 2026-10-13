@@ -1,16 +1,36 @@
 #!/usr/bin/env bash
 # Scans the patterns folder — including nested subfolders, to any depth —
-# for .json files not yet listed in manifest.json, prompts for a display
-# name for each, and writes the updated manifest. Subfolder names are
-# used directly as the GUI folder names; only individual files get
-# prompted for a name.
+# for .json files not yet listed in manifest.json, adds them, and writes
+# the updated manifest. No prompts: every pattern's display name is its
+# filename without the .json suffix (osc_n5_b0_Pip_p100.json -> 
+# osc_n5_b0_Pip_p100), and existing entries are renamed to match, so the
+# Zoo always shows the filenames. To change a name, rename the file.
+# Subfolder names are used directly as the Zoo's folder names.
 #
-# Usage:
-#   ./update-manifest.sh              # operates on the current directory
-#   ./update-manifest.sh patterns/    # or point it at a specific folder
+# Usage (keep this script inside the patterns folder):
+#   ./update-manifest.sh              # scans the folder this script lives in,
+#                                     # no matter where you run it from
+#   ./update-manifest.sh some/folder/ # or point it at a specific folder
+#   ./update-manifest.sh -f           # fresh: ignore the current manifest and
+#                                     # rebuild it from scratch from what's on disk
+
+# If started with `sh update-manifest.sh`, sh may not be bash and would
+# choke on the line below; quietly re-run ourselves under bash instead.
+if [ -z "${BASH_VERSION:-}" ]; then exec bash "$0" "$@"; fi
 set -euo pipefail
 
-DIR="${1:-.}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FRESH=0
+DIR=""
+for arg in "$@"; do
+  case "$arg" in
+    -f|--fresh) FRESH=1 ;;
+    -*) echo "Unknown option: $arg  (the only option is -f)" >&2; exit 1 ;;
+    *) DIR="$arg" ;;
+  esac
+done
+DIR="${DIR:-$SCRIPT_DIR}"
+echo "Scanning: $DIR"
 
 if ! command -v python3 >/dev/null 2>&1; then
   echo "This script needs python3 (used for the actual JSON reading/writing)." >&2
@@ -22,7 +42,10 @@ if [ ! -d "$DIR" ]; then
   exit 1
 fi
 
-if [ ! -f "$DIR/manifest.json" ]; then
+if [ "$FRESH" = 1 ]; then
+  echo "Fresh run: rebuilding manifest.json from scratch."
+  echo "[]" > "$DIR/manifest.json"
+elif [ ! -f "$DIR/manifest.json" ]; then
   echo "[]" > "$DIR/manifest.json"
   echo "No manifest.json found in $DIR — created an empty one."
 fi
@@ -57,16 +80,8 @@ def get_known_files(items):
 def get_known_folders(items):
     return {e["folder"]: e for e in items if "folder" in e}
 
-def prompt_name(filename, prefix=""):
-    while True:
-        label = prefix + filename
-        name = input(f'  {label}\n  Display name (blank = use filename): ').strip()
-        if name == "":
-            name = filename
-        confirm = input(f'  -> "{name}"   [Enter to accept, r to redo] ').strip().lower()
-        if confirm != 'r':
-            return name
-        print()
+def display_name(filename):
+    return filename[:-5] if filename.lower().endswith(".json") else filename
 
 def find_orphans(disk_path, items, rel_path=""):
     orphans = []
@@ -93,11 +108,9 @@ def scan_and_update(disk_path, items, rel_path=""):
     )
     known_files = get_known_files(items)
     for filename in [f for f in disk_files if f not in known_files]:
-        prefix = (rel_path + "/") if rel_path else ""
-        name = prompt_name(filename, prefix=prefix)
-        items.append({"file": filename, "name": name})
+        items.append({"file": filename, "name": display_name(filename)})
+        print(f"  + {(rel_path + '/') if rel_path else ''}{filename}")
         added += 1
-        print()
 
     disk_subdirs = sorted(
         d for d in os.listdir(disk_path)
@@ -126,11 +139,22 @@ if orphans:
         print(f"  - {o}")
     print()
 
+before = json.dumps(manifest, sort_keys=True)
 added = scan_and_update(folder, manifest, "")
 
-if added == 0:
-    print("Every JSON file is already represented in manifest.json. Nothing to add.")
-    sys.exit(0)
+# every file entry, old or new, is named after its file
+def rename_all(items):
+    renamed = 0
+    for entry in items:
+        if "file" in entry:
+            want = display_name(entry["file"])
+            if entry.get("name") != want:
+                entry["name"] = want
+                renamed += 1
+        elif "folder" in entry:
+            renamed += rename_all(entry.get("items", []))
+    return renamed
+renamed = rename_all(manifest)
 
 def sort_recursive(items):
     for entry in items:
@@ -140,12 +164,16 @@ def sort_recursive(items):
 
 sort_recursive(manifest)
 
+if json.dumps(manifest, sort_keys=True) == before:
+    print("manifest.json is already up to date. Nothing changed.")
+    sys.exit(0)
+
 with open(manifest_path, "w") as f:
     json.dump(manifest, f, indent=2)
     f.write("\n")
 
-plural = "y" if added == 1 else "ies"
-print(f"Added {added} entr{plural} to manifest.json.")
+plural = lambda n, one, many: one if n == 1 else many
+print(f"Added {added} {plural(added, 'entry', 'entries')}, renamed {renamed} to match {plural(renamed, 'its filename', 'their filenames')}.")
 PYEOF
 
 python3 "$TMP_PY" "$DIR"
