@@ -131,8 +131,32 @@
         "name": "gliders.json"
       },
       {
-        "file": "gliders_comp.json",
-        "name": "gliders_comp.json"
+        "file": "spaceship1_p244.json",
+        "name": "spaceship1_p244.json"
+      },
+      {
+        "file": "spaceship2_p420.json",
+        "name": "spaceship2_p420.json"
+      },
+      {
+        "file": "spaceship3_p42.json",
+        "name": "spaceship3_p42.json"
+      },
+      {
+        "file": "spaceship4_p76.json",
+        "name": "spaceship4_p76.json"
+      },
+      {
+        "file": "spaceship5_p68.json",
+        "name": "spaceship5_p68.json"
+      },
+      {
+        "file": "spaceship6_p174.json",
+        "name": "spaceship6_p174.json"
+      },
+      {
+        "file": "spaceship7_p62.json",
+        "name": "spaceship7_p62.json"
       }
     ]
   },
@@ -180,12 +204,12 @@
         "name": "DiagShake_p20_9.json"
       },
       {
-        "file": "Famous_p324_1.json",
-        "name": "Famous_p324_1.json"
-      },
-      {
         "file": "Flask_p172_10.json",
         "name": "Flask_p172_10.json"
+      },
+      {
+        "file": "Flask_p324.json",
+        "name": "Flask_p324.json"
       },
       {
         "file": "Flask_p88.json",
@@ -194,10 +218,6 @@
       {
         "file": "HourGlass_p90.json",
         "name": "HourGlass_p90.json"
-      },
-      {
-        "file": "Ishmael_p120.json",
-        "name": "Ishmael_p120.json"
       },
       {
         "file": "Moby_p228.json",
@@ -236,16 +256,16 @@
         "name": "Shake_p22_9.json"
       },
       {
-        "file": "Snake_p14_9.json",
-        "name": "Snake_p14_9.json"
+        "file": "Snake_p14.json",
+        "name": "Snake_p14.json"
       },
       {
-        "file": "Snake_p24_10.json",
-        "name": "Snake_p24_10.json"
+        "file": "Snake_p24.json",
+        "name": "Snake_p24.json"
       },
       {
-        "file": "Snake_p28_8.json",
-        "name": "Snake_p28_8.json"
+        "file": "Snake_p28.json",
+        "name": "Snake_p28.json"
       },
       {
         "file": "Starbuck_p128.json",
@@ -300,6 +320,10 @@
         "name": "ampersand168.json"
       },
       {
+        "file": "best.json",
+        "name": "best.json"
+      },
+      {
         "file": "clean_p30_1.json",
         "name": "clean_p30_1.json"
       },
@@ -314,6 +338,10 @@
       {
         "file": "clean_p60_6.json",
         "name": "clean_p60_6.json"
+      },
+      {
+        "file": "cool.json",
+        "name": "cool.json"
       },
       {
         "file": "degen16.json",
@@ -360,6 +388,10 @@
         "name": "final5_p6_1.json"
       },
       {
+        "file": "good.json",
+        "name": "good.json"
+      },
+      {
         "file": "intelligent1_p30.json",
         "name": "intelligent1_p30.json"
       },
@@ -368,48 +400,24 @@
         "name": "lighter28a.json"
       },
       {
+        "file": "ok.json",
+        "name": "ok.json"
+      },
+      {
         "file": "orthoAccel.json",
         "name": "orthoAccel.json"
       },
       {
-        "file": "osc_n3_b0_p16_triple_cross.json",
-        "name": "osc_n3_b0_p16_triple_cross.json"
-      },
-      {
-        "file": "osc_n3_b0_p38.json",
-        "name": "osc_n3_b0_p38.json"
-      },
-      {
-        "file": "osc_n5_best.json",
-        "name": "osc_n5_best.json"
-      },
-      {
-        "file": "osc_n5_cool.json",
-        "name": "osc_n5_cool.json"
-      },
-      {
-        "file": "osc_n5_good.json",
-        "name": "osc_n5_good.json"
-      },
-      {
-        "file": "osc_n5_ok.json",
-        "name": "osc_n5_ok.json"
-      },
-      {
-        "file": "osc_n5_slight_degen.json",
-        "name": "osc_n5_slight_degen.json"
-      },
-      {
-        "file": "osc_n5_snake.json",
-        "name": "osc_n5_snake.json"
-      },
-      {
-        "file": "osc_n5_yes.json",
-        "name": "osc_n5_yes.json"
-      },
-      {
         "file": "p128.json",
         "name": "p128.json"
+      },
+      {
+        "file": "p16_triple_cross.json",
+        "name": "p16_triple_cross.json"
+      },
+      {
+        "file": "p38.json",
+        "name": "p38.json"
       },
       {
         "file": "p4_10.json",
@@ -460,32 +468,12 @@
         "name": "shuffle_4_p168.json"
       },
       {
-        "file": "spaceship1_p244.json",
-        "name": "spaceship1_p244.json"
+        "file": "slight_degen.json",
+        "name": "slight_degen.json"
       },
       {
-        "file": "spaceship2_p420.json",
-        "name": "spaceship2_p420.json"
-      },
-      {
-        "file": "spaceship3_p42.json",
-        "name": "spaceship3_p42.json"
-      },
-      {
-        "file": "spaceship4_p76.json",
-        "name": "spaceship4_p76.json"
-      },
-      {
-        "file": "spaceship5_p68.json",
-        "name": "spaceship5_p68.json"
-      },
-      {
-        "file": "spaceship6_p174.json",
-        "name": "spaceship6_p174.json"
-      },
-      {
-        "file": "spaceship7_p62.json",
-        "name": "spaceship7_p62.json"
+        "file": "snake.json",
+        "name": "snake.json"
       },
       {
         "file": "subgroupfiltered_p6.json",
@@ -534,6 +522,10 @@
       {
         "file": "whale_p324_3.json",
         "name": "whale_p324_3.json"
+      },
+      {
+        "file": "yes.json",
+        "name": "yes.json"
       }
     ]
   },
