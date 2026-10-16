@@ -131,6 +131,10 @@
         "name": "gliders"
       },
       {
+        "file": "pair_scales.json",
+        "name": "pair_scales"
+      },
+      {
         "file": "spaceship1_p244.json",
         "name": "spaceship1_p244"
       },
@@ -396,8 +400,12 @@
         "name": "intelligent1_p30"
       },
       {
-        "file": "lighter28a.json",
-        "name": "lighter28a"
+        "file": "lighter.json",
+        "name": "lighter"
+      },
+      {
+        "file": "lighter_2.json",
+        "name": "lighter_2"
       },
       {
         "file": "ok.json",
@@ -420,28 +428,8 @@
         "name": "p38"
       },
       {
-        "file": "p4_10.json",
-        "name": "p4_10"
-      },
-      {
-        "file": "p4_3.json",
-        "name": "p4_3"
-      },
-      {
-        "file": "p6_6.json",
-        "name": "p6_6"
-      },
-      {
-        "file": "p84.json",
-        "name": "p84"
-      },
-      {
         "file": "p8_1.json",
         "name": "p8_1"
-      },
-      {
-        "file": "pair_scales_nw.json",
-        "name": "pair_scales_nw"
       },
       {
         "file": "rattle16a.json",
@@ -522,10 +510,6 @@
       {
         "file": "whale_p324_3.json",
         "name": "whale_p324_3"
-      },
-      {
-        "file": "yes.json",
-        "name": "yes"
       }
     ]
   },
