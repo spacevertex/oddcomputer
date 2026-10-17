@@ -392,6 +392,10 @@
         "name": "final5_p6_1"
       },
       {
+        "file": "glider_park.json",
+        "name": "glider_park"
+      },
+      {
         "file": "good.json",
         "name": "good"
       },
