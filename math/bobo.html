@@ -526,6 +526,10 @@
   // three zoom levels; 'zoomed' stays as shorthand for the close view
   let zoomLevel = 'default';       // 'wide' | 'default' | 'close'
   let zoomed = false;
+  // drawn sizes shrink in the wide view so dense fields stay readable;
+  // click hit-testing (14px) is deliberately left at the normal size, so
+  // the tiny wide-view dots are still as easy to click as before
+  function dotScale(){ return zoomLevel === 'wide' ? 0.5 : 1; }
   function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
   let showTrails = true;
   let showVectors = false;
@@ -1055,14 +1059,14 @@
       if (p.type !== 'bobo') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
       ctx.fillStyle = activeBobosNow.has(i) ? '#c9d6dc' : colorForDraw(i);
-      const s = 5;
+      const s = 5 * dotScale();
       ctx.fillRect(sx-s/2, sy-s/2, s, s);
     });
 
     // nearest particles: glowing circles, drawn from a pre-rendered sprite
     // per color instead of recomputing shadowBlur (an expensive per-pixel
     // blur convolution) on every particle, every frame.
-    const glowSize = 18;
+    const glowSize = 18 * dotScale();
     drawArr.forEach((p, i)=>{
       if (p.type !== 'nearest') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
@@ -1080,7 +1084,7 @@
           ctx.strokeStyle = '#8bf3c9';
           ctx.lineWidth = 1.4;
           ctx.beginPath();
-          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.arc(sx, sy, 9 * dotScale(), 0, Math.PI*2);
           ctx.stroke();
         });
       } else if (watch.result){
@@ -1090,7 +1094,7 @@
           ctx.strokeStyle = '#e8a33d';
           ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.arc(sx, sy, 9 * dotScale(), 0, Math.PI*2);
           ctx.stroke();
         });
         watch.result.boboIndices.forEach(j=>{
@@ -1098,7 +1102,7 @@
           const {sx,sy} = worldToScreen(p.x, p.y);
           ctx.strokeStyle = '#e8a33d';
           ctx.lineWidth = 1.6;
-          ctx.strokeRect(sx-7, sy-7, 14, 14);
+          ctx.strokeRect(sx-7*dotScale(), sy-7*dotScale(), 14*dotScale(), 14*dotScale());
         });
       }
     }
@@ -1135,7 +1139,7 @@
         const {sx,sy} = worldToScreen(x,y);
         ctx.fillStyle = '#8bf3c9';
         ctx.beginPath();
-        ctx.arc(sx, sy, 4, 0, Math.PI*2);
+        ctx.arc(sx, sy, 4 * dotScale(), 0, Math.PI*2);
         ctx.fill();
       });
       pendingPattern.boboRel.forEach(p=>{
@@ -1143,7 +1147,8 @@
         const y = Math.round(placementCenterY + p.y);
         const {sx,sy} = worldToScreen(x,y);
         ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
-        ctx.fillRect(sx-2.5, sy-2.5, 5, 5);
+        const s = 5 * dotScale();
+        ctx.fillRect(sx-s/2, sy-s/2, s, s);
       });
       ctx.restore();
     }
