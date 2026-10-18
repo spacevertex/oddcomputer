@@ -165,6 +165,47 @@
     ]
   },
   {
+    "folder": "Orbiters",
+    "items": [
+      {
+        "file": "big_circle_p308.json",
+        "name": "big_circle_p308"
+      },
+      {
+        "file": "clover_p396.json",
+        "name": "clover_p396"
+      },
+      {
+        "file": "four_leaf_p340.json",
+        "name": "four_leaf_p340"
+      },
+      {
+        "file": "giant_cross_p424.json",
+        "name": "giant_cross_p424"
+      },
+      {
+        "file": "octagon_p56.json",
+        "name": "octagon_p56"
+      },
+      {
+        "file": "rounded_square_p192.json",
+        "name": "rounded_square_p192"
+      },
+      {
+        "file": "small_square_p68.json",
+        "name": "small_square_p68"
+      },
+      {
+        "file": "square_p160.json",
+        "name": "square_p160"
+      },
+      {
+        "file": "star_p224.json",
+        "name": "star_p224"
+      }
+    ]
+  },
+  {
     "folder": "Oscillators",
     "items": [
       {
