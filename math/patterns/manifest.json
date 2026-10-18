@@ -176,12 +176,24 @@
         "name": "clover_p396"
       },
       {
+        "file": "colossal_circle_p1456.json",
+        "name": "colossal_circle_p1456"
+      },
+      {
         "file": "four_leaf_p340.json",
         "name": "four_leaf_p340"
       },
       {
         "file": "giant_cross_p424.json",
         "name": "giant_cross_p424"
+      },
+      {
+        "file": "giant_octagon_p768.json",
+        "name": "giant_octagon_p768"
+      },
+      {
+        "file": "looped_diamond_p264.json",
+        "name": "looped_diamond_p264"
       },
       {
         "file": "octagon_p56.json",
