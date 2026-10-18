@@ -84,6 +84,12 @@
     white-space:nowrap;
   }
   #context-menu button:hover{ background: rgba(139,243,201,0.1); color:#8bf3c9; }
+  #context-menu .menu-title{
+    font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase;
+    color: var(--text-dim); padding:5px 16px 3px;
+  }
+  #context-menu button.current{ color:#8bf3c9; background: rgba(139,243,201,0.08); }
+  #context-menu button.current::after{ content:' ●'; font-size:8px; vertical-align:2px; }
   #context-menu button.danger:hover{ background: rgba(232,163,61,0.12); color:#e8a33d; }
 
   #save-dialog{
@@ -424,7 +430,7 @@
   <div id="context-menu"></div>
   <div id="placement-banner"></div>
   <div id="coord-indicator"></div>
-  <button id="btn-unzoom" style="display:none;">Unzoom</button>
+  <button id="btn-unzoom" style="display:none;">Default view</button>
 </div>
 
 <div id="console">
@@ -515,8 +521,12 @@
   let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
 
   let CELL; // px per world unit, normal view
-  let ZOOM_CELL; // px per world unit, zoomed view (30 units visible across the screen)
+  let ZOOM_CELL; // px per world unit, close view (30 units visible across the screen)
+  let WIDE_CELL; // px per world unit, wide view (1300 units visible across the screen)
+  // three zoom levels; 'zoomed' stays as shorthand for the close view
+  let zoomLevel = 'default';       // 'wide' | 'default' | 'close'
   let zoomed = false;
+  function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
   let showTrails = true;
   let showVectors = false;
   // camera center in world units, shared by both zoom levels. Zooming in
@@ -530,12 +540,20 @@
     const span = WORLD_MAX - WORLD_MIN; // 200
     CELL = Math.min(W, H) / span;
     ZOOM_CELL = Math.min(W, H) / 30;
+    WIDE_CELL = Math.min(W, H) / 1300;
   }
 
-  function setZoom(active, cx, cy){
-    zoomed = active;
-    if (active){ camX = cx; camY = cy; }
-    document.getElementById('btn-unzoom').style.display = zoomed ? 'block' : 'none';
+  // level: 'wide' | 'default' | 'close' (true/false still accepted: close / default).
+  // A centre, when given, moves the camera there; without one the view
+  // keeps its current centre.
+  function setZoom(level, cx, cy){
+    if (level === true) level = 'close';
+    if (level === false) level = 'default';
+    zoomLevel = level;
+    zoomed = (level === 'close');
+    if (cx !== undefined){ camX = cx; camY = cy; }
+    const btn = document.getElementById('btn-unzoom');
+    btn.style.display = level === 'default' ? 'none' : 'block';
     draw();
   }
 
@@ -930,7 +948,7 @@
   }
 
   function worldToScreen(x, y){
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     const cx = camX, cy = camY;
     return {
       sx: W/2 + (x - cx) * cell,
@@ -939,7 +957,7 @@
   }
 
   function screenToWorld(sx, sy){
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     const cx = camX, cy = camY;
     return {
       x: (sx - W/2) / cell + cx,
@@ -957,8 +975,9 @@
     // +-100 — so wide monitors (where the visible world width can exceed
     // the height, since scale is set by the smaller dimension) still get
     // full-width coverage instead of gridlines stopping partway across.
-    const gridStep = zoomed ? 1 : 10;
-    const activeCell = zoomed ? ZOOM_CELL : CELL;
+    // (every 50 in the wide view, so it stays a grid rather than a haze)
+    const gridStep = zoomLevel === 'close' ? 1 : zoomLevel === 'wide' ? 50 : 10;
+    const activeCell = viewCell();
     const halfWorldW = (W/2) / activeCell;
     const halfWorldH = (H/2) / activeCell;
     const gxStart = Math.floor((camX - halfWorldW) / gridStep) * gridStep;
@@ -1001,7 +1020,7 @@
         if (!t) return;
         ctx.strokeStyle = colorForDraw(i);
         ctx.globalAlpha = 0.3;
-        ctx.lineWidth = zoomed ? 2 : 1.2; // a touch heavier up close, where lattice steps are large
+        ctx.lineWidth = zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2; // heavier up close, lighter far out
         ctx.beginPath();
         t.forEach((pt, idx)=>{
           const {sx, sy} = worldToScreen(pt.x, pt.y);
@@ -1364,13 +1383,32 @@
     document.getElementById('ctx-zoom').addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
-      setZoom(true, particles[index].x, particles[index].y);
+      setZoom('close', particles[index].x, particles[index].y);
     });
     document.getElementById('ctx-delete').addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
       deleteParticle(index);
     });
+  }
+
+  // ---------- view menu (click on empty field) ----------
+  // Clicking anywhere that isn't a particle offers the three zoom levels,
+  // current one highlighted. Whichever you pick — including the current
+  // one — the view re-centres on the exact spot you clicked.
+  const VIEW_LEVELS = [['wide','Wide'],['default','Default'],['close','Close']];
+  function showViewMenu(sx, sy){
+    const w = screenToWorld(sx, sy);
+    contextMenuEl.innerHTML = '<div class="menu-title">View</div>' + VIEW_LEVELS.map(([lv,label])=>
+      `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('');
+    contextMenuEl.style.left = Math.min(sx + 10, W - 110) + 'px';
+    contextMenuEl.style.top = Math.min(sy + 10, H - 120) + 'px';
+    contextMenuEl.classList.add('visible');
+    contextMenuEl.querySelectorAll('button[data-level]').forEach(b=> b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      hideContextMenu();
+      setZoom(b.dataset.level, w.x, w.y);
+    }));
   }
 
   // ---------- pattern placement (click-to-position a loaded file) ----------
@@ -1822,7 +1860,7 @@
       canvas.classList.add('panning');
       hideContextMenu(); // it's anchored in screen space and would detach from its particle
     }
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     camX -= (e.clientX - panState.lastX) / cell;
     camY += (e.clientY - panState.lastY) / cell; // screen y is flipped relative to world y
     panState.lastX = e.clientX;
@@ -1881,10 +1919,10 @@
       const d = Math.hypot(sx-clickX, sy-clickY);
       if (d < bestD){ bestD = d; bestI = i; }
     });
-    hideContextMenu();
-    if (bestI !== -1 && bestD <= 14){
-      showContextMenu(bestI, clickX, clickY);
-    }
+    // a click while a menu is open just closes it
+    if (contextMenuEl.classList.contains('visible')){ hideContextMenu(); return; }
+    if (bestI !== -1 && bestD <= 14) showContextMenu(bestI, clickX, clickY);
+    else showViewMenu(clickX, clickY);
   });
   window.addEventListener('click', (e)=>{
     if (e.target === canvas) return; // canvas handles its own open/close above
@@ -2336,7 +2374,7 @@
   document.getElementById('btn-add-nearest').addEventListener('click', ()=> beginAdd('nearest'));
   document.getElementById('btn-add-bobo').addEventListener('click', ()=> beginAdd('bobo'));
 
-  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom(false));
+  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom('default'));
 
   document.getElementById('btn-trails-toggle').addEventListener('click', ()=>{
     showTrails = !showTrails;
