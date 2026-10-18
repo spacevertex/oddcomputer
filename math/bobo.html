@@ -1957,6 +1957,10 @@
 
   function closePresetsDialog(){
     savePresetsState(currentPresetsExpanded);
+    // stop listening before the list is emptied: clearing it snaps the
+    // scroll to 0, and that scroll event would overwrite the position we
+    // just saved
+    presetsListEl.onscroll = null;
     presetsDialogEl.classList.remove('visible');
     presetsListEl.innerHTML = '';
   }
@@ -2001,9 +2005,10 @@
   // shift gives the ship's true period, and the thumbnail draws exactly
   // one period of travel (badge shows the period plus a heading arrow). Rendered lazily as cards scroll into view,
   // one per frame, and cached as images for the rest of the session.
-  const THUMB_MAX_TICKS = 2000;
+  const THUMB_MAX_TICKS = 5000;   // long enough for the giant orbiters (labeled cycles up to ~4400)
   const THUMB_OPEN_TICKS = 35;   // fallback for patterns with no period of either kind
   const THUMB_PX = 128;   // css px; rendered at 2x for sharpness
+  const SCREEN_SPAN = 200; // world units visible across the unzoomed view's short side
   const zooThumbCache = new Map(); // path -> Promise<{url, period}>
 
   function simulateThumb(data){
@@ -2083,6 +2088,19 @@
     const g = c.getContext('2d');
     g.fillStyle = '#0c1210';
     g.fillRect(0, 0, S, S);
+
+    // scale marker: when a pattern is bigger than the unzoomed screen, draw
+    // a faint square the size of that screen, centered on the pattern, so
+    // giants read as giants. Anything that fits on screen would get a box
+    // bigger than the card, so it's simply skipped.
+    const screenPx = SCREEN_SPAN * scale;
+    if (screenPx < S * 0.92){
+      g.strokeStyle = '#2c4238';
+      g.lineWidth = 2;
+      g.setLineDash([6, 5]);
+      g.strokeRect(S/2 - screenPx/2, S/2 - screenPx/2, screenPx, screenPx);
+      g.setLineDash([]);
+    }
 
     // lattice dots when zoomed in enough to be legible
     if (scale >= 10){
@@ -2268,6 +2286,7 @@
   function openPresetsDialog(){
     playing = false;
     playBtn.textContent = 'Play';
+    presetsListEl.onscroll = null; // same reason as in closePresetsDialog
     presetsListEl.innerHTML = '<div class="preset-empty">Loading…</div>';
     presetsDialogEl.classList.add('visible');
 
