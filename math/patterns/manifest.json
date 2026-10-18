@@ -214,6 +214,10 @@
       {
         "file": "star_p224.json",
         "name": "star_p224"
+      },
+      {
+        "file": "wide_square_p444.json",
+        "name": "wide_square_p444"
       }
     ]
   },
