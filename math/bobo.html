@@ -1019,20 +1019,43 @@
 
     // trails (nearest particles only) — independent of vector view now
     if (showTrails){
-      drawArr.forEach((p, i)=>{
+      // Trails are by far the most expensive thing drawn (up to 500 points
+      // per particle, every frame), so this loop is kept lean:
+      //  - world->screen is inlined (no object per point),
+      //  - a trail that lies entirely off screen is skipped,
+      //  - points that would move the pen less than half a pixel are
+      //    skipped (in the wide view many consecutive points share a pixel).
+      // The last point is always drawn so the trail still meets its particle.
+      const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
+      const PAD = 4, MIN_STEP = zoomLevel === 'wide' ? 1.5 : 0.5;
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2; // heavier up close, lighter far out
+      for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
-        if (!t) return;
+        if (!t || t.length < 2) continue;
+        // cheap bounds test in world units first
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let k = 0; k < t.length; k++){ const q = t[k];
+          if (q.x < minX) minX = q.x; if (q.x > maxX) maxX = q.x; if (q.y < minY) minY = q.y; if (q.y > maxY) maxY = q.y; }
+        if (ox + maxX*cell < -PAD || ox + minX*cell > W + PAD || oy - minY*cell < -PAD || oy - maxY*cell > H + PAD) continue;
         ctx.strokeStyle = colorForDraw(i);
-        ctx.globalAlpha = 0.3;
-        ctx.lineWidth = zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2; // heavier up close, lighter far out
         ctx.beginPath();
-        t.forEach((pt, idx)=>{
-          const {sx, sy} = worldToScreen(pt.x, pt.y);
-          if (idx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
-        });
+        let lx = ox + t[0].x*cell, ly = oy - t[0].y*cell;
+        const off = (x, y) => x < -PAD || x > W + PAD || y < -PAD || y > H + PAD;
+        let lOff = off(lx, ly);
+        ctx.moveTo(lx, ly);
+        const last = t.length - 1;
+        for (let k = 1; k <= last; k++){
+          const sx = ox + t[k].x*cell, sy = oy - t[k].y*cell;
+          if (k !== last && Math.abs(sx - lx) + Math.abs(sy - ly) < MIN_STEP) continue;
+          const sOff = off(sx, sy);
+          // a segment with both ends off screen can't be seen (steps are short), so lift the pen
+          if (lOff && sOff) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+          lx = sx; ly = sy; lOff = sOff;
+        }
         ctx.stroke();
-        ctx.globalAlpha = 1;
-      });
+      }
+      ctx.globalAlpha = 1;
     }
     if (showVectors){
       // a plain line segment per nearest particle from its current
