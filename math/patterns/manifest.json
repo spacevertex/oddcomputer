@@ -509,6 +509,10 @@
         "name": "rattle16e"
       },
       {
+        "file": "reflector_gallery.json",
+        "name": "reflector_gallery"
+      },
+      {
         "file": "shuffle_4_p168.json",
         "name": "shuffle_4_p168"
       },
@@ -559,14 +563,6 @@
       {
         "file": "whale_p172_5.json",
         "name": "whale_p172_5"
-      },
-      {
-        "file": "whale_p324_2.json",
-        "name": "whale_p324_2"
-      },
-      {
-        "file": "whale_p324_3.json",
-        "name": "whale_p324_3"
       }
     ]
   },
