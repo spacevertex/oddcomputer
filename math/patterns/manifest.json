@@ -7,16 +7,8 @@
         "name": "Glider_large_amplitude"
       },
       {
-        "file": "accel.json",
-        "name": "accel"
-      },
-      {
         "file": "glider_abs_sin_2.json",
         "name": "glider_abs_sin_2"
-      },
-      {
-        "file": "glider_and_pair_north.json",
-        "name": "glider_and_pair_north"
       },
       {
         "file": "glider_basic_2_n.json",
@@ -49,10 +41,6 @@
       {
         "file": "glider_down_n3_b0.json",
         "name": "glider_down_n3_b0"
-      },
-      {
-        "file": "glider_edit3.json",
-        "name": "glider_edit3"
       },
       {
         "file": "glider_ene.json",
@@ -125,10 +113,6 @@
       {
         "file": "glider_wsw_braid.json",
         "name": "glider_wsw_braid"
-      },
-      {
-        "file": "gliders.json",
-        "name": "gliders"
       },
       {
         "file": "pair_scales.json",
@@ -425,10 +409,6 @@
         "name": "final5_p30_2"
       },
       {
-        "file": "final5_p30_5.json",
-        "name": "final5_p30_5"
-      },
-      {
         "file": "final5_p30_6.json",
         "name": "final5_p30_6"
       },
@@ -471,10 +451,6 @@
       {
         "file": "ok.json",
         "name": "ok"
-      },
-      {
-        "file": "orthoAccel.json",
-        "name": "orthoAccel"
       },
       {
         "file": "p128.json",
