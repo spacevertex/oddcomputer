@@ -84,6 +84,12 @@
     white-space:nowrap;
   }
   #context-menu button:hover{ background: rgba(139,243,201,0.1); color:#8bf3c9; }
+  #context-menu .menu-title{
+    font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase;
+    color: var(--text-dim); padding:5px 16px 3px;
+  }
+  #context-menu button.current{ color:#8bf3c9; background: rgba(139,243,201,0.08); }
+  #context-menu button.current::after{ content:' ●'; font-size:8px; vertical-align:2px; }
   #context-menu button.danger:hover{ background: rgba(232,163,61,0.12); color:#e8a33d; }
 
   #save-dialog{
@@ -424,7 +430,7 @@
   <div id="context-menu"></div>
   <div id="placement-banner"></div>
   <div id="coord-indicator"></div>
-  <button id="btn-unzoom" style="display:none;">Unzoom</button>
+  <button id="btn-unzoom" style="display:none;">Default view</button>
 </div>
 
 <div id="console">
@@ -515,8 +521,16 @@
   let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
 
   let CELL; // px per world unit, normal view
-  let ZOOM_CELL; // px per world unit, zoomed view (30 units visible across the screen)
+  let ZOOM_CELL; // px per world unit, close view (30 units visible across the screen)
+  let WIDE_CELL; // px per world unit, wide view (1300 units visible across the screen)
+  // three zoom levels; 'zoomed' stays as shorthand for the close view
+  let zoomLevel = 'default';       // 'wide' | 'default' | 'close'
   let zoomed = false;
+  // drawn sizes shrink in the wide view so dense fields stay readable;
+  // click hit-testing (14px) is deliberately left at the normal size, so
+  // the tiny wide-view dots are still as easy to click as before
+  function dotScale(){ return zoomLevel === 'wide' ? 0.5 : 1; }
+  function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
   let showTrails = true;
   let showVectors = false;
   // camera center in world units, shared by both zoom levels. Zooming in
@@ -530,12 +544,20 @@
     const span = WORLD_MAX - WORLD_MIN; // 200
     CELL = Math.min(W, H) / span;
     ZOOM_CELL = Math.min(W, H) / 30;
+    WIDE_CELL = Math.min(W, H) / 1300;
   }
 
-  function setZoom(active, cx, cy){
-    zoomed = active;
-    if (active){ camX = cx; camY = cy; }
-    document.getElementById('btn-unzoom').style.display = zoomed ? 'block' : 'none';
+  // level: 'wide' | 'default' | 'close' (true/false still accepted: close / default).
+  // A centre, when given, moves the camera there; without one the view
+  // keeps its current centre.
+  function setZoom(level, cx, cy){
+    if (level === true) level = 'close';
+    if (level === false) level = 'default';
+    zoomLevel = level;
+    zoomed = (level === 'close');
+    if (cx !== undefined){ camX = cx; camY = cy; }
+    const btn = document.getElementById('btn-unzoom');
+    btn.style.display = level === 'default' ? 'none' : 'block';
     draw();
   }
 
@@ -930,7 +952,7 @@
   }
 
   function worldToScreen(x, y){
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     const cx = camX, cy = camY;
     return {
       sx: W/2 + (x - cx) * cell,
@@ -939,7 +961,7 @@
   }
 
   function screenToWorld(sx, sy){
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     const cx = camX, cy = camY;
     return {
       x: (sx - W/2) / cell + cx,
@@ -957,8 +979,9 @@
     // +-100 — so wide monitors (where the visible world width can exceed
     // the height, since scale is set by the smaller dimension) still get
     // full-width coverage instead of gridlines stopping partway across.
-    const gridStep = zoomed ? 1 : 10;
-    const activeCell = zoomed ? ZOOM_CELL : CELL;
+    // (every 50 in the wide view, so it stays a grid rather than a haze)
+    const gridStep = zoomLevel === 'close' ? 1 : zoomLevel === 'wide' ? 50 : 10;
+    const activeCell = viewCell();
     const halfWorldW = (W/2) / activeCell;
     const halfWorldH = (H/2) / activeCell;
     const gxStart = Math.floor((camX - halfWorldW) / gridStep) * gridStep;
@@ -996,20 +1019,43 @@
 
     // trails (nearest particles only) — independent of vector view now
     if (showTrails){
-      drawArr.forEach((p, i)=>{
+      // Trails are by far the most expensive thing drawn (up to 500 points
+      // per particle, every frame), so this loop is kept lean:
+      //  - world->screen is inlined (no object per point),
+      //  - a trail that lies entirely off screen is skipped,
+      //  - points that would move the pen less than half a pixel are
+      //    skipped (in the wide view many consecutive points share a pixel).
+      // The last point is always drawn so the trail still meets its particle.
+      const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
+      const PAD = 4, MIN_STEP = zoomLevel === 'wide' ? 1.5 : 0.5;
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2; // heavier up close, lighter far out
+      for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
-        if (!t) return;
+        if (!t || t.length < 2) continue;
+        // cheap bounds test in world units first
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let k = 0; k < t.length; k++){ const q = t[k];
+          if (q.x < minX) minX = q.x; if (q.x > maxX) maxX = q.x; if (q.y < minY) minY = q.y; if (q.y > maxY) maxY = q.y; }
+        if (ox + maxX*cell < -PAD || ox + minX*cell > W + PAD || oy - minY*cell < -PAD || oy - maxY*cell > H + PAD) continue;
         ctx.strokeStyle = colorForDraw(i);
-        ctx.globalAlpha = 0.3;
-        ctx.lineWidth = zoomed ? 2 : 1.2; // a touch heavier up close, where lattice steps are large
         ctx.beginPath();
-        t.forEach((pt, idx)=>{
-          const {sx, sy} = worldToScreen(pt.x, pt.y);
-          if (idx===0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
-        });
+        let lx = ox + t[0].x*cell, ly = oy - t[0].y*cell;
+        const off = (x, y) => x < -PAD || x > W + PAD || y < -PAD || y > H + PAD;
+        let lOff = off(lx, ly);
+        ctx.moveTo(lx, ly);
+        const last = t.length - 1;
+        for (let k = 1; k <= last; k++){
+          const sx = ox + t[k].x*cell, sy = oy - t[k].y*cell;
+          if (k !== last && Math.abs(sx - lx) + Math.abs(sy - ly) < MIN_STEP) continue;
+          const sOff = off(sx, sy);
+          // a segment with both ends off screen can't be seen (steps are short), so lift the pen
+          if (lOff && sOff) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+          lx = sx; ly = sy; lOff = sOff;
+        }
         ctx.stroke();
-        ctx.globalAlpha = 1;
-      });
+      }
+      ctx.globalAlpha = 1;
     }
     if (showVectors){
       // a plain line segment per nearest particle from its current
@@ -1036,14 +1082,14 @@
       if (p.type !== 'bobo') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
       ctx.fillStyle = activeBobosNow.has(i) ? '#c9d6dc' : colorForDraw(i);
-      const s = 5;
+      const s = 5 * dotScale();
       ctx.fillRect(sx-s/2, sy-s/2, s, s);
     });
 
     // nearest particles: glowing circles, drawn from a pre-rendered sprite
     // per color instead of recomputing shadowBlur (an expensive per-pixel
     // blur convolution) on every particle, every frame.
-    const glowSize = 18;
+    const glowSize = 18 * dotScale();
     drawArr.forEach((p, i)=>{
       if (p.type !== 'nearest') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
@@ -1061,7 +1107,7 @@
           ctx.strokeStyle = '#8bf3c9';
           ctx.lineWidth = 1.4;
           ctx.beginPath();
-          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.arc(sx, sy, 9 * dotScale(), 0, Math.PI*2);
           ctx.stroke();
         });
       } else if (watch.result){
@@ -1071,7 +1117,7 @@
           ctx.strokeStyle = '#e8a33d';
           ctx.lineWidth = 1.6;
           ctx.beginPath();
-          ctx.arc(sx, sy, 9, 0, Math.PI*2);
+          ctx.arc(sx, sy, 9 * dotScale(), 0, Math.PI*2);
           ctx.stroke();
         });
         watch.result.boboIndices.forEach(j=>{
@@ -1079,7 +1125,7 @@
           const {sx,sy} = worldToScreen(p.x, p.y);
           ctx.strokeStyle = '#e8a33d';
           ctx.lineWidth = 1.6;
-          ctx.strokeRect(sx-7, sy-7, 14, 14);
+          ctx.strokeRect(sx-7*dotScale(), sy-7*dotScale(), 14*dotScale(), 14*dotScale());
         });
       }
     }
@@ -1116,7 +1162,7 @@
         const {sx,sy} = worldToScreen(x,y);
         ctx.fillStyle = '#8bf3c9';
         ctx.beginPath();
-        ctx.arc(sx, sy, 4, 0, Math.PI*2);
+        ctx.arc(sx, sy, 4 * dotScale(), 0, Math.PI*2);
         ctx.fill();
       });
       pendingPattern.boboRel.forEach(p=>{
@@ -1124,7 +1170,8 @@
         const y = Math.round(placementCenterY + p.y);
         const {sx,sy} = worldToScreen(x,y);
         ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
-        ctx.fillRect(sx-2.5, sy-2.5, 5, 5);
+        const s = 5 * dotScale();
+        ctx.fillRect(sx-s/2, sy-s/2, s, s);
       });
       ctx.restore();
     }
@@ -1364,13 +1411,32 @@
     document.getElementById('ctx-zoom').addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
-      setZoom(true, particles[index].x, particles[index].y);
+      setZoom('close', particles[index].x, particles[index].y);
     });
     document.getElementById('ctx-delete').addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
       deleteParticle(index);
     });
+  }
+
+  // ---------- view menu (click on empty field) ----------
+  // Clicking anywhere that isn't a particle offers the three zoom levels,
+  // current one highlighted. Whichever you pick — including the current
+  // one — the view re-centres on the exact spot you clicked.
+  const VIEW_LEVELS = [['wide','Wide'],['default','Default'],['close','Close']];
+  function showViewMenu(sx, sy){
+    const w = screenToWorld(sx, sy);
+    contextMenuEl.innerHTML = '<div class="menu-title">View</div>' + VIEW_LEVELS.map(([lv,label])=>
+      `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('');
+    contextMenuEl.style.left = Math.min(sx + 10, W - 110) + 'px';
+    contextMenuEl.style.top = Math.min(sy + 10, H - 120) + 'px';
+    contextMenuEl.classList.add('visible');
+    contextMenuEl.querySelectorAll('button[data-level]').forEach(b=> b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      hideContextMenu();
+      setZoom(b.dataset.level, w.x, w.y);
+    }));
   }
 
   // ---------- pattern placement (click-to-position a loaded file) ----------
@@ -1822,7 +1888,7 @@
       canvas.classList.add('panning');
       hideContextMenu(); // it's anchored in screen space and would detach from its particle
     }
-    const cell = zoomed ? ZOOM_CELL : CELL;
+    const cell = viewCell();
     camX -= (e.clientX - panState.lastX) / cell;
     camY += (e.clientY - panState.lastY) / cell; // screen y is flipped relative to world y
     panState.lastX = e.clientX;
@@ -1881,10 +1947,10 @@
       const d = Math.hypot(sx-clickX, sy-clickY);
       if (d < bestD){ bestD = d; bestI = i; }
     });
-    hideContextMenu();
-    if (bestI !== -1 && bestD <= 14){
-      showContextMenu(bestI, clickX, clickY);
-    }
+    // a click while a menu is open just closes it
+    if (contextMenuEl.classList.contains('visible')){ hideContextMenu(); return; }
+    if (bestI !== -1 && bestD <= 14) showContextMenu(bestI, clickX, clickY);
+    else showViewMenu(clickX, clickY);
   });
   window.addEventListener('click', (e)=>{
     if (e.target === canvas) return; // canvas handles its own open/close above
@@ -2336,7 +2402,7 @@
   document.getElementById('btn-add-nearest').addEventListener('click', ()=> beginAdd('nearest'));
   document.getElementById('btn-add-bobo').addEventListener('click', ()=> beginAdd('bobo'));
 
-  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom(false));
+  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom('default'));
 
   document.getElementById('btn-trails-toggle').addEventListener('click', ()=>{
     showTrails = !showTrails;
