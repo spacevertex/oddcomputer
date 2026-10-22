@@ -734,5 +734,14 @@
         "name": "whale"
       }
     ]
+  },
+  {
+    "folder": "Transmitters",
+    "items": [
+      {
+        "file": "lazy_river.json",
+        "name": "lazy_river"
+      }
+    ]
   }
 ]
