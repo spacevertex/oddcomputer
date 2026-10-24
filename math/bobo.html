@@ -1763,8 +1763,10 @@
     addKind = kind;
     addPhase = 0;
     if (kind === 'marker') showMarkers = true; // never place one you can't see
-    placementCenterX = 0;
-    placementCenterY = 0;
+    // start at the middle of the current view (not the origin), so the
+    // candidate is on screen and ijkl moves something you can see
+    placementCenterX = Math.round(camX);
+    placementCenterY = Math.round(camY);
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     updatePlacementUI();
     updatePlacementIndicator();
@@ -1869,8 +1871,10 @@
       height: maxY - minY,
     };
     placementActive = true;
-    placementCenterX = 0;
-    placementCenterY = 0;
+    // like added particles, a loaded pattern (Load or Zoo) starts at the
+    // middle of the current view rather than the origin
+    placementCenterX = Math.round(camX);
+    placementCenterY = Math.round(camY);
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     updatePlacementUI();
     updatePlacementIndicator();
