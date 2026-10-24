@@ -370,10 +370,10 @@
   }
   .btn.primary:hover{ background: rgba(139,243,201,0.08); }
   /* trail length other than 500: a small dot in the Trails button's
-     top-left corner, in the label's own colour (green on, grey off) */
+     top-right corner, in the label's own colour (green on, grey off) */
   #btn-trails-toggle.trail-custom::before{
     content:'';
-    position:absolute; top:4px; left:4px;
+    position:absolute; top:4px; right:4px;
     width:4px; height:4px; border-radius:50%;
     background: currentColor;
     pointer-events:none;
@@ -466,7 +466,7 @@
 
 <div id="console">
   <button class="btn primary" id="btn-play" data-key="space">Play</button>
-  <button class="btn" id="btn-step" data-key=".">Step</button>
+  <button class="btn" id="btn-step" data-key="&gt;">Step</button>
   <button class="btn" id="btn-redo" data-key="R">Recall</button>
   <button class="btn" id="btn-quicksave" data-key="Q">Quicksave</button>
   <button class="btn" id="btn-save-full" data-key="S">Save</button>
@@ -478,7 +478,7 @@
   <button class="btn primary" id="btn-trails-toggle" data-key="T">Trails</button>
   <button class="btn" id="btn-vectors-toggle" data-key="V">Vectors</button>
   <div class="split-btn">
-    <button class="btn" id="btn-reset" data-key="M">Random</button>
+    <button class="btn" id="btn-reset" data-key="X">Random</button>
     <button class="btn" id="btn-random-settings" title="Random settings" aria-label="Random settings" aria-expanded="false">▴</button>
   </div>
   <input type="file" id="file-load" accept=".json" style="display:none;">
@@ -580,7 +580,7 @@
     const keep = trailKeep();
     if (t.length > keep) t.splice(0, t.length - keep);
   }
-  // markers: inert reference points for designing (x places one, comma
+  // markers: inert reference points for designing (m places one, comma
   // shows/hides them). They never move, are never anyone's nearest, and
   // are saved under an optional "marker" key that older pages ignore.
   let showMarkers = true;
@@ -1622,6 +1622,10 @@
       previewArr = liveClones.concat(ghostNearest, ghostBobo, ghostMarker);
     }
     previewTrails = previewArr.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
+    previewWatchIdx = [];
+    previewArr.forEach((p, i)=>{
+      if (Math.abs(p.x) <= PREVIEW_DIVERGE_LIMIT && Math.abs(p.y) <= PREVIEW_DIVERGE_LIMIT) previewWatchIdx.push(i);
+    });
     previewTickCount = 0;
     previewFrozen = false;
     previewActive = true;
@@ -1630,8 +1634,12 @@
     draw();
   }
 
+  // a runaway that was already far out before the preview started (a long
+  // random run can leave one past the limit) is ignored; otherwise it would
+  // freeze every preview on its first tick
+  let previewWatchIdx = [];
   function previewDiverged(){
-    return previewArr.some(p => Math.abs(p.x) > PREVIEW_DIVERGE_LIMIT || Math.abs(p.y) > PREVIEW_DIVERGE_LIMIT);
+    return previewWatchIdx.some(i => Math.abs(previewArr[i].x) > PREVIEW_DIVERGE_LIMIT || Math.abs(previewArr[i].y) > PREVIEW_DIVERGE_LIMIT);
   }
 
   // called from every path that would reposition, reshape, replace, or
@@ -2617,7 +2625,7 @@
   }
 
   // ---------- global keyboard shortcuts ----------
-  // Space plays/stops and '.' (the '>' key) steps.
+  // Space plays/stops and '.' or '>' steps.
   // Each key simply clicks its console button, so a shortcut always does
   // exactly what the button does (including any disabled state). h, x and
   // comma have no button and are handled directly below. None of
@@ -2631,9 +2639,10 @@
     n: 'btn-add-nearest',
     b: 'btn-add-bobo',
     r: 'btn-redo',
-    m: 'btn-reset',
+    x: 'btn-reset',
     ' ': 'btn-play',
     '.': 'btn-step',
+    '>': 'btn-step',
     q: 'btn-quicksave',
     s: 'btn-save-full',
     d: 'btn-load',
@@ -2653,11 +2662,11 @@
       return;
     }
     // keys with no console button: h = home (camera to 0,0, same zoom),
-    // x = place a marker, comma = show/hide markers, - and = (also _ and +)
+    // m = place a marker, comma = show/hide markers, - and = (also _ and +)
     // = shorter / longer trails
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
-    if (k === 'x'){ e.preventDefault(); beginAdd('marker'); return; }
+    if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ','){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
     if (k === '=' || k === '+'){ e.preventDefault(); stepTrailLength(1); return; }
