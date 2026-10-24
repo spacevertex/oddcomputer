@@ -149,6 +149,668 @@
     ]
   },
   {
+    "folder": "HalfTurn_large",
+    "items": [
+      {
+        "file": "halfturn_p1016.json",
+        "name": "halfturn_p1016"
+      },
+      {
+        "file": "halfturn_p102.json",
+        "name": "halfturn_p102"
+      },
+      {
+        "file": "halfturn_p102_b.json",
+        "name": "halfturn_p102_b"
+      },
+      {
+        "file": "halfturn_p106.json",
+        "name": "halfturn_p106"
+      },
+      {
+        "file": "halfturn_p106_b.json",
+        "name": "halfturn_p106_b"
+      },
+      {
+        "file": "halfturn_p1086.json",
+        "name": "halfturn_p1086"
+      },
+      {
+        "file": "halfturn_p1090.json",
+        "name": "halfturn_p1090"
+      },
+      {
+        "file": "halfturn_p1116.json",
+        "name": "halfturn_p1116"
+      },
+      {
+        "file": "halfturn_p1132.json",
+        "name": "halfturn_p1132"
+      },
+      {
+        "file": "halfturn_p148.json",
+        "name": "halfturn_p148"
+      },
+      {
+        "file": "halfturn_p148_b.json",
+        "name": "halfturn_p148_b"
+      },
+      {
+        "file": "halfturn_p152.json",
+        "name": "halfturn_p152"
+      },
+      {
+        "file": "halfturn_p152_b.json",
+        "name": "halfturn_p152_b"
+      },
+      {
+        "file": "halfturn_p160.json",
+        "name": "halfturn_p160"
+      },
+      {
+        "file": "halfturn_p166.json",
+        "name": "halfturn_p166"
+      },
+      {
+        "file": "halfturn_p168.json",
+        "name": "halfturn_p168"
+      },
+      {
+        "file": "halfturn_p168_b.json",
+        "name": "halfturn_p168_b"
+      },
+      {
+        "file": "halfturn_p168_c.json",
+        "name": "halfturn_p168_c"
+      },
+      {
+        "file": "halfturn_p1880.json",
+        "name": "halfturn_p1880"
+      },
+      {
+        "file": "halfturn_p210.json",
+        "name": "halfturn_p210"
+      },
+      {
+        "file": "halfturn_p210_b.json",
+        "name": "halfturn_p210_b"
+      },
+      {
+        "file": "halfturn_p2206.json",
+        "name": "halfturn_p2206"
+      },
+      {
+        "file": "halfturn_p228.json",
+        "name": "halfturn_p228"
+      },
+      {
+        "file": "halfturn_p230.json",
+        "name": "halfturn_p230"
+      },
+      {
+        "file": "halfturn_p232.json",
+        "name": "halfturn_p232"
+      },
+      {
+        "file": "halfturn_p236.json",
+        "name": "halfturn_p236"
+      },
+      {
+        "file": "halfturn_p238.json",
+        "name": "halfturn_p238"
+      },
+      {
+        "file": "halfturn_p238_b.json",
+        "name": "halfturn_p238_b"
+      },
+      {
+        "file": "halfturn_p240.json",
+        "name": "halfturn_p240"
+      },
+      {
+        "file": "halfturn_p242.json",
+        "name": "halfturn_p242"
+      },
+      {
+        "file": "halfturn_p246.json",
+        "name": "halfturn_p246"
+      },
+      {
+        "file": "halfturn_p258.json",
+        "name": "halfturn_p258"
+      },
+      {
+        "file": "halfturn_p274.json",
+        "name": "halfturn_p274"
+      },
+      {
+        "file": "halfturn_p274_b.json",
+        "name": "halfturn_p274_b"
+      },
+      {
+        "file": "halfturn_p276.json",
+        "name": "halfturn_p276"
+      },
+      {
+        "file": "halfturn_p282.json",
+        "name": "halfturn_p282"
+      },
+      {
+        "file": "halfturn_p290.json",
+        "name": "halfturn_p290"
+      },
+      {
+        "file": "halfturn_p302.json",
+        "name": "halfturn_p302"
+      },
+      {
+        "file": "halfturn_p306.json",
+        "name": "halfturn_p306"
+      },
+      {
+        "file": "halfturn_p3168.json",
+        "name": "halfturn_p3168"
+      },
+      {
+        "file": "halfturn_p320.json",
+        "name": "halfturn_p320"
+      },
+      {
+        "file": "halfturn_p328.json",
+        "name": "halfturn_p328"
+      },
+      {
+        "file": "halfturn_p328_b.json",
+        "name": "halfturn_p328_b"
+      },
+      {
+        "file": "halfturn_p342.json",
+        "name": "halfturn_p342"
+      },
+      {
+        "file": "halfturn_p370.json",
+        "name": "halfturn_p370"
+      },
+      {
+        "file": "halfturn_p372.json",
+        "name": "halfturn_p372"
+      },
+      {
+        "file": "halfturn_p378.json",
+        "name": "halfturn_p378"
+      },
+      {
+        "file": "halfturn_p384.json",
+        "name": "halfturn_p384"
+      },
+      {
+        "file": "halfturn_p394.json",
+        "name": "halfturn_p394"
+      },
+      {
+        "file": "halfturn_p408.json",
+        "name": "halfturn_p408"
+      },
+      {
+        "file": "halfturn_p432.json",
+        "name": "halfturn_p432"
+      },
+      {
+        "file": "halfturn_p458.json",
+        "name": "halfturn_p458"
+      },
+      {
+        "file": "halfturn_p458_b.json",
+        "name": "halfturn_p458_b"
+      },
+      {
+        "file": "halfturn_p468.json",
+        "name": "halfturn_p468"
+      },
+      {
+        "file": "halfturn_p480.json",
+        "name": "halfturn_p480"
+      },
+      {
+        "file": "halfturn_p498.json",
+        "name": "halfturn_p498"
+      },
+      {
+        "file": "halfturn_p504.json",
+        "name": "halfturn_p504"
+      },
+      {
+        "file": "halfturn_p522.json",
+        "name": "halfturn_p522"
+      },
+      {
+        "file": "halfturn_p530.json",
+        "name": "halfturn_p530"
+      },
+      {
+        "file": "halfturn_p564.json",
+        "name": "halfturn_p564"
+      },
+      {
+        "file": "halfturn_p5678.json",
+        "name": "halfturn_p5678"
+      },
+      {
+        "file": "halfturn_p572.json",
+        "name": "halfturn_p572"
+      },
+      {
+        "file": "halfturn_p580.json",
+        "name": "halfturn_p580"
+      },
+      {
+        "file": "halfturn_p598.json",
+        "name": "halfturn_p598"
+      },
+      {
+        "file": "halfturn_p632.json",
+        "name": "halfturn_p632"
+      },
+      {
+        "file": "halfturn_p650.json",
+        "name": "halfturn_p650"
+      },
+      {
+        "file": "halfturn_p654.json",
+        "name": "halfturn_p654"
+      },
+      {
+        "file": "halfturn_p70.json",
+        "name": "halfturn_p70"
+      },
+      {
+        "file": "halfturn_p810.json",
+        "name": "halfturn_p810"
+      },
+      {
+        "file": "halfturn_p826.json",
+        "name": "halfturn_p826"
+      },
+      {
+        "file": "halfturn_p88.json",
+        "name": "halfturn_p88"
+      },
+      {
+        "file": "halfturn_p90.json",
+        "name": "halfturn_p90"
+      },
+      {
+        "file": "halfturn_p904.json",
+        "name": "halfturn_p904"
+      },
+      {
+        "file": "halfturn_p946.json",
+        "name": "halfturn_p946"
+      }
+    ]
+  },
+  {
+    "folder": "HalfTurn_small",
+    "items": [
+      {
+        "file": "halfturn_p104.json",
+        "name": "halfturn_p104"
+      },
+      {
+        "file": "halfturn_p104_b.json",
+        "name": "halfturn_p104_b"
+      },
+      {
+        "file": "halfturn_p110.json",
+        "name": "halfturn_p110"
+      },
+      {
+        "file": "halfturn_p116.json",
+        "name": "halfturn_p116"
+      },
+      {
+        "file": "halfturn_p116_b.json",
+        "name": "halfturn_p116_b"
+      },
+      {
+        "file": "halfturn_p128.json",
+        "name": "halfturn_p128"
+      },
+      {
+        "file": "halfturn_p140.json",
+        "name": "halfturn_p140"
+      },
+      {
+        "file": "halfturn_p142.json",
+        "name": "halfturn_p142"
+      },
+      {
+        "file": "halfturn_p144.json",
+        "name": "halfturn_p144"
+      },
+      {
+        "file": "halfturn_p144_b.json",
+        "name": "halfturn_p144_b"
+      },
+      {
+        "file": "halfturn_p144_c.json",
+        "name": "halfturn_p144_c"
+      },
+      {
+        "file": "halfturn_p146.json",
+        "name": "halfturn_p146"
+      },
+      {
+        "file": "halfturn_p158.json",
+        "name": "halfturn_p158"
+      },
+      {
+        "file": "halfturn_p172.json",
+        "name": "halfturn_p172"
+      },
+      {
+        "file": "halfturn_p172_b.json",
+        "name": "halfturn_p172_b"
+      },
+      {
+        "file": "halfturn_p174.json",
+        "name": "halfturn_p174"
+      },
+      {
+        "file": "halfturn_p180.json",
+        "name": "halfturn_p180"
+      },
+      {
+        "file": "halfturn_p180_b.json",
+        "name": "halfturn_p180_b"
+      },
+      {
+        "file": "halfturn_p188.json",
+        "name": "halfturn_p188"
+      },
+      {
+        "file": "halfturn_p190.json",
+        "name": "halfturn_p190"
+      },
+      {
+        "file": "halfturn_p192.json",
+        "name": "halfturn_p192"
+      },
+      {
+        "file": "halfturn_p198.json",
+        "name": "halfturn_p198"
+      },
+      {
+        "file": "halfturn_p20.json",
+        "name": "halfturn_p20"
+      },
+      {
+        "file": "halfturn_p200.json",
+        "name": "halfturn_p200"
+      },
+      {
+        "file": "halfturn_p20_b.json",
+        "name": "halfturn_p20_b"
+      },
+      {
+        "file": "halfturn_p20_c.json",
+        "name": "halfturn_p20_c"
+      },
+      {
+        "file": "halfturn_p20_d.json",
+        "name": "halfturn_p20_d"
+      },
+      {
+        "file": "halfturn_p20_e.json",
+        "name": "halfturn_p20_e"
+      },
+      {
+        "file": "halfturn_p20_f.json",
+        "name": "halfturn_p20_f"
+      },
+      {
+        "file": "halfturn_p238.json",
+        "name": "halfturn_p238"
+      },
+      {
+        "file": "halfturn_p24.json",
+        "name": "halfturn_p24"
+      },
+      {
+        "file": "halfturn_p242.json",
+        "name": "halfturn_p242"
+      },
+      {
+        "file": "halfturn_p24_b.json",
+        "name": "halfturn_p24_b"
+      },
+      {
+        "file": "halfturn_p24_c.json",
+        "name": "halfturn_p24_c"
+      },
+      {
+        "file": "halfturn_p26.json",
+        "name": "halfturn_p26"
+      },
+      {
+        "file": "halfturn_p260.json",
+        "name": "halfturn_p260"
+      },
+      {
+        "file": "halfturn_p264.json",
+        "name": "halfturn_p264"
+      },
+      {
+        "file": "halfturn_p266.json",
+        "name": "halfturn_p266"
+      },
+      {
+        "file": "halfturn_p28.json",
+        "name": "halfturn_p28"
+      },
+      {
+        "file": "halfturn_p30.json",
+        "name": "halfturn_p30"
+      },
+      {
+        "file": "halfturn_p30_b.json",
+        "name": "halfturn_p30_b"
+      },
+      {
+        "file": "halfturn_p36.json",
+        "name": "halfturn_p36"
+      },
+      {
+        "file": "halfturn_p38.json",
+        "name": "halfturn_p38"
+      },
+      {
+        "file": "halfturn_p40.json",
+        "name": "halfturn_p40"
+      },
+      {
+        "file": "halfturn_p40_b.json",
+        "name": "halfturn_p40_b"
+      },
+      {
+        "file": "halfturn_p418.json",
+        "name": "halfturn_p418"
+      },
+      {
+        "file": "halfturn_p42.json",
+        "name": "halfturn_p42"
+      },
+      {
+        "file": "halfturn_p42_b.json",
+        "name": "halfturn_p42_b"
+      },
+      {
+        "file": "halfturn_p42_c.json",
+        "name": "halfturn_p42_c"
+      },
+      {
+        "file": "halfturn_p44.json",
+        "name": "halfturn_p44"
+      },
+      {
+        "file": "halfturn_p46.json",
+        "name": "halfturn_p46"
+      },
+      {
+        "file": "halfturn_p48.json",
+        "name": "halfturn_p48"
+      },
+      {
+        "file": "halfturn_p50.json",
+        "name": "halfturn_p50"
+      },
+      {
+        "file": "halfturn_p52.json",
+        "name": "halfturn_p52"
+      },
+      {
+        "file": "halfturn_p54.json",
+        "name": "halfturn_p54"
+      },
+      {
+        "file": "halfturn_p54_b.json",
+        "name": "halfturn_p54_b"
+      },
+      {
+        "file": "halfturn_p54_c.json",
+        "name": "halfturn_p54_c"
+      },
+      {
+        "file": "halfturn_p54_d.json",
+        "name": "halfturn_p54_d"
+      },
+      {
+        "file": "halfturn_p54_e.json",
+        "name": "halfturn_p54_e"
+      },
+      {
+        "file": "halfturn_p54_f.json",
+        "name": "halfturn_p54_f"
+      },
+      {
+        "file": "halfturn_p56.json",
+        "name": "halfturn_p56"
+      },
+      {
+        "file": "halfturn_p60.json",
+        "name": "halfturn_p60"
+      },
+      {
+        "file": "halfturn_p60_b.json",
+        "name": "halfturn_p60_b"
+      },
+      {
+        "file": "halfturn_p60_c.json",
+        "name": "halfturn_p60_c"
+      },
+      {
+        "file": "halfturn_p60_d.json",
+        "name": "halfturn_p60_d"
+      },
+      {
+        "file": "halfturn_p60_e.json",
+        "name": "halfturn_p60_e"
+      },
+      {
+        "file": "halfturn_p60_f.json",
+        "name": "halfturn_p60_f"
+      },
+      {
+        "file": "halfturn_p62.json",
+        "name": "halfturn_p62"
+      },
+      {
+        "file": "halfturn_p64.json",
+        "name": "halfturn_p64"
+      },
+      {
+        "file": "halfturn_p68.json",
+        "name": "halfturn_p68"
+      },
+      {
+        "file": "halfturn_p70.json",
+        "name": "halfturn_p70"
+      },
+      {
+        "file": "halfturn_p72.json",
+        "name": "halfturn_p72"
+      },
+      {
+        "file": "halfturn_p72_b.json",
+        "name": "halfturn_p72_b"
+      },
+      {
+        "file": "halfturn_p72_c.json",
+        "name": "halfturn_p72_c"
+      },
+      {
+        "file": "halfturn_p74.json",
+        "name": "halfturn_p74"
+      },
+      {
+        "file": "halfturn_p74_b.json",
+        "name": "halfturn_p74_b"
+      },
+      {
+        "file": "halfturn_p78.json",
+        "name": "halfturn_p78"
+      },
+      {
+        "file": "halfturn_p80.json",
+        "name": "halfturn_p80"
+      },
+      {
+        "file": "halfturn_p82.json",
+        "name": "halfturn_p82"
+      },
+      {
+        "file": "halfturn_p82_b.json",
+        "name": "halfturn_p82_b"
+      },
+      {
+        "file": "halfturn_p82_c.json",
+        "name": "halfturn_p82_c"
+      },
+      {
+        "file": "halfturn_p82_d.json",
+        "name": "halfturn_p82_d"
+      },
+      {
+        "file": "halfturn_p86.json",
+        "name": "halfturn_p86"
+      },
+      {
+        "file": "halfturn_p86_b.json",
+        "name": "halfturn_p86_b"
+      },
+      {
+        "file": "halfturn_p88.json",
+        "name": "halfturn_p88"
+      },
+      {
+        "file": "halfturn_p90.json",
+        "name": "halfturn_p90"
+      },
+      {
+        "file": "halfturn_p96.json",
+        "name": "halfturn_p96"
+      },
+      {
+        "file": "halfturn_p98.json",
+        "name": "halfturn_p98"
+      },
+      {
+        "file": "halfturn_p98_b.json",
+        "name": "halfturn_p98_b"
+      }
+    ]
+  },
+  {
     "folder": "Orbiters",
     "items": [
       {
@@ -174,6 +836,10 @@
       {
         "file": "giant_octagon_p768.json",
         "name": "giant_octagon_p768"
+      },
+      {
+        "file": "knotted_diamond_p356.json",
+        "name": "knotted_diamond_p356"
       },
       {
         "file": "looped_diamond_p264.json",
@@ -202,6 +868,397 @@
       {
         "file": "wide_square_p444.json",
         "name": "wide_square_p444"
+      }
+    ]
+  },
+  {
+    "folder": "Orbiters_new",
+    "items": [
+      {
+        "file": "orbiter_p112.json",
+        "name": "orbiter_p112"
+      },
+      {
+        "file": "orbiter_p120.json",
+        "name": "orbiter_p120"
+      },
+      {
+        "file": "orbiter_p120_b.json",
+        "name": "orbiter_p120_b"
+      },
+      {
+        "file": "orbiter_p124.json",
+        "name": "orbiter_p124"
+      },
+      {
+        "file": "orbiter_p1248.json",
+        "name": "orbiter_p1248"
+      },
+      {
+        "file": "orbiter_p232.json",
+        "name": "orbiter_p232"
+      },
+      {
+        "file": "orbiter_p300.json",
+        "name": "orbiter_p300"
+      },
+      {
+        "file": "orbiter_p340.json",
+        "name": "orbiter_p340"
+      },
+      {
+        "file": "orbiter_p3400.json",
+        "name": "orbiter_p3400"
+      },
+      {
+        "file": "orbiter_p368.json",
+        "name": "orbiter_p368"
+      },
+      {
+        "file": "orbiter_p376.json",
+        "name": "orbiter_p376"
+      },
+      {
+        "file": "orbiter_p384.json",
+        "name": "orbiter_p384"
+      },
+      {
+        "file": "orbiter_p44.json",
+        "name": "orbiter_p44"
+      },
+      {
+        "file": "orbiter_p464.json",
+        "name": "orbiter_p464"
+      },
+      {
+        "file": "orbiter_p504.json",
+        "name": "orbiter_p504"
+      },
+      {
+        "file": "orbiter_p528.json",
+        "name": "orbiter_p528"
+      },
+      {
+        "file": "orbiter_p596.json",
+        "name": "orbiter_p596"
+      },
+      {
+        "file": "orbiter_p644.json",
+        "name": "orbiter_p644"
+      },
+      {
+        "file": "orbiter_p676.json",
+        "name": "orbiter_p676"
+      },
+      {
+        "file": "orbiter_p744.json",
+        "name": "orbiter_p744"
+      },
+      {
+        "file": "orbiter_p76.json",
+        "name": "orbiter_p76"
+      },
+      {
+        "file": "orbiter_p760.json",
+        "name": "orbiter_p760"
+      },
+      {
+        "file": "orbiter_p956.json",
+        "name": "orbiter_p956"
+      }
+    ]
+  },
+  {
+    "folder": "Osc3_asymmetric",
+    "items": [
+      {
+        "file": "asym_p100.json",
+        "name": "asym_p100"
+      },
+      {
+        "file": "asym_p112.json",
+        "name": "asym_p112"
+      },
+      {
+        "file": "asym_p112_b.json",
+        "name": "asym_p112_b"
+      },
+      {
+        "file": "asym_p112_c.json",
+        "name": "asym_p112_c"
+      },
+      {
+        "file": "asym_p140.json",
+        "name": "asym_p140"
+      },
+      {
+        "file": "asym_p220.json",
+        "name": "asym_p220"
+      },
+      {
+        "file": "asym_p240.json",
+        "name": "asym_p240"
+      },
+      {
+        "file": "asym_p300.json",
+        "name": "asym_p300"
+      },
+      {
+        "file": "asym_p36.json",
+        "name": "asym_p36"
+      },
+      {
+        "file": "asym_p40.json",
+        "name": "asym_p40"
+      },
+      {
+        "file": "asym_p460.json",
+        "name": "asym_p460"
+      },
+      {
+        "file": "asym_p60.json",
+        "name": "asym_p60"
+      },
+      {
+        "file": "asym_p60_b.json",
+        "name": "asym_p60_b"
+      },
+      {
+        "file": "asym_p714.json",
+        "name": "asym_p714"
+      },
+      {
+        "file": "asym_p72.json",
+        "name": "asym_p72"
+      },
+      {
+        "file": "asym_p72_b.json",
+        "name": "asym_p72_b"
+      },
+      {
+        "file": "asym_p72_c.json",
+        "name": "asym_p72_c"
+      },
+      {
+        "file": "asym_p72_d.json",
+        "name": "asym_p72_d"
+      },
+      {
+        "file": "asym_p88.json",
+        "name": "asym_p88"
+      },
+      {
+        "file": "asym_p96.json",
+        "name": "asym_p96"
+      }
+    ]
+  },
+  {
+    "folder": "Osc3_symmetric",
+    "items": [
+      {
+        "file": "osc3_p1008.json",
+        "name": "osc3_p1008"
+      },
+      {
+        "file": "osc3_p1194.json",
+        "name": "osc3_p1194"
+      },
+      {
+        "file": "osc3_p128.json",
+        "name": "osc3_p128"
+      },
+      {
+        "file": "osc3_p132.json",
+        "name": "osc3_p132"
+      },
+      {
+        "file": "osc3_p148.json",
+        "name": "osc3_p148"
+      },
+      {
+        "file": "osc3_p152.json",
+        "name": "osc3_p152"
+      },
+      {
+        "file": "osc3_p152_b.json",
+        "name": "osc3_p152_b"
+      },
+      {
+        "file": "osc3_p16.json",
+        "name": "osc3_p16"
+      },
+      {
+        "file": "osc3_p164.json",
+        "name": "osc3_p164"
+      },
+      {
+        "file": "osc3_p1640.json",
+        "name": "osc3_p1640"
+      },
+      {
+        "file": "osc3_p16_b.json",
+        "name": "osc3_p16_b"
+      },
+      {
+        "file": "osc3_p1900.json",
+        "name": "osc3_p1900"
+      },
+      {
+        "file": "osc3_p1916.json",
+        "name": "osc3_p1916"
+      },
+      {
+        "file": "osc3_p196.json",
+        "name": "osc3_p196"
+      },
+      {
+        "file": "osc3_p20.json",
+        "name": "osc3_p20"
+      },
+      {
+        "file": "osc3_p208.json",
+        "name": "osc3_p208"
+      },
+      {
+        "file": "osc3_p20_b.json",
+        "name": "osc3_p20_b"
+      },
+      {
+        "file": "osc3_p20_c.json",
+        "name": "osc3_p20_c"
+      },
+      {
+        "file": "osc3_p20_d.json",
+        "name": "osc3_p20_d"
+      },
+      {
+        "file": "osc3_p20_e.json",
+        "name": "osc3_p20_e"
+      },
+      {
+        "file": "osc3_p2262.json",
+        "name": "osc3_p2262"
+      },
+      {
+        "file": "osc3_p24.json",
+        "name": "osc3_p24"
+      },
+      {
+        "file": "osc3_p2640.json",
+        "name": "osc3_p2640"
+      },
+      {
+        "file": "osc3_p274.json",
+        "name": "osc3_p274"
+      },
+      {
+        "file": "osc3_p32.json",
+        "name": "osc3_p32"
+      },
+      {
+        "file": "osc3_p320.json",
+        "name": "osc3_p320"
+      },
+      {
+        "file": "osc3_p380.json",
+        "name": "osc3_p380"
+      },
+      {
+        "file": "osc3_p380_b.json",
+        "name": "osc3_p380_b"
+      },
+      {
+        "file": "osc3_p40.json",
+        "name": "osc3_p40"
+      },
+      {
+        "file": "osc3_p40_b.json",
+        "name": "osc3_p40_b"
+      },
+      {
+        "file": "osc3_p42.json",
+        "name": "osc3_p42"
+      },
+      {
+        "file": "osc3_p432.json",
+        "name": "osc3_p432"
+      },
+      {
+        "file": "osc3_p48.json",
+        "name": "osc3_p48"
+      },
+      {
+        "file": "osc3_p48_b.json",
+        "name": "osc3_p48_b"
+      },
+      {
+        "file": "osc3_p536.json",
+        "name": "osc3_p536"
+      },
+      {
+        "file": "osc3_p544.json",
+        "name": "osc3_p544"
+      },
+      {
+        "file": "osc3_p560.json",
+        "name": "osc3_p560"
+      },
+      {
+        "file": "osc3_p68.json",
+        "name": "osc3_p68"
+      },
+      {
+        "file": "osc3_p72.json",
+        "name": "osc3_p72"
+      },
+      {
+        "file": "osc3_p788.json",
+        "name": "osc3_p788"
+      },
+      {
+        "file": "osc3_p8.json",
+        "name": "osc3_p8"
+      },
+      {
+        "file": "osc3_p80.json",
+        "name": "osc3_p80"
+      },
+      {
+        "file": "osc3_p84.json",
+        "name": "osc3_p84"
+      },
+      {
+        "file": "osc3_p8_b.json",
+        "name": "osc3_p8_b"
+      },
+      {
+        "file": "osc3_p8_c.json",
+        "name": "osc3_p8_c"
+      },
+      {
+        "file": "osc3_p8_d.json",
+        "name": "osc3_p8_d"
+      },
+      {
+        "file": "osc3_p8_e.json",
+        "name": "osc3_p8_e"
+      },
+      {
+        "file": "osc3_p8_f.json",
+        "name": "osc3_p8_f"
+      },
+      {
+        "file": "osc3_p8_g.json",
+        "name": "osc3_p8_g"
+      },
+      {
+        "file": "osc3_p96.json",
+        "name": "osc3_p96"
+      },
+      {
+        "file": "osc3_p990.json",
+        "name": "osc3_p990"
       }
     ]
   },
@@ -495,6 +1552,10 @@
       {
         "file": "shuffle_4_p168.json",
         "name": "shuffle_4_p168"
+      },
+      {
+        "file": "six_shakers.json",
+        "name": "six_shakers"
       },
       {
         "file": "slight_degen.json",
