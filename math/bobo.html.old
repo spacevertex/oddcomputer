@@ -31,6 +31,10 @@
   #stage{ position:relative; flex:1 1 auto; min-height:0; }
   canvas{ display:block; width:100%; height:100%; cursor:pointer; }
   canvas.placing{ cursor: crosshair; }
+  /* keyboard fine-tuning (ijkl, o, u, ;, p) swaps the crosshair for a faint
+     one so it doesn't cover the spot being placed; any mouse movement
+     brings the normal crosshair back */
+  canvas.placing.cursor-faded{ cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='25' height='25'%3E%3Cg stroke='%23dfe8e2' stroke-opacity='0.18' stroke-width='1'%3E%3Cline x1='12.5' y1='0' x2='12.5' y2='25'/%3E%3Cline x1='0' y1='12.5' x2='25' y2='12.5'/%3E%3C/g%3E%3C/svg%3E") 12 12, crosshair; }
   canvas.panning{ cursor: grabbing; }
   canvas{ touch-action:none; } /* touch drags pan the field instead of scrolling the page */
 
@@ -533,6 +537,12 @@
   function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
   let showTrails = true;
   let showVectors = false;
+  // markers: inert reference points for designing (x places one, comma
+  // shows/hides them). They never move, are never anyone's nearest, and
+  // are saved under an optional "marker" key that older pages ignore.
+  let showMarkers = true;
+  const MARKER_COLOR = '#dfe8e2';
+  const MARKER_ALPHA = 0.35;
   // camera center in world units, shared by both zoom levels. Zooming in
   // (context menu) jumps it to the clicked particle — a static snapshot,
   // not tracked. Dragging the canvas pans it at either zoom level.
@@ -646,11 +656,16 @@
   // so 'Recall' can bring back conditions that led somewhere interesting
   // before a nuisance particle (or a deletion) disrupted it.
   let lastNewSnapshot = null;
+  // camera at the moment of the last Quicksave ({camX, camY, zoomLevel}),
+  // restored by Recall. Random leaves it null: Recall after Random brings
+  // back the particles but leaves the view wherever it is.
+  let lastNewView = null;
 
   function reset(){
     revertPreview(); // Roll replaces the live particles array; a running preview's snapshot would otherwise go stale under it
     spawn();
     lastNewSnapshot = particles.map(p => ({...p}));
+    lastNewView = null;
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     watch = null;
@@ -667,6 +682,7 @@
   // Trails aren't stored; Recall restarts them fresh, same as after Roll.
   function quicksave(){
     lastNewSnapshot = particles.map(p => ({...p}));
+    lastNewView = { camX, camY, zoomLevel };
   }
 
   function redo(){
@@ -681,7 +697,17 @@
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     updateHud();
-    draw();
+    if (lastNewView) setZoom(lastNewView.zoomLevel, lastNewView.camX, lastNewView.camY);
+    if (placementActive || addActive) updatePlacementIndicator(); // re-anchor the coord label (also draws)
+    else draw();
+  }
+
+  // h: send the camera home to 0,0 without touching the field or the zoom level
+  function goHome(){
+    camX = 0; camY = 0;
+    hideContextMenu(); // anchored in screen space; would detach from its target
+    if (placementActive || addActive) updatePlacementIndicator();
+    else draw();
   }
 
   function sign(n){ return n > 0 ? 1 : (n < 0 ? -1 : 0); }
@@ -697,6 +723,7 @@
     for (let j=0;j<arr.length;j++){
       if (j===i) continue;
       const q = arr[j];
+      if (q.type === 'marker') continue; // markers are reference points only: never a neighbor
       const dx = q.x - p.x, dy = q.y - p.y;
       const d2 = dx*dx + dy*dy;
       if (d2 < bestDistSq){ bestDistSq = d2; tied = [j]; }
@@ -885,6 +912,7 @@
     const cancelBtn = document.getElementById('save-cancel');
 
     function cleanup(){
+      saveFilenameEl.blur(); // otherwise the hidden field keeps focus and swallows every keyboard shortcut
       saveDialogEl.classList.remove('visible');
       confirmBtn.removeEventListener('click', onConfirmClick);
       cancelBtn.removeEventListener('click', onCancelClick);
@@ -1074,6 +1102,24 @@
       });
     }
 
+    // markers: faint X shapes, drawn under everything that moves
+    if (showMarkers){
+      const m = 4 * dotScale();
+      ctx.lineWidth = 1.5;
+      drawArr.forEach((p, i)=>{
+        if (p.type !== 'marker') return;
+        const {sx, sy} = worldToScreen(p.x, p.y);
+        const ghost = previewActive && i >= previewLiveCount;
+        ctx.strokeStyle = ghost ? GHOST_COLOR : MARKER_COLOR;
+        ctx.globalAlpha = MARKER_ALPHA;
+        ctx.beginPath();
+        ctx.moveTo(sx-m, sy-m); ctx.lineTo(sx+m, sy+m);
+        ctx.moveTo(sx+m, sy-m); ctx.lineTo(sx-m, sy+m);
+        ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+    }
+
     // bobo particles: static squares, no glow. Slightly brighter grey when
     // currently serving as a (tied-)nearest neighbor for some particle,
     // computed fresh from the positions actually being drawn this frame.
@@ -1146,8 +1192,9 @@
         placementCenterY - pendingPattern.height/2
       );
       ctx.save();
+      const ghostAlpha = 0.5;
       ctx.strokeStyle = '#8bf3c9';
-      ctx.globalAlpha = 0.5;
+      ctx.globalAlpha = ghostAlpha;
       ctx.setLineDash([4,4]);
       ctx.lineWidth = 1.2;
       ctx.strokeRect(
@@ -1155,7 +1202,20 @@
         Math.abs(boxBR.sx-boxTL.sx), Math.abs(boxBR.sy-boxTL.sy)
       );
       ctx.setLineDash([]);
-      ctx.globalAlpha = 0.5;
+      if (showMarkers){
+        const m = 4 * dotScale();
+        ctx.strokeStyle = '#8bf3c9';
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = ghostAlpha * 0.7;
+        pendingPattern.markerRel.forEach(p=>{
+          const {sx,sy} = worldToScreen(Math.round(placementCenterX + p.x), Math.round(placementCenterY + p.y));
+          ctx.beginPath();
+          ctx.moveTo(sx-m, sy-m); ctx.lineTo(sx+m, sy+m);
+          ctx.moveTo(sx+m, sy-m); ctx.lineTo(sx-m, sy+m);
+          ctx.stroke();
+        });
+      }
+      ctx.globalAlpha = ghostAlpha;
       pendingPattern.nearestRel.forEach(p=>{
         const x = Math.round(placementCenterX + p.x);
         const y = Math.round(placementCenterY + p.y);
@@ -1182,13 +1242,21 @@
     // and shows a velocity-vector preview, styled exactly like the vector
     // view's line segments — no arrowhead, since it's a preview of what
     // the created particle's velocity line will actually look like.
-    if (addActive){
+    if (addActive && !previewActive){
       ctx.save();
       ctx.globalAlpha = 0.65;
       if (addKind === 'bobo'){
         const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
         ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
         ctx.fillRect(sx-3.5, sy-3.5, 7, 7);
+      } else if (addKind === 'marker'){
+        const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
+        ctx.strokeStyle = '#8bf3c9';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(sx-5, sy-5); ctx.lineTo(sx+5, sy+5);
+        ctx.moveTo(sx+5, sy-5); ctx.lineTo(sx-5, sy+5);
+        ctx.stroke();
       } else if (addPhase === 0){
         const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
         ctx.fillStyle = '#8bf3c9';
@@ -1471,24 +1539,44 @@
   const PREVIEW_DIVERGE_LIMIT = 100000;
   const GHOST_COLOR = '#8bf3c9';
 
+  // the single particle being added by hand, as preview entries: a new
+  // nearest previews motionless until its velocity has been chosen, then
+  // with the velocity currently pointed at; a bobo or marker just sits
+  function addGhostEntries(){
+    if (addKind === 'bobo') return [{ type:'bobo', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
+    if (addKind === 'marker') return [{ type:'marker', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
+    if (addPhase === 0) return [{ type:'nearest', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
+    return [{ type:'nearest', x:addX, y:addY, vx:placementCenterX - addX, vy:placementCenterY - addY }];
+  }
+
   function startPreview(){
-    if (!placementActive || !pendingPattern) return;
+    const forAdd = addActive && !placementActive;
+    if (!forAdd && (!placementActive || !pendingPattern)) return;
     // belt and suspenders: entering a preview always pauses the real sim,
     // even in the unlikely case placement began while it was running
     if (playing){ playing = false; playBtn.textContent = 'Play'; }
     const liveClones = particles.map(p => ({ type:p.type, x:p.x, y:p.y, vx:p.vx, vy:p.vy, color:p.color }));
-    const ghostNearest = pendingPattern.nearestRel.map(p => ({
-      type:'nearest',
-      x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
-      vx: p.vx, vy: p.vy,
-    }));
-    const ghostBobo = pendingPattern.boboRel.map(p => ({
-      type:'bobo',
-      x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
-      vx: 0, vy: 0,
-    }));
     previewLiveCount = liveClones.length;
-    previewArr = liveClones.concat(ghostNearest, ghostBobo);
+    if (forAdd){
+      previewArr = liveClones.concat(addGhostEntries());
+    } else {
+      const ghostNearest = pendingPattern.nearestRel.map(p => ({
+        type:'nearest',
+        x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
+        vx: p.vx, vy: p.vy,
+      }));
+      const ghostBobo = pendingPattern.boboRel.map(p => ({
+        type:'bobo',
+        x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
+        vx: 0, vy: 0,
+      }));
+      const ghostMarker = pendingPattern.markerRel.map(p => ({
+        type:'marker',
+        x: Math.round(placementCenterX + p.x), y: Math.round(placementCenterY + p.y),
+        vx: 0, vy: 0,
+      }));
+      previewArr = liveClones.concat(ghostNearest, ghostBobo, ghostMarker);
+    }
     previewTrails = previewArr.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     previewTickCount = 0;
     previewFrozen = false;
@@ -1589,16 +1677,23 @@
           ? ' &middot; pre-rolled ' + pendingPattern.preRollTicks + ' tick' + (pendingPattern.preRollTicks===1?'':'s')
           : '';
         banner.innerHTML = 'Click, or ijkl + Enter, to place pattern &middot; p to preview &middot; o to rotate, u to mirror &middot; ; to pre-roll' + preRollNote + ' <span class="hint">(Esc to cancel)</span>';
+      } else if (previewActive){
+        const what = addKind === 'nearest' && addPhase === 0 ? 'Previewing, starting at rest' : 'Previewing';
+        banner.innerHTML = (previewFrozen ? 'Preview reached its safety limit' : what)
+          + ' &middot; move, ijkl, or p to replay <span class="hint">(Enter to '
+          + (addKind === 'nearest' && addPhase === 0 ? 'fix this position' : 'place') + ', Esc to cancel)</span>';
       } else if (addKind === 'bobo'){
-        banner.innerHTML = 'Click, or ijkl + Enter, to place new bobo <span class="hint">(Esc to cancel)</span>';
+        banner.innerHTML = 'Click, or ijkl + Enter, to place new bobo &middot; p to preview <span class="hint">(Esc to cancel)</span>';
+      } else if (addKind === 'marker'){
+        banner.innerHTML = 'Click, or ijkl + Enter, to place a marker <span class="hint">(Esc to cancel, comma shows/hides markers)</span>';
       } else {
         banner.innerHTML = addPhase === 0
-          ? 'Click, or ijkl + Enter, to place new particle <span class="hint">(Esc to cancel)</span>'
-          : 'Click, or ijkl + Enter, to set its velocity <span class="hint">(Esc to cancel)</span>';
+          ? 'Click, or ijkl + Enter, to place new particle &middot; p to preview it starting at rest <span class="hint">(Esc to cancel)</span>'
+          : 'Click, or ijkl + Enter, to set its velocity &middot; p to preview <span class="hint">(Esc to cancel)</span>';
       }
     } else {
       banner.classList.remove('visible');
-      canvas.classList.remove('placing');
+      canvas.classList.remove('placing', 'cursor-faded');
       stepBtn.disabled = false;
       playBtnEl.disabled = false;
       document.getElementById('coord-indicator').classList.remove('visible');
@@ -1615,6 +1710,7 @@
     addActive = true;
     addKind = kind;
     addPhase = 0;
+    if (kind === 'marker') showMarkers = true; // never place one you can't see
     placementCenterX = 0;
     placementCenterY = 0;
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
@@ -1623,6 +1719,14 @@
   }
 
   function advanceAdd(x, y){
+    if (addKind === 'marker'){
+      particles.push({ type:'marker', x, y, vx:0, vy:0 });
+      trails.push(null);
+      addActive = false;
+      updatePlacementUI();
+      draw();
+      return;
+    }
     if (addKind === 'bobo'){
       const boboColor = getComputedStyle(document.documentElement).getPropertyValue('--bobo').trim();
       particles.push({ type:'bobo', x, y, vx:0, vy:0, color: boboColor });
@@ -1652,6 +1756,7 @@
   }
 
   function cancelAdd(){
+    revertPreview();
     addActive = false;
     addPhase = 0;
     updatePlacementUI();
@@ -1673,7 +1778,8 @@
 
     const nearestIn = data.nearest || [];
     const boboIn = data.bobo || [];
-    const allPoints = nearestIn.concat(boboIn);
+    const markerIn = Array.isArray(data.marker) ? data.marker : []; // optional; absent in most files
+    const allPoints = nearestIn.concat(boboIn, markerIn);
     if (allPoints.length === 0){
       alert('That file has no particles to place.');
       return;
@@ -1693,9 +1799,12 @@
 
     const relNearest = nearestIn.map(p => ({ x: p.x - cx, y: p.y - cy, vx: p.vx, vy: p.vy }));
     const relBobo = boboIn.map(p => ({ x: p.x - cx, y: p.y - cy }));
+    // markers never move, so pre-roll leaves them alone; only rotate/mirror touch them
+    const relMarker = markerIn.map(p => ({ x: p.x - cx, y: p.y - cy }));
     pendingPattern = {
       nearestRel: relNearest,
       boboRel: relBobo,
+      markerRel: relMarker,
       // the shape with zero pre-roll ticks applied — kept in sync with
       // rotate/mirror (both commute with pre-roll stepping, verified
       // directly before relying on it) so a pre-roll reset always returns
@@ -1728,6 +1837,7 @@
     const rotB = p => ({ x: -p.y, y: p.x });
     pendingPattern.nearestRel = pendingPattern.nearestRel.map(rotN);
     pendingPattern.boboRel = pendingPattern.boboRel.map(rotB);
+    pendingPattern.markerRel = pendingPattern.markerRel.map(rotB);
     // rotation and pre-roll stepping commute (verified directly before
     // this was built), so transforming the unrolled base the same way
     // keeps a later pre-roll reset consistent with this new orientation
@@ -1745,6 +1855,7 @@
     const mirB = p => ({ x: -p.x, y: p.y });
     pendingPattern.nearestRel = pendingPattern.nearestRel.map(mirN);
     pendingPattern.boboRel = pendingPattern.boboRel.map(mirB);
+    pendingPattern.markerRel = pendingPattern.markerRel.map(mirB);
     pendingPattern.unrolledNearestRel = pendingPattern.unrolledNearestRel.map(mirN);
     pendingPattern.unrolledBoboRel = pendingPattern.unrolledBoboRel.map(mirB);
     draw();
@@ -1784,6 +1895,10 @@
       particles.push({ type:'bobo', x, y, vx:0, vy:0, color: boboColor });
       trails.push(null);
     });
+    pendingPattern.markerRel.forEach(p=>{
+      particles.push({ type:'marker', x: Math.round(centerX + p.x), y: Math.round(centerY + p.y), vx:0, vy:0 });
+      trails.push(null);
+    });
     pendingPattern = null;
     placementActive = false;
     updatePlacementUI();
@@ -1810,6 +1925,8 @@
       if (placementActive) cancelPlacement(); else cancelAdd();
       return;
     }
+    // keyboard fine-tuning fades the mouse cursor (mouse movement restores it)
+    if (['i','j','k','l','o','u',';','p'].includes(key)) canvas.classList.add('cursor-faded');
     if (key === 'p'){
       e.preventDefault();
       if (placementActive){
@@ -1819,7 +1936,11 @@
         if (previewActive) revertPreview();
         startPreview();
       } else {
-        advanceAdd(placementCenterX, placementCenterY); // unchanged for single-particle add
+        // a hand-added particle gets the same dry run as a pattern: p runs
+        // it against the live field without placing it (a nearest whose
+        // velocity isn't chosen yet runs motionless); p again replays
+        if (previewActive) revertPreview();
+        startPreview();
       }
       return;
     }
@@ -1829,6 +1950,7 @@
         if (previewActive) revertPreview();
         commitPlacement(placementCenterX, placementCenterY);
       } else {
+        if (previewActive) revertPreview();
         advanceAdd(placementCenterX, placementCenterY);
       }
       return;
@@ -1908,11 +2030,17 @@
   canvas.addEventListener('pointerup', endPan);
   canvas.addEventListener('pointercancel', endPan);
 
+  let lastMouseX = null, lastMouseY = null;
   canvas.addEventListener('mousemove', (e)=>{
+    // browsers can send a mousemove without the mouse moving (e.g. when
+    // something changes under the cursor); only a real move un-fades the cursor
+    const reallyMoved = e.clientX !== lastMouseX || e.clientY !== lastMouseY;
+    lastMouseX = e.clientX; lastMouseY = e.clientY;
     if (!placementActive && !addActive){
       document.getElementById('coord-indicator').classList.remove('visible');
       return;
     }
+    if (reallyMoved) canvas.classList.remove('cursor-faded');
     if (panState) return; // button is down: a possible pan, so leave the ghost (and any preview) alone
     if (previewActive) abortPreview();
     const rect = canvas.getBoundingClientRect();
@@ -1936,17 +2064,24 @@
       return;
     }
     if (addActive){
+      if (previewActive) revertPreview();
       const w = screenToWorld(clickX, clickY);
       advanceAdd(Math.round(w.x), Math.round(w.y));
       return;
     }
 
-    let bestI = -1, bestD = Infinity;
+    // real particles win the click; a marker is only picked when nothing
+    // else is in reach (they often sit right on top of one), and hidden
+    // markers can't be clicked at all
+    let bestI = -1, bestD = Infinity, bestM = -1, bestMD = Infinity;
     particles.forEach((p,i)=>{
       const {sx,sy} = worldToScreen(p.x, p.y);
       const d = Math.hypot(sx-clickX, sy-clickY);
-      if (d < bestD){ bestD = d; bestI = i; }
+      if (p.type === 'marker'){
+        if (showMarkers && d < bestMD){ bestMD = d; bestM = i; }
+      } else if (d < bestD){ bestD = d; bestI = i; }
     });
+    if (!(bestI !== -1 && bestD <= 14) && bestM !== -1){ bestI = bestM; bestD = bestMD; }
     // a click while a menu is open just closes it
     if (contextMenuEl.classList.contains('visible')){ hideContextMenu(); return; }
     if (bestI !== -1 && bestD <= 14) showContextMenu(bestI, clickX, clickY);
@@ -1961,9 +2096,12 @@
   document.getElementById('btn-save-full').addEventListener('click', ()=>{
     const nearestOut = particles.filter(p=>p.type==='nearest').map(p=>({x:p.x,y:p.y,vx:p.vx,vy:p.vy}));
     const boboOut = particles.filter(p=>p.type==='bobo').map(p=>({x:p.x,y:p.y}));
+    const markerOut = particles.filter(p=>p.type==='marker').map(p=>({x:p.x,y:p.y}));
     const defaultName = `full_n${nearestOut.length}_b${boboOut.length}`;
     openSaveDialog(defaultName, (name)=>{
-      saveJSON({ version:1, type:'full', nearest:nearestOut, bobo:boboOut }, name);
+      const out = { version:1, type:'full', nearest:nearestOut, bobo:boboOut };
+      if (markerOut.length) out.marker = markerOut; // only when there are some, so ordinary saves are unchanged
+      saveJSON(out, name);
     });
   });
 
@@ -2424,7 +2562,8 @@
   // ---------- global keyboard shortcuts ----------
   // Space plays/stops and '.' (the '>' key) steps.
   // Each key simply clicks its console button, so a shortcut always does
-  // exactly what the button does (including any disabled state). None of
+  // exactly what the button does (including any disabled state). h, x and
+  // comma have no button and are handled directly below. None of
   // these letters overlap the placement keys (ijkl, o, u, p, ;, Enter,
   // Esc), so they also work mid-placement — e.g. q to quicksave while
   // pre-rolling the next component. Ignored while typing in a field, while
@@ -2456,6 +2595,12 @@
       document.body.classList.toggle('show-keys');
       return;
     }
+    // keys with no console button: h = home (camera to 0,0, same zoom),
+    // x = place a marker, comma = show/hide markers
+    const k = e.key.toLowerCase();
+    if (k === 'h'){ e.preventDefault(); goHome(); return; }
+    if (k === 'x'){ e.preventDefault(); beginAdd('marker'); return; }
+    if (k === ','){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     const id = SHORTCUTS[e.key.toLowerCase()];
     if (!id) return;
     e.preventDefault();
