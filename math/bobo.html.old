@@ -369,6 +369,32 @@
     z-index:3;
   }
   .btn.primary:hover{ background: rgba(139,243,201,0.08); }
+  /* trail length other than 500: a small dot in the Trails button's
+     top-right corner, in the label's own colour (green on, grey off) */
+  #btn-trails-toggle.trail-custom::before{
+    content:'';
+    position:absolute; top:4px; right:4px;
+    width:4px; height:4px; border-radius:50%;
+    background: currentColor;
+    pointer-events:none;
+  }
+
+  /* brief note when the trail length changes; fades after a second */
+  #trail-note{
+    position:absolute; left:50%; bottom:18px;
+    transform:translateX(-50%);
+    background: rgba(12,18,16,0.9);
+    border:1px solid var(--panel-line);
+    border-radius:4px;
+    padding:6px 12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:#8bf3c9;
+    pointer-events:none;
+    opacity:0;
+    transition: opacity 0.4s;
+    z-index:7;
+  }
+  #trail-note.visible{ opacity:1; transition:none; }
 
   .speed-wrap{ display:flex; align-items:center; gap:8px; margin-left:4px; }
   .speed-wrap label{ font-size:11px; color: var(--text-dim); white-space:nowrap; }
@@ -435,11 +461,12 @@
   <div id="placement-banner"></div>
   <div id="coord-indicator"></div>
   <button id="btn-unzoom" style="display:none;">Default view</button>
+  <div id="trail-note"></div>
 </div>
 
 <div id="console">
   <button class="btn primary" id="btn-play" data-key="space">Play</button>
-  <button class="btn" id="btn-step" data-key=".">Step</button>
+  <button class="btn" id="btn-step" data-key="&gt;">Step</button>
   <button class="btn" id="btn-redo" data-key="R">Recall</button>
   <button class="btn" id="btn-quicksave" data-key="Q">Quicksave</button>
   <button class="btn" id="btn-save-full" data-key="S">Save</button>
@@ -451,7 +478,7 @@
   <button class="btn primary" id="btn-trails-toggle" data-key="T">Trails</button>
   <button class="btn" id="btn-vectors-toggle" data-key="V">Vectors</button>
   <div class="split-btn">
-    <button class="btn" id="btn-reset" data-key="M">Random</button>
+    <button class="btn" id="btn-reset" data-key="X">Random</button>
     <button class="btn" id="btn-random-settings" title="Random settings" aria-label="Random settings" aria-expanded="false">▴</button>
   </div>
   <input type="file" id="file-load" accept=".json" style="display:none;">
@@ -537,7 +564,23 @@
   function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
   let showTrails = true;
   let showVectors = false;
-  // markers: inert reference points for designing (x places one, comma
+  // trail length: - / _ steps down this list, = / + steps up. Starts at 500
+  // on every page load; only those keys change it (Clear and the Trails
+  // toggle leave it alone). Each trail keeps at least TRAIL_KEEP_MIN points
+  // of history even when fewer are shown, so lengthening up to that much
+  // shows the extra history at once instead of waiting for it to grow.
+  const TRAIL_PRESETS = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
+  const TRAIL_DEFAULT_INDEX = 5; // 500
+  const TRAIL_KEEP_MIN = 2000;
+  let trailIndex = TRAIL_DEFAULT_INDEX;
+  function trailLen(){ return TRAIL_PRESETS[trailIndex]; }
+  function trailKeep(){ return Math.max(TRAIL_KEEP_MIN, trailLen()); }
+  function pushTrailPoint(t, x, y){
+    t.push({x, y});
+    const keep = trailKeep();
+    if (t.length > keep) t.splice(0, t.length - keep);
+  }
+  // markers: inert reference points for designing (m places one, comma
   // shows/hides them). They never move, are never anyone's nearest, and
   // are saved under an optional "marker" key that older pages ignore.
   let showMarkers = true;
@@ -968,8 +1011,7 @@
     });
     trails.forEach((t,i)=>{
       if (!t) return;
-      t.push({x:particles[i].x, y:particles[i].y});
-      if (t.length > 500) t.shift();
+      pushTrailPoint(t, particles[i].x, particles[i].y);
     });
     tick++;
     updateHud();
@@ -1047,8 +1089,10 @@
 
     // trails (nearest particles only) — independent of vector view now
     if (showTrails){
-      // Trails are by far the most expensive thing drawn (up to 500 points
-      // per particle, every frame), so this loop is kept lean:
+      // Trails are by far the most expensive thing drawn (up to trailLen()
+      // points per particle, every frame). Only the newest trailLen() points
+      // are drawn; older stored history stays hidden until the length is
+      // raised. The loop is kept lean:
       //  - world->screen is inlined (no object per point),
       //  - a trail that lies entirely off screen is skipped,
       //  - points that would move the pen less than half a pixel are
@@ -1061,19 +1105,20 @@
       for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
         if (!t || t.length < 2) continue;
+        const first = Math.max(0, t.length - 1 - trailLen()); // trailLen() steps of trail behind the particle
         // cheap bounds test in world units first
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-        for (let k = 0; k < t.length; k++){ const q = t[k];
+        for (let k = first; k < t.length; k++){ const q = t[k];
           if (q.x < minX) minX = q.x; if (q.x > maxX) maxX = q.x; if (q.y < minY) minY = q.y; if (q.y > maxY) maxY = q.y; }
         if (ox + maxX*cell < -PAD || ox + minX*cell > W + PAD || oy - minY*cell < -PAD || oy - maxY*cell > H + PAD) continue;
         ctx.strokeStyle = colorForDraw(i);
         ctx.beginPath();
-        let lx = ox + t[0].x*cell, ly = oy - t[0].y*cell;
+        let lx = ox + t[first].x*cell, ly = oy - t[first].y*cell;
         const off = (x, y) => x < -PAD || x > W + PAD || y < -PAD || y > H + PAD;
         let lOff = off(lx, ly);
         ctx.moveTo(lx, ly);
         const last = t.length - 1;
-        for (let k = 1; k <= last; k++){
+        for (let k = first + 1; k <= last; k++){
           const sx = ox + t[k].x*cell, sy = oy - t[k].y*cell;
           if (k !== last && Math.abs(sx - lx) + Math.abs(sy - ly) < MIN_STEP) continue;
           const sOff = off(sx, sy);
@@ -1304,8 +1349,7 @@
               stepArrayOnce(previewArr);
               previewTrails.forEach((t,i)=>{
                 if (!t) return;
-                t.push({x:previewArr[i].x, y:previewArr[i].y});
-                if (t.length > 500) t.shift();
+                pushTrailPoint(t, previewArr[i].x, previewArr[i].y);
               });
               previewTickCount++;
               stepped = true;
@@ -1578,6 +1622,10 @@
       previewArr = liveClones.concat(ghostNearest, ghostBobo, ghostMarker);
     }
     previewTrails = previewArr.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
+    previewWatchIdx = [];
+    previewArr.forEach((p, i)=>{
+      if (Math.abs(p.x) <= PREVIEW_DIVERGE_LIMIT && Math.abs(p.y) <= PREVIEW_DIVERGE_LIMIT) previewWatchIdx.push(i);
+    });
     previewTickCount = 0;
     previewFrozen = false;
     previewActive = true;
@@ -1586,8 +1634,12 @@
     draw();
   }
 
+  // a runaway that was already far out before the preview started (a long
+  // random run can leave one past the limit) is ignored; otherwise it would
+  // freeze every preview on its first tick
+  let previewWatchIdx = [];
   function previewDiverged(){
-    return previewArr.some(p => Math.abs(p.x) > PREVIEW_DIVERGE_LIMIT || Math.abs(p.y) > PREVIEW_DIVERGE_LIMIT);
+    return previewWatchIdx.some(i => Math.abs(previewArr[i].x) > PREVIEW_DIVERGE_LIMIT || Math.abs(previewArr[i].y) > PREVIEW_DIVERGE_LIMIT);
   }
 
   // called from every path that would reposition, reshape, replace, or
@@ -1711,8 +1763,10 @@
     addKind = kind;
     addPhase = 0;
     if (kind === 'marker') showMarkers = true; // never place one you can't see
-    placementCenterX = 0;
-    placementCenterY = 0;
+    // start at the middle of the current view (not the origin), so the
+    // candidate is on screen and ijkl moves something you can see
+    placementCenterX = Math.round(camX);
+    placementCenterY = Math.round(camY);
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     updatePlacementUI();
     updatePlacementIndicator();
@@ -1817,8 +1871,10 @@
       height: maxY - minY,
     };
     placementActive = true;
-    placementCenterX = 0;
-    placementCenterY = 0;
+    // like added particles, a loaded pattern (Load or Zoo) starts at the
+    // middle of the current view rather than the origin
+    placementCenterX = Math.round(camX);
+    placementCenterY = Math.round(camY);
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     updatePlacementUI();
     updatePlacementIndicator();
@@ -2559,8 +2615,21 @@
     draw();
   });
 
+  // ---------- trail length ----------
+  const trailNoteEl = document.getElementById('trail-note');
+  let trailNoteTimer = null;
+  function stepTrailLength(dir){
+    trailIndex = Math.max(0, Math.min(TRAIL_PRESETS.length - 1, trailIndex + dir));
+    document.getElementById('btn-trails-toggle').classList.toggle('trail-custom', trailIndex !== TRAIL_DEFAULT_INDEX);
+    trailNoteEl.textContent = trailLen() + ' tick trails';
+    trailNoteEl.classList.add('visible');
+    clearTimeout(trailNoteTimer);
+    trailNoteTimer = setTimeout(()=> trailNoteEl.classList.remove('visible'), 1000);
+    draw();
+  }
+
   // ---------- global keyboard shortcuts ----------
-  // Space plays/stops and '.' (the '>' key) steps.
+  // Space plays/stops and '.' or '>' steps.
   // Each key simply clicks its console button, so a shortcut always does
   // exactly what the button does (including any disabled state). h, x and
   // comma have no button and are handled directly below. None of
@@ -2574,9 +2643,10 @@
     n: 'btn-add-nearest',
     b: 'btn-add-bobo',
     r: 'btn-redo',
-    m: 'btn-reset',
+    x: 'btn-reset',
     ' ': 'btn-play',
     '.': 'btn-step',
+    '>': 'btn-step',
     q: 'btn-quicksave',
     s: 'btn-save-full',
     d: 'btn-load',
@@ -2596,11 +2666,14 @@
       return;
     }
     // keys with no console button: h = home (camera to 0,0, same zoom),
-    // x = place a marker, comma = show/hide markers
+    // m = place a marker, comma = show/hide markers, - and = (also _ and +)
+    // = shorter / longer trails
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
-    if (k === 'x'){ e.preventDefault(); beginAdd('marker'); return; }
+    if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ','){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
+    if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
+    if (k === '=' || k === '+'){ e.preventDefault(); stepTrailLength(1); return; }
     const id = SHORTCUTS[e.key.toLowerCase()];
     if (!id) return;
     e.preventDefault();
