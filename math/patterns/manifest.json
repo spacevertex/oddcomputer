@@ -1222,24 +1222,12 @@
         "name": "halfturn_p1016"
       },
       {
-        "file": "halfturn_p1016_markers.json",
-        "name": "halfturn_p1016_markers"
-      },
-      {
         "file": "halfturn_p102.json",
         "name": "halfturn_p102"
       },
       {
         "file": "halfturn_p102_b.json",
         "name": "halfturn_p102_b"
-      },
-      {
-        "file": "halfturn_p102_b_markers.json",
-        "name": "halfturn_p102_b_markers"
-      },
-      {
-        "file": "halfturn_p102_markers.json",
-        "name": "halfturn_p102_markers"
       },
       {
         "file": "halfturn_p106.json",
@@ -1250,92 +1238,44 @@
         "name": "halfturn_p106_b"
       },
       {
-        "file": "halfturn_p106_b_markers.json",
-        "name": "halfturn_p106_b_markers"
-      },
-      {
-        "file": "halfturn_p106_markers.json",
-        "name": "halfturn_p106_markers"
-      },
-      {
         "file": "halfturn_p1086.json",
         "name": "halfturn_p1086"
-      },
-      {
-        "file": "halfturn_p1086_markers.json",
-        "name": "halfturn_p1086_markers"
       },
       {
         "file": "halfturn_p1090.json",
         "name": "halfturn_p1090"
       },
       {
-        "file": "halfturn_p1090_markers.json",
-        "name": "halfturn_p1090_markers"
-      },
-      {
         "file": "halfturn_p1116.json",
         "name": "halfturn_p1116"
-      },
-      {
-        "file": "halfturn_p1116_markers.json",
-        "name": "halfturn_p1116_markers"
       },
       {
         "file": "halfturn_p1132.json",
         "name": "halfturn_p1132"
       },
       {
-        "file": "halfturn_p1132_markers.json",
-        "name": "halfturn_p1132_markers"
-      },
-      {
         "file": "halfturn_p118.json",
         "name": "halfturn_p118"
-      },
-      {
-        "file": "halfturn_p118_markers.json",
-        "name": "halfturn_p118_markers"
       },
       {
         "file": "halfturn_p122.json",
         "name": "halfturn_p122"
       },
       {
-        "file": "halfturn_p122_markers.json",
-        "name": "halfturn_p122_markers"
-      },
-      {
         "file": "halfturn_p128_b.json",
         "name": "halfturn_p128_b"
-      },
-      {
-        "file": "halfturn_p128_b_markers.json",
-        "name": "halfturn_p128_b_markers"
       },
       {
         "file": "halfturn_p1394.json",
         "name": "halfturn_p1394"
       },
       {
-        "file": "halfturn_p1394_markers.json",
-        "name": "halfturn_p1394_markers"
-      },
-      {
         "file": "halfturn_p1414.json",
         "name": "halfturn_p1414"
       },
       {
-        "file": "halfturn_p1414_markers.json",
-        "name": "halfturn_p1414_markers"
-      },
-      {
         "file": "halfturn_p1470.json",
         "name": "halfturn_p1470"
-      },
-      {
-        "file": "halfturn_p1470_markers.json",
-        "name": "halfturn_p1470_markers"
       },
       {
         "file": "halfturn_p148.json",
@@ -1346,14 +1286,6 @@
         "name": "halfturn_p148_b"
       },
       {
-        "file": "halfturn_p148_b_markers.json",
-        "name": "halfturn_p148_b_markers"
-      },
-      {
-        "file": "halfturn_p148_markers.json",
-        "name": "halfturn_p148_markers"
-      },
-      {
         "file": "halfturn_p152.json",
         "name": "halfturn_p152"
       },
@@ -1362,28 +1294,12 @@
         "name": "halfturn_p152_b"
       },
       {
-        "file": "halfturn_p152_b_markers.json",
-        "name": "halfturn_p152_b_markers"
-      },
-      {
-        "file": "halfturn_p152_markers.json",
-        "name": "halfturn_p152_markers"
-      },
-      {
         "file": "halfturn_p156.json",
         "name": "halfturn_p156"
       },
       {
-        "file": "halfturn_p156_markers.json",
-        "name": "halfturn_p156_markers"
-      },
-      {
         "file": "halfturn_p160.json",
         "name": "halfturn_p160"
-      },
-      {
-        "file": "halfturn_p160_markers.json",
-        "name": "halfturn_p160_markers"
       },
       {
         "file": "halfturn_p162.json",
@@ -1394,20 +1310,8 @@
         "name": "halfturn_p162_b"
       },
       {
-        "file": "halfturn_p162_b_markers.json",
-        "name": "halfturn_p162_b_markers"
-      },
-      {
-        "file": "halfturn_p162_markers.json",
-        "name": "halfturn_p162_markers"
-      },
-      {
         "file": "halfturn_p166.json",
         "name": "halfturn_p166"
-      },
-      {
-        "file": "halfturn_p166_markers.json",
-        "name": "halfturn_p166_markers"
       },
       {
         "file": "halfturn_p168.json",
@@ -1418,44 +1322,20 @@
         "name": "halfturn_p168_b"
       },
       {
-        "file": "halfturn_p168_b_markers.json",
-        "name": "halfturn_p168_b_markers"
-      },
-      {
         "file": "halfturn_p168_c.json",
         "name": "halfturn_p168_c"
-      },
-      {
-        "file": "halfturn_p168_c_markers.json",
-        "name": "halfturn_p168_c_markers"
-      },
-      {
-        "file": "halfturn_p168_markers.json",
-        "name": "halfturn_p168_markers"
       },
       {
         "file": "halfturn_p1880.json",
         "name": "halfturn_p1880"
       },
       {
-        "file": "halfturn_p1880_markers.json",
-        "name": "halfturn_p1880_markers"
-      },
-      {
         "file": "halfturn_p188_b.json",
         "name": "halfturn_p188_b"
       },
       {
-        "file": "halfturn_p188_b_markers.json",
-        "name": "halfturn_p188_b_markers"
-      },
-      {
         "file": "halfturn_p206.json",
         "name": "halfturn_p206"
-      },
-      {
-        "file": "halfturn_p206_markers.json",
-        "name": "halfturn_p206_markers"
       },
       {
         "file": "halfturn_p210.json",
@@ -1466,20 +1346,8 @@
         "name": "halfturn_p210_b"
       },
       {
-        "file": "halfturn_p210_b_markers.json",
-        "name": "halfturn_p210_b_markers"
-      },
-      {
-        "file": "halfturn_p210_markers.json",
-        "name": "halfturn_p210_markers"
-      },
-      {
         "file": "halfturn_p2206.json",
         "name": "halfturn_p2206"
-      },
-      {
-        "file": "halfturn_p2206_markers.json",
-        "name": "halfturn_p2206_markers"
       },
       {
         "file": "halfturn_p228.json",
@@ -1490,36 +1358,16 @@
         "name": "halfturn_p2280"
       },
       {
-        "file": "halfturn_p2280_markers.json",
-        "name": "halfturn_p2280_markers"
-      },
-      {
-        "file": "halfturn_p228_markers.json",
-        "name": "halfturn_p228_markers"
-      },
-      {
         "file": "halfturn_p230.json",
         "name": "halfturn_p230"
-      },
-      {
-        "file": "halfturn_p230_markers.json",
-        "name": "halfturn_p230_markers"
       },
       {
         "file": "halfturn_p232.json",
         "name": "halfturn_p232"
       },
       {
-        "file": "halfturn_p232_markers.json",
-        "name": "halfturn_p232_markers"
-      },
-      {
         "file": "halfturn_p236.json",
         "name": "halfturn_p236"
-      },
-      {
-        "file": "halfturn_p236_markers.json",
-        "name": "halfturn_p236_markers"
       },
       {
         "file": "halfturn_p238.json",
@@ -1530,52 +1378,24 @@
         "name": "halfturn_p238_b"
       },
       {
-        "file": "halfturn_p238_b_markers.json",
-        "name": "halfturn_p238_b_markers"
-      },
-      {
-        "file": "halfturn_p238_markers.json",
-        "name": "halfturn_p238_markers"
-      },
-      {
         "file": "halfturn_p240.json",
         "name": "halfturn_p240"
-      },
-      {
-        "file": "halfturn_p240_markers.json",
-        "name": "halfturn_p240_markers"
       },
       {
         "file": "halfturn_p242.json",
         "name": "halfturn_p242"
       },
       {
-        "file": "halfturn_p242_markers.json",
-        "name": "halfturn_p242_markers"
-      },
-      {
         "file": "halfturn_p246.json",
         "name": "halfturn_p246"
-      },
-      {
-        "file": "halfturn_p246_markers.json",
-        "name": "halfturn_p246_markers"
       },
       {
         "file": "halfturn_p258.json",
         "name": "halfturn_p258"
       },
       {
-        "file": "halfturn_p258_markers.json",
-        "name": "halfturn_p258_markers"
-      },
-      {
         "file": "halfturn_p262.json",
         "name": "halfturn_p262"
-      },
-      {
-        "file": "halfturn_p262_markers.json",
-        "name": "halfturn_p262_markers"
       },
       {
         "file": "halfturn_p274.json",
@@ -1586,92 +1406,44 @@
         "name": "halfturn_p274_b"
       },
       {
-        "file": "halfturn_p274_b_markers.json",
-        "name": "halfturn_p274_b_markers"
-      },
-      {
-        "file": "halfturn_p274_markers.json",
-        "name": "halfturn_p274_markers"
-      },
-      {
         "file": "halfturn_p276.json",
         "name": "halfturn_p276"
-      },
-      {
-        "file": "halfturn_p276_markers.json",
-        "name": "halfturn_p276_markers"
       },
       {
         "file": "halfturn_p282.json",
         "name": "halfturn_p282"
       },
       {
-        "file": "halfturn_p282_markers.json",
-        "name": "halfturn_p282_markers"
-      },
-      {
         "file": "halfturn_p290.json",
         "name": "halfturn_p290"
-      },
-      {
-        "file": "halfturn_p290_markers.json",
-        "name": "halfturn_p290_markers"
       },
       {
         "file": "halfturn_p292.json",
         "name": "halfturn_p292"
       },
       {
-        "file": "halfturn_p292_markers.json",
-        "name": "halfturn_p292_markers"
-      },
-      {
         "file": "halfturn_p2986.json",
         "name": "halfturn_p2986"
-      },
-      {
-        "file": "halfturn_p2986_markers.json",
-        "name": "halfturn_p2986_markers"
       },
       {
         "file": "halfturn_p302.json",
         "name": "halfturn_p302"
       },
       {
-        "file": "halfturn_p302_markers.json",
-        "name": "halfturn_p302_markers"
-      },
-      {
         "file": "halfturn_p304.json",
         "name": "halfturn_p304"
-      },
-      {
-        "file": "halfturn_p304_markers.json",
-        "name": "halfturn_p304_markers"
       },
       {
         "file": "halfturn_p306.json",
         "name": "halfturn_p306"
       },
       {
-        "file": "halfturn_p306_markers.json",
-        "name": "halfturn_p306_markers"
-      },
-      {
         "file": "halfturn_p3168.json",
         "name": "halfturn_p3168"
       },
       {
-        "file": "halfturn_p3168_markers.json",
-        "name": "halfturn_p3168_markers"
-      },
-      {
         "file": "halfturn_p320.json",
         "name": "halfturn_p320"
-      },
-      {
-        "file": "halfturn_p320_markers.json",
-        "name": "halfturn_p320_markers"
       },
       {
         "file": "halfturn_p328.json",
@@ -1682,132 +1454,64 @@
         "name": "halfturn_p328_b"
       },
       {
-        "file": "halfturn_p328_b_markers.json",
-        "name": "halfturn_p328_b_markers"
-      },
-      {
-        "file": "halfturn_p328_markers.json",
-        "name": "halfturn_p328_markers"
-      },
-      {
         "file": "halfturn_p342.json",
         "name": "halfturn_p342"
-      },
-      {
-        "file": "halfturn_p342_markers.json",
-        "name": "halfturn_p342_markers"
       },
       {
         "file": "halfturn_p350.json",
         "name": "halfturn_p350"
       },
       {
-        "file": "halfturn_p350_markers.json",
-        "name": "halfturn_p350_markers"
-      },
-      {
         "file": "halfturn_p360.json",
         "name": "halfturn_p360"
-      },
-      {
-        "file": "halfturn_p360_markers.json",
-        "name": "halfturn_p360_markers"
       },
       {
         "file": "halfturn_p370.json",
         "name": "halfturn_p370"
       },
       {
-        "file": "halfturn_p370_markers.json",
-        "name": "halfturn_p370_markers"
-      },
-      {
         "file": "halfturn_p372.json",
         "name": "halfturn_p372"
-      },
-      {
-        "file": "halfturn_p372_markers.json",
-        "name": "halfturn_p372_markers"
       },
       {
         "file": "halfturn_p374.json",
         "name": "halfturn_p374"
       },
       {
-        "file": "halfturn_p374_markers.json",
-        "name": "halfturn_p374_markers"
-      },
-      {
         "file": "halfturn_p378.json",
         "name": "halfturn_p378"
-      },
-      {
-        "file": "halfturn_p378_markers.json",
-        "name": "halfturn_p378_markers"
       },
       {
         "file": "halfturn_p384.json",
         "name": "halfturn_p384"
       },
       {
-        "file": "halfturn_p384_markers.json",
-        "name": "halfturn_p384_markers"
-      },
-      {
         "file": "halfturn_p392.json",
         "name": "halfturn_p392"
-      },
-      {
-        "file": "halfturn_p392_markers.json",
-        "name": "halfturn_p392_markers"
       },
       {
         "file": "halfturn_p394.json",
         "name": "halfturn_p394"
       },
       {
-        "file": "halfturn_p394_markers.json",
-        "name": "halfturn_p394_markers"
-      },
-      {
         "file": "halfturn_p408.json",
         "name": "halfturn_p408"
-      },
-      {
-        "file": "halfturn_p408_markers.json",
-        "name": "halfturn_p408_markers"
       },
       {
         "file": "halfturn_p414.json",
         "name": "halfturn_p414"
       },
       {
-        "file": "halfturn_p414_markers.json",
-        "name": "halfturn_p414_markers"
-      },
-      {
         "file": "halfturn_p432.json",
         "name": "halfturn_p432"
-      },
-      {
-        "file": "halfturn_p432_markers.json",
-        "name": "halfturn_p432_markers"
       },
       {
         "file": "halfturn_p436.json",
         "name": "halfturn_p436"
       },
       {
-        "file": "halfturn_p436_markers.json",
-        "name": "halfturn_p436_markers"
-      },
-      {
         "file": "halfturn_p452.json",
         "name": "halfturn_p452"
-      },
-      {
-        "file": "halfturn_p452_markers.json",
-        "name": "halfturn_p452_markers"
       },
       {
         "file": "halfturn_p458.json",
@@ -1818,44 +1522,20 @@
         "name": "halfturn_p458_b"
       },
       {
-        "file": "halfturn_p458_b_markers.json",
-        "name": "halfturn_p458_b_markers"
-      },
-      {
-        "file": "halfturn_p458_markers.json",
-        "name": "halfturn_p458_markers"
-      },
-      {
         "file": "halfturn_p468.json",
         "name": "halfturn_p468"
-      },
-      {
-        "file": "halfturn_p468_markers.json",
-        "name": "halfturn_p468_markers"
       },
       {
         "file": "halfturn_p480.json",
         "name": "halfturn_p480"
       },
       {
-        "file": "halfturn_p480_markers.json",
-        "name": "halfturn_p480_markers"
-      },
-      {
         "file": "halfturn_p486.json",
         "name": "halfturn_p486"
       },
       {
-        "file": "halfturn_p486_markers.json",
-        "name": "halfturn_p486_markers"
-      },
-      {
         "file": "halfturn_p498.json",
         "name": "halfturn_p498"
-      },
-      {
-        "file": "halfturn_p498_markers.json",
-        "name": "halfturn_p498_markers"
       },
       {
         "file": "halfturn_p504.json",
@@ -1866,196 +1546,96 @@
         "name": "halfturn_p504_b"
       },
       {
-        "file": "halfturn_p504_b_markers.json",
-        "name": "halfturn_p504_b_markers"
-      },
-      {
-        "file": "halfturn_p504_markers.json",
-        "name": "halfturn_p504_markers"
-      },
-      {
         "file": "halfturn_p512.json",
         "name": "halfturn_p512"
-      },
-      {
-        "file": "halfturn_p512_markers.json",
-        "name": "halfturn_p512_markers"
       },
       {
         "file": "halfturn_p516.json",
         "name": "halfturn_p516"
       },
       {
-        "file": "halfturn_p516_markers.json",
-        "name": "halfturn_p516_markers"
-      },
-      {
         "file": "halfturn_p522.json",
         "name": "halfturn_p522"
-      },
-      {
-        "file": "halfturn_p522_markers.json",
-        "name": "halfturn_p522_markers"
       },
       {
         "file": "halfturn_p530.json",
         "name": "halfturn_p530"
       },
       {
-        "file": "halfturn_p530_markers.json",
-        "name": "halfturn_p530_markers"
-      },
-      {
         "file": "halfturn_p562.json",
         "name": "halfturn_p562"
-      },
-      {
-        "file": "halfturn_p562_markers.json",
-        "name": "halfturn_p562_markers"
       },
       {
         "file": "halfturn_p564.json",
         "name": "halfturn_p564"
       },
       {
-        "file": "halfturn_p564_markers.json",
-        "name": "halfturn_p564_markers"
-      },
-      {
         "file": "halfturn_p5678.json",
         "name": "halfturn_p5678"
-      },
-      {
-        "file": "halfturn_p5678_markers.json",
-        "name": "halfturn_p5678_markers"
       },
       {
         "file": "halfturn_p572.json",
         "name": "halfturn_p572"
       },
       {
-        "file": "halfturn_p572_markers.json",
-        "name": "halfturn_p572_markers"
-      },
-      {
         "file": "halfturn_p580.json",
         "name": "halfturn_p580"
-      },
-      {
-        "file": "halfturn_p580_markers.json",
-        "name": "halfturn_p580_markers"
       },
       {
         "file": "halfturn_p586.json",
         "name": "halfturn_p586"
       },
       {
-        "file": "halfturn_p586_markers.json",
-        "name": "halfturn_p586_markers"
-      },
-      {
         "file": "halfturn_p598.json",
         "name": "halfturn_p598"
-      },
-      {
-        "file": "halfturn_p598_markers.json",
-        "name": "halfturn_p598_markers"
       },
       {
         "file": "halfturn_p600.json",
         "name": "halfturn_p600"
       },
       {
-        "file": "halfturn_p600_markers.json",
-        "name": "halfturn_p600_markers"
-      },
-      {
         "file": "halfturn_p632.json",
         "name": "halfturn_p632"
-      },
-      {
-        "file": "halfturn_p632_markers.json",
-        "name": "halfturn_p632_markers"
       },
       {
         "file": "halfturn_p640.json",
         "name": "halfturn_p640"
       },
       {
-        "file": "halfturn_p640_markers.json",
-        "name": "halfturn_p640_markers"
-      },
-      {
         "file": "halfturn_p650.json",
         "name": "halfturn_p650"
-      },
-      {
-        "file": "halfturn_p650_markers.json",
-        "name": "halfturn_p650_markers"
       },
       {
         "file": "halfturn_p654.json",
         "name": "halfturn_p654"
       },
       {
-        "file": "halfturn_p654_markers.json",
-        "name": "halfturn_p654_markers"
-      },
-      {
         "file": "halfturn_p680.json",
         "name": "halfturn_p680"
-      },
-      {
-        "file": "halfturn_p680_markers.json",
-        "name": "halfturn_p680_markers"
       },
       {
         "file": "halfturn_p70.json",
         "name": "halfturn_p70"
       },
       {
-        "file": "halfturn_p70_markers.json",
-        "name": "halfturn_p70_markers"
-      },
-      {
         "file": "halfturn_p738.json",
         "name": "halfturn_p738"
-      },
-      {
-        "file": "halfturn_p738_markers.json",
-        "name": "halfturn_p738_markers"
       },
       {
         "file": "halfturn_p810.json",
         "name": "halfturn_p810"
       },
       {
-        "file": "halfturn_p810_markers.json",
-        "name": "halfturn_p810_markers"
-      },
-      {
         "file": "halfturn_p826.json",
         "name": "halfturn_p826"
-      },
-      {
-        "file": "halfturn_p826_markers.json",
-        "name": "halfturn_p826_markers"
       },
       {
         "file": "halfturn_p830.json",
         "name": "halfturn_p830"
       },
       {
-        "file": "halfturn_p830_markers.json",
-        "name": "halfturn_p830_markers"
-      },
-      {
         "file": "halfturn_p88.json",
         "name": "halfturn_p88"
-      },
-      {
-        "file": "halfturn_p88_markers.json",
-        "name": "halfturn_p88_markers"
       },
       {
         "file": "halfturn_p90.json",
@@ -2066,20 +1646,8 @@
         "name": "halfturn_p904"
       },
       {
-        "file": "halfturn_p904_markers.json",
-        "name": "halfturn_p904_markers"
-      },
-      {
-        "file": "halfturn_p90_markers.json",
-        "name": "halfturn_p90_markers"
-      },
-      {
         "file": "halfturn_p946.json",
         "name": "halfturn_p946"
-      },
-      {
-        "file": "halfturn_p946_markers.json",
-        "name": "halfturn_p946_markers"
       }
     ]
   },
@@ -2095,28 +1663,12 @@
         "name": "halfturn_p104_b"
       },
       {
-        "file": "halfturn_p104_b_markers.json",
-        "name": "halfturn_p104_b_markers"
-      },
-      {
-        "file": "halfturn_p104_markers.json",
-        "name": "halfturn_p104_markers"
-      },
-      {
         "file": "halfturn_p108.json",
         "name": "halfturn_p108"
       },
       {
-        "file": "halfturn_p108_markers.json",
-        "name": "halfturn_p108_markers"
-      },
-      {
         "file": "halfturn_p110.json",
         "name": "halfturn_p110"
-      },
-      {
-        "file": "halfturn_p110_markers.json",
-        "name": "halfturn_p110_markers"
       },
       {
         "file": "halfturn_p116.json",
@@ -2127,44 +1679,20 @@
         "name": "halfturn_p116_b"
       },
       {
-        "file": "halfturn_p116_b_markers.json",
-        "name": "halfturn_p116_b_markers"
-      },
-      {
-        "file": "halfturn_p116_markers.json",
-        "name": "halfturn_p116_markers"
-      },
-      {
         "file": "halfturn_p128.json",
         "name": "halfturn_p128"
-      },
-      {
-        "file": "halfturn_p128_markers.json",
-        "name": "halfturn_p128_markers"
       },
       {
         "file": "halfturn_p134.json",
         "name": "halfturn_p134"
       },
       {
-        "file": "halfturn_p134_markers.json",
-        "name": "halfturn_p134_markers"
-      },
-      {
         "file": "halfturn_p140.json",
         "name": "halfturn_p140"
       },
       {
-        "file": "halfturn_p140_markers.json",
-        "name": "halfturn_p140_markers"
-      },
-      {
         "file": "halfturn_p142.json",
         "name": "halfturn_p142"
-      },
-      {
-        "file": "halfturn_p142_markers.json",
-        "name": "halfturn_p142_markers"
       },
       {
         "file": "halfturn_p144.json",
@@ -2175,36 +1703,16 @@
         "name": "halfturn_p144_b"
       },
       {
-        "file": "halfturn_p144_b_markers.json",
-        "name": "halfturn_p144_b_markers"
-      },
-      {
         "file": "halfturn_p144_c.json",
         "name": "halfturn_p144_c"
-      },
-      {
-        "file": "halfturn_p144_c_markers.json",
-        "name": "halfturn_p144_c_markers"
-      },
-      {
-        "file": "halfturn_p144_markers.json",
-        "name": "halfturn_p144_markers"
       },
       {
         "file": "halfturn_p146.json",
         "name": "halfturn_p146"
       },
       {
-        "file": "halfturn_p146_markers.json",
-        "name": "halfturn_p146_markers"
-      },
-      {
         "file": "halfturn_p158.json",
         "name": "halfturn_p158"
-      },
-      {
-        "file": "halfturn_p158_markers.json",
-        "name": "halfturn_p158_markers"
       },
       {
         "file": "halfturn_p172.json",
@@ -2215,20 +1723,8 @@
         "name": "halfturn_p172_b"
       },
       {
-        "file": "halfturn_p172_b_markers.json",
-        "name": "halfturn_p172_b_markers"
-      },
-      {
-        "file": "halfturn_p172_markers.json",
-        "name": "halfturn_p172_markers"
-      },
-      {
         "file": "halfturn_p174.json",
         "name": "halfturn_p174"
-      },
-      {
-        "file": "halfturn_p174_markers.json",
-        "name": "halfturn_p174_markers"
       },
       {
         "file": "halfturn_p180.json",
@@ -2239,52 +1735,24 @@
         "name": "halfturn_p180_b"
       },
       {
-        "file": "halfturn_p180_b_markers.json",
-        "name": "halfturn_p180_b_markers"
-      },
-      {
-        "file": "halfturn_p180_markers.json",
-        "name": "halfturn_p180_markers"
-      },
-      {
         "file": "halfturn_p188.json",
         "name": "halfturn_p188"
-      },
-      {
-        "file": "halfturn_p188_markers.json",
-        "name": "halfturn_p188_markers"
       },
       {
         "file": "halfturn_p190.json",
         "name": "halfturn_p190"
       },
       {
-        "file": "halfturn_p190_markers.json",
-        "name": "halfturn_p190_markers"
-      },
-      {
         "file": "halfturn_p192.json",
         "name": "halfturn_p192"
-      },
-      {
-        "file": "halfturn_p192_markers.json",
-        "name": "halfturn_p192_markers"
       },
       {
         "file": "halfturn_p196.json",
         "name": "halfturn_p196"
       },
       {
-        "file": "halfturn_p196_markers.json",
-        "name": "halfturn_p196_markers"
-      },
-      {
         "file": "halfturn_p198.json",
         "name": "halfturn_p198"
-      },
-      {
-        "file": "halfturn_p198_markers.json",
-        "name": "halfturn_p198_markers"
       },
       {
         "file": "halfturn_p20.json",
@@ -2295,60 +1763,28 @@
         "name": "halfturn_p200"
       },
       {
-        "file": "halfturn_p200_markers.json",
-        "name": "halfturn_p200_markers"
-      },
-      {
         "file": "halfturn_p20_b.json",
         "name": "halfturn_p20_b"
-      },
-      {
-        "file": "halfturn_p20_b_markers.json",
-        "name": "halfturn_p20_b_markers"
       },
       {
         "file": "halfturn_p20_c.json",
         "name": "halfturn_p20_c"
       },
       {
-        "file": "halfturn_p20_c_markers.json",
-        "name": "halfturn_p20_c_markers"
-      },
-      {
         "file": "halfturn_p20_d.json",
         "name": "halfturn_p20_d"
-      },
-      {
-        "file": "halfturn_p20_d_markers.json",
-        "name": "halfturn_p20_d_markers"
       },
       {
         "file": "halfturn_p20_e.json",
         "name": "halfturn_p20_e"
       },
       {
-        "file": "halfturn_p20_e_markers.json",
-        "name": "halfturn_p20_e_markers"
-      },
-      {
         "file": "halfturn_p20_f.json",
         "name": "halfturn_p20_f"
       },
       {
-        "file": "halfturn_p20_f_markers.json",
-        "name": "halfturn_p20_f_markers"
-      },
-      {
-        "file": "halfturn_p20_markers.json",
-        "name": "halfturn_p20_markers"
-      },
-      {
         "file": "halfturn_p238.json",
         "name": "halfturn_p238"
-      },
-      {
-        "file": "halfturn_p238_markers.json",
-        "name": "halfturn_p238_markers"
       },
       {
         "file": "halfturn_p24.json",
@@ -2359,28 +1795,12 @@
         "name": "halfturn_p242"
       },
       {
-        "file": "halfturn_p242_markers.json",
-        "name": "halfturn_p242_markers"
-      },
-      {
         "file": "halfturn_p24_b.json",
         "name": "halfturn_p24_b"
       },
       {
-        "file": "halfturn_p24_b_markers.json",
-        "name": "halfturn_p24_b_markers"
-      },
-      {
         "file": "halfturn_p24_c.json",
         "name": "halfturn_p24_c"
-      },
-      {
-        "file": "halfturn_p24_c_markers.json",
-        "name": "halfturn_p24_c_markers"
-      },
-      {
-        "file": "halfturn_p24_markers.json",
-        "name": "halfturn_p24_markers"
       },
       {
         "file": "halfturn_p26.json",
@@ -2391,36 +1811,16 @@
         "name": "halfturn_p260"
       },
       {
-        "file": "halfturn_p260_markers.json",
-        "name": "halfturn_p260_markers"
-      },
-      {
         "file": "halfturn_p264.json",
         "name": "halfturn_p264"
-      },
-      {
-        "file": "halfturn_p264_markers.json",
-        "name": "halfturn_p264_markers"
       },
       {
         "file": "halfturn_p266.json",
         "name": "halfturn_p266"
       },
       {
-        "file": "halfturn_p266_markers.json",
-        "name": "halfturn_p266_markers"
-      },
-      {
-        "file": "halfturn_p26_markers.json",
-        "name": "halfturn_p26_markers"
-      },
-      {
         "file": "halfturn_p28.json",
         "name": "halfturn_p28"
-      },
-      {
-        "file": "halfturn_p28_markers.json",
-        "name": "halfturn_p28_markers"
       },
       {
         "file": "halfturn_p30.json",
@@ -2431,32 +1831,12 @@
         "name": "halfturn_p30_b"
       },
       {
-        "file": "halfturn_p30_b_markers.json",
-        "name": "halfturn_p30_b_markers"
-      },
-      {
-        "file": "halfturn_p30_b_markers_markers.json",
-        "name": "halfturn_p30_b_markers_markers"
-      },
-      {
-        "file": "halfturn_p30_markers.json",
-        "name": "halfturn_p30_markers"
-      },
-      {
         "file": "halfturn_p36.json",
         "name": "halfturn_p36"
       },
       {
-        "file": "halfturn_p36_markers.json",
-        "name": "halfturn_p36_markers"
-      },
-      {
         "file": "halfturn_p38.json",
         "name": "halfturn_p38"
-      },
-      {
-        "file": "halfturn_p38_markers.json",
-        "name": "halfturn_p38_markers"
       },
       {
         "file": "halfturn_p40.json",
@@ -2467,20 +1847,8 @@
         "name": "halfturn_p40_b"
       },
       {
-        "file": "halfturn_p40_b_markers.json",
-        "name": "halfturn_p40_b_markers"
-      },
-      {
-        "file": "halfturn_p40_markers.json",
-        "name": "halfturn_p40_markers"
-      },
-      {
         "file": "halfturn_p418.json",
         "name": "halfturn_p418"
-      },
-      {
-        "file": "halfturn_p418_markers.json",
-        "name": "halfturn_p418_markers"
       },
       {
         "file": "halfturn_p42.json",
@@ -2491,36 +1859,16 @@
         "name": "halfturn_p42_b"
       },
       {
-        "file": "halfturn_p42_b_markers.json",
-        "name": "halfturn_p42_b_markers"
-      },
-      {
         "file": "halfturn_p42_c.json",
         "name": "halfturn_p42_c"
-      },
-      {
-        "file": "halfturn_p42_c_markers.json",
-        "name": "halfturn_p42_c_markers"
-      },
-      {
-        "file": "halfturn_p42_markers.json",
-        "name": "halfturn_p42_markers"
       },
       {
         "file": "halfturn_p44.json",
         "name": "halfturn_p44"
       },
       {
-        "file": "halfturn_p44_markers.json",
-        "name": "halfturn_p44_markers"
-      },
-      {
         "file": "halfturn_p46.json",
         "name": "halfturn_p46"
-      },
-      {
-        "file": "halfturn_p46_markers.json",
-        "name": "halfturn_p46_markers"
       },
       {
         "file": "halfturn_p48.json",
@@ -2531,44 +1879,20 @@
         "name": "halfturn_p48_b"
       },
       {
-        "file": "halfturn_p48_b_markers.json",
-        "name": "halfturn_p48_b_markers"
-      },
-      {
         "file": "halfturn_p48_c.json",
         "name": "halfturn_p48_c"
-      },
-      {
-        "file": "halfturn_p48_c_markers.json",
-        "name": "halfturn_p48_c_markers"
       },
       {
         "file": "halfturn_p48_d.json",
         "name": "halfturn_p48_d"
       },
       {
-        "file": "halfturn_p48_d_markers.json",
-        "name": "halfturn_p48_d_markers"
-      },
-      {
-        "file": "halfturn_p48_markers.json",
-        "name": "halfturn_p48_markers"
-      },
-      {
         "file": "halfturn_p50.json",
         "name": "halfturn_p50"
       },
       {
-        "file": "halfturn_p50_markers.json",
-        "name": "halfturn_p50_markers"
-      },
-      {
         "file": "halfturn_p52.json",
         "name": "halfturn_p52"
-      },
-      {
-        "file": "halfturn_p52_markers.json",
-        "name": "halfturn_p52_markers"
       },
       {
         "file": "halfturn_p54.json",
@@ -2579,68 +1903,32 @@
         "name": "halfturn_p54_b"
       },
       {
-        "file": "halfturn_p54_b_markers.json",
-        "name": "halfturn_p54_b_markers"
-      },
-      {
         "file": "halfturn_p54_c.json",
         "name": "halfturn_p54_c"
-      },
-      {
-        "file": "halfturn_p54_c_markers.json",
-        "name": "halfturn_p54_c_markers"
       },
       {
         "file": "halfturn_p54_d.json",
         "name": "halfturn_p54_d"
       },
       {
-        "file": "halfturn_p54_d_markers.json",
-        "name": "halfturn_p54_d_markers"
-      },
-      {
         "file": "halfturn_p54_e.json",
         "name": "halfturn_p54_e"
-      },
-      {
-        "file": "halfturn_p54_e_markers.json",
-        "name": "halfturn_p54_e_markers"
       },
       {
         "file": "halfturn_p54_f.json",
         "name": "halfturn_p54_f"
       },
       {
-        "file": "halfturn_p54_f_markers.json",
-        "name": "halfturn_p54_f_markers"
-      },
-      {
         "file": "halfturn_p54_g.json",
         "name": "halfturn_p54_g"
-      },
-      {
-        "file": "halfturn_p54_g_markers.json",
-        "name": "halfturn_p54_g_markers"
       },
       {
         "file": "halfturn_p54_h.json",
         "name": "halfturn_p54_h"
       },
       {
-        "file": "halfturn_p54_h_markers.json",
-        "name": "halfturn_p54_h_markers"
-      },
-      {
-        "file": "halfturn_p54_markers.json",
-        "name": "halfturn_p54_markers"
-      },
-      {
         "file": "halfturn_p56.json",
         "name": "halfturn_p56"
-      },
-      {
-        "file": "halfturn_p56_markers.json",
-        "name": "halfturn_p56_markers"
       },
       {
         "file": "halfturn_p60.json",
@@ -2651,44 +1939,20 @@
         "name": "halfturn_p60_b"
       },
       {
-        "file": "halfturn_p60_b_markers.json",
-        "name": "halfturn_p60_b_markers"
-      },
-      {
         "file": "halfturn_p60_c.json",
         "name": "halfturn_p60_c"
-      },
-      {
-        "file": "halfturn_p60_c_markers.json",
-        "name": "halfturn_p60_c_markers"
       },
       {
         "file": "halfturn_p60_d.json",
         "name": "halfturn_p60_d"
       },
       {
-        "file": "halfturn_p60_d_markers.json",
-        "name": "halfturn_p60_d_markers"
-      },
-      {
         "file": "halfturn_p60_e.json",
         "name": "halfturn_p60_e"
       },
       {
-        "file": "halfturn_p60_e_markers.json",
-        "name": "halfturn_p60_e_markers"
-      },
-      {
         "file": "halfturn_p60_f.json",
         "name": "halfturn_p60_f"
-      },
-      {
-        "file": "halfturn_p60_f_markers.json",
-        "name": "halfturn_p60_f_markers"
-      },
-      {
-        "file": "halfturn_p60_markers.json",
-        "name": "halfturn_p60_markers"
       },
       {
         "file": "halfturn_p62.json",
@@ -2699,14 +1963,6 @@
         "name": "halfturn_p62_b"
       },
       {
-        "file": "halfturn_p62_b_markers.json",
-        "name": "halfturn_p62_b_markers"
-      },
-      {
-        "file": "halfturn_p62_markers.json",
-        "name": "halfturn_p62_markers"
-      },
-      {
         "file": "halfturn_p64.json",
         "name": "halfturn_p64"
       },
@@ -2715,36 +1971,16 @@
         "name": "halfturn_p64_b"
       },
       {
-        "file": "halfturn_p64_b_markers.json",
-        "name": "halfturn_p64_b_markers"
-      },
-      {
         "file": "halfturn_p64_c.json",
         "name": "halfturn_p64_c"
-      },
-      {
-        "file": "halfturn_p64_c_markers.json",
-        "name": "halfturn_p64_c_markers"
-      },
-      {
-        "file": "halfturn_p64_markers.json",
-        "name": "halfturn_p64_markers"
       },
       {
         "file": "halfturn_p68.json",
         "name": "halfturn_p68"
       },
       {
-        "file": "halfturn_p68_markers.json",
-        "name": "halfturn_p68_markers"
-      },
-      {
         "file": "halfturn_p70.json",
         "name": "halfturn_p70"
-      },
-      {
-        "file": "halfturn_p70_markers.json",
-        "name": "halfturn_p70_markers"
       },
       {
         "file": "halfturn_p72.json",
@@ -2755,20 +1991,8 @@
         "name": "halfturn_p72_b"
       },
       {
-        "file": "halfturn_p72_b_markers.json",
-        "name": "halfturn_p72_b_markers"
-      },
-      {
         "file": "halfturn_p72_c.json",
         "name": "halfturn_p72_c"
-      },
-      {
-        "file": "halfturn_p72_c_markers.json",
-        "name": "halfturn_p72_c_markers"
-      },
-      {
-        "file": "halfturn_p72_markers.json",
-        "name": "halfturn_p72_markers"
       },
       {
         "file": "halfturn_p74.json",
@@ -2779,20 +2003,8 @@
         "name": "halfturn_p74_b"
       },
       {
-        "file": "halfturn_p74_b_markers.json",
-        "name": "halfturn_p74_b_markers"
-      },
-      {
-        "file": "halfturn_p74_markers.json",
-        "name": "halfturn_p74_markers"
-      },
-      {
         "file": "halfturn_p78.json",
         "name": "halfturn_p78"
-      },
-      {
-        "file": "halfturn_p78_markers.json",
-        "name": "halfturn_p78_markers"
       },
       {
         "file": "halfturn_p80.json",
@@ -2803,14 +2015,6 @@
         "name": "halfturn_p80_b"
       },
       {
-        "file": "halfturn_p80_b_markers.json",
-        "name": "halfturn_p80_b_markers"
-      },
-      {
-        "file": "halfturn_p80_markers.json",
-        "name": "halfturn_p80_markers"
-      },
-      {
         "file": "halfturn_p82.json",
         "name": "halfturn_p82"
       },
@@ -2819,28 +2023,12 @@
         "name": "halfturn_p82_b"
       },
       {
-        "file": "halfturn_p82_b_markers.json",
-        "name": "halfturn_p82_b_markers"
-      },
-      {
         "file": "halfturn_p82_c.json",
         "name": "halfturn_p82_c"
       },
       {
-        "file": "halfturn_p82_c_markers.json",
-        "name": "halfturn_p82_c_markers"
-      },
-      {
         "file": "halfturn_p82_d.json",
         "name": "halfturn_p82_d"
-      },
-      {
-        "file": "halfturn_p82_d_markers.json",
-        "name": "halfturn_p82_d_markers"
-      },
-      {
-        "file": "halfturn_p82_markers.json",
-        "name": "halfturn_p82_markers"
       },
       {
         "file": "halfturn_p86.json",
@@ -2851,28 +2039,12 @@
         "name": "halfturn_p86_b"
       },
       {
-        "file": "halfturn_p86_b_markers.json",
-        "name": "halfturn_p86_b_markers"
-      },
-      {
-        "file": "halfturn_p86_markers.json",
-        "name": "halfturn_p86_markers"
-      },
-      {
         "file": "halfturn_p88.json",
         "name": "halfturn_p88"
       },
       {
         "file": "halfturn_p888.json",
         "name": "halfturn_p888"
-      },
-      {
-        "file": "halfturn_p888_markers.json",
-        "name": "halfturn_p888_markers"
-      },
-      {
-        "file": "halfturn_p88_markers.json",
-        "name": "halfturn_p88_markers"
       },
       {
         "file": "halfturn_p90.json",
@@ -2883,28 +2055,12 @@
         "name": "halfturn_p90_b"
       },
       {
-        "file": "halfturn_p90_b_markers.json",
-        "name": "halfturn_p90_b_markers"
-      },
-      {
         "file": "halfturn_p90_c.json",
         "name": "halfturn_p90_c"
       },
       {
-        "file": "halfturn_p90_c_markers.json",
-        "name": "halfturn_p90_c_markers"
-      },
-      {
-        "file": "halfturn_p90_markers.json",
-        "name": "halfturn_p90_markers"
-      },
-      {
         "file": "halfturn_p96.json",
         "name": "halfturn_p96"
-      },
-      {
-        "file": "halfturn_p96_markers.json",
-        "name": "halfturn_p96_markers"
       },
       {
         "file": "halfturn_p98.json",
@@ -2913,14 +2069,6 @@
       {
         "file": "halfturn_p98_b.json",
         "name": "halfturn_p98_b"
-      },
-      {
-        "file": "halfturn_p98_b_markers.json",
-        "name": "halfturn_p98_b_markers"
-      },
-      {
-        "file": "halfturn_p98_markers.json",
-        "name": "halfturn_p98_markers"
       }
     ]
   },
