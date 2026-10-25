@@ -4488,296 +4488,148 @@
         "name": "3_nearest_plus"
       },
       {
-        "file": "3_nearest_plus_markers.json",
-        "name": "3_nearest_plus_markers"
-      },
-      {
         "file": "Blinker_w_Catccher_p48_5.json",
         "name": "Blinker_w_Catccher_p48_5"
-      },
-      {
-        "file": "Blinker_w_Catccher_p48_5_markers.json",
-        "name": "Blinker_w_Catccher_p48_5_markers"
       },
       {
         "file": "Bloop_p196_2.json",
         "name": "Bloop_p196_2"
       },
       {
-        "file": "Bloop_p196_2_markers.json",
-        "name": "Bloop_p196_2_markers"
-      },
-      {
         "file": "Daggo_w_Catcher_p40_3.json",
         "name": "Daggo_w_Catcher_p40_3"
-      },
-      {
-        "file": "Daggo_w_Catcher_p40_3_markers.json",
-        "name": "Daggo_w_Catcher_p40_3_markers"
       },
       {
         "file": "Daggo_w_Cross_p164_2.json",
         "name": "Daggo_w_Cross_p164_2"
       },
       {
-        "file": "Daggo_w_Cross_p164_2_markers.json",
-        "name": "Daggo_w_Cross_p164_2_markers"
-      },
-      {
         "file": "Daggoo_p64.json",
         "name": "Daggoo_p64"
-      },
-      {
-        "file": "Daggoo_p64_markers.json",
-        "name": "Daggoo_p64_markers"
       },
       {
         "file": "DiagRot_p84_9.json",
         "name": "DiagRot_p84_9"
       },
       {
-        "file": "DiagRot_p84_9_markers.json",
-        "name": "DiagRot_p84_9_markers"
-      },
-      {
         "file": "DiagShake_p18_7.json",
         "name": "DiagShake_p18_7"
-      },
-      {
-        "file": "DiagShake_p18_7_markers.json",
-        "name": "DiagShake_p18_7_markers"
       },
       {
         "file": "DiagShake_p20_3.json",
         "name": "DiagShake_p20_3"
       },
       {
-        "file": "DiagShake_p20_3_markers.json",
-        "name": "DiagShake_p20_3_markers"
-      },
-      {
         "file": "DiagShake_p20_9.json",
         "name": "DiagShake_p20_9"
-      },
-      {
-        "file": "DiagShake_p20_9_markers.json",
-        "name": "DiagShake_p20_9_markers"
       },
       {
         "file": "Flask_p172_10.json",
         "name": "Flask_p172_10"
       },
       {
-        "file": "Flask_p172_10_markers.json",
-        "name": "Flask_p172_10_markers"
-      },
-      {
         "file": "Flask_p324.json",
         "name": "Flask_p324"
-      },
-      {
-        "file": "Flask_p324_markers.json",
-        "name": "Flask_p324_markers"
       },
       {
         "file": "Flask_p88.json",
         "name": "Flask_p88"
       },
       {
-        "file": "Flask_p88_markers.json",
-        "name": "Flask_p88_markers"
-      },
-      {
         "file": "HourGlass_p90.json",
         "name": "HourGlass_p90"
-      },
-      {
-        "file": "HourGlass_p90_markers.json",
-        "name": "HourGlass_p90_markers"
       },
       {
         "file": "Moby_p228.json",
         "name": "Moby_p228"
       },
       {
-        "file": "Moby_p228_markers.json",
-        "name": "Moby_p228_markers"
-      },
-      {
         "file": "NineThirtySix.json",
         "name": "NineThirtySix"
-      },
-      {
-        "file": "NineThirtySix_markers.json",
-        "name": "NineThirtySix_markers"
       },
       {
         "file": "Pip_p100.json",
         "name": "Pip_p100"
       },
       {
-        "file": "Pip_p100_markers.json",
-        "name": "Pip_p100_markers"
-      },
-      {
         "file": "Pivot_p24_1.json",
         "name": "Pivot_p24_1"
-      },
-      {
-        "file": "Pivot_p24_1_markers.json",
-        "name": "Pivot_p24_1_markers"
       },
       {
         "file": "Pivot_p36_1.json",
         "name": "Pivot_p36_1"
       },
       {
-        "file": "Pivot_p36_1_markers.json",
-        "name": "Pivot_p36_1_markers"
-      },
-      {
         "file": "Pump_p154_3.json",
         "name": "Pump_p154_3"
-      },
-      {
-        "file": "Pump_p154_3_markers.json",
-        "name": "Pump_p154_3_markers"
       },
       {
         "file": "Pump_p42_4.json",
         "name": "Pump_p42_4"
       },
       {
-        "file": "Pump_p42_4_markers.json",
-        "name": "Pump_p42_4_markers"
-      },
-      {
         "file": "Queequeg_p170.json",
         "name": "Queequeg_p170"
-      },
-      {
-        "file": "Queequeg_p170_markers.json",
-        "name": "Queequeg_p170_markers"
       },
       {
         "file": "Shake_p22_9.json",
         "name": "Shake_p22_9"
       },
       {
-        "file": "Shake_p22_9_markers.json",
-        "name": "Shake_p22_9_markers"
-      },
-      {
         "file": "Snake_p14.json",
         "name": "Snake_p14"
-      },
-      {
-        "file": "Snake_p14_markers.json",
-        "name": "Snake_p14_markers"
       },
       {
         "file": "Snake_p24.json",
         "name": "Snake_p24"
       },
       {
-        "file": "Snake_p24_markers.json",
-        "name": "Snake_p24_markers"
-      },
-      {
         "file": "Snake_p28.json",
         "name": "Snake_p28"
-      },
-      {
-        "file": "Snake_p28_markers.json",
-        "name": "Snake_p28_markers"
       },
       {
         "file": "Starbuck_p128.json",
         "name": "Starbuck_p128"
       },
       {
-        "file": "Starbuck_p128_markers.json",
-        "name": "Starbuck_p128_markers"
-      },
-      {
         "file": "Stubb_p164.json",
         "name": "Stubb_p164"
-      },
-      {
-        "file": "Stubb_p164_markers.json",
-        "name": "Stubb_p164_markers"
       },
       {
         "file": "Tashtego_p176.json",
         "name": "Tashtego_p176"
       },
       {
-        "file": "Tashtego_p176_markers.json",
-        "name": "Tashtego_p176_markers"
-      },
-      {
         "file": "ThreeSwitch_p100_9.json",
         "name": "ThreeSwitch_p100_9"
-      },
-      {
-        "file": "ThreeSwitch_p100_9_markers.json",
-        "name": "ThreeSwitch_p100_9_markers"
       },
       {
         "file": "Trade_p32_10.json",
         "name": "Trade_p32_10"
       },
       {
-        "file": "Trade_p32_10_markers.json",
-        "name": "Trade_p32_10_markers"
-      },
-      {
         "file": "ZShake_p30_6.json",
         "name": "ZShake_p30_6"
-      },
-      {
-        "file": "ZShake_p30_6_markers.json",
-        "name": "ZShake_p30_6_markers"
       },
       {
         "file": "alien2_p72.json",
         "name": "alien2_p72"
       },
       {
-        "file": "alien2_p72_markers.json",
-        "name": "alien2_p72_markers"
-      },
-      {
         "file": "alien3_p84.json",
         "name": "alien3_p84"
-      },
-      {
-        "file": "alien3_p84_markers.json",
-        "name": "alien3_p84_markers"
       },
       {
         "file": "alien4_p288.json",
         "name": "alien4_p288"
       },
       {
-        "file": "alien4_p288_markers.json",
-        "name": "alien4_p288_markers"
-      },
-      {
         "file": "alien7_p112.json",
         "name": "alien7_p112"
       },
       {
-        "file": "alien7_p112_markers.json",
-        "name": "alien7_p112_markers"
-      },
-      {
         "file": "alien9_p20.json",
         "name": "alien9_p20"
-      },
-      {
-        "file": "alien9_p20_markers.json",
-        "name": "alien9_p20_markers"
       },
       {
         "file": "ampersand.json",
@@ -4788,164 +4640,80 @@
         "name": "ampersand168"
       },
       {
-        "file": "ampersand168_markers.json",
-        "name": "ampersand168_markers"
-      },
-      {
-        "file": "ampersand_markers.json",
-        "name": "ampersand_markers"
-      },
-      {
         "file": "best.json",
         "name": "best"
-      },
-      {
-        "file": "best_markers.json",
-        "name": "best_markers"
       },
       {
         "file": "clean_p30_1.json",
         "name": "clean_p30_1"
       },
       {
-        "file": "clean_p30_1_markers.json",
-        "name": "clean_p30_1_markers"
-      },
-      {
         "file": "clean_p30_4.json",
         "name": "clean_p30_4"
-      },
-      {
-        "file": "clean_p30_4_markers.json",
-        "name": "clean_p30_4_markers"
       },
       {
         "file": "clean_p40_7.json",
         "name": "clean_p40_7"
       },
       {
-        "file": "clean_p40_7_markers.json",
-        "name": "clean_p40_7_markers"
-      },
-      {
         "file": "clean_p60_6.json",
         "name": "clean_p60_6"
-      },
-      {
-        "file": "clean_p60_6_markers.json",
-        "name": "clean_p60_6_markers"
       },
       {
         "file": "cool.json",
         "name": "cool"
       },
       {
-        "file": "cool_markers.json",
-        "name": "cool_markers"
-      },
-      {
         "file": "degen16.json",
         "name": "degen16"
-      },
-      {
-        "file": "degen16_markers.json",
-        "name": "degen16_markers"
       },
       {
         "file": "degen24a.json",
         "name": "degen24a"
       },
       {
-        "file": "degen24a_markers.json",
-        "name": "degen24a_markers"
-      },
-      {
         "file": "degen84a.json",
         "name": "degen84a"
-      },
-      {
-        "file": "degen84a_markers.json",
-        "name": "degen84a_markers"
       },
       {
         "file": "final5_p28_4.json",
         "name": "final5_p28_4"
       },
       {
-        "file": "final5_p28_4_markers.json",
-        "name": "final5_p28_4_markers"
-      },
-      {
         "file": "final5_p30_2.json",
         "name": "final5_p30_2"
-      },
-      {
-        "file": "final5_p30_2_markers.json",
-        "name": "final5_p30_2_markers"
       },
       {
         "file": "final5_p30_6.json",
         "name": "final5_p30_6"
       },
       {
-        "file": "final5_p30_6_markers.json",
-        "name": "final5_p30_6_markers"
-      },
-      {
         "file": "final5_p30_8.json",
         "name": "final5_p30_8"
-      },
-      {
-        "file": "final5_p30_8_markers.json",
-        "name": "final5_p30_8_markers"
       },
       {
         "file": "final5_p40_10.json",
         "name": "final5_p40_10"
       },
       {
-        "file": "final5_p40_10_markers.json",
-        "name": "final5_p40_10_markers"
-      },
-      {
         "file": "final5_p42_3.json",
         "name": "final5_p42_3"
-      },
-      {
-        "file": "final5_p42_3_markers.json",
-        "name": "final5_p42_3_markers"
       },
       {
         "file": "final5_p6_1.json",
         "name": "final5_p6_1"
       },
       {
-        "file": "final5_p6_1_markers.json",
-        "name": "final5_p6_1_markers"
-      },
-      {
         "file": "glider_park.json",
         "name": "glider_park"
-      },
-      {
-        "file": "glider_park_markers.json",
-        "name": "glider_park_markers"
       },
       {
         "file": "good.json",
         "name": "good"
       },
       {
-        "file": "good_markers.json",
-        "name": "good_markers"
-      },
-      {
         "file": "intelligent1_p30.json",
         "name": "intelligent1_p30"
-      },
-      {
-        "file": "intelligent1_p30_markers.json",
-        "name": "intelligent1_p30_markers"
       },
       {
         "file": "lighter.json",
@@ -4956,212 +4724,104 @@
         "name": "lighter_2"
       },
       {
-        "file": "lighter_2_markers.json",
-        "name": "lighter_2_markers"
-      },
-      {
-        "file": "lighter_markers.json",
-        "name": "lighter_markers"
-      },
-      {
         "file": "ok.json",
         "name": "ok"
-      },
-      {
-        "file": "ok_markers.json",
-        "name": "ok_markers"
       },
       {
         "file": "p128.json",
         "name": "p128"
       },
       {
-        "file": "p128_markers.json",
-        "name": "p128_markers"
-      },
-      {
         "file": "p16_triple_cross.json",
         "name": "p16_triple_cross"
-      },
-      {
-        "file": "p16_triple_cross_markers.json",
-        "name": "p16_triple_cross_markers"
       },
       {
         "file": "p38.json",
         "name": "p38"
       },
       {
-        "file": "p38_markers.json",
-        "name": "p38_markers"
-      },
-      {
         "file": "p8_1.json",
         "name": "p8_1"
-      },
-      {
-        "file": "p8_1_markers.json",
-        "name": "p8_1_markers"
       },
       {
         "file": "rattle16a.json",
         "name": "rattle16a"
       },
       {
-        "file": "rattle16a_markers.json",
-        "name": "rattle16a_markers"
-      },
-      {
         "file": "rattle16b.json",
         "name": "rattle16b"
-      },
-      {
-        "file": "rattle16b_markers.json",
-        "name": "rattle16b_markers"
       },
       {
         "file": "rattle16c.json",
         "name": "rattle16c"
       },
       {
-        "file": "rattle16c_markers.json",
-        "name": "rattle16c_markers"
-      },
-      {
         "file": "rattle16d.json",
         "name": "rattle16d"
-      },
-      {
-        "file": "rattle16d_markers.json",
-        "name": "rattle16d_markers"
       },
       {
         "file": "rattle16e.json",
         "name": "rattle16e"
       },
       {
-        "file": "rattle16e_markers.json",
-        "name": "rattle16e_markers"
-      },
-      {
         "file": "reflector_gallery.json",
         "name": "reflector_gallery"
-      },
-      {
-        "file": "reflector_gallery_markers.json",
-        "name": "reflector_gallery_markers"
       },
       {
         "file": "shuffle_4_p168.json",
         "name": "shuffle_4_p168"
       },
       {
-        "file": "shuffle_4_p168_markers.json",
-        "name": "shuffle_4_p168_markers"
-      },
-      {
         "file": "six_shakers.json",
         "name": "six_shakers"
-      },
-      {
-        "file": "six_shakers_markers.json",
-        "name": "six_shakers_markers"
       },
       {
         "file": "slight_degen.json",
         "name": "slight_degen"
       },
       {
-        "file": "slight_degen_markers.json",
-        "name": "slight_degen_markers"
-      },
-      {
         "file": "snake.json",
         "name": "snake"
-      },
-      {
-        "file": "snake_markers.json",
-        "name": "snake_markers"
       },
       {
         "file": "subgroupfiltered_p6.json",
         "name": "subgroupfiltered_p6"
       },
       {
-        "file": "subgroupfiltered_p6_markers.json",
-        "name": "subgroupfiltered_p6_markers"
-      },
-      {
         "file": "swap16a.json",
         "name": "swap16a"
-      },
-      {
-        "file": "swap16a_markers.json",
-        "name": "swap16a_markers"
       },
       {
         "file": "swap26a.json",
         "name": "swap26a"
       },
       {
-        "file": "swap26a_markers.json",
-        "name": "swap26a_markers"
-      },
-      {
         "file": "tilde30a.json",
         "name": "tilde30a"
-      },
-      {
-        "file": "tilde30a_markers.json",
-        "name": "tilde30a_markers"
       },
       {
         "file": "tv12a.json",
         "name": "tv12a"
       },
       {
-        "file": "tv12a_markers.json",
-        "name": "tv12a_markers"
-      },
-      {
         "file": "whale3_p154_1.json",
         "name": "whale3_p154_1"
-      },
-      {
-        "file": "whale3_p154_1_markers.json",
-        "name": "whale3_p154_1_markers"
       },
       {
         "file": "whale3_p154_3.json",
         "name": "whale3_p154_3"
       },
       {
-        "file": "whale3_p154_3_markers.json",
-        "name": "whale3_p154_3_markers"
-      },
-      {
         "file": "whale_p164_1.json",
         "name": "whale_p164_1"
-      },
-      {
-        "file": "whale_p164_1_markers.json",
-        "name": "whale_p164_1_markers"
       },
       {
         "file": "whale_p164_4.json",
         "name": "whale_p164_4"
       },
       {
-        "file": "whale_p164_4_markers.json",
-        "name": "whale_p164_4_markers"
-      },
-      {
         "file": "whale_p172_5.json",
         "name": "whale_p172_5"
-      },
-      {
-        "file": "whale_p172_5_markers.json",
-        "name": "whale_p172_5_markers"
       }
     ]
   },
