@@ -1,0 +1,3704 @@
+[
+  {
+    "folder": "Gliders",
+    "items": [
+      {
+        "file": "Glider_large_amplitude.json",
+        "name": "Glider_large_amplitude"
+      },
+      {
+        "file": "glider_abs_sin_2.json",
+        "name": "glider_abs_sin_2"
+      },
+      {
+        "file": "glider_basic_2_n.json",
+        "name": "glider_basic_2_n"
+      },
+      {
+        "file": "glider_basic_qm_sw.json",
+        "name": "glider_basic_qm_sw"
+      },
+      {
+        "file": "glider_bumpy3_north.json",
+        "name": "glider_bumpy3_north"
+      },
+      {
+        "file": "glider_bumpy_s.json",
+        "name": "glider_bumpy_s"
+      },
+      {
+        "file": "glider_coil_ene.json",
+        "name": "glider_coil_ene"
+      },
+      {
+        "file": "glider_degenerate.json",
+        "name": "glider_degenerate"
+      },
+      {
+        "file": "glider_dna_south.json",
+        "name": "glider_dna_south"
+      },
+      {
+        "file": "glider_down_n3_b0.json",
+        "name": "glider_down_n3_b0"
+      },
+      {
+        "file": "glider_ene.json",
+        "name": "glider_ene"
+      },
+      {
+        "file": "glider_fuzzy_west.json",
+        "name": "glider_fuzzy_west"
+      },
+      {
+        "file": "glider_huge_amplitude_north.json",
+        "name": "glider_huge_amplitude_north"
+      },
+      {
+        "file": "glider_n3_b0_abs_sin.json",
+        "name": "glider_n3_b0_abs_sin"
+      },
+      {
+        "file": "glider_n3_b0_left_two_pert.json",
+        "name": "glider_n3_b0_left_two_pert"
+      },
+      {
+        "file": "glider_n3_b0_tight_up_left.json",
+        "name": "glider_n3_b0_tight_up_left"
+      },
+      {
+        "file": "glider_ne_complex_large.json",
+        "name": "glider_ne_complex_large"
+      },
+      {
+        "file": "glider_nne_script.json",
+        "name": "glider_nne_script"
+      },
+      {
+        "file": "glider_p30.json",
+        "name": "glider_p30"
+      },
+      {
+        "file": "glider_pretty_ne.json",
+        "name": "glider_pretty_ne"
+      },
+      {
+        "file": "glider_qm_large_se.json",
+        "name": "glider_qm_large_se"
+      },
+      {
+        "file": "glider_right_n3_b0.json",
+        "name": "glider_right_n3_b0"
+      },
+      {
+        "file": "glider_slow_wide_nw.json",
+        "name": "glider_slow_wide_nw"
+      },
+      {
+        "file": "glider_sm_sin_sse.json",
+        "name": "glider_sm_sin_sse"
+      },
+      {
+        "file": "glider_small_down.json",
+        "name": "glider_small_down"
+      },
+      {
+        "file": "glider_sse.json",
+        "name": "glider_sse"
+      },
+      {
+        "file": "glider_sw_tight_2.json",
+        "name": "glider_sw_tight_2"
+      },
+      {
+        "file": "glider_wsw_braid.json",
+        "name": "glider_wsw_braid"
+      },
+      {
+        "file": "pair_scales.json",
+        "name": "pair_scales"
+      },
+      {
+        "file": "spaceship1_p244.json",
+        "name": "spaceship1_p244"
+      },
+      {
+        "file": "spaceship2_p420.json",
+        "name": "spaceship2_p420"
+      },
+      {
+        "file": "spaceship3_p42.json",
+        "name": "spaceship3_p42"
+      },
+      {
+        "file": "spaceship4_p76.json",
+        "name": "spaceship4_p76"
+      },
+      {
+        "file": "spaceship5_p68.json",
+        "name": "spaceship5_p68"
+      },
+      {
+        "file": "spaceship6_p174.json",
+        "name": "spaceship6_p174"
+      },
+      {
+        "file": "spaceship7_p62.json",
+        "name": "spaceship7_p62"
+      }
+    ]
+  },
+  {
+    "folder": "HalfTurn5_large",
+    "items": [
+      {
+        "file": "n5_halfturn_p106.json",
+        "name": "n5_halfturn_p106"
+      },
+      {
+        "file": "n5_halfturn_p1182.json",
+        "name": "n5_halfturn_p1182"
+      },
+      {
+        "file": "n5_halfturn_p136.json",
+        "name": "n5_halfturn_p136"
+      },
+      {
+        "file": "n5_halfturn_p144.json",
+        "name": "n5_halfturn_p144"
+      },
+      {
+        "file": "n5_halfturn_p166.json",
+        "name": "n5_halfturn_p166"
+      },
+      {
+        "file": "n5_halfturn_p190.json",
+        "name": "n5_halfturn_p190"
+      },
+      {
+        "file": "n5_halfturn_p192.json",
+        "name": "n5_halfturn_p192"
+      },
+      {
+        "file": "n5_halfturn_p206.json",
+        "name": "n5_halfturn_p206"
+      },
+      {
+        "file": "n5_halfturn_p234.json",
+        "name": "n5_halfturn_p234"
+      },
+      {
+        "file": "n5_halfturn_p254.json",
+        "name": "n5_halfturn_p254"
+      },
+      {
+        "file": "n5_halfturn_p322.json",
+        "name": "n5_halfturn_p322"
+      },
+      {
+        "file": "n5_halfturn_p378.json",
+        "name": "n5_halfturn_p378"
+      },
+      {
+        "file": "n5_halfturn_p846.json",
+        "name": "n5_halfturn_p846"
+      },
+      {
+        "file": "n5_halfturn_p952.json",
+        "name": "n5_halfturn_p952"
+      }
+    ]
+  },
+  {
+    "folder": "HalfTurn5_small",
+    "items": [
+      {
+        "file": "n5_halfturn_p100.json",
+        "name": "n5_halfturn_p100"
+      },
+      {
+        "file": "n5_halfturn_p100_b.json",
+        "name": "n5_halfturn_p100_b"
+      },
+      {
+        "file": "n5_halfturn_p104.json",
+        "name": "n5_halfturn_p104"
+      },
+      {
+        "file": "n5_halfturn_p106.json",
+        "name": "n5_halfturn_p106"
+      },
+      {
+        "file": "n5_halfturn_p110.json",
+        "name": "n5_halfturn_p110"
+      },
+      {
+        "file": "n5_halfturn_p110_b.json",
+        "name": "n5_halfturn_p110_b"
+      },
+      {
+        "file": "n5_halfturn_p110_c.json",
+        "name": "n5_halfturn_p110_c"
+      },
+      {
+        "file": "n5_halfturn_p110_d.json",
+        "name": "n5_halfturn_p110_d"
+      },
+      {
+        "file": "n5_halfturn_p110_e.json",
+        "name": "n5_halfturn_p110_e"
+      },
+      {
+        "file": "n5_halfturn_p110_f.json",
+        "name": "n5_halfturn_p110_f"
+      },
+      {
+        "file": "n5_halfturn_p114.json",
+        "name": "n5_halfturn_p114"
+      },
+      {
+        "file": "n5_halfturn_p116.json",
+        "name": "n5_halfturn_p116"
+      },
+      {
+        "file": "n5_halfturn_p120.json",
+        "name": "n5_halfturn_p120"
+      },
+      {
+        "file": "n5_halfturn_p124.json",
+        "name": "n5_halfturn_p124"
+      },
+      {
+        "file": "n5_halfturn_p124_b.json",
+        "name": "n5_halfturn_p124_b"
+      },
+      {
+        "file": "n5_halfturn_p126.json",
+        "name": "n5_halfturn_p126"
+      },
+      {
+        "file": "n5_halfturn_p126_b.json",
+        "name": "n5_halfturn_p126_b"
+      },
+      {
+        "file": "n5_halfturn_p126_c.json",
+        "name": "n5_halfturn_p126_c"
+      },
+      {
+        "file": "n5_halfturn_p128.json",
+        "name": "n5_halfturn_p128"
+      },
+      {
+        "file": "n5_halfturn_p142.json",
+        "name": "n5_halfturn_p142"
+      },
+      {
+        "file": "n5_halfturn_p144.json",
+        "name": "n5_halfturn_p144"
+      },
+      {
+        "file": "n5_halfturn_p144_b.json",
+        "name": "n5_halfturn_p144_b"
+      },
+      {
+        "file": "n5_halfturn_p144_c.json",
+        "name": "n5_halfturn_p144_c"
+      },
+      {
+        "file": "n5_halfturn_p144_d.json",
+        "name": "n5_halfturn_p144_d"
+      },
+      {
+        "file": "n5_halfturn_p148.json",
+        "name": "n5_halfturn_p148"
+      },
+      {
+        "file": "n5_halfturn_p156.json",
+        "name": "n5_halfturn_p156"
+      },
+      {
+        "file": "n5_halfturn_p172.json",
+        "name": "n5_halfturn_p172"
+      },
+      {
+        "file": "n5_halfturn_p172_b.json",
+        "name": "n5_halfturn_p172_b"
+      },
+      {
+        "file": "n5_halfturn_p172_c.json",
+        "name": "n5_halfturn_p172_c"
+      },
+      {
+        "file": "n5_halfturn_p18.json",
+        "name": "n5_halfturn_p18"
+      },
+      {
+        "file": "n5_halfturn_p184.json",
+        "name": "n5_halfturn_p184"
+      },
+      {
+        "file": "n5_halfturn_p186.json",
+        "name": "n5_halfturn_p186"
+      },
+      {
+        "file": "n5_halfturn_p192.json",
+        "name": "n5_halfturn_p192"
+      },
+      {
+        "file": "n5_halfturn_p20.json",
+        "name": "n5_halfturn_p20"
+      },
+      {
+        "file": "n5_halfturn_p202.json",
+        "name": "n5_halfturn_p202"
+      },
+      {
+        "file": "n5_halfturn_p20_b.json",
+        "name": "n5_halfturn_p20_b"
+      },
+      {
+        "file": "n5_halfturn_p210.json",
+        "name": "n5_halfturn_p210"
+      },
+      {
+        "file": "n5_halfturn_p210_b.json",
+        "name": "n5_halfturn_p210_b"
+      },
+      {
+        "file": "n5_halfturn_p212.json",
+        "name": "n5_halfturn_p212"
+      },
+      {
+        "file": "n5_halfturn_p228.json",
+        "name": "n5_halfturn_p228"
+      },
+      {
+        "file": "n5_halfturn_p228_b.json",
+        "name": "n5_halfturn_p228_b"
+      },
+      {
+        "file": "n5_halfturn_p24.json",
+        "name": "n5_halfturn_p24"
+      },
+      {
+        "file": "n5_halfturn_p240.json",
+        "name": "n5_halfturn_p240"
+      },
+      {
+        "file": "n5_halfturn_p256.json",
+        "name": "n5_halfturn_p256"
+      },
+      {
+        "file": "n5_halfturn_p26.json",
+        "name": "n5_halfturn_p26"
+      },
+      {
+        "file": "n5_halfturn_p264.json",
+        "name": "n5_halfturn_p264"
+      },
+      {
+        "file": "n5_halfturn_p28.json",
+        "name": "n5_halfturn_p28"
+      },
+      {
+        "file": "n5_halfturn_p288.json",
+        "name": "n5_halfturn_p288"
+      },
+      {
+        "file": "n5_halfturn_p296.json",
+        "name": "n5_halfturn_p296"
+      },
+      {
+        "file": "n5_halfturn_p296_b.json",
+        "name": "n5_halfturn_p296_b"
+      },
+      {
+        "file": "n5_halfturn_p30.json",
+        "name": "n5_halfturn_p30"
+      },
+      {
+        "file": "n5_halfturn_p30_b.json",
+        "name": "n5_halfturn_p30_b"
+      },
+      {
+        "file": "n5_halfturn_p30_c.json",
+        "name": "n5_halfturn_p30_c"
+      },
+      {
+        "file": "n5_halfturn_p324.json",
+        "name": "n5_halfturn_p324"
+      },
+      {
+        "file": "n5_halfturn_p330.json",
+        "name": "n5_halfturn_p330"
+      },
+      {
+        "file": "n5_halfturn_p34.json",
+        "name": "n5_halfturn_p34"
+      },
+      {
+        "file": "n5_halfturn_p36.json",
+        "name": "n5_halfturn_p36"
+      },
+      {
+        "file": "n5_halfturn_p360.json",
+        "name": "n5_halfturn_p360"
+      },
+      {
+        "file": "n5_halfturn_p390.json",
+        "name": "n5_halfturn_p390"
+      },
+      {
+        "file": "n5_halfturn_p412.json",
+        "name": "n5_halfturn_p412"
+      },
+      {
+        "file": "n5_halfturn_p42.json",
+        "name": "n5_halfturn_p42"
+      },
+      {
+        "file": "n5_halfturn_p44.json",
+        "name": "n5_halfturn_p44"
+      },
+      {
+        "file": "n5_halfturn_p462.json",
+        "name": "n5_halfturn_p462"
+      },
+      {
+        "file": "n5_halfturn_p466.json",
+        "name": "n5_halfturn_p466"
+      },
+      {
+        "file": "n5_halfturn_p48.json",
+        "name": "n5_halfturn_p48"
+      },
+      {
+        "file": "n5_halfturn_p48_b.json",
+        "name": "n5_halfturn_p48_b"
+      },
+      {
+        "file": "n5_halfturn_p490.json",
+        "name": "n5_halfturn_p490"
+      },
+      {
+        "file": "n5_halfturn_p492.json",
+        "name": "n5_halfturn_p492"
+      },
+      {
+        "file": "n5_halfturn_p50.json",
+        "name": "n5_halfturn_p50"
+      },
+      {
+        "file": "n5_halfturn_p50_b.json",
+        "name": "n5_halfturn_p50_b"
+      },
+      {
+        "file": "n5_halfturn_p52.json",
+        "name": "n5_halfturn_p52"
+      },
+      {
+        "file": "n5_halfturn_p54.json",
+        "name": "n5_halfturn_p54"
+      },
+      {
+        "file": "n5_halfturn_p54_b.json",
+        "name": "n5_halfturn_p54_b"
+      },
+      {
+        "file": "n5_halfturn_p54_c.json",
+        "name": "n5_halfturn_p54_c"
+      },
+      {
+        "file": "n5_halfturn_p54_d.json",
+        "name": "n5_halfturn_p54_d"
+      },
+      {
+        "file": "n5_halfturn_p558.json",
+        "name": "n5_halfturn_p558"
+      },
+      {
+        "file": "n5_halfturn_p56.json",
+        "name": "n5_halfturn_p56"
+      },
+      {
+        "file": "n5_halfturn_p56_b.json",
+        "name": "n5_halfturn_p56_b"
+      },
+      {
+        "file": "n5_halfturn_p56_c.json",
+        "name": "n5_halfturn_p56_c"
+      },
+      {
+        "file": "n5_halfturn_p58.json",
+        "name": "n5_halfturn_p58"
+      },
+      {
+        "file": "n5_halfturn_p60.json",
+        "name": "n5_halfturn_p60"
+      },
+      {
+        "file": "n5_halfturn_p60_b.json",
+        "name": "n5_halfturn_p60_b"
+      },
+      {
+        "file": "n5_halfturn_p612.json",
+        "name": "n5_halfturn_p612"
+      },
+      {
+        "file": "n5_halfturn_p62.json",
+        "name": "n5_halfturn_p62"
+      },
+      {
+        "file": "n5_halfturn_p64.json",
+        "name": "n5_halfturn_p64"
+      },
+      {
+        "file": "n5_halfturn_p66.json",
+        "name": "n5_halfturn_p66"
+      },
+      {
+        "file": "n5_halfturn_p72.json",
+        "name": "n5_halfturn_p72"
+      },
+      {
+        "file": "n5_halfturn_p72_b.json",
+        "name": "n5_halfturn_p72_b"
+      },
+      {
+        "file": "n5_halfturn_p72_c.json",
+        "name": "n5_halfturn_p72_c"
+      },
+      {
+        "file": "n5_halfturn_p72_d.json",
+        "name": "n5_halfturn_p72_d"
+      },
+      {
+        "file": "n5_halfturn_p72_e.json",
+        "name": "n5_halfturn_p72_e"
+      },
+      {
+        "file": "n5_halfturn_p72_f.json",
+        "name": "n5_halfturn_p72_f"
+      },
+      {
+        "file": "n5_halfturn_p72_g.json",
+        "name": "n5_halfturn_p72_g"
+      },
+      {
+        "file": "n5_halfturn_p72_h.json",
+        "name": "n5_halfturn_p72_h"
+      },
+      {
+        "file": "n5_halfturn_p72_i.json",
+        "name": "n5_halfturn_p72_i"
+      },
+      {
+        "file": "n5_halfturn_p72_j.json",
+        "name": "n5_halfturn_p72_j"
+      },
+      {
+        "file": "n5_halfturn_p72_k.json",
+        "name": "n5_halfturn_p72_k"
+      },
+      {
+        "file": "n5_halfturn_p72_l.json",
+        "name": "n5_halfturn_p72_l"
+      },
+      {
+        "file": "n5_halfturn_p74.json",
+        "name": "n5_halfturn_p74"
+      },
+      {
+        "file": "n5_halfturn_p744.json",
+        "name": "n5_halfturn_p744"
+      },
+      {
+        "file": "n5_halfturn_p744_b.json",
+        "name": "n5_halfturn_p744_b"
+      },
+      {
+        "file": "n5_halfturn_p744_c.json",
+        "name": "n5_halfturn_p744_c"
+      },
+      {
+        "file": "n5_halfturn_p744_d.json",
+        "name": "n5_halfturn_p744_d"
+      },
+      {
+        "file": "n5_halfturn_p78.json",
+        "name": "n5_halfturn_p78"
+      },
+      {
+        "file": "n5_halfturn_p804.json",
+        "name": "n5_halfturn_p804"
+      },
+      {
+        "file": "n5_halfturn_p82.json",
+        "name": "n5_halfturn_p82"
+      },
+      {
+        "file": "n5_halfturn_p84.json",
+        "name": "n5_halfturn_p84"
+      },
+      {
+        "file": "n5_halfturn_p84_b.json",
+        "name": "n5_halfturn_p84_b"
+      },
+      {
+        "file": "n5_halfturn_p84_c.json",
+        "name": "n5_halfturn_p84_c"
+      },
+      {
+        "file": "n5_halfturn_p88.json",
+        "name": "n5_halfturn_p88"
+      },
+      {
+        "file": "n5_halfturn_p88_b.json",
+        "name": "n5_halfturn_p88_b"
+      },
+      {
+        "file": "n5_halfturn_p90.json",
+        "name": "n5_halfturn_p90"
+      },
+      {
+        "file": "n5_halfturn_p90_b.json",
+        "name": "n5_halfturn_p90_b"
+      },
+      {
+        "file": "n5_halfturn_p92.json",
+        "name": "n5_halfturn_p92"
+      },
+      {
+        "file": "n5_halfturn_p94.json",
+        "name": "n5_halfturn_p94"
+      },
+      {
+        "file": "n5_halfturn_p972.json",
+        "name": "n5_halfturn_p972"
+      },
+      {
+        "file": "n5_halfturn_p98.json",
+        "name": "n5_halfturn_p98"
+      },
+      {
+        "file": "n5_halfturn_p98_b.json",
+        "name": "n5_halfturn_p98_b"
+      }
+    ]
+  },
+  {
+    "folder": "HalfTurn_large",
+    "items": [
+      {
+        "file": "halfturn_p1016.json",
+        "name": "halfturn_p1016"
+      },
+      {
+        "file": "halfturn_p102.json",
+        "name": "halfturn_p102"
+      },
+      {
+        "file": "halfturn_p102_b.json",
+        "name": "halfturn_p102_b"
+      },
+      {
+        "file": "halfturn_p106.json",
+        "name": "halfturn_p106"
+      },
+      {
+        "file": "halfturn_p106_b.json",
+        "name": "halfturn_p106_b"
+      },
+      {
+        "file": "halfturn_p1086.json",
+        "name": "halfturn_p1086"
+      },
+      {
+        "file": "halfturn_p1090.json",
+        "name": "halfturn_p1090"
+      },
+      {
+        "file": "halfturn_p1116.json",
+        "name": "halfturn_p1116"
+      },
+      {
+        "file": "halfturn_p1132.json",
+        "name": "halfturn_p1132"
+      },
+      {
+        "file": "halfturn_p118.json",
+        "name": "halfturn_p118"
+      },
+      {
+        "file": "halfturn_p122.json",
+        "name": "halfturn_p122"
+      },
+      {
+        "file": "halfturn_p128_b.json",
+        "name": "halfturn_p128_b"
+      },
+      {
+        "file": "halfturn_p1394.json",
+        "name": "halfturn_p1394"
+      },
+      {
+        "file": "halfturn_p1414.json",
+        "name": "halfturn_p1414"
+      },
+      {
+        "file": "halfturn_p1470.json",
+        "name": "halfturn_p1470"
+      },
+      {
+        "file": "halfturn_p148.json",
+        "name": "halfturn_p148"
+      },
+      {
+        "file": "halfturn_p148_b.json",
+        "name": "halfturn_p148_b"
+      },
+      {
+        "file": "halfturn_p152.json",
+        "name": "halfturn_p152"
+      },
+      {
+        "file": "halfturn_p152_b.json",
+        "name": "halfturn_p152_b"
+      },
+      {
+        "file": "halfturn_p156.json",
+        "name": "halfturn_p156"
+      },
+      {
+        "file": "halfturn_p160.json",
+        "name": "halfturn_p160"
+      },
+      {
+        "file": "halfturn_p162.json",
+        "name": "halfturn_p162"
+      },
+      {
+        "file": "halfturn_p162_b.json",
+        "name": "halfturn_p162_b"
+      },
+      {
+        "file": "halfturn_p166.json",
+        "name": "halfturn_p166"
+      },
+      {
+        "file": "halfturn_p168.json",
+        "name": "halfturn_p168"
+      },
+      {
+        "file": "halfturn_p168_b.json",
+        "name": "halfturn_p168_b"
+      },
+      {
+        "file": "halfturn_p168_c.json",
+        "name": "halfturn_p168_c"
+      },
+      {
+        "file": "halfturn_p1880.json",
+        "name": "halfturn_p1880"
+      },
+      {
+        "file": "halfturn_p188_b.json",
+        "name": "halfturn_p188_b"
+      },
+      {
+        "file": "halfturn_p206.json",
+        "name": "halfturn_p206"
+      },
+      {
+        "file": "halfturn_p210.json",
+        "name": "halfturn_p210"
+      },
+      {
+        "file": "halfturn_p210_b.json",
+        "name": "halfturn_p210_b"
+      },
+      {
+        "file": "halfturn_p2206.json",
+        "name": "halfturn_p2206"
+      },
+      {
+        "file": "halfturn_p228.json",
+        "name": "halfturn_p228"
+      },
+      {
+        "file": "halfturn_p2280.json",
+        "name": "halfturn_p2280"
+      },
+      {
+        "file": "halfturn_p230.json",
+        "name": "halfturn_p230"
+      },
+      {
+        "file": "halfturn_p232.json",
+        "name": "halfturn_p232"
+      },
+      {
+        "file": "halfturn_p236.json",
+        "name": "halfturn_p236"
+      },
+      {
+        "file": "halfturn_p238.json",
+        "name": "halfturn_p238"
+      },
+      {
+        "file": "halfturn_p238_b.json",
+        "name": "halfturn_p238_b"
+      },
+      {
+        "file": "halfturn_p240.json",
+        "name": "halfturn_p240"
+      },
+      {
+        "file": "halfturn_p242.json",
+        "name": "halfturn_p242"
+      },
+      {
+        "file": "halfturn_p246.json",
+        "name": "halfturn_p246"
+      },
+      {
+        "file": "halfturn_p258.json",
+        "name": "halfturn_p258"
+      },
+      {
+        "file": "halfturn_p262.json",
+        "name": "halfturn_p262"
+      },
+      {
+        "file": "halfturn_p274.json",
+        "name": "halfturn_p274"
+      },
+      {
+        "file": "halfturn_p274_b.json",
+        "name": "halfturn_p274_b"
+      },
+      {
+        "file": "halfturn_p276.json",
+        "name": "halfturn_p276"
+      },
+      {
+        "file": "halfturn_p282.json",
+        "name": "halfturn_p282"
+      },
+      {
+        "file": "halfturn_p290.json",
+        "name": "halfturn_p290"
+      },
+      {
+        "file": "halfturn_p292.json",
+        "name": "halfturn_p292"
+      },
+      {
+        "file": "halfturn_p2986.json",
+        "name": "halfturn_p2986"
+      },
+      {
+        "file": "halfturn_p302.json",
+        "name": "halfturn_p302"
+      },
+      {
+        "file": "halfturn_p304.json",
+        "name": "halfturn_p304"
+      },
+      {
+        "file": "halfturn_p306.json",
+        "name": "halfturn_p306"
+      },
+      {
+        "file": "halfturn_p3168.json",
+        "name": "halfturn_p3168"
+      },
+      {
+        "file": "halfturn_p320.json",
+        "name": "halfturn_p320"
+      },
+      {
+        "file": "halfturn_p328.json",
+        "name": "halfturn_p328"
+      },
+      {
+        "file": "halfturn_p328_b.json",
+        "name": "halfturn_p328_b"
+      },
+      {
+        "file": "halfturn_p342.json",
+        "name": "halfturn_p342"
+      },
+      {
+        "file": "halfturn_p350.json",
+        "name": "halfturn_p350"
+      },
+      {
+        "file": "halfturn_p360.json",
+        "name": "halfturn_p360"
+      },
+      {
+        "file": "halfturn_p370.json",
+        "name": "halfturn_p370"
+      },
+      {
+        "file": "halfturn_p372.json",
+        "name": "halfturn_p372"
+      },
+      {
+        "file": "halfturn_p374.json",
+        "name": "halfturn_p374"
+      },
+      {
+        "file": "halfturn_p378.json",
+        "name": "halfturn_p378"
+      },
+      {
+        "file": "halfturn_p384.json",
+        "name": "halfturn_p384"
+      },
+      {
+        "file": "halfturn_p392.json",
+        "name": "halfturn_p392"
+      },
+      {
+        "file": "halfturn_p394.json",
+        "name": "halfturn_p394"
+      },
+      {
+        "file": "halfturn_p408.json",
+        "name": "halfturn_p408"
+      },
+      {
+        "file": "halfturn_p414.json",
+        "name": "halfturn_p414"
+      },
+      {
+        "file": "halfturn_p432.json",
+        "name": "halfturn_p432"
+      },
+      {
+        "file": "halfturn_p436.json",
+        "name": "halfturn_p436"
+      },
+      {
+        "file": "halfturn_p452.json",
+        "name": "halfturn_p452"
+      },
+      {
+        "file": "halfturn_p458.json",
+        "name": "halfturn_p458"
+      },
+      {
+        "file": "halfturn_p458_b.json",
+        "name": "halfturn_p458_b"
+      },
+      {
+        "file": "halfturn_p468.json",
+        "name": "halfturn_p468"
+      },
+      {
+        "file": "halfturn_p480.json",
+        "name": "halfturn_p480"
+      },
+      {
+        "file": "halfturn_p486.json",
+        "name": "halfturn_p486"
+      },
+      {
+        "file": "halfturn_p498.json",
+        "name": "halfturn_p498"
+      },
+      {
+        "file": "halfturn_p504.json",
+        "name": "halfturn_p504"
+      },
+      {
+        "file": "halfturn_p504_b.json",
+        "name": "halfturn_p504_b"
+      },
+      {
+        "file": "halfturn_p512.json",
+        "name": "halfturn_p512"
+      },
+      {
+        "file": "halfturn_p516.json",
+        "name": "halfturn_p516"
+      },
+      {
+        "file": "halfturn_p522.json",
+        "name": "halfturn_p522"
+      },
+      {
+        "file": "halfturn_p530.json",
+        "name": "halfturn_p530"
+      },
+      {
+        "file": "halfturn_p562.json",
+        "name": "halfturn_p562"
+      },
+      {
+        "file": "halfturn_p564.json",
+        "name": "halfturn_p564"
+      },
+      {
+        "file": "halfturn_p5678.json",
+        "name": "halfturn_p5678"
+      },
+      {
+        "file": "halfturn_p572.json",
+        "name": "halfturn_p572"
+      },
+      {
+        "file": "halfturn_p580.json",
+        "name": "halfturn_p580"
+      },
+      {
+        "file": "halfturn_p586.json",
+        "name": "halfturn_p586"
+      },
+      {
+        "file": "halfturn_p598.json",
+        "name": "halfturn_p598"
+      },
+      {
+        "file": "halfturn_p600.json",
+        "name": "halfturn_p600"
+      },
+      {
+        "file": "halfturn_p632.json",
+        "name": "halfturn_p632"
+      },
+      {
+        "file": "halfturn_p640.json",
+        "name": "halfturn_p640"
+      },
+      {
+        "file": "halfturn_p650.json",
+        "name": "halfturn_p650"
+      },
+      {
+        "file": "halfturn_p654.json",
+        "name": "halfturn_p654"
+      },
+      {
+        "file": "halfturn_p680.json",
+        "name": "halfturn_p680"
+      },
+      {
+        "file": "halfturn_p70.json",
+        "name": "halfturn_p70"
+      },
+      {
+        "file": "halfturn_p738.json",
+        "name": "halfturn_p738"
+      },
+      {
+        "file": "halfturn_p810.json",
+        "name": "halfturn_p810"
+      },
+      {
+        "file": "halfturn_p826.json",
+        "name": "halfturn_p826"
+      },
+      {
+        "file": "halfturn_p830.json",
+        "name": "halfturn_p830"
+      },
+      {
+        "file": "halfturn_p88.json",
+        "name": "halfturn_p88"
+      },
+      {
+        "file": "halfturn_p90.json",
+        "name": "halfturn_p90"
+      },
+      {
+        "file": "halfturn_p904.json",
+        "name": "halfturn_p904"
+      },
+      {
+        "file": "halfturn_p946.json",
+        "name": "halfturn_p946"
+      }
+    ]
+  },
+  {
+    "folder": "HalfTurn_small",
+    "items": [
+      {
+        "file": "halfturn_p104.json",
+        "name": "halfturn_p104"
+      },
+      {
+        "file": "halfturn_p104_b.json",
+        "name": "halfturn_p104_b"
+      },
+      {
+        "file": "halfturn_p108.json",
+        "name": "halfturn_p108"
+      },
+      {
+        "file": "halfturn_p110.json",
+        "name": "halfturn_p110"
+      },
+      {
+        "file": "halfturn_p116.json",
+        "name": "halfturn_p116"
+      },
+      {
+        "file": "halfturn_p116_b.json",
+        "name": "halfturn_p116_b"
+      },
+      {
+        "file": "halfturn_p128.json",
+        "name": "halfturn_p128"
+      },
+      {
+        "file": "halfturn_p134.json",
+        "name": "halfturn_p134"
+      },
+      {
+        "file": "halfturn_p140.json",
+        "name": "halfturn_p140"
+      },
+      {
+        "file": "halfturn_p142.json",
+        "name": "halfturn_p142"
+      },
+      {
+        "file": "halfturn_p144.json",
+        "name": "halfturn_p144"
+      },
+      {
+        "file": "halfturn_p144_b.json",
+        "name": "halfturn_p144_b"
+      },
+      {
+        "file": "halfturn_p144_c.json",
+        "name": "halfturn_p144_c"
+      },
+      {
+        "file": "halfturn_p146.json",
+        "name": "halfturn_p146"
+      },
+      {
+        "file": "halfturn_p158.json",
+        "name": "halfturn_p158"
+      },
+      {
+        "file": "halfturn_p172.json",
+        "name": "halfturn_p172"
+      },
+      {
+        "file": "halfturn_p172_b.json",
+        "name": "halfturn_p172_b"
+      },
+      {
+        "file": "halfturn_p174.json",
+        "name": "halfturn_p174"
+      },
+      {
+        "file": "halfturn_p180.json",
+        "name": "halfturn_p180"
+      },
+      {
+        "file": "halfturn_p180_b.json",
+        "name": "halfturn_p180_b"
+      },
+      {
+        "file": "halfturn_p188.json",
+        "name": "halfturn_p188"
+      },
+      {
+        "file": "halfturn_p190.json",
+        "name": "halfturn_p190"
+      },
+      {
+        "file": "halfturn_p192.json",
+        "name": "halfturn_p192"
+      },
+      {
+        "file": "halfturn_p196.json",
+        "name": "halfturn_p196"
+      },
+      {
+        "file": "halfturn_p198.json",
+        "name": "halfturn_p198"
+      },
+      {
+        "file": "halfturn_p20.json",
+        "name": "halfturn_p20"
+      },
+      {
+        "file": "halfturn_p200.json",
+        "name": "halfturn_p200"
+      },
+      {
+        "file": "halfturn_p20_b.json",
+        "name": "halfturn_p20_b"
+      },
+      {
+        "file": "halfturn_p20_c.json",
+        "name": "halfturn_p20_c"
+      },
+      {
+        "file": "halfturn_p20_d.json",
+        "name": "halfturn_p20_d"
+      },
+      {
+        "file": "halfturn_p20_e.json",
+        "name": "halfturn_p20_e"
+      },
+      {
+        "file": "halfturn_p20_f.json",
+        "name": "halfturn_p20_f"
+      },
+      {
+        "file": "halfturn_p238.json",
+        "name": "halfturn_p238"
+      },
+      {
+        "file": "halfturn_p24.json",
+        "name": "halfturn_p24"
+      },
+      {
+        "file": "halfturn_p242.json",
+        "name": "halfturn_p242"
+      },
+      {
+        "file": "halfturn_p24_b.json",
+        "name": "halfturn_p24_b"
+      },
+      {
+        "file": "halfturn_p24_c.json",
+        "name": "halfturn_p24_c"
+      },
+      {
+        "file": "halfturn_p26.json",
+        "name": "halfturn_p26"
+      },
+      {
+        "file": "halfturn_p260.json",
+        "name": "halfturn_p260"
+      },
+      {
+        "file": "halfturn_p264.json",
+        "name": "halfturn_p264"
+      },
+      {
+        "file": "halfturn_p266.json",
+        "name": "halfturn_p266"
+      },
+      {
+        "file": "halfturn_p28.json",
+        "name": "halfturn_p28"
+      },
+      {
+        "file": "halfturn_p30.json",
+        "name": "halfturn_p30"
+      },
+      {
+        "file": "halfturn_p30_b.json",
+        "name": "halfturn_p30_b"
+      },
+      {
+        "file": "halfturn_p30_b_markers.json",
+        "name": "halfturn_p30_b_markers"
+      },
+      {
+        "file": "halfturn_p36.json",
+        "name": "halfturn_p36"
+      },
+      {
+        "file": "halfturn_p38.json",
+        "name": "halfturn_p38"
+      },
+      {
+        "file": "halfturn_p40.json",
+        "name": "halfturn_p40"
+      },
+      {
+        "file": "halfturn_p40_b.json",
+        "name": "halfturn_p40_b"
+      },
+      {
+        "file": "halfturn_p418.json",
+        "name": "halfturn_p418"
+      },
+      {
+        "file": "halfturn_p42.json",
+        "name": "halfturn_p42"
+      },
+      {
+        "file": "halfturn_p42_b.json",
+        "name": "halfturn_p42_b"
+      },
+      {
+        "file": "halfturn_p42_c.json",
+        "name": "halfturn_p42_c"
+      },
+      {
+        "file": "halfturn_p44.json",
+        "name": "halfturn_p44"
+      },
+      {
+        "file": "halfturn_p46.json",
+        "name": "halfturn_p46"
+      },
+      {
+        "file": "halfturn_p48.json",
+        "name": "halfturn_p48"
+      },
+      {
+        "file": "halfturn_p48_b.json",
+        "name": "halfturn_p48_b"
+      },
+      {
+        "file": "halfturn_p48_c.json",
+        "name": "halfturn_p48_c"
+      },
+      {
+        "file": "halfturn_p48_d.json",
+        "name": "halfturn_p48_d"
+      },
+      {
+        "file": "halfturn_p50.json",
+        "name": "halfturn_p50"
+      },
+      {
+        "file": "halfturn_p52.json",
+        "name": "halfturn_p52"
+      },
+      {
+        "file": "halfturn_p54.json",
+        "name": "halfturn_p54"
+      },
+      {
+        "file": "halfturn_p54_b.json",
+        "name": "halfturn_p54_b"
+      },
+      {
+        "file": "halfturn_p54_c.json",
+        "name": "halfturn_p54_c"
+      },
+      {
+        "file": "halfturn_p54_d.json",
+        "name": "halfturn_p54_d"
+      },
+      {
+        "file": "halfturn_p54_e.json",
+        "name": "halfturn_p54_e"
+      },
+      {
+        "file": "halfturn_p54_f.json",
+        "name": "halfturn_p54_f"
+      },
+      {
+        "file": "halfturn_p54_g.json",
+        "name": "halfturn_p54_g"
+      },
+      {
+        "file": "halfturn_p54_h.json",
+        "name": "halfturn_p54_h"
+      },
+      {
+        "file": "halfturn_p56.json",
+        "name": "halfturn_p56"
+      },
+      {
+        "file": "halfturn_p60.json",
+        "name": "halfturn_p60"
+      },
+      {
+        "file": "halfturn_p60_b.json",
+        "name": "halfturn_p60_b"
+      },
+      {
+        "file": "halfturn_p60_c.json",
+        "name": "halfturn_p60_c"
+      },
+      {
+        "file": "halfturn_p60_d.json",
+        "name": "halfturn_p60_d"
+      },
+      {
+        "file": "halfturn_p60_e.json",
+        "name": "halfturn_p60_e"
+      },
+      {
+        "file": "halfturn_p60_f.json",
+        "name": "halfturn_p60_f"
+      },
+      {
+        "file": "halfturn_p62.json",
+        "name": "halfturn_p62"
+      },
+      {
+        "file": "halfturn_p62_b.json",
+        "name": "halfturn_p62_b"
+      },
+      {
+        "file": "halfturn_p64.json",
+        "name": "halfturn_p64"
+      },
+      {
+        "file": "halfturn_p64_b.json",
+        "name": "halfturn_p64_b"
+      },
+      {
+        "file": "halfturn_p64_c.json",
+        "name": "halfturn_p64_c"
+      },
+      {
+        "file": "halfturn_p68.json",
+        "name": "halfturn_p68"
+      },
+      {
+        "file": "halfturn_p70.json",
+        "name": "halfturn_p70"
+      },
+      {
+        "file": "halfturn_p72.json",
+        "name": "halfturn_p72"
+      },
+      {
+        "file": "halfturn_p72_b.json",
+        "name": "halfturn_p72_b"
+      },
+      {
+        "file": "halfturn_p72_c.json",
+        "name": "halfturn_p72_c"
+      },
+      {
+        "file": "halfturn_p74.json",
+        "name": "halfturn_p74"
+      },
+      {
+        "file": "halfturn_p74_b.json",
+        "name": "halfturn_p74_b"
+      },
+      {
+        "file": "halfturn_p78.json",
+        "name": "halfturn_p78"
+      },
+      {
+        "file": "halfturn_p80.json",
+        "name": "halfturn_p80"
+      },
+      {
+        "file": "halfturn_p80_b.json",
+        "name": "halfturn_p80_b"
+      },
+      {
+        "file": "halfturn_p82.json",
+        "name": "halfturn_p82"
+      },
+      {
+        "file": "halfturn_p82_b.json",
+        "name": "halfturn_p82_b"
+      },
+      {
+        "file": "halfturn_p82_c.json",
+        "name": "halfturn_p82_c"
+      },
+      {
+        "file": "halfturn_p82_d.json",
+        "name": "halfturn_p82_d"
+      },
+      {
+        "file": "halfturn_p86.json",
+        "name": "halfturn_p86"
+      },
+      {
+        "file": "halfturn_p86_b.json",
+        "name": "halfturn_p86_b"
+      },
+      {
+        "file": "halfturn_p88.json",
+        "name": "halfturn_p88"
+      },
+      {
+        "file": "halfturn_p888.json",
+        "name": "halfturn_p888"
+      },
+      {
+        "file": "halfturn_p90.json",
+        "name": "halfturn_p90"
+      },
+      {
+        "file": "halfturn_p90_b.json",
+        "name": "halfturn_p90_b"
+      },
+      {
+        "file": "halfturn_p90_c.json",
+        "name": "halfturn_p90_c"
+      },
+      {
+        "file": "halfturn_p96.json",
+        "name": "halfturn_p96"
+      },
+      {
+        "file": "halfturn_p98.json",
+        "name": "halfturn_p98"
+      },
+      {
+        "file": "halfturn_p98_b.json",
+        "name": "halfturn_p98_b"
+      }
+    ]
+  },
+  {
+    "folder": "Orbiters",
+    "items": [
+      {
+        "file": "big_circle_p308.json",
+        "name": "big_circle_p308"
+      },
+      {
+        "file": "clover_p396.json",
+        "name": "clover_p396"
+      },
+      {
+        "file": "colossal_circle_p1456.json",
+        "name": "colossal_circle_p1456"
+      },
+      {
+        "file": "four_leaf_p340.json",
+        "name": "four_leaf_p340"
+      },
+      {
+        "file": "giant_cross_p424.json",
+        "name": "giant_cross_p424"
+      },
+      {
+        "file": "giant_octagon_p768.json",
+        "name": "giant_octagon_p768"
+      },
+      {
+        "file": "knotted_diamond_p356.json",
+        "name": "knotted_diamond_p356"
+      },
+      {
+        "file": "looped_diamond_p264.json",
+        "name": "looped_diamond_p264"
+      },
+      {
+        "file": "octagon_p56.json",
+        "name": "octagon_p56"
+      },
+      {
+        "file": "orbiter_p1016.json",
+        "name": "orbiter_p1016"
+      },
+      {
+        "file": "orbiter_p112.json",
+        "name": "orbiter_p112"
+      },
+      {
+        "file": "orbiter_p120.json",
+        "name": "orbiter_p120"
+      },
+      {
+        "file": "orbiter_p120_b.json",
+        "name": "orbiter_p120_b"
+      },
+      {
+        "file": "orbiter_p124.json",
+        "name": "orbiter_p124"
+      },
+      {
+        "file": "orbiter_p1248.json",
+        "name": "orbiter_p1248"
+      },
+      {
+        "file": "orbiter_p1272.json",
+        "name": "orbiter_p1272"
+      },
+      {
+        "file": "orbiter_p15100.json",
+        "name": "orbiter_p15100"
+      },
+      {
+        "file": "orbiter_p156.json",
+        "name": "orbiter_p156"
+      },
+      {
+        "file": "orbiter_p168.json",
+        "name": "orbiter_p168"
+      },
+      {
+        "file": "orbiter_p2180.json",
+        "name": "orbiter_p2180"
+      },
+      {
+        "file": "orbiter_p232.json",
+        "name": "orbiter_p232"
+      },
+      {
+        "file": "orbiter_p272.json",
+        "name": "orbiter_p272"
+      },
+      {
+        "file": "orbiter_p2916.json",
+        "name": "orbiter_p2916"
+      },
+      {
+        "file": "orbiter_p300.json",
+        "name": "orbiter_p300"
+      },
+      {
+        "file": "orbiter_p340.json",
+        "name": "orbiter_p340"
+      },
+      {
+        "file": "orbiter_p3400.json",
+        "name": "orbiter_p3400"
+      },
+      {
+        "file": "orbiter_p36.json",
+        "name": "orbiter_p36"
+      },
+      {
+        "file": "orbiter_p368.json",
+        "name": "orbiter_p368"
+      },
+      {
+        "file": "orbiter_p376.json",
+        "name": "orbiter_p376"
+      },
+      {
+        "file": "orbiter_p376_b.json",
+        "name": "orbiter_p376_b"
+      },
+      {
+        "file": "orbiter_p384.json",
+        "name": "orbiter_p384"
+      },
+      {
+        "file": "orbiter_p44.json",
+        "name": "orbiter_p44"
+      },
+      {
+        "file": "orbiter_p464.json",
+        "name": "orbiter_p464"
+      },
+      {
+        "file": "orbiter_p504.json",
+        "name": "orbiter_p504"
+      },
+      {
+        "file": "orbiter_p528.json",
+        "name": "orbiter_p528"
+      },
+      {
+        "file": "orbiter_p544.json",
+        "name": "orbiter_p544"
+      },
+      {
+        "file": "orbiter_p596.json",
+        "name": "orbiter_p596"
+      },
+      {
+        "file": "orbiter_p644.json",
+        "name": "orbiter_p644"
+      },
+      {
+        "file": "orbiter_p676.json",
+        "name": "orbiter_p676"
+      },
+      {
+        "file": "orbiter_p696.json",
+        "name": "orbiter_p696"
+      },
+      {
+        "file": "orbiter_p744.json",
+        "name": "orbiter_p744"
+      },
+      {
+        "file": "orbiter_p76.json",
+        "name": "orbiter_p76"
+      },
+      {
+        "file": "orbiter_p760.json",
+        "name": "orbiter_p760"
+      },
+      {
+        "file": "orbiter_p956.json",
+        "name": "orbiter_p956"
+      },
+      {
+        "file": "orbiter_p976.json",
+        "name": "orbiter_p976"
+      },
+      {
+        "file": "rounded_square_p192.json",
+        "name": "rounded_square_p192"
+      },
+      {
+        "file": "small_square_p68.json",
+        "name": "small_square_p68"
+      },
+      {
+        "file": "square_p160.json",
+        "name": "square_p160"
+      },
+      {
+        "file": "star_p224.json",
+        "name": "star_p224"
+      },
+      {
+        "file": "wide_square_p444.json",
+        "name": "wide_square_p444"
+      }
+    ]
+  },
+  {
+    "folder": "Orbiters5",
+    "items": [
+      {
+        "file": "n5_orbiter_p36.json",
+        "name": "n5_orbiter_p36"
+      },
+      {
+        "file": "n5_orbiter_p40.json",
+        "name": "n5_orbiter_p40"
+      },
+      {
+        "file": "n5_orbiter_p68.json",
+        "name": "n5_orbiter_p68"
+      },
+      {
+        "file": "n5_orbiter_p84.json",
+        "name": "n5_orbiter_p84"
+      }
+    ]
+  },
+  {
+    "folder": "Osc3_asymmetric",
+    "items": [
+      {
+        "file": "asym_p100.json",
+        "name": "asym_p100"
+      },
+      {
+        "file": "asym_p100_b.json",
+        "name": "asym_p100_b"
+      },
+      {
+        "file": "asym_p100_c.json",
+        "name": "asym_p100_c"
+      },
+      {
+        "file": "asym_p112.json",
+        "name": "asym_p112"
+      },
+      {
+        "file": "asym_p112_b.json",
+        "name": "asym_p112_b"
+      },
+      {
+        "file": "asym_p112_c.json",
+        "name": "asym_p112_c"
+      },
+      {
+        "file": "asym_p120.json",
+        "name": "asym_p120"
+      },
+      {
+        "file": "asym_p120_b.json",
+        "name": "asym_p120_b"
+      },
+      {
+        "file": "asym_p120_c.json",
+        "name": "asym_p120_c"
+      },
+      {
+        "file": "asym_p126.json",
+        "name": "asym_p126"
+      },
+      {
+        "file": "asym_p126_b.json",
+        "name": "asym_p126_b"
+      },
+      {
+        "file": "asym_p140.json",
+        "name": "asym_p140"
+      },
+      {
+        "file": "asym_p140_b.json",
+        "name": "asym_p140_b"
+      },
+      {
+        "file": "asym_p140_c.json",
+        "name": "asym_p140_c"
+      },
+      {
+        "file": "asym_p150.json",
+        "name": "asym_p150"
+      },
+      {
+        "file": "asym_p160.json",
+        "name": "asym_p160"
+      },
+      {
+        "file": "asym_p162.json",
+        "name": "asym_p162"
+      },
+      {
+        "file": "asym_p162_b.json",
+        "name": "asym_p162_b"
+      },
+      {
+        "file": "asym_p192.json",
+        "name": "asym_p192"
+      },
+      {
+        "file": "asym_p192_b.json",
+        "name": "asym_p192_b"
+      },
+      {
+        "file": "asym_p198.json",
+        "name": "asym_p198"
+      },
+      {
+        "file": "asym_p198_b.json",
+        "name": "asym_p198_b"
+      },
+      {
+        "file": "asym_p220.json",
+        "name": "asym_p220"
+      },
+      {
+        "file": "asym_p24.json",
+        "name": "asym_p24"
+      },
+      {
+        "file": "asym_p240.json",
+        "name": "asym_p240"
+      },
+      {
+        "file": "asym_p240_b.json",
+        "name": "asym_p240_b"
+      },
+      {
+        "file": "asym_p240_c.json",
+        "name": "asym_p240_c"
+      },
+      {
+        "file": "asym_p240_d.json",
+        "name": "asym_p240_d"
+      },
+      {
+        "file": "asym_p24_b.json",
+        "name": "asym_p24_b"
+      },
+      {
+        "file": "asym_p24_c.json",
+        "name": "asym_p24_c"
+      },
+      {
+        "file": "asym_p24_d.json",
+        "name": "asym_p24_d"
+      },
+      {
+        "file": "asym_p24_e.json",
+        "name": "asym_p24_e"
+      },
+      {
+        "file": "asym_p24_f.json",
+        "name": "asym_p24_f"
+      },
+      {
+        "file": "asym_p264.json",
+        "name": "asym_p264"
+      },
+      {
+        "file": "asym_p298.json",
+        "name": "asym_p298"
+      },
+      {
+        "file": "asym_p300.json",
+        "name": "asym_p300"
+      },
+      {
+        "file": "asym_p300_b.json",
+        "name": "asym_p300_b"
+      },
+      {
+        "file": "asym_p312.json",
+        "name": "asym_p312"
+      },
+      {
+        "file": "asym_p336.json",
+        "name": "asym_p336"
+      },
+      {
+        "file": "asym_p36.json",
+        "name": "asym_p36"
+      },
+      {
+        "file": "asym_p36_b.json",
+        "name": "asym_p36_b"
+      },
+      {
+        "file": "asym_p36_c.json",
+        "name": "asym_p36_c"
+      },
+      {
+        "file": "asym_p378.json",
+        "name": "asym_p378"
+      },
+      {
+        "file": "asym_p40.json",
+        "name": "asym_p40"
+      },
+      {
+        "file": "asym_p408.json",
+        "name": "asym_p408"
+      },
+      {
+        "file": "asym_p40_b.json",
+        "name": "asym_p40_b"
+      },
+      {
+        "file": "asym_p42.json",
+        "name": "asym_p42"
+      },
+      {
+        "file": "asym_p42_b.json",
+        "name": "asym_p42_b"
+      },
+      {
+        "file": "asym_p42_c.json",
+        "name": "asym_p42_c"
+      },
+      {
+        "file": "asym_p42_d.json",
+        "name": "asym_p42_d"
+      },
+      {
+        "file": "asym_p460.json",
+        "name": "asym_p460"
+      },
+      {
+        "file": "asym_p48.json",
+        "name": "asym_p48"
+      },
+      {
+        "file": "asym_p48_b.json",
+        "name": "asym_p48_b"
+      },
+      {
+        "file": "asym_p48_c.json",
+        "name": "asym_p48_c"
+      },
+      {
+        "file": "asym_p48_d.json",
+        "name": "asym_p48_d"
+      },
+      {
+        "file": "asym_p54.json",
+        "name": "asym_p54"
+      },
+      {
+        "file": "asym_p540.json",
+        "name": "asym_p540"
+      },
+      {
+        "file": "asym_p54_b.json",
+        "name": "asym_p54_b"
+      },
+      {
+        "file": "asym_p60.json",
+        "name": "asym_p60"
+      },
+      {
+        "file": "asym_p60_b.json",
+        "name": "asym_p60_b"
+      },
+      {
+        "file": "asym_p60_c.json",
+        "name": "asym_p60_c"
+      },
+      {
+        "file": "asym_p60_d.json",
+        "name": "asym_p60_d"
+      },
+      {
+        "file": "asym_p60_e.json",
+        "name": "asym_p60_e"
+      },
+      {
+        "file": "asym_p60_f.json",
+        "name": "asym_p60_f"
+      },
+      {
+        "file": "asym_p60_g.json",
+        "name": "asym_p60_g"
+      },
+      {
+        "file": "asym_p60_h.json",
+        "name": "asym_p60_h"
+      },
+      {
+        "file": "asym_p64.json",
+        "name": "asym_p64"
+      },
+      {
+        "file": "asym_p64_b.json",
+        "name": "asym_p64_b"
+      },
+      {
+        "file": "asym_p714.json",
+        "name": "asym_p714"
+      },
+      {
+        "file": "asym_p72.json",
+        "name": "asym_p72"
+      },
+      {
+        "file": "asym_p72_b.json",
+        "name": "asym_p72_b"
+      },
+      {
+        "file": "asym_p72_c.json",
+        "name": "asym_p72_c"
+      },
+      {
+        "file": "asym_p72_d.json",
+        "name": "asym_p72_d"
+      },
+      {
+        "file": "asym_p72_e.json",
+        "name": "asym_p72_e"
+      },
+      {
+        "file": "asym_p72_f.json",
+        "name": "asym_p72_f"
+      },
+      {
+        "file": "asym_p72_g.json",
+        "name": "asym_p72_g"
+      },
+      {
+        "file": "asym_p72_h.json",
+        "name": "asym_p72_h"
+      },
+      {
+        "file": "asym_p72_i.json",
+        "name": "asym_p72_i"
+      },
+      {
+        "file": "asym_p80.json",
+        "name": "asym_p80"
+      },
+      {
+        "file": "asym_p84.json",
+        "name": "asym_p84"
+      },
+      {
+        "file": "asym_p84_b.json",
+        "name": "asym_p84_b"
+      },
+      {
+        "file": "asym_p88.json",
+        "name": "asym_p88"
+      },
+      {
+        "file": "asym_p88_b.json",
+        "name": "asym_p88_b"
+      },
+      {
+        "file": "asym_p96.json",
+        "name": "asym_p96"
+      },
+      {
+        "file": "asym_p96_b.json",
+        "name": "asym_p96_b"
+      }
+    ]
+  },
+  {
+    "folder": "Osc3_symmetric",
+    "items": [
+      {
+        "file": "osc3_p1008.json",
+        "name": "osc3_p1008"
+      },
+      {
+        "file": "osc3_p112.json",
+        "name": "osc3_p112"
+      },
+      {
+        "file": "osc3_p1146.json",
+        "name": "osc3_p1146"
+      },
+      {
+        "file": "osc3_p1194.json",
+        "name": "osc3_p1194"
+      },
+      {
+        "file": "osc3_p126.json",
+        "name": "osc3_p126"
+      },
+      {
+        "file": "osc3_p128.json",
+        "name": "osc3_p128"
+      },
+      {
+        "file": "osc3_p128_b.json",
+        "name": "osc3_p128_b"
+      },
+      {
+        "file": "osc3_p132.json",
+        "name": "osc3_p132"
+      },
+      {
+        "file": "osc3_p144.json",
+        "name": "osc3_p144"
+      },
+      {
+        "file": "osc3_p144_b.json",
+        "name": "osc3_p144_b"
+      },
+      {
+        "file": "osc3_p148.json",
+        "name": "osc3_p148"
+      },
+      {
+        "file": "osc3_p152.json",
+        "name": "osc3_p152"
+      },
+      {
+        "file": "osc3_p152_b.json",
+        "name": "osc3_p152_b"
+      },
+      {
+        "file": "osc3_p16.json",
+        "name": "osc3_p16"
+      },
+      {
+        "file": "osc3_p164.json",
+        "name": "osc3_p164"
+      },
+      {
+        "file": "osc3_p1640.json",
+        "name": "osc3_p1640"
+      },
+      {
+        "file": "osc3_p16_b.json",
+        "name": "osc3_p16_b"
+      },
+      {
+        "file": "osc3_p1900.json",
+        "name": "osc3_p1900"
+      },
+      {
+        "file": "osc3_p1916.json",
+        "name": "osc3_p1916"
+      },
+      {
+        "file": "osc3_p196.json",
+        "name": "osc3_p196"
+      },
+      {
+        "file": "osc3_p20.json",
+        "name": "osc3_p20"
+      },
+      {
+        "file": "osc3_p208.json",
+        "name": "osc3_p208"
+      },
+      {
+        "file": "osc3_p2084.json",
+        "name": "osc3_p2084"
+      },
+      {
+        "file": "osc3_p20_b.json",
+        "name": "osc3_p20_b"
+      },
+      {
+        "file": "osc3_p20_c.json",
+        "name": "osc3_p20_c"
+      },
+      {
+        "file": "osc3_p20_d.json",
+        "name": "osc3_p20_d"
+      },
+      {
+        "file": "osc3_p20_e.json",
+        "name": "osc3_p20_e"
+      },
+      {
+        "file": "osc3_p20_f.json",
+        "name": "osc3_p20_f"
+      },
+      {
+        "file": "osc3_p20_g.json",
+        "name": "osc3_p20_g"
+      },
+      {
+        "file": "osc3_p2262.json",
+        "name": "osc3_p2262"
+      },
+      {
+        "file": "osc3_p228.json",
+        "name": "osc3_p228"
+      },
+      {
+        "file": "osc3_p24.json",
+        "name": "osc3_p24"
+      },
+      {
+        "file": "osc3_p2640.json",
+        "name": "osc3_p2640"
+      },
+      {
+        "file": "osc3_p274.json",
+        "name": "osc3_p274"
+      },
+      {
+        "file": "osc3_p32.json",
+        "name": "osc3_p32"
+      },
+      {
+        "file": "osc3_p320.json",
+        "name": "osc3_p320"
+      },
+      {
+        "file": "osc3_p340.json",
+        "name": "osc3_p340"
+      },
+      {
+        "file": "osc3_p380.json",
+        "name": "osc3_p380"
+      },
+      {
+        "file": "osc3_p380_b.json",
+        "name": "osc3_p380_b"
+      },
+      {
+        "file": "osc3_p40.json",
+        "name": "osc3_p40"
+      },
+      {
+        "file": "osc3_p40_b.json",
+        "name": "osc3_p40_b"
+      },
+      {
+        "file": "osc3_p40_c.json",
+        "name": "osc3_p40_c"
+      },
+      {
+        "file": "osc3_p42.json",
+        "name": "osc3_p42"
+      },
+      {
+        "file": "osc3_p422.json",
+        "name": "osc3_p422"
+      },
+      {
+        "file": "osc3_p432.json",
+        "name": "osc3_p432"
+      },
+      {
+        "file": "osc3_p44.json",
+        "name": "osc3_p44"
+      },
+      {
+        "file": "osc3_p48.json",
+        "name": "osc3_p48"
+      },
+      {
+        "file": "osc3_p48_b.json",
+        "name": "osc3_p48_b"
+      },
+      {
+        "file": "osc3_p48_c.json",
+        "name": "osc3_p48_c"
+      },
+      {
+        "file": "osc3_p48_d.json",
+        "name": "osc3_p48_d"
+      },
+      {
+        "file": "osc3_p48_e.json",
+        "name": "osc3_p48_e"
+      },
+      {
+        "file": "osc3_p48_f.json",
+        "name": "osc3_p48_f"
+      },
+      {
+        "file": "osc3_p48_g.json",
+        "name": "osc3_p48_g"
+      },
+      {
+        "file": "osc3_p496.json",
+        "name": "osc3_p496"
+      },
+      {
+        "file": "osc3_p532.json",
+        "name": "osc3_p532"
+      },
+      {
+        "file": "osc3_p536.json",
+        "name": "osc3_p536"
+      },
+      {
+        "file": "osc3_p544.json",
+        "name": "osc3_p544"
+      },
+      {
+        "file": "osc3_p560.json",
+        "name": "osc3_p560"
+      },
+      {
+        "file": "osc3_p60.json",
+        "name": "osc3_p60"
+      },
+      {
+        "file": "osc3_p68.json",
+        "name": "osc3_p68"
+      },
+      {
+        "file": "osc3_p68_b.json",
+        "name": "osc3_p68_b"
+      },
+      {
+        "file": "osc3_p72.json",
+        "name": "osc3_p72"
+      },
+      {
+        "file": "osc3_p72_b.json",
+        "name": "osc3_p72_b"
+      },
+      {
+        "file": "osc3_p72_c.json",
+        "name": "osc3_p72_c"
+      },
+      {
+        "file": "osc3_p788.json",
+        "name": "osc3_p788"
+      },
+      {
+        "file": "osc3_p8.json",
+        "name": "osc3_p8"
+      },
+      {
+        "file": "osc3_p80.json",
+        "name": "osc3_p80"
+      },
+      {
+        "file": "osc3_p80_b.json",
+        "name": "osc3_p80_b"
+      },
+      {
+        "file": "osc3_p80_c.json",
+        "name": "osc3_p80_c"
+      },
+      {
+        "file": "osc3_p84.json",
+        "name": "osc3_p84"
+      },
+      {
+        "file": "osc3_p840.json",
+        "name": "osc3_p840"
+      },
+      {
+        "file": "osc3_p84_b.json",
+        "name": "osc3_p84_b"
+      },
+      {
+        "file": "osc3_p8_b.json",
+        "name": "osc3_p8_b"
+      },
+      {
+        "file": "osc3_p8_c.json",
+        "name": "osc3_p8_c"
+      },
+      {
+        "file": "osc3_p8_d.json",
+        "name": "osc3_p8_d"
+      },
+      {
+        "file": "osc3_p8_e.json",
+        "name": "osc3_p8_e"
+      },
+      {
+        "file": "osc3_p8_f.json",
+        "name": "osc3_p8_f"
+      },
+      {
+        "file": "osc3_p8_g.json",
+        "name": "osc3_p8_g"
+      },
+      {
+        "file": "osc3_p96.json",
+        "name": "osc3_p96"
+      },
+      {
+        "file": "osc3_p990.json",
+        "name": "osc3_p990"
+      }
+    ]
+  },
+  {
+    "folder": "Oscillators",
+    "items": [
+      {
+        "file": "3_nearest_plus.json",
+        "name": "3_nearest_plus"
+      },
+      {
+        "file": "Blinker_w_Catccher_p48_5.json",
+        "name": "Blinker_w_Catccher_p48_5"
+      },
+      {
+        "file": "Bloop_p196_2.json",
+        "name": "Bloop_p196_2"
+      },
+      {
+        "file": "Daggo_w_Catcher_p40_3.json",
+        "name": "Daggo_w_Catcher_p40_3"
+      },
+      {
+        "file": "Daggo_w_Cross_p164_2.json",
+        "name": "Daggo_w_Cross_p164_2"
+      },
+      {
+        "file": "Daggoo_p64.json",
+        "name": "Daggoo_p64"
+      },
+      {
+        "file": "DiagRot_p84_9.json",
+        "name": "DiagRot_p84_9"
+      },
+      {
+        "file": "DiagShake_p18_7.json",
+        "name": "DiagShake_p18_7"
+      },
+      {
+        "file": "DiagShake_p20_3.json",
+        "name": "DiagShake_p20_3"
+      },
+      {
+        "file": "DiagShake_p20_9.json",
+        "name": "DiagShake_p20_9"
+      },
+      {
+        "file": "Flask_p172_10.json",
+        "name": "Flask_p172_10"
+      },
+      {
+        "file": "Flask_p324.json",
+        "name": "Flask_p324"
+      },
+      {
+        "file": "Flask_p88.json",
+        "name": "Flask_p88"
+      },
+      {
+        "file": "HourGlass_p90.json",
+        "name": "HourGlass_p90"
+      },
+      {
+        "file": "Moby_p228.json",
+        "name": "Moby_p228"
+      },
+      {
+        "file": "NineThirtySix.json",
+        "name": "NineThirtySix"
+      },
+      {
+        "file": "Pip_p100.json",
+        "name": "Pip_p100"
+      },
+      {
+        "file": "Pivot_p24_1.json",
+        "name": "Pivot_p24_1"
+      },
+      {
+        "file": "Pivot_p36_1.json",
+        "name": "Pivot_p36_1"
+      },
+      {
+        "file": "Pump_p154_3.json",
+        "name": "Pump_p154_3"
+      },
+      {
+        "file": "Pump_p42_4.json",
+        "name": "Pump_p42_4"
+      },
+      {
+        "file": "Queequeg_p170.json",
+        "name": "Queequeg_p170"
+      },
+      {
+        "file": "Shake_p22_9.json",
+        "name": "Shake_p22_9"
+      },
+      {
+        "file": "Snake_p14.json",
+        "name": "Snake_p14"
+      },
+      {
+        "file": "Snake_p24.json",
+        "name": "Snake_p24"
+      },
+      {
+        "file": "Snake_p28.json",
+        "name": "Snake_p28"
+      },
+      {
+        "file": "Starbuck_p128.json",
+        "name": "Starbuck_p128"
+      },
+      {
+        "file": "Stubb_p164.json",
+        "name": "Stubb_p164"
+      },
+      {
+        "file": "Tashtego_p176.json",
+        "name": "Tashtego_p176"
+      },
+      {
+        "file": "ThreeSwitch_p100_9.json",
+        "name": "ThreeSwitch_p100_9"
+      },
+      {
+        "file": "Trade_p32_10.json",
+        "name": "Trade_p32_10"
+      },
+      {
+        "file": "ZShake_p30_6.json",
+        "name": "ZShake_p30_6"
+      },
+      {
+        "file": "alien2_p72.json",
+        "name": "alien2_p72"
+      },
+      {
+        "file": "alien3_p84.json",
+        "name": "alien3_p84"
+      },
+      {
+        "file": "alien4_p288.json",
+        "name": "alien4_p288"
+      },
+      {
+        "file": "alien7_p112.json",
+        "name": "alien7_p112"
+      },
+      {
+        "file": "alien9_p20.json",
+        "name": "alien9_p20"
+      },
+      {
+        "file": "ampersand.json",
+        "name": "ampersand"
+      },
+      {
+        "file": "ampersand168.json",
+        "name": "ampersand168"
+      },
+      {
+        "file": "best.json",
+        "name": "best"
+      },
+      {
+        "file": "clean_p30_1.json",
+        "name": "clean_p30_1"
+      },
+      {
+        "file": "clean_p30_4.json",
+        "name": "clean_p30_4"
+      },
+      {
+        "file": "clean_p40_7.json",
+        "name": "clean_p40_7"
+      },
+      {
+        "file": "clean_p60_6.json",
+        "name": "clean_p60_6"
+      },
+      {
+        "file": "cool.json",
+        "name": "cool"
+      },
+      {
+        "file": "degen16.json",
+        "name": "degen16"
+      },
+      {
+        "file": "degen24a.json",
+        "name": "degen24a"
+      },
+      {
+        "file": "degen84a.json",
+        "name": "degen84a"
+      },
+      {
+        "file": "final5_p28_4.json",
+        "name": "final5_p28_4"
+      },
+      {
+        "file": "final5_p30_2.json",
+        "name": "final5_p30_2"
+      },
+      {
+        "file": "final5_p30_6.json",
+        "name": "final5_p30_6"
+      },
+      {
+        "file": "final5_p30_8.json",
+        "name": "final5_p30_8"
+      },
+      {
+        "file": "final5_p40_10.json",
+        "name": "final5_p40_10"
+      },
+      {
+        "file": "final5_p42_3.json",
+        "name": "final5_p42_3"
+      },
+      {
+        "file": "final5_p6_1.json",
+        "name": "final5_p6_1"
+      },
+      {
+        "file": "glider_park.json",
+        "name": "glider_park"
+      },
+      {
+        "file": "good.json",
+        "name": "good"
+      },
+      {
+        "file": "intelligent1_p30.json",
+        "name": "intelligent1_p30"
+      },
+      {
+        "file": "lighter.json",
+        "name": "lighter"
+      },
+      {
+        "file": "lighter_2.json",
+        "name": "lighter_2"
+      },
+      {
+        "file": "ok.json",
+        "name": "ok"
+      },
+      {
+        "file": "p128.json",
+        "name": "p128"
+      },
+      {
+        "file": "p16_triple_cross.json",
+        "name": "p16_triple_cross"
+      },
+      {
+        "file": "p38.json",
+        "name": "p38"
+      },
+      {
+        "file": "p8_1.json",
+        "name": "p8_1"
+      },
+      {
+        "file": "rattle16a.json",
+        "name": "rattle16a"
+      },
+      {
+        "file": "rattle16b.json",
+        "name": "rattle16b"
+      },
+      {
+        "file": "rattle16c.json",
+        "name": "rattle16c"
+      },
+      {
+        "file": "rattle16d.json",
+        "name": "rattle16d"
+      },
+      {
+        "file": "rattle16e.json",
+        "name": "rattle16e"
+      },
+      {
+        "file": "reflector_gallery.json",
+        "name": "reflector_gallery"
+      },
+      {
+        "file": "shuffle_4_p168.json",
+        "name": "shuffle_4_p168"
+      },
+      {
+        "file": "six_shakers.json",
+        "name": "six_shakers"
+      },
+      {
+        "file": "slight_degen.json",
+        "name": "slight_degen"
+      },
+      {
+        "file": "snake.json",
+        "name": "snake"
+      },
+      {
+        "file": "subgroupfiltered_p6.json",
+        "name": "subgroupfiltered_p6"
+      },
+      {
+        "file": "swap16a.json",
+        "name": "swap16a"
+      },
+      {
+        "file": "swap26a.json",
+        "name": "swap26a"
+      },
+      {
+        "file": "tilde30a.json",
+        "name": "tilde30a"
+      },
+      {
+        "file": "tv12a.json",
+        "name": "tv12a"
+      },
+      {
+        "file": "whale3_p154_1.json",
+        "name": "whale3_p154_1"
+      },
+      {
+        "file": "whale3_p154_3.json",
+        "name": "whale3_p154_3"
+      },
+      {
+        "file": "whale_p164_1.json",
+        "name": "whale_p164_1"
+      },
+      {
+        "file": "whale_p164_4.json",
+        "name": "whale_p164_4"
+      },
+      {
+        "file": "whale_p172_5.json",
+        "name": "whale_p172_5"
+      }
+    ]
+  },
+  {
+    "folder": "OscillatorsMarked",
+    "items": [
+      {
+        "file": "3_nearest_plus.json",
+        "name": "3_nearest_plus"
+      },
+      {
+        "file": "Blinker_w_Catccher_p48_5.json",
+        "name": "Blinker_w_Catccher_p48_5"
+      },
+      {
+        "file": "Bloop_p196_2.json",
+        "name": "Bloop_p196_2"
+      },
+      {
+        "file": "Daggo_w_Catcher_p40_3.json",
+        "name": "Daggo_w_Catcher_p40_3"
+      },
+      {
+        "file": "Daggo_w_Cross_p164_2.json",
+        "name": "Daggo_w_Cross_p164_2"
+      },
+      {
+        "file": "Daggoo_p64.json",
+        "name": "Daggoo_p64"
+      },
+      {
+        "file": "DiagRot_p84_9.json",
+        "name": "DiagRot_p84_9"
+      },
+      {
+        "file": "DiagShake_p18_7.json",
+        "name": "DiagShake_p18_7"
+      },
+      {
+        "file": "DiagShake_p20_3.json",
+        "name": "DiagShake_p20_3"
+      },
+      {
+        "file": "DiagShake_p20_9.json",
+        "name": "DiagShake_p20_9"
+      },
+      {
+        "file": "Flask_p172_10.json",
+        "name": "Flask_p172_10"
+      },
+      {
+        "file": "Flask_p324.json",
+        "name": "Flask_p324"
+      },
+      {
+        "file": "Flask_p88.json",
+        "name": "Flask_p88"
+      },
+      {
+        "file": "HourGlass_p90.json",
+        "name": "HourGlass_p90"
+      },
+      {
+        "file": "Moby_p228.json",
+        "name": "Moby_p228"
+      },
+      {
+        "file": "NineThirtySix.json",
+        "name": "NineThirtySix"
+      },
+      {
+        "file": "Pip_p100.json",
+        "name": "Pip_p100"
+      },
+      {
+        "file": "Pivot_p24_1.json",
+        "name": "Pivot_p24_1"
+      },
+      {
+        "file": "Pivot_p36_1.json",
+        "name": "Pivot_p36_1"
+      },
+      {
+        "file": "Pump_p154_3.json",
+        "name": "Pump_p154_3"
+      },
+      {
+        "file": "Pump_p42_4.json",
+        "name": "Pump_p42_4"
+      },
+      {
+        "file": "Queequeg_p170.json",
+        "name": "Queequeg_p170"
+      },
+      {
+        "file": "Shake_p22_9.json",
+        "name": "Shake_p22_9"
+      },
+      {
+        "file": "Snake_p14.json",
+        "name": "Snake_p14"
+      },
+      {
+        "file": "Snake_p24.json",
+        "name": "Snake_p24"
+      },
+      {
+        "file": "Snake_p28.json",
+        "name": "Snake_p28"
+      },
+      {
+        "file": "Starbuck_p128.json",
+        "name": "Starbuck_p128"
+      },
+      {
+        "file": "Stubb_p164.json",
+        "name": "Stubb_p164"
+      },
+      {
+        "file": "Tashtego_p176.json",
+        "name": "Tashtego_p176"
+      },
+      {
+        "file": "ThreeSwitch_p100_9.json",
+        "name": "ThreeSwitch_p100_9"
+      },
+      {
+        "file": "Trade_p32_10.json",
+        "name": "Trade_p32_10"
+      },
+      {
+        "file": "ZShake_p30_6.json",
+        "name": "ZShake_p30_6"
+      },
+      {
+        "file": "alien2_p72.json",
+        "name": "alien2_p72"
+      },
+      {
+        "file": "alien3_p84.json",
+        "name": "alien3_p84"
+      },
+      {
+        "file": "alien4_p288.json",
+        "name": "alien4_p288"
+      },
+      {
+        "file": "alien7_p112.json",
+        "name": "alien7_p112"
+      },
+      {
+        "file": "alien9_p20.json",
+        "name": "alien9_p20"
+      },
+      {
+        "file": "ampersand.json",
+        "name": "ampersand"
+      },
+      {
+        "file": "ampersand168.json",
+        "name": "ampersand168"
+      },
+      {
+        "file": "best.json",
+        "name": "best"
+      },
+      {
+        "file": "clean_p30_1.json",
+        "name": "clean_p30_1"
+      },
+      {
+        "file": "clean_p30_4.json",
+        "name": "clean_p30_4"
+      },
+      {
+        "file": "clean_p40_7.json",
+        "name": "clean_p40_7"
+      },
+      {
+        "file": "clean_p60_6.json",
+        "name": "clean_p60_6"
+      },
+      {
+        "file": "cool.json",
+        "name": "cool"
+      },
+      {
+        "file": "degen16.json",
+        "name": "degen16"
+      },
+      {
+        "file": "degen24a.json",
+        "name": "degen24a"
+      },
+      {
+        "file": "degen84a.json",
+        "name": "degen84a"
+      },
+      {
+        "file": "final5_p28_4.json",
+        "name": "final5_p28_4"
+      },
+      {
+        "file": "final5_p30_2.json",
+        "name": "final5_p30_2"
+      },
+      {
+        "file": "final5_p30_6.json",
+        "name": "final5_p30_6"
+      },
+      {
+        "file": "final5_p30_8.json",
+        "name": "final5_p30_8"
+      },
+      {
+        "file": "final5_p40_10.json",
+        "name": "final5_p40_10"
+      },
+      {
+        "file": "final5_p42_3.json",
+        "name": "final5_p42_3"
+      },
+      {
+        "file": "final5_p6_1.json",
+        "name": "final5_p6_1"
+      },
+      {
+        "file": "glider_park.json",
+        "name": "glider_park"
+      },
+      {
+        "file": "good.json",
+        "name": "good"
+      },
+      {
+        "file": "intelligent1_p30.json",
+        "name": "intelligent1_p30"
+      },
+      {
+        "file": "lighter.json",
+        "name": "lighter"
+      },
+      {
+        "file": "lighter_2.json",
+        "name": "lighter_2"
+      },
+      {
+        "file": "ok.json",
+        "name": "ok"
+      },
+      {
+        "file": "p128.json",
+        "name": "p128"
+      },
+      {
+        "file": "p16_triple_cross.json",
+        "name": "p16_triple_cross"
+      },
+      {
+        "file": "p38.json",
+        "name": "p38"
+      },
+      {
+        "file": "p8_1.json",
+        "name": "p8_1"
+      },
+      {
+        "file": "rattle16a.json",
+        "name": "rattle16a"
+      },
+      {
+        "file": "rattle16b.json",
+        "name": "rattle16b"
+      },
+      {
+        "file": "rattle16c.json",
+        "name": "rattle16c"
+      },
+      {
+        "file": "rattle16d.json",
+        "name": "rattle16d"
+      },
+      {
+        "file": "rattle16e.json",
+        "name": "rattle16e"
+      },
+      {
+        "file": "reflector_gallery.json",
+        "name": "reflector_gallery"
+      },
+      {
+        "file": "shuffle_4_p168.json",
+        "name": "shuffle_4_p168"
+      },
+      {
+        "file": "six_shakers.json",
+        "name": "six_shakers"
+      },
+      {
+        "file": "slight_degen.json",
+        "name": "slight_degen"
+      },
+      {
+        "file": "snake.json",
+        "name": "snake"
+      },
+      {
+        "file": "subgroupfiltered_p6.json",
+        "name": "subgroupfiltered_p6"
+      },
+      {
+        "file": "swap16a.json",
+        "name": "swap16a"
+      },
+      {
+        "file": "swap26a.json",
+        "name": "swap26a"
+      },
+      {
+        "file": "tilde30a.json",
+        "name": "tilde30a"
+      },
+      {
+        "file": "tv12a.json",
+        "name": "tv12a"
+      },
+      {
+        "file": "whale3_p154_1.json",
+        "name": "whale3_p154_1"
+      },
+      {
+        "file": "whale3_p154_3.json",
+        "name": "whale3_p154_3"
+      },
+      {
+        "file": "whale_p164_1.json",
+        "name": "whale_p164_1"
+      },
+      {
+        "file": "whale_p164_4.json",
+        "name": "whale_p164_4"
+      },
+      {
+        "file": "whale_p172_5.json",
+        "name": "whale_p172_5"
+      }
+    ]
+  },
+  {
+    "folder": "Other",
+    "items": [
+      {
+        "file": "16_daggos.json",
+        "name": "16_daggos"
+      },
+      {
+        "file": "16_daggos_ticked.json",
+        "name": "16_daggos_ticked"
+      },
+      {
+        "file": "32_daggos.json",
+        "name": "32_daggos"
+      },
+      {
+        "file": "6_daggoos.json",
+        "name": "6_daggoos"
+      },
+      {
+        "file": "8_daggoos_watched.json",
+        "name": "8_daggoos_watched"
+      },
+      {
+        "file": "DoubleX_n4_b0.json",
+        "name": "DoubleX_n4_b0"
+      },
+      {
+        "file": "Repeater_n3_b0.json",
+        "name": "Repeater_n3_b0"
+      },
+      {
+        "file": "bobo_lattice_border30_every3.json",
+        "name": "bobo_lattice_border30_every3"
+      },
+      {
+        "file": "bobo_lattice_border30_every4.json",
+        "name": "bobo_lattice_border30_every4"
+      },
+      {
+        "file": "bobo_lattice_border30_every5.json",
+        "name": "bobo_lattice_border30_every5"
+      },
+      {
+        "file": "bobo_lattice_border30_every8.json",
+        "name": "bobo_lattice_border30_every8"
+      },
+      {
+        "file": "bobo_screen.json",
+        "name": "bobo_screen"
+      },
+      {
+        "file": "daggo_circuit.json",
+        "name": "daggo_circuit"
+      },
+      {
+        "file": "daggo_left.json",
+        "name": "daggo_left"
+      },
+      {
+        "file": "dead_pixel.json",
+        "name": "dead_pixel"
+      },
+      {
+        "file": "fbb_test_big.json",
+        "name": "fbb_test_big"
+      },
+      {
+        "file": "fragile.json",
+        "name": "fragile"
+      },
+      {
+        "file": "lighter.json",
+        "name": "lighter"
+      },
+      {
+        "file": "nbb_isolate.json",
+        "name": "nbb_isolate"
+      },
+      {
+        "file": "orbit_4_bobos.json",
+        "name": "orbit_4_bobos"
+      },
+      {
+        "file": "orbiters.json",
+        "name": "orbiters"
+      },
+      {
+        "file": "osc-circle.json",
+        "name": "osc-circle"
+      },
+      {
+        "file": "osc_2n2b_clock.json",
+        "name": "osc_2n2b_clock"
+      },
+      {
+        "file": "osc_n2_b2_p96.json",
+        "name": "osc_n2_b2_p96"
+      },
+      {
+        "file": "osc_n4_b0_p12_4.json",
+        "name": "osc_n4_b0_p12_4"
+      },
+      {
+        "file": "osc_n4_b0_p28.json",
+        "name": "osc_n4_b0_p28"
+      },
+      {
+        "file": "osc_n4_cool_big.json",
+        "name": "osc_n4_cool_big"
+      },
+      {
+        "file": "osc_n4_diode.json",
+        "name": "osc_n4_diode"
+      },
+      {
+        "file": "osc_n4_glasses.json",
+        "name": "osc_n4_glasses"
+      },
+      {
+        "file": "osc_n4_hourglass.json",
+        "name": "osc_n4_hourglass"
+      },
+      {
+        "file": "osc_n4_rocker.json",
+        "name": "osc_n4_rocker"
+      },
+      {
+        "file": "osc_n4_wand.json",
+        "name": "osc_n4_wand"
+      },
+      {
+        "file": "osc_offsetweb.json",
+        "name": "osc_offsetweb"
+      },
+      {
+        "file": "osc_pair.json",
+        "name": "osc_pair"
+      },
+      {
+        "file": "osc_tight2osc_in_middle.json",
+        "name": "osc_tight2osc_in_middle"
+      },
+      {
+        "file": "rmok.json",
+        "name": "rmok"
+      },
+      {
+        "file": "start_and_stop.json",
+        "name": "start_and_stop"
+      },
+      {
+        "file": "swap.json",
+        "name": "swap"
+      },
+      {
+        "file": "tilde30a.json",
+        "name": "tilde30a"
+      },
+      {
+        "file": "whale.json",
+        "name": "whale"
+      }
+    ]
+  },
+  {
+    "folder": "Spinners5",
+    "items": [
+      {
+        "file": "n5_spinner_p1080.json",
+        "name": "n5_spinner_p1080"
+      },
+      {
+        "file": "n5_spinner_p112.json",
+        "name": "n5_spinner_p112"
+      },
+      {
+        "file": "n5_spinner_p112_b.json",
+        "name": "n5_spinner_p112_b"
+      },
+      {
+        "file": "n5_spinner_p114.json",
+        "name": "n5_spinner_p114"
+      },
+      {
+        "file": "n5_spinner_p114_b.json",
+        "name": "n5_spinner_p114_b"
+      },
+      {
+        "file": "n5_spinner_p114_c.json",
+        "name": "n5_spinner_p114_c"
+      },
+      {
+        "file": "n5_spinner_p114_d.json",
+        "name": "n5_spinner_p114_d"
+      },
+      {
+        "file": "n5_spinner_p116.json",
+        "name": "n5_spinner_p116"
+      },
+      {
+        "file": "n5_spinner_p116_b.json",
+        "name": "n5_spinner_p116_b"
+      },
+      {
+        "file": "n5_spinner_p124.json",
+        "name": "n5_spinner_p124"
+      },
+      {
+        "file": "n5_spinner_p128.json",
+        "name": "n5_spinner_p128"
+      },
+      {
+        "file": "n5_spinner_p128_b.json",
+        "name": "n5_spinner_p128_b"
+      },
+      {
+        "file": "n5_spinner_p128_c.json",
+        "name": "n5_spinner_p128_c"
+      },
+      {
+        "file": "n5_spinner_p128_d.json",
+        "name": "n5_spinner_p128_d"
+      },
+      {
+        "file": "n5_spinner_p128_e.json",
+        "name": "n5_spinner_p128_e"
+      },
+      {
+        "file": "n5_spinner_p132.json",
+        "name": "n5_spinner_p132"
+      },
+      {
+        "file": "n5_spinner_p132_b.json",
+        "name": "n5_spinner_p132_b"
+      },
+      {
+        "file": "n5_spinner_p132_c.json",
+        "name": "n5_spinner_p132_c"
+      },
+      {
+        "file": "n5_spinner_p140.json",
+        "name": "n5_spinner_p140"
+      },
+      {
+        "file": "n5_spinner_p144.json",
+        "name": "n5_spinner_p144"
+      },
+      {
+        "file": "n5_spinner_p144_b.json",
+        "name": "n5_spinner_p144_b"
+      },
+      {
+        "file": "n5_spinner_p152.json",
+        "name": "n5_spinner_p152"
+      },
+      {
+        "file": "n5_spinner_p154.json",
+        "name": "n5_spinner_p154"
+      },
+      {
+        "file": "n5_spinner_p156.json",
+        "name": "n5_spinner_p156"
+      },
+      {
+        "file": "n5_spinner_p160.json",
+        "name": "n5_spinner_p160"
+      },
+      {
+        "file": "n5_spinner_p172.json",
+        "name": "n5_spinner_p172"
+      },
+      {
+        "file": "n5_spinner_p174.json",
+        "name": "n5_spinner_p174"
+      },
+      {
+        "file": "n5_spinner_p176.json",
+        "name": "n5_spinner_p176"
+      },
+      {
+        "file": "n5_spinner_p176_b.json",
+        "name": "n5_spinner_p176_b"
+      },
+      {
+        "file": "n5_spinner_p186.json",
+        "name": "n5_spinner_p186"
+      },
+      {
+        "file": "n5_spinner_p186_b.json",
+        "name": "n5_spinner_p186_b"
+      },
+      {
+        "file": "n5_spinner_p192.json",
+        "name": "n5_spinner_p192"
+      },
+      {
+        "file": "n5_spinner_p208.json",
+        "name": "n5_spinner_p208"
+      },
+      {
+        "file": "n5_spinner_p210.json",
+        "name": "n5_spinner_p210"
+      },
+      {
+        "file": "n5_spinner_p220.json",
+        "name": "n5_spinner_p220"
+      },
+      {
+        "file": "n5_spinner_p220_b.json",
+        "name": "n5_spinner_p220_b"
+      },
+      {
+        "file": "n5_spinner_p228.json",
+        "name": "n5_spinner_p228"
+      },
+      {
+        "file": "n5_spinner_p228_b.json",
+        "name": "n5_spinner_p228_b"
+      },
+      {
+        "file": "n5_spinner_p232.json",
+        "name": "n5_spinner_p232"
+      },
+      {
+        "file": "n5_spinner_p232_b.json",
+        "name": "n5_spinner_p232_b"
+      },
+      {
+        "file": "n5_spinner_p234.json",
+        "name": "n5_spinner_p234"
+      },
+      {
+        "file": "n5_spinner_p240.json",
+        "name": "n5_spinner_p240"
+      },
+      {
+        "file": "n5_spinner_p248.json",
+        "name": "n5_spinner_p248"
+      },
+      {
+        "file": "n5_spinner_p270.json",
+        "name": "n5_spinner_p270"
+      },
+      {
+        "file": "n5_spinner_p276.json",
+        "name": "n5_spinner_p276"
+      },
+      {
+        "file": "n5_spinner_p294.json",
+        "name": "n5_spinner_p294"
+      },
+      {
+        "file": "n5_spinner_p306.json",
+        "name": "n5_spinner_p306"
+      },
+      {
+        "file": "n5_spinner_p312.json",
+        "name": "n5_spinner_p312"
+      },
+      {
+        "file": "n5_spinner_p336.json",
+        "name": "n5_spinner_p336"
+      },
+      {
+        "file": "n5_spinner_p364.json",
+        "name": "n5_spinner_p364"
+      },
+      {
+        "file": "n5_spinner_p368.json",
+        "name": "n5_spinner_p368"
+      },
+      {
+        "file": "n5_spinner_p384.json",
+        "name": "n5_spinner_p384"
+      },
+      {
+        "file": "n5_spinner_p384_b.json",
+        "name": "n5_spinner_p384_b"
+      },
+      {
+        "file": "n5_spinner_p384_c.json",
+        "name": "n5_spinner_p384_c"
+      },
+      {
+        "file": "n5_spinner_p450.json",
+        "name": "n5_spinner_p450"
+      },
+      {
+        "file": "n5_spinner_p60.json",
+        "name": "n5_spinner_p60"
+      },
+      {
+        "file": "n5_spinner_p60_b.json",
+        "name": "n5_spinner_p60_b"
+      },
+      {
+        "file": "n5_spinner_p60_c.json",
+        "name": "n5_spinner_p60_c"
+      },
+      {
+        "file": "n5_spinner_p60_d.json",
+        "name": "n5_spinner_p60_d"
+      },
+      {
+        "file": "n5_spinner_p60_e.json",
+        "name": "n5_spinner_p60_e"
+      },
+      {
+        "file": "n5_spinner_p60_f.json",
+        "name": "n5_spinner_p60_f"
+      },
+      {
+        "file": "n5_spinner_p60_g.json",
+        "name": "n5_spinner_p60_g"
+      },
+      {
+        "file": "n5_spinner_p60_h.json",
+        "name": "n5_spinner_p60_h"
+      },
+      {
+        "file": "n5_spinner_p60_i.json",
+        "name": "n5_spinner_p60_i"
+      },
+      {
+        "file": "n5_spinner_p60_j.json",
+        "name": "n5_spinner_p60_j"
+      },
+      {
+        "file": "n5_spinner_p60_k.json",
+        "name": "n5_spinner_p60_k"
+      },
+      {
+        "file": "n5_spinner_p60_l.json",
+        "name": "n5_spinner_p60_l"
+      },
+      {
+        "file": "n5_spinner_p60_m.json",
+        "name": "n5_spinner_p60_m"
+      },
+      {
+        "file": "n5_spinner_p60_n.json",
+        "name": "n5_spinner_p60_n"
+      },
+      {
+        "file": "n5_spinner_p60_o.json",
+        "name": "n5_spinner_p60_o"
+      },
+      {
+        "file": "n5_spinner_p62.json",
+        "name": "n5_spinner_p62"
+      },
+      {
+        "file": "n5_spinner_p624.json",
+        "name": "n5_spinner_p624"
+      },
+      {
+        "file": "n5_spinner_p64.json",
+        "name": "n5_spinner_p64"
+      },
+      {
+        "file": "n5_spinner_p64_b.json",
+        "name": "n5_spinner_p64_b"
+      },
+      {
+        "file": "n5_spinner_p64_c.json",
+        "name": "n5_spinner_p64_c"
+      },
+      {
+        "file": "n5_spinner_p64_d.json",
+        "name": "n5_spinner_p64_d"
+      },
+      {
+        "file": "n5_spinner_p64_e.json",
+        "name": "n5_spinner_p64_e"
+      },
+      {
+        "file": "n5_spinner_p64_f.json",
+        "name": "n5_spinner_p64_f"
+      },
+      {
+        "file": "n5_spinner_p64_g.json",
+        "name": "n5_spinner_p64_g"
+      },
+      {
+        "file": "n5_spinner_p64_h.json",
+        "name": "n5_spinner_p64_h"
+      },
+      {
+        "file": "n5_spinner_p64_i.json",
+        "name": "n5_spinner_p64_i"
+      },
+      {
+        "file": "n5_spinner_p64_j.json",
+        "name": "n5_spinner_p64_j"
+      },
+      {
+        "file": "n5_spinner_p64_k.json",
+        "name": "n5_spinner_p64_k"
+      },
+      {
+        "file": "n5_spinner_p64_l.json",
+        "name": "n5_spinner_p64_l"
+      },
+      {
+        "file": "n5_spinner_p64_m.json",
+        "name": "n5_spinner_p64_m"
+      },
+      {
+        "file": "n5_spinner_p66.json",
+        "name": "n5_spinner_p66"
+      },
+      {
+        "file": "n5_spinner_p68.json",
+        "name": "n5_spinner_p68"
+      },
+      {
+        "file": "n5_spinner_p72.json",
+        "name": "n5_spinner_p72"
+      },
+      {
+        "file": "n5_spinner_p76.json",
+        "name": "n5_spinner_p76"
+      },
+      {
+        "file": "n5_spinner_p78.json",
+        "name": "n5_spinner_p78"
+      },
+      {
+        "file": "n5_spinner_p78_b.json",
+        "name": "n5_spinner_p78_b"
+      },
+      {
+        "file": "n5_spinner_p84.json",
+        "name": "n5_spinner_p84"
+      },
+      {
+        "file": "n5_spinner_p84_b.json",
+        "name": "n5_spinner_p84_b"
+      },
+      {
+        "file": "n5_spinner_p84_c.json",
+        "name": "n5_spinner_p84_c"
+      },
+      {
+        "file": "n5_spinner_p84_d.json",
+        "name": "n5_spinner_p84_d"
+      },
+      {
+        "file": "n5_spinner_p88.json",
+        "name": "n5_spinner_p88"
+      },
+      {
+        "file": "n5_spinner_p976.json",
+        "name": "n5_spinner_p976"
+      }
+    ]
+  },
+  {
+    "folder": "Transmitters",
+    "items": [
+      {
+        "file": "lazy_river.json",
+        "name": "lazy_river"
+      }
+    ]
+  }
+]

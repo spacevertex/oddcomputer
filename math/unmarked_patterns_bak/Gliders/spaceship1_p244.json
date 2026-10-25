@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "name": "Spaceship-1 (period 244, translates +122,+122)",
+  "period": 244,
+  "translation": {
+    "dx": 122,
+    "dy": 122
+  },
+  "nearest": [
+    {
+      "x": -3,
+      "y": -3,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "vx": 1,
+      "vy": 1
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": -1,
+      "y": 0,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "bobo": []
+}
