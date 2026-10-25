@@ -156,56 +156,112 @@
         "name": "n5_halfturn_p106"
       },
       {
+        "file": "n5_halfturn_p106_markers.json",
+        "name": "n5_halfturn_p106_markers"
+      },
+      {
         "file": "n5_halfturn_p1182.json",
         "name": "n5_halfturn_p1182"
+      },
+      {
+        "file": "n5_halfturn_p1182_markers.json",
+        "name": "n5_halfturn_p1182_markers"
       },
       {
         "file": "n5_halfturn_p136.json",
         "name": "n5_halfturn_p136"
       },
       {
+        "file": "n5_halfturn_p136_markers.json",
+        "name": "n5_halfturn_p136_markers"
+      },
+      {
         "file": "n5_halfturn_p144.json",
         "name": "n5_halfturn_p144"
+      },
+      {
+        "file": "n5_halfturn_p144_markers.json",
+        "name": "n5_halfturn_p144_markers"
       },
       {
         "file": "n5_halfturn_p166.json",
         "name": "n5_halfturn_p166"
       },
       {
+        "file": "n5_halfturn_p166_markers.json",
+        "name": "n5_halfturn_p166_markers"
+      },
+      {
         "file": "n5_halfturn_p190.json",
         "name": "n5_halfturn_p190"
+      },
+      {
+        "file": "n5_halfturn_p190_markers.json",
+        "name": "n5_halfturn_p190_markers"
       },
       {
         "file": "n5_halfturn_p192.json",
         "name": "n5_halfturn_p192"
       },
       {
+        "file": "n5_halfturn_p192_markers.json",
+        "name": "n5_halfturn_p192_markers"
+      },
+      {
         "file": "n5_halfturn_p206.json",
         "name": "n5_halfturn_p206"
+      },
+      {
+        "file": "n5_halfturn_p206_markers.json",
+        "name": "n5_halfturn_p206_markers"
       },
       {
         "file": "n5_halfturn_p234.json",
         "name": "n5_halfturn_p234"
       },
       {
+        "file": "n5_halfturn_p234_markers.json",
+        "name": "n5_halfturn_p234_markers"
+      },
+      {
         "file": "n5_halfturn_p254.json",
         "name": "n5_halfturn_p254"
+      },
+      {
+        "file": "n5_halfturn_p254_markers.json",
+        "name": "n5_halfturn_p254_markers"
       },
       {
         "file": "n5_halfturn_p322.json",
         "name": "n5_halfturn_p322"
       },
       {
+        "file": "n5_halfturn_p322_markers.json",
+        "name": "n5_halfturn_p322_markers"
+      },
+      {
         "file": "n5_halfturn_p378.json",
         "name": "n5_halfturn_p378"
+      },
+      {
+        "file": "n5_halfturn_p378_markers.json",
+        "name": "n5_halfturn_p378_markers"
       },
       {
         "file": "n5_halfturn_p846.json",
         "name": "n5_halfturn_p846"
       },
       {
+        "file": "n5_halfturn_p846_markers.json",
+        "name": "n5_halfturn_p846_markers"
+      },
+      {
         "file": "n5_halfturn_p952.json",
         "name": "n5_halfturn_p952"
+      },
+      {
+        "file": "n5_halfturn_p952_markers.json",
+        "name": "n5_halfturn_p952_markers"
       }
     ]
   },
@@ -221,12 +277,28 @@
         "name": "n5_halfturn_p100_b"
       },
       {
+        "file": "n5_halfturn_p100_b_markers.json",
+        "name": "n5_halfturn_p100_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p100_markers.json",
+        "name": "n5_halfturn_p100_markers"
+      },
+      {
         "file": "n5_halfturn_p104.json",
         "name": "n5_halfturn_p104"
       },
       {
+        "file": "n5_halfturn_p104_markers.json",
+        "name": "n5_halfturn_p104_markers"
+      },
+      {
         "file": "n5_halfturn_p106.json",
         "name": "n5_halfturn_p106"
+      },
+      {
+        "file": "n5_halfturn_p106_markers.json",
+        "name": "n5_halfturn_p106_markers"
       },
       {
         "file": "n5_halfturn_p110.json",
@@ -237,32 +309,68 @@
         "name": "n5_halfturn_p110_b"
       },
       {
+        "file": "n5_halfturn_p110_b_markers.json",
+        "name": "n5_halfturn_p110_b_markers"
+      },
+      {
         "file": "n5_halfturn_p110_c.json",
         "name": "n5_halfturn_p110_c"
+      },
+      {
+        "file": "n5_halfturn_p110_c_markers.json",
+        "name": "n5_halfturn_p110_c_markers"
       },
       {
         "file": "n5_halfturn_p110_d.json",
         "name": "n5_halfturn_p110_d"
       },
       {
+        "file": "n5_halfturn_p110_d_markers.json",
+        "name": "n5_halfturn_p110_d_markers"
+      },
+      {
         "file": "n5_halfturn_p110_e.json",
         "name": "n5_halfturn_p110_e"
+      },
+      {
+        "file": "n5_halfturn_p110_e_markers.json",
+        "name": "n5_halfturn_p110_e_markers"
       },
       {
         "file": "n5_halfturn_p110_f.json",
         "name": "n5_halfturn_p110_f"
       },
       {
+        "file": "n5_halfturn_p110_f_markers.json",
+        "name": "n5_halfturn_p110_f_markers"
+      },
+      {
+        "file": "n5_halfturn_p110_markers.json",
+        "name": "n5_halfturn_p110_markers"
+      },
+      {
         "file": "n5_halfturn_p114.json",
         "name": "n5_halfturn_p114"
+      },
+      {
+        "file": "n5_halfturn_p114_markers.json",
+        "name": "n5_halfturn_p114_markers"
       },
       {
         "file": "n5_halfturn_p116.json",
         "name": "n5_halfturn_p116"
       },
       {
+        "file": "n5_halfturn_p116_markers.json",
+        "name": "n5_halfturn_p116_markers"
+      },
+      {
         "file": "n5_halfturn_p120.json",
         "name": "n5_halfturn_p120"
+      },
+      {
+        "file": "n5_halfturn_p120_markers.json",
+        "name": "n5_halfturn_p120_markers"
       },
       {
         "file": "n5_halfturn_p124.json",
@@ -273,6 +381,14 @@
         "name": "n5_halfturn_p124_b"
       },
       {
+        "file": "n5_halfturn_p124_b_markers.json",
+        "name": "n5_halfturn_p124_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p124_markers.json",
+        "name": "n5_halfturn_p124_markers"
+      },
+      {
         "file": "n5_halfturn_p126.json",
         "name": "n5_halfturn_p126"
       },
@@ -281,16 +397,36 @@
         "name": "n5_halfturn_p126_b"
       },
       {
+        "file": "n5_halfturn_p126_b_markers.json",
+        "name": "n5_halfturn_p126_b_markers"
+      },
+      {
         "file": "n5_halfturn_p126_c.json",
         "name": "n5_halfturn_p126_c"
+      },
+      {
+        "file": "n5_halfturn_p126_c_markers.json",
+        "name": "n5_halfturn_p126_c_markers"
+      },
+      {
+        "file": "n5_halfturn_p126_markers.json",
+        "name": "n5_halfturn_p126_markers"
       },
       {
         "file": "n5_halfturn_p128.json",
         "name": "n5_halfturn_p128"
       },
       {
+        "file": "n5_halfturn_p128_markers.json",
+        "name": "n5_halfturn_p128_markers"
+      },
+      {
         "file": "n5_halfturn_p142.json",
         "name": "n5_halfturn_p142"
+      },
+      {
+        "file": "n5_halfturn_p142_markers.json",
+        "name": "n5_halfturn_p142_markers"
       },
       {
         "file": "n5_halfturn_p144.json",
@@ -301,20 +437,44 @@
         "name": "n5_halfturn_p144_b"
       },
       {
+        "file": "n5_halfturn_p144_b_markers.json",
+        "name": "n5_halfturn_p144_b_markers"
+      },
+      {
         "file": "n5_halfturn_p144_c.json",
         "name": "n5_halfturn_p144_c"
+      },
+      {
+        "file": "n5_halfturn_p144_c_markers.json",
+        "name": "n5_halfturn_p144_c_markers"
       },
       {
         "file": "n5_halfturn_p144_d.json",
         "name": "n5_halfturn_p144_d"
       },
       {
+        "file": "n5_halfturn_p144_d_markers.json",
+        "name": "n5_halfturn_p144_d_markers"
+      },
+      {
+        "file": "n5_halfturn_p144_markers.json",
+        "name": "n5_halfturn_p144_markers"
+      },
+      {
         "file": "n5_halfturn_p148.json",
         "name": "n5_halfturn_p148"
       },
       {
+        "file": "n5_halfturn_p148_markers.json",
+        "name": "n5_halfturn_p148_markers"
+      },
+      {
         "file": "n5_halfturn_p156.json",
         "name": "n5_halfturn_p156"
+      },
+      {
+        "file": "n5_halfturn_p156_markers.json",
+        "name": "n5_halfturn_p156_markers"
       },
       {
         "file": "n5_halfturn_p172.json",
@@ -325,8 +485,20 @@
         "name": "n5_halfturn_p172_b"
       },
       {
+        "file": "n5_halfturn_p172_b_markers.json",
+        "name": "n5_halfturn_p172_b_markers"
+      },
+      {
         "file": "n5_halfturn_p172_c.json",
         "name": "n5_halfturn_p172_c"
+      },
+      {
+        "file": "n5_halfturn_p172_c_markers.json",
+        "name": "n5_halfturn_p172_c_markers"
+      },
+      {
+        "file": "n5_halfturn_p172_markers.json",
+        "name": "n5_halfturn_p172_markers"
       },
       {
         "file": "n5_halfturn_p18.json",
@@ -337,12 +509,28 @@
         "name": "n5_halfturn_p184"
       },
       {
+        "file": "n5_halfturn_p184_markers.json",
+        "name": "n5_halfturn_p184_markers"
+      },
+      {
         "file": "n5_halfturn_p186.json",
         "name": "n5_halfturn_p186"
       },
       {
+        "file": "n5_halfturn_p186_markers.json",
+        "name": "n5_halfturn_p186_markers"
+      },
+      {
+        "file": "n5_halfturn_p18_markers.json",
+        "name": "n5_halfturn_p18_markers"
+      },
+      {
         "file": "n5_halfturn_p192.json",
         "name": "n5_halfturn_p192"
+      },
+      {
+        "file": "n5_halfturn_p192_markers.json",
+        "name": "n5_halfturn_p192_markers"
       },
       {
         "file": "n5_halfturn_p20.json",
@@ -353,8 +541,20 @@
         "name": "n5_halfturn_p202"
       },
       {
+        "file": "n5_halfturn_p202_markers.json",
+        "name": "n5_halfturn_p202_markers"
+      },
+      {
         "file": "n5_halfturn_p20_b.json",
         "name": "n5_halfturn_p20_b"
+      },
+      {
+        "file": "n5_halfturn_p20_b_markers.json",
+        "name": "n5_halfturn_p20_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p20_markers.json",
+        "name": "n5_halfturn_p20_markers"
       },
       {
         "file": "n5_halfturn_p210.json",
@@ -365,8 +565,20 @@
         "name": "n5_halfturn_p210_b"
       },
       {
+        "file": "n5_halfturn_p210_b_markers.json",
+        "name": "n5_halfturn_p210_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p210_markers.json",
+        "name": "n5_halfturn_p210_markers"
+      },
+      {
         "file": "n5_halfturn_p212.json",
         "name": "n5_halfturn_p212"
+      },
+      {
+        "file": "n5_halfturn_p212_markers.json",
+        "name": "n5_halfturn_p212_markers"
       },
       {
         "file": "n5_halfturn_p228.json",
@@ -377,6 +589,14 @@
         "name": "n5_halfturn_p228_b"
       },
       {
+        "file": "n5_halfturn_p228_b_markers.json",
+        "name": "n5_halfturn_p228_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p228_markers.json",
+        "name": "n5_halfturn_p228_markers"
+      },
+      {
         "file": "n5_halfturn_p24.json",
         "name": "n5_halfturn_p24"
       },
@@ -385,8 +605,20 @@
         "name": "n5_halfturn_p240"
       },
       {
+        "file": "n5_halfturn_p240_markers.json",
+        "name": "n5_halfturn_p240_markers"
+      },
+      {
+        "file": "n5_halfturn_p24_markers.json",
+        "name": "n5_halfturn_p24_markers"
+      },
+      {
         "file": "n5_halfturn_p256.json",
         "name": "n5_halfturn_p256"
+      },
+      {
+        "file": "n5_halfturn_p256_markers.json",
+        "name": "n5_halfturn_p256_markers"
       },
       {
         "file": "n5_halfturn_p26.json",
@@ -397,12 +629,28 @@
         "name": "n5_halfturn_p264"
       },
       {
+        "file": "n5_halfturn_p264_markers.json",
+        "name": "n5_halfturn_p264_markers"
+      },
+      {
+        "file": "n5_halfturn_p26_markers.json",
+        "name": "n5_halfturn_p26_markers"
+      },
+      {
         "file": "n5_halfturn_p28.json",
         "name": "n5_halfturn_p28"
       },
       {
         "file": "n5_halfturn_p288.json",
         "name": "n5_halfturn_p288"
+      },
+      {
+        "file": "n5_halfturn_p288_markers.json",
+        "name": "n5_halfturn_p288_markers"
+      },
+      {
+        "file": "n5_halfturn_p28_markers.json",
+        "name": "n5_halfturn_p28_markers"
       },
       {
         "file": "n5_halfturn_p296.json",
@@ -413,6 +661,14 @@
         "name": "n5_halfturn_p296_b"
       },
       {
+        "file": "n5_halfturn_p296_b_markers.json",
+        "name": "n5_halfturn_p296_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p296_markers.json",
+        "name": "n5_halfturn_p296_markers"
+      },
+      {
         "file": "n5_halfturn_p30.json",
         "name": "n5_halfturn_p30"
       },
@@ -421,20 +677,44 @@
         "name": "n5_halfturn_p30_b"
       },
       {
+        "file": "n5_halfturn_p30_b_markers.json",
+        "name": "n5_halfturn_p30_b_markers"
+      },
+      {
         "file": "n5_halfturn_p30_c.json",
         "name": "n5_halfturn_p30_c"
+      },
+      {
+        "file": "n5_halfturn_p30_c_markers.json",
+        "name": "n5_halfturn_p30_c_markers"
+      },
+      {
+        "file": "n5_halfturn_p30_markers.json",
+        "name": "n5_halfturn_p30_markers"
       },
       {
         "file": "n5_halfturn_p324.json",
         "name": "n5_halfturn_p324"
       },
       {
+        "file": "n5_halfturn_p324_markers.json",
+        "name": "n5_halfturn_p324_markers"
+      },
+      {
         "file": "n5_halfturn_p330.json",
         "name": "n5_halfturn_p330"
       },
       {
+        "file": "n5_halfturn_p330_markers.json",
+        "name": "n5_halfturn_p330_markers"
+      },
+      {
         "file": "n5_halfturn_p34.json",
         "name": "n5_halfturn_p34"
+      },
+      {
+        "file": "n5_halfturn_p34_markers.json",
+        "name": "n5_halfturn_p34_markers"
       },
       {
         "file": "n5_halfturn_p36.json",
@@ -445,28 +725,60 @@
         "name": "n5_halfturn_p360"
       },
       {
+        "file": "n5_halfturn_p360_markers.json",
+        "name": "n5_halfturn_p360_markers"
+      },
+      {
+        "file": "n5_halfturn_p36_markers.json",
+        "name": "n5_halfturn_p36_markers"
+      },
+      {
         "file": "n5_halfturn_p390.json",
         "name": "n5_halfturn_p390"
+      },
+      {
+        "file": "n5_halfturn_p390_markers.json",
+        "name": "n5_halfturn_p390_markers"
       },
       {
         "file": "n5_halfturn_p412.json",
         "name": "n5_halfturn_p412"
       },
       {
+        "file": "n5_halfturn_p412_markers.json",
+        "name": "n5_halfturn_p412_markers"
+      },
+      {
         "file": "n5_halfturn_p42.json",
         "name": "n5_halfturn_p42"
+      },
+      {
+        "file": "n5_halfturn_p42_markers.json",
+        "name": "n5_halfturn_p42_markers"
       },
       {
         "file": "n5_halfturn_p44.json",
         "name": "n5_halfturn_p44"
       },
       {
+        "file": "n5_halfturn_p44_markers.json",
+        "name": "n5_halfturn_p44_markers"
+      },
+      {
         "file": "n5_halfturn_p462.json",
         "name": "n5_halfturn_p462"
       },
       {
+        "file": "n5_halfturn_p462_markers.json",
+        "name": "n5_halfturn_p462_markers"
+      },
+      {
         "file": "n5_halfturn_p466.json",
         "name": "n5_halfturn_p466"
+      },
+      {
+        "file": "n5_halfturn_p466_markers.json",
+        "name": "n5_halfturn_p466_markers"
       },
       {
         "file": "n5_halfturn_p48.json",
@@ -477,12 +789,28 @@
         "name": "n5_halfturn_p48_b"
       },
       {
+        "file": "n5_halfturn_p48_b_markers.json",
+        "name": "n5_halfturn_p48_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p48_markers.json",
+        "name": "n5_halfturn_p48_markers"
+      },
+      {
         "file": "n5_halfturn_p490.json",
         "name": "n5_halfturn_p490"
       },
       {
+        "file": "n5_halfturn_p490_markers.json",
+        "name": "n5_halfturn_p490_markers"
+      },
+      {
         "file": "n5_halfturn_p492.json",
         "name": "n5_halfturn_p492"
+      },
+      {
+        "file": "n5_halfturn_p492_markers.json",
+        "name": "n5_halfturn_p492_markers"
       },
       {
         "file": "n5_halfturn_p50.json",
@@ -493,8 +821,20 @@
         "name": "n5_halfturn_p50_b"
       },
       {
+        "file": "n5_halfturn_p50_b_markers.json",
+        "name": "n5_halfturn_p50_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p50_markers.json",
+        "name": "n5_halfturn_p50_markers"
+      },
+      {
         "file": "n5_halfturn_p52.json",
         "name": "n5_halfturn_p52"
+      },
+      {
+        "file": "n5_halfturn_p52_markers.json",
+        "name": "n5_halfturn_p52_markers"
       },
       {
         "file": "n5_halfturn_p54.json",
@@ -505,16 +845,36 @@
         "name": "n5_halfturn_p54_b"
       },
       {
+        "file": "n5_halfturn_p54_b_markers.json",
+        "name": "n5_halfturn_p54_b_markers"
+      },
+      {
         "file": "n5_halfturn_p54_c.json",
         "name": "n5_halfturn_p54_c"
+      },
+      {
+        "file": "n5_halfturn_p54_c_markers.json",
+        "name": "n5_halfturn_p54_c_markers"
       },
       {
         "file": "n5_halfturn_p54_d.json",
         "name": "n5_halfturn_p54_d"
       },
       {
+        "file": "n5_halfturn_p54_d_markers.json",
+        "name": "n5_halfturn_p54_d_markers"
+      },
+      {
+        "file": "n5_halfturn_p54_markers.json",
+        "name": "n5_halfturn_p54_markers"
+      },
+      {
         "file": "n5_halfturn_p558.json",
         "name": "n5_halfturn_p558"
+      },
+      {
+        "file": "n5_halfturn_p558_markers.json",
+        "name": "n5_halfturn_p558_markers"
       },
       {
         "file": "n5_halfturn_p56.json",
@@ -525,12 +885,28 @@
         "name": "n5_halfturn_p56_b"
       },
       {
+        "file": "n5_halfturn_p56_b_markers.json",
+        "name": "n5_halfturn_p56_b_markers"
+      },
+      {
         "file": "n5_halfturn_p56_c.json",
         "name": "n5_halfturn_p56_c"
       },
       {
+        "file": "n5_halfturn_p56_c_markers.json",
+        "name": "n5_halfturn_p56_c_markers"
+      },
+      {
+        "file": "n5_halfturn_p56_markers.json",
+        "name": "n5_halfturn_p56_markers"
+      },
+      {
         "file": "n5_halfturn_p58.json",
         "name": "n5_halfturn_p58"
+      },
+      {
+        "file": "n5_halfturn_p58_markers.json",
+        "name": "n5_halfturn_p58_markers"
       },
       {
         "file": "n5_halfturn_p60.json",
@@ -541,20 +917,44 @@
         "name": "n5_halfturn_p60_b"
       },
       {
+        "file": "n5_halfturn_p60_b_markers.json",
+        "name": "n5_halfturn_p60_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p60_markers.json",
+        "name": "n5_halfturn_p60_markers"
+      },
+      {
         "file": "n5_halfturn_p612.json",
         "name": "n5_halfturn_p612"
+      },
+      {
+        "file": "n5_halfturn_p612_markers.json",
+        "name": "n5_halfturn_p612_markers"
       },
       {
         "file": "n5_halfturn_p62.json",
         "name": "n5_halfturn_p62"
       },
       {
+        "file": "n5_halfturn_p62_markers.json",
+        "name": "n5_halfturn_p62_markers"
+      },
+      {
         "file": "n5_halfturn_p64.json",
         "name": "n5_halfturn_p64"
       },
       {
+        "file": "n5_halfturn_p64_markers.json",
+        "name": "n5_halfturn_p64_markers"
+      },
+      {
         "file": "n5_halfturn_p66.json",
         "name": "n5_halfturn_p66"
+      },
+      {
+        "file": "n5_halfturn_p66_markers.json",
+        "name": "n5_halfturn_p66_markers"
       },
       {
         "file": "n5_halfturn_p72.json",
@@ -565,44 +965,92 @@
         "name": "n5_halfturn_p72_b"
       },
       {
+        "file": "n5_halfturn_p72_b_markers.json",
+        "name": "n5_halfturn_p72_b_markers"
+      },
+      {
         "file": "n5_halfturn_p72_c.json",
         "name": "n5_halfturn_p72_c"
+      },
+      {
+        "file": "n5_halfturn_p72_c_markers.json",
+        "name": "n5_halfturn_p72_c_markers"
       },
       {
         "file": "n5_halfturn_p72_d.json",
         "name": "n5_halfturn_p72_d"
       },
       {
+        "file": "n5_halfturn_p72_d_markers.json",
+        "name": "n5_halfturn_p72_d_markers"
+      },
+      {
         "file": "n5_halfturn_p72_e.json",
         "name": "n5_halfturn_p72_e"
+      },
+      {
+        "file": "n5_halfturn_p72_e_markers.json",
+        "name": "n5_halfturn_p72_e_markers"
       },
       {
         "file": "n5_halfturn_p72_f.json",
         "name": "n5_halfturn_p72_f"
       },
       {
+        "file": "n5_halfturn_p72_f_markers.json",
+        "name": "n5_halfturn_p72_f_markers"
+      },
+      {
         "file": "n5_halfturn_p72_g.json",
         "name": "n5_halfturn_p72_g"
+      },
+      {
+        "file": "n5_halfturn_p72_g_markers.json",
+        "name": "n5_halfturn_p72_g_markers"
       },
       {
         "file": "n5_halfturn_p72_h.json",
         "name": "n5_halfturn_p72_h"
       },
       {
+        "file": "n5_halfturn_p72_h_markers.json",
+        "name": "n5_halfturn_p72_h_markers"
+      },
+      {
         "file": "n5_halfturn_p72_i.json",
         "name": "n5_halfturn_p72_i"
+      },
+      {
+        "file": "n5_halfturn_p72_i_markers.json",
+        "name": "n5_halfturn_p72_i_markers"
       },
       {
         "file": "n5_halfturn_p72_j.json",
         "name": "n5_halfturn_p72_j"
       },
       {
+        "file": "n5_halfturn_p72_j_markers.json",
+        "name": "n5_halfturn_p72_j_markers"
+      },
+      {
         "file": "n5_halfturn_p72_k.json",
         "name": "n5_halfturn_p72_k"
       },
       {
+        "file": "n5_halfturn_p72_k_markers.json",
+        "name": "n5_halfturn_p72_k_markers"
+      },
+      {
         "file": "n5_halfturn_p72_l.json",
         "name": "n5_halfturn_p72_l"
+      },
+      {
+        "file": "n5_halfturn_p72_l_markers.json",
+        "name": "n5_halfturn_p72_l_markers"
+      },
+      {
+        "file": "n5_halfturn_p72_markers.json",
+        "name": "n5_halfturn_p72_markers"
       },
       {
         "file": "n5_halfturn_p74.json",
@@ -617,24 +1065,56 @@
         "name": "n5_halfturn_p744_b"
       },
       {
+        "file": "n5_halfturn_p744_b_markers.json",
+        "name": "n5_halfturn_p744_b_markers"
+      },
+      {
         "file": "n5_halfturn_p744_c.json",
         "name": "n5_halfturn_p744_c"
+      },
+      {
+        "file": "n5_halfturn_p744_c_markers.json",
+        "name": "n5_halfturn_p744_c_markers"
       },
       {
         "file": "n5_halfturn_p744_d.json",
         "name": "n5_halfturn_p744_d"
       },
       {
+        "file": "n5_halfturn_p744_d_markers.json",
+        "name": "n5_halfturn_p744_d_markers"
+      },
+      {
+        "file": "n5_halfturn_p744_markers.json",
+        "name": "n5_halfturn_p744_markers"
+      },
+      {
+        "file": "n5_halfturn_p74_markers.json",
+        "name": "n5_halfturn_p74_markers"
+      },
+      {
         "file": "n5_halfturn_p78.json",
         "name": "n5_halfturn_p78"
+      },
+      {
+        "file": "n5_halfturn_p78_markers.json",
+        "name": "n5_halfturn_p78_markers"
       },
       {
         "file": "n5_halfturn_p804.json",
         "name": "n5_halfturn_p804"
       },
       {
+        "file": "n5_halfturn_p804_markers.json",
+        "name": "n5_halfturn_p804_markers"
+      },
+      {
         "file": "n5_halfturn_p82.json",
         "name": "n5_halfturn_p82"
+      },
+      {
+        "file": "n5_halfturn_p82_markers.json",
+        "name": "n5_halfturn_p82_markers"
       },
       {
         "file": "n5_halfturn_p84.json",
@@ -645,8 +1125,20 @@
         "name": "n5_halfturn_p84_b"
       },
       {
+        "file": "n5_halfturn_p84_b_markers.json",
+        "name": "n5_halfturn_p84_b_markers"
+      },
+      {
         "file": "n5_halfturn_p84_c.json",
         "name": "n5_halfturn_p84_c"
+      },
+      {
+        "file": "n5_halfturn_p84_c_markers.json",
+        "name": "n5_halfturn_p84_c_markers"
+      },
+      {
+        "file": "n5_halfturn_p84_markers.json",
+        "name": "n5_halfturn_p84_markers"
       },
       {
         "file": "n5_halfturn_p88.json",
@@ -657,6 +1149,14 @@
         "name": "n5_halfturn_p88_b"
       },
       {
+        "file": "n5_halfturn_p88_b_markers.json",
+        "name": "n5_halfturn_p88_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p88_markers.json",
+        "name": "n5_halfturn_p88_markers"
+      },
+      {
         "file": "n5_halfturn_p90.json",
         "name": "n5_halfturn_p90"
       },
@@ -665,16 +1165,36 @@
         "name": "n5_halfturn_p90_b"
       },
       {
+        "file": "n5_halfturn_p90_b_markers.json",
+        "name": "n5_halfturn_p90_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p90_markers.json",
+        "name": "n5_halfturn_p90_markers"
+      },
+      {
         "file": "n5_halfturn_p92.json",
         "name": "n5_halfturn_p92"
+      },
+      {
+        "file": "n5_halfturn_p92_markers.json",
+        "name": "n5_halfturn_p92_markers"
       },
       {
         "file": "n5_halfturn_p94.json",
         "name": "n5_halfturn_p94"
       },
       {
+        "file": "n5_halfturn_p94_markers.json",
+        "name": "n5_halfturn_p94_markers"
+      },
+      {
         "file": "n5_halfturn_p972.json",
         "name": "n5_halfturn_p972"
+      },
+      {
+        "file": "n5_halfturn_p972_markers.json",
+        "name": "n5_halfturn_p972_markers"
       },
       {
         "file": "n5_halfturn_p98.json",
@@ -683,6 +1203,14 @@
       {
         "file": "n5_halfturn_p98_b.json",
         "name": "n5_halfturn_p98_b"
+      },
+      {
+        "file": "n5_halfturn_p98_b_markers.json",
+        "name": "n5_halfturn_p98_b_markers"
+      },
+      {
+        "file": "n5_halfturn_p98_markers.json",
+        "name": "n5_halfturn_p98_markers"
       }
     ]
   },
@@ -694,12 +1222,24 @@
         "name": "halfturn_p1016"
       },
       {
+        "file": "halfturn_p1016_markers.json",
+        "name": "halfturn_p1016_markers"
+      },
+      {
         "file": "halfturn_p102.json",
         "name": "halfturn_p102"
       },
       {
         "file": "halfturn_p102_b.json",
         "name": "halfturn_p102_b"
+      },
+      {
+        "file": "halfturn_p102_b_markers.json",
+        "name": "halfturn_p102_b_markers"
+      },
+      {
+        "file": "halfturn_p102_markers.json",
+        "name": "halfturn_p102_markers"
       },
       {
         "file": "halfturn_p106.json",
@@ -710,44 +1250,92 @@
         "name": "halfturn_p106_b"
       },
       {
+        "file": "halfturn_p106_b_markers.json",
+        "name": "halfturn_p106_b_markers"
+      },
+      {
+        "file": "halfturn_p106_markers.json",
+        "name": "halfturn_p106_markers"
+      },
+      {
         "file": "halfturn_p1086.json",
         "name": "halfturn_p1086"
+      },
+      {
+        "file": "halfturn_p1086_markers.json",
+        "name": "halfturn_p1086_markers"
       },
       {
         "file": "halfturn_p1090.json",
         "name": "halfturn_p1090"
       },
       {
+        "file": "halfturn_p1090_markers.json",
+        "name": "halfturn_p1090_markers"
+      },
+      {
         "file": "halfturn_p1116.json",
         "name": "halfturn_p1116"
+      },
+      {
+        "file": "halfturn_p1116_markers.json",
+        "name": "halfturn_p1116_markers"
       },
       {
         "file": "halfturn_p1132.json",
         "name": "halfturn_p1132"
       },
       {
+        "file": "halfturn_p1132_markers.json",
+        "name": "halfturn_p1132_markers"
+      },
+      {
         "file": "halfturn_p118.json",
         "name": "halfturn_p118"
+      },
+      {
+        "file": "halfturn_p118_markers.json",
+        "name": "halfturn_p118_markers"
       },
       {
         "file": "halfturn_p122.json",
         "name": "halfturn_p122"
       },
       {
+        "file": "halfturn_p122_markers.json",
+        "name": "halfturn_p122_markers"
+      },
+      {
         "file": "halfturn_p128_b.json",
         "name": "halfturn_p128_b"
+      },
+      {
+        "file": "halfturn_p128_b_markers.json",
+        "name": "halfturn_p128_b_markers"
       },
       {
         "file": "halfturn_p1394.json",
         "name": "halfturn_p1394"
       },
       {
+        "file": "halfturn_p1394_markers.json",
+        "name": "halfturn_p1394_markers"
+      },
+      {
         "file": "halfturn_p1414.json",
         "name": "halfturn_p1414"
       },
       {
+        "file": "halfturn_p1414_markers.json",
+        "name": "halfturn_p1414_markers"
+      },
+      {
         "file": "halfturn_p1470.json",
         "name": "halfturn_p1470"
+      },
+      {
+        "file": "halfturn_p1470_markers.json",
+        "name": "halfturn_p1470_markers"
       },
       {
         "file": "halfturn_p148.json",
@@ -758,6 +1346,14 @@
         "name": "halfturn_p148_b"
       },
       {
+        "file": "halfturn_p148_b_markers.json",
+        "name": "halfturn_p148_b_markers"
+      },
+      {
+        "file": "halfturn_p148_markers.json",
+        "name": "halfturn_p148_markers"
+      },
+      {
         "file": "halfturn_p152.json",
         "name": "halfturn_p152"
       },
@@ -766,12 +1362,28 @@
         "name": "halfturn_p152_b"
       },
       {
+        "file": "halfturn_p152_b_markers.json",
+        "name": "halfturn_p152_b_markers"
+      },
+      {
+        "file": "halfturn_p152_markers.json",
+        "name": "halfturn_p152_markers"
+      },
+      {
         "file": "halfturn_p156.json",
         "name": "halfturn_p156"
       },
       {
+        "file": "halfturn_p156_markers.json",
+        "name": "halfturn_p156_markers"
+      },
+      {
         "file": "halfturn_p160.json",
         "name": "halfturn_p160"
+      },
+      {
+        "file": "halfturn_p160_markers.json",
+        "name": "halfturn_p160_markers"
       },
       {
         "file": "halfturn_p162.json",
@@ -782,8 +1394,20 @@
         "name": "halfturn_p162_b"
       },
       {
+        "file": "halfturn_p162_b_markers.json",
+        "name": "halfturn_p162_b_markers"
+      },
+      {
+        "file": "halfturn_p162_markers.json",
+        "name": "halfturn_p162_markers"
+      },
+      {
         "file": "halfturn_p166.json",
         "name": "halfturn_p166"
+      },
+      {
+        "file": "halfturn_p166_markers.json",
+        "name": "halfturn_p166_markers"
       },
       {
         "file": "halfturn_p168.json",
@@ -794,20 +1418,44 @@
         "name": "halfturn_p168_b"
       },
       {
+        "file": "halfturn_p168_b_markers.json",
+        "name": "halfturn_p168_b_markers"
+      },
+      {
         "file": "halfturn_p168_c.json",
         "name": "halfturn_p168_c"
+      },
+      {
+        "file": "halfturn_p168_c_markers.json",
+        "name": "halfturn_p168_c_markers"
+      },
+      {
+        "file": "halfturn_p168_markers.json",
+        "name": "halfturn_p168_markers"
       },
       {
         "file": "halfturn_p1880.json",
         "name": "halfturn_p1880"
       },
       {
+        "file": "halfturn_p1880_markers.json",
+        "name": "halfturn_p1880_markers"
+      },
+      {
         "file": "halfturn_p188_b.json",
         "name": "halfturn_p188_b"
       },
       {
+        "file": "halfturn_p188_b_markers.json",
+        "name": "halfturn_p188_b_markers"
+      },
+      {
         "file": "halfturn_p206.json",
         "name": "halfturn_p206"
+      },
+      {
+        "file": "halfturn_p206_markers.json",
+        "name": "halfturn_p206_markers"
       },
       {
         "file": "halfturn_p210.json",
@@ -818,8 +1466,20 @@
         "name": "halfturn_p210_b"
       },
       {
+        "file": "halfturn_p210_b_markers.json",
+        "name": "halfturn_p210_b_markers"
+      },
+      {
+        "file": "halfturn_p210_markers.json",
+        "name": "halfturn_p210_markers"
+      },
+      {
         "file": "halfturn_p2206.json",
         "name": "halfturn_p2206"
+      },
+      {
+        "file": "halfturn_p2206_markers.json",
+        "name": "halfturn_p2206_markers"
       },
       {
         "file": "halfturn_p228.json",
@@ -830,16 +1490,36 @@
         "name": "halfturn_p2280"
       },
       {
+        "file": "halfturn_p2280_markers.json",
+        "name": "halfturn_p2280_markers"
+      },
+      {
+        "file": "halfturn_p228_markers.json",
+        "name": "halfturn_p228_markers"
+      },
+      {
         "file": "halfturn_p230.json",
         "name": "halfturn_p230"
+      },
+      {
+        "file": "halfturn_p230_markers.json",
+        "name": "halfturn_p230_markers"
       },
       {
         "file": "halfturn_p232.json",
         "name": "halfturn_p232"
       },
       {
+        "file": "halfturn_p232_markers.json",
+        "name": "halfturn_p232_markers"
+      },
+      {
         "file": "halfturn_p236.json",
         "name": "halfturn_p236"
+      },
+      {
+        "file": "halfturn_p236_markers.json",
+        "name": "halfturn_p236_markers"
       },
       {
         "file": "halfturn_p238.json",
@@ -850,24 +1530,52 @@
         "name": "halfturn_p238_b"
       },
       {
+        "file": "halfturn_p238_b_markers.json",
+        "name": "halfturn_p238_b_markers"
+      },
+      {
+        "file": "halfturn_p238_markers.json",
+        "name": "halfturn_p238_markers"
+      },
+      {
         "file": "halfturn_p240.json",
         "name": "halfturn_p240"
+      },
+      {
+        "file": "halfturn_p240_markers.json",
+        "name": "halfturn_p240_markers"
       },
       {
         "file": "halfturn_p242.json",
         "name": "halfturn_p242"
       },
       {
+        "file": "halfturn_p242_markers.json",
+        "name": "halfturn_p242_markers"
+      },
+      {
         "file": "halfturn_p246.json",
         "name": "halfturn_p246"
+      },
+      {
+        "file": "halfturn_p246_markers.json",
+        "name": "halfturn_p246_markers"
       },
       {
         "file": "halfturn_p258.json",
         "name": "halfturn_p258"
       },
       {
+        "file": "halfturn_p258_markers.json",
+        "name": "halfturn_p258_markers"
+      },
+      {
         "file": "halfturn_p262.json",
         "name": "halfturn_p262"
+      },
+      {
+        "file": "halfturn_p262_markers.json",
+        "name": "halfturn_p262_markers"
       },
       {
         "file": "halfturn_p274.json",
@@ -878,44 +1586,92 @@
         "name": "halfturn_p274_b"
       },
       {
+        "file": "halfturn_p274_b_markers.json",
+        "name": "halfturn_p274_b_markers"
+      },
+      {
+        "file": "halfturn_p274_markers.json",
+        "name": "halfturn_p274_markers"
+      },
+      {
         "file": "halfturn_p276.json",
         "name": "halfturn_p276"
+      },
+      {
+        "file": "halfturn_p276_markers.json",
+        "name": "halfturn_p276_markers"
       },
       {
         "file": "halfturn_p282.json",
         "name": "halfturn_p282"
       },
       {
+        "file": "halfturn_p282_markers.json",
+        "name": "halfturn_p282_markers"
+      },
+      {
         "file": "halfturn_p290.json",
         "name": "halfturn_p290"
+      },
+      {
+        "file": "halfturn_p290_markers.json",
+        "name": "halfturn_p290_markers"
       },
       {
         "file": "halfturn_p292.json",
         "name": "halfturn_p292"
       },
       {
+        "file": "halfturn_p292_markers.json",
+        "name": "halfturn_p292_markers"
+      },
+      {
         "file": "halfturn_p2986.json",
         "name": "halfturn_p2986"
+      },
+      {
+        "file": "halfturn_p2986_markers.json",
+        "name": "halfturn_p2986_markers"
       },
       {
         "file": "halfturn_p302.json",
         "name": "halfturn_p302"
       },
       {
+        "file": "halfturn_p302_markers.json",
+        "name": "halfturn_p302_markers"
+      },
+      {
         "file": "halfturn_p304.json",
         "name": "halfturn_p304"
+      },
+      {
+        "file": "halfturn_p304_markers.json",
+        "name": "halfturn_p304_markers"
       },
       {
         "file": "halfturn_p306.json",
         "name": "halfturn_p306"
       },
       {
+        "file": "halfturn_p306_markers.json",
+        "name": "halfturn_p306_markers"
+      },
+      {
         "file": "halfturn_p3168.json",
         "name": "halfturn_p3168"
       },
       {
+        "file": "halfturn_p3168_markers.json",
+        "name": "halfturn_p3168_markers"
+      },
+      {
         "file": "halfturn_p320.json",
         "name": "halfturn_p320"
+      },
+      {
+        "file": "halfturn_p320_markers.json",
+        "name": "halfturn_p320_markers"
       },
       {
         "file": "halfturn_p328.json",
@@ -926,64 +1682,132 @@
         "name": "halfturn_p328_b"
       },
       {
+        "file": "halfturn_p328_b_markers.json",
+        "name": "halfturn_p328_b_markers"
+      },
+      {
+        "file": "halfturn_p328_markers.json",
+        "name": "halfturn_p328_markers"
+      },
+      {
         "file": "halfturn_p342.json",
         "name": "halfturn_p342"
+      },
+      {
+        "file": "halfturn_p342_markers.json",
+        "name": "halfturn_p342_markers"
       },
       {
         "file": "halfturn_p350.json",
         "name": "halfturn_p350"
       },
       {
+        "file": "halfturn_p350_markers.json",
+        "name": "halfturn_p350_markers"
+      },
+      {
         "file": "halfturn_p360.json",
         "name": "halfturn_p360"
+      },
+      {
+        "file": "halfturn_p360_markers.json",
+        "name": "halfturn_p360_markers"
       },
       {
         "file": "halfturn_p370.json",
         "name": "halfturn_p370"
       },
       {
+        "file": "halfturn_p370_markers.json",
+        "name": "halfturn_p370_markers"
+      },
+      {
         "file": "halfturn_p372.json",
         "name": "halfturn_p372"
+      },
+      {
+        "file": "halfturn_p372_markers.json",
+        "name": "halfturn_p372_markers"
       },
       {
         "file": "halfturn_p374.json",
         "name": "halfturn_p374"
       },
       {
+        "file": "halfturn_p374_markers.json",
+        "name": "halfturn_p374_markers"
+      },
+      {
         "file": "halfturn_p378.json",
         "name": "halfturn_p378"
+      },
+      {
+        "file": "halfturn_p378_markers.json",
+        "name": "halfturn_p378_markers"
       },
       {
         "file": "halfturn_p384.json",
         "name": "halfturn_p384"
       },
       {
+        "file": "halfturn_p384_markers.json",
+        "name": "halfturn_p384_markers"
+      },
+      {
         "file": "halfturn_p392.json",
         "name": "halfturn_p392"
+      },
+      {
+        "file": "halfturn_p392_markers.json",
+        "name": "halfturn_p392_markers"
       },
       {
         "file": "halfturn_p394.json",
         "name": "halfturn_p394"
       },
       {
+        "file": "halfturn_p394_markers.json",
+        "name": "halfturn_p394_markers"
+      },
+      {
         "file": "halfturn_p408.json",
         "name": "halfturn_p408"
+      },
+      {
+        "file": "halfturn_p408_markers.json",
+        "name": "halfturn_p408_markers"
       },
       {
         "file": "halfturn_p414.json",
         "name": "halfturn_p414"
       },
       {
+        "file": "halfturn_p414_markers.json",
+        "name": "halfturn_p414_markers"
+      },
+      {
         "file": "halfturn_p432.json",
         "name": "halfturn_p432"
+      },
+      {
+        "file": "halfturn_p432_markers.json",
+        "name": "halfturn_p432_markers"
       },
       {
         "file": "halfturn_p436.json",
         "name": "halfturn_p436"
       },
       {
+        "file": "halfturn_p436_markers.json",
+        "name": "halfturn_p436_markers"
+      },
+      {
         "file": "halfturn_p452.json",
         "name": "halfturn_p452"
+      },
+      {
+        "file": "halfturn_p452_markers.json",
+        "name": "halfturn_p452_markers"
       },
       {
         "file": "halfturn_p458.json",
@@ -994,20 +1818,44 @@
         "name": "halfturn_p458_b"
       },
       {
+        "file": "halfturn_p458_b_markers.json",
+        "name": "halfturn_p458_b_markers"
+      },
+      {
+        "file": "halfturn_p458_markers.json",
+        "name": "halfturn_p458_markers"
+      },
+      {
         "file": "halfturn_p468.json",
         "name": "halfturn_p468"
+      },
+      {
+        "file": "halfturn_p468_markers.json",
+        "name": "halfturn_p468_markers"
       },
       {
         "file": "halfturn_p480.json",
         "name": "halfturn_p480"
       },
       {
+        "file": "halfturn_p480_markers.json",
+        "name": "halfturn_p480_markers"
+      },
+      {
         "file": "halfturn_p486.json",
         "name": "halfturn_p486"
       },
       {
+        "file": "halfturn_p486_markers.json",
+        "name": "halfturn_p486_markers"
+      },
+      {
         "file": "halfturn_p498.json",
         "name": "halfturn_p498"
+      },
+      {
+        "file": "halfturn_p498_markers.json",
+        "name": "halfturn_p498_markers"
       },
       {
         "file": "halfturn_p504.json",
@@ -1018,96 +1866,196 @@
         "name": "halfturn_p504_b"
       },
       {
+        "file": "halfturn_p504_b_markers.json",
+        "name": "halfturn_p504_b_markers"
+      },
+      {
+        "file": "halfturn_p504_markers.json",
+        "name": "halfturn_p504_markers"
+      },
+      {
         "file": "halfturn_p512.json",
         "name": "halfturn_p512"
+      },
+      {
+        "file": "halfturn_p512_markers.json",
+        "name": "halfturn_p512_markers"
       },
       {
         "file": "halfturn_p516.json",
         "name": "halfturn_p516"
       },
       {
+        "file": "halfturn_p516_markers.json",
+        "name": "halfturn_p516_markers"
+      },
+      {
         "file": "halfturn_p522.json",
         "name": "halfturn_p522"
+      },
+      {
+        "file": "halfturn_p522_markers.json",
+        "name": "halfturn_p522_markers"
       },
       {
         "file": "halfturn_p530.json",
         "name": "halfturn_p530"
       },
       {
+        "file": "halfturn_p530_markers.json",
+        "name": "halfturn_p530_markers"
+      },
+      {
         "file": "halfturn_p562.json",
         "name": "halfturn_p562"
+      },
+      {
+        "file": "halfturn_p562_markers.json",
+        "name": "halfturn_p562_markers"
       },
       {
         "file": "halfturn_p564.json",
         "name": "halfturn_p564"
       },
       {
+        "file": "halfturn_p564_markers.json",
+        "name": "halfturn_p564_markers"
+      },
+      {
         "file": "halfturn_p5678.json",
         "name": "halfturn_p5678"
+      },
+      {
+        "file": "halfturn_p5678_markers.json",
+        "name": "halfturn_p5678_markers"
       },
       {
         "file": "halfturn_p572.json",
         "name": "halfturn_p572"
       },
       {
+        "file": "halfturn_p572_markers.json",
+        "name": "halfturn_p572_markers"
+      },
+      {
         "file": "halfturn_p580.json",
         "name": "halfturn_p580"
+      },
+      {
+        "file": "halfturn_p580_markers.json",
+        "name": "halfturn_p580_markers"
       },
       {
         "file": "halfturn_p586.json",
         "name": "halfturn_p586"
       },
       {
+        "file": "halfturn_p586_markers.json",
+        "name": "halfturn_p586_markers"
+      },
+      {
         "file": "halfturn_p598.json",
         "name": "halfturn_p598"
+      },
+      {
+        "file": "halfturn_p598_markers.json",
+        "name": "halfturn_p598_markers"
       },
       {
         "file": "halfturn_p600.json",
         "name": "halfturn_p600"
       },
       {
+        "file": "halfturn_p600_markers.json",
+        "name": "halfturn_p600_markers"
+      },
+      {
         "file": "halfturn_p632.json",
         "name": "halfturn_p632"
+      },
+      {
+        "file": "halfturn_p632_markers.json",
+        "name": "halfturn_p632_markers"
       },
       {
         "file": "halfturn_p640.json",
         "name": "halfturn_p640"
       },
       {
+        "file": "halfturn_p640_markers.json",
+        "name": "halfturn_p640_markers"
+      },
+      {
         "file": "halfturn_p650.json",
         "name": "halfturn_p650"
+      },
+      {
+        "file": "halfturn_p650_markers.json",
+        "name": "halfturn_p650_markers"
       },
       {
         "file": "halfturn_p654.json",
         "name": "halfturn_p654"
       },
       {
+        "file": "halfturn_p654_markers.json",
+        "name": "halfturn_p654_markers"
+      },
+      {
         "file": "halfturn_p680.json",
         "name": "halfturn_p680"
+      },
+      {
+        "file": "halfturn_p680_markers.json",
+        "name": "halfturn_p680_markers"
       },
       {
         "file": "halfturn_p70.json",
         "name": "halfturn_p70"
       },
       {
+        "file": "halfturn_p70_markers.json",
+        "name": "halfturn_p70_markers"
+      },
+      {
         "file": "halfturn_p738.json",
         "name": "halfturn_p738"
+      },
+      {
+        "file": "halfturn_p738_markers.json",
+        "name": "halfturn_p738_markers"
       },
       {
         "file": "halfturn_p810.json",
         "name": "halfturn_p810"
       },
       {
+        "file": "halfturn_p810_markers.json",
+        "name": "halfturn_p810_markers"
+      },
+      {
         "file": "halfturn_p826.json",
         "name": "halfturn_p826"
+      },
+      {
+        "file": "halfturn_p826_markers.json",
+        "name": "halfturn_p826_markers"
       },
       {
         "file": "halfturn_p830.json",
         "name": "halfturn_p830"
       },
       {
+        "file": "halfturn_p830_markers.json",
+        "name": "halfturn_p830_markers"
+      },
+      {
         "file": "halfturn_p88.json",
         "name": "halfturn_p88"
+      },
+      {
+        "file": "halfturn_p88_markers.json",
+        "name": "halfturn_p88_markers"
       },
       {
         "file": "halfturn_p90.json",
@@ -1118,8 +2066,20 @@
         "name": "halfturn_p904"
       },
       {
+        "file": "halfturn_p904_markers.json",
+        "name": "halfturn_p904_markers"
+      },
+      {
+        "file": "halfturn_p90_markers.json",
+        "name": "halfturn_p90_markers"
+      },
+      {
         "file": "halfturn_p946.json",
         "name": "halfturn_p946"
+      },
+      {
+        "file": "halfturn_p946_markers.json",
+        "name": "halfturn_p946_markers"
       }
     ]
   },
@@ -1135,12 +2095,28 @@
         "name": "halfturn_p104_b"
       },
       {
+        "file": "halfturn_p104_b_markers.json",
+        "name": "halfturn_p104_b_markers"
+      },
+      {
+        "file": "halfturn_p104_markers.json",
+        "name": "halfturn_p104_markers"
+      },
+      {
         "file": "halfturn_p108.json",
         "name": "halfturn_p108"
       },
       {
+        "file": "halfturn_p108_markers.json",
+        "name": "halfturn_p108_markers"
+      },
+      {
         "file": "halfturn_p110.json",
         "name": "halfturn_p110"
+      },
+      {
+        "file": "halfturn_p110_markers.json",
+        "name": "halfturn_p110_markers"
       },
       {
         "file": "halfturn_p116.json",
@@ -1151,20 +2127,44 @@
         "name": "halfturn_p116_b"
       },
       {
+        "file": "halfturn_p116_b_markers.json",
+        "name": "halfturn_p116_b_markers"
+      },
+      {
+        "file": "halfturn_p116_markers.json",
+        "name": "halfturn_p116_markers"
+      },
+      {
         "file": "halfturn_p128.json",
         "name": "halfturn_p128"
+      },
+      {
+        "file": "halfturn_p128_markers.json",
+        "name": "halfturn_p128_markers"
       },
       {
         "file": "halfturn_p134.json",
         "name": "halfturn_p134"
       },
       {
+        "file": "halfturn_p134_markers.json",
+        "name": "halfturn_p134_markers"
+      },
+      {
         "file": "halfturn_p140.json",
         "name": "halfturn_p140"
       },
       {
+        "file": "halfturn_p140_markers.json",
+        "name": "halfturn_p140_markers"
+      },
+      {
         "file": "halfturn_p142.json",
         "name": "halfturn_p142"
+      },
+      {
+        "file": "halfturn_p142_markers.json",
+        "name": "halfturn_p142_markers"
       },
       {
         "file": "halfturn_p144.json",
@@ -1175,16 +2175,36 @@
         "name": "halfturn_p144_b"
       },
       {
+        "file": "halfturn_p144_b_markers.json",
+        "name": "halfturn_p144_b_markers"
+      },
+      {
         "file": "halfturn_p144_c.json",
         "name": "halfturn_p144_c"
+      },
+      {
+        "file": "halfturn_p144_c_markers.json",
+        "name": "halfturn_p144_c_markers"
+      },
+      {
+        "file": "halfturn_p144_markers.json",
+        "name": "halfturn_p144_markers"
       },
       {
         "file": "halfturn_p146.json",
         "name": "halfturn_p146"
       },
       {
+        "file": "halfturn_p146_markers.json",
+        "name": "halfturn_p146_markers"
+      },
+      {
         "file": "halfturn_p158.json",
         "name": "halfturn_p158"
+      },
+      {
+        "file": "halfturn_p158_markers.json",
+        "name": "halfturn_p158_markers"
       },
       {
         "file": "halfturn_p172.json",
@@ -1195,8 +2215,20 @@
         "name": "halfturn_p172_b"
       },
       {
+        "file": "halfturn_p172_b_markers.json",
+        "name": "halfturn_p172_b_markers"
+      },
+      {
+        "file": "halfturn_p172_markers.json",
+        "name": "halfturn_p172_markers"
+      },
+      {
         "file": "halfturn_p174.json",
         "name": "halfturn_p174"
+      },
+      {
+        "file": "halfturn_p174_markers.json",
+        "name": "halfturn_p174_markers"
       },
       {
         "file": "halfturn_p180.json",
@@ -1207,24 +2239,52 @@
         "name": "halfturn_p180_b"
       },
       {
+        "file": "halfturn_p180_b_markers.json",
+        "name": "halfturn_p180_b_markers"
+      },
+      {
+        "file": "halfturn_p180_markers.json",
+        "name": "halfturn_p180_markers"
+      },
+      {
         "file": "halfturn_p188.json",
         "name": "halfturn_p188"
+      },
+      {
+        "file": "halfturn_p188_markers.json",
+        "name": "halfturn_p188_markers"
       },
       {
         "file": "halfturn_p190.json",
         "name": "halfturn_p190"
       },
       {
+        "file": "halfturn_p190_markers.json",
+        "name": "halfturn_p190_markers"
+      },
+      {
         "file": "halfturn_p192.json",
         "name": "halfturn_p192"
+      },
+      {
+        "file": "halfturn_p192_markers.json",
+        "name": "halfturn_p192_markers"
       },
       {
         "file": "halfturn_p196.json",
         "name": "halfturn_p196"
       },
       {
+        "file": "halfturn_p196_markers.json",
+        "name": "halfturn_p196_markers"
+      },
+      {
         "file": "halfturn_p198.json",
         "name": "halfturn_p198"
+      },
+      {
+        "file": "halfturn_p198_markers.json",
+        "name": "halfturn_p198_markers"
       },
       {
         "file": "halfturn_p20.json",
@@ -1235,28 +2295,60 @@
         "name": "halfturn_p200"
       },
       {
+        "file": "halfturn_p200_markers.json",
+        "name": "halfturn_p200_markers"
+      },
+      {
         "file": "halfturn_p20_b.json",
         "name": "halfturn_p20_b"
+      },
+      {
+        "file": "halfturn_p20_b_markers.json",
+        "name": "halfturn_p20_b_markers"
       },
       {
         "file": "halfturn_p20_c.json",
         "name": "halfturn_p20_c"
       },
       {
+        "file": "halfturn_p20_c_markers.json",
+        "name": "halfturn_p20_c_markers"
+      },
+      {
         "file": "halfturn_p20_d.json",
         "name": "halfturn_p20_d"
+      },
+      {
+        "file": "halfturn_p20_d_markers.json",
+        "name": "halfturn_p20_d_markers"
       },
       {
         "file": "halfturn_p20_e.json",
         "name": "halfturn_p20_e"
       },
       {
+        "file": "halfturn_p20_e_markers.json",
+        "name": "halfturn_p20_e_markers"
+      },
+      {
         "file": "halfturn_p20_f.json",
         "name": "halfturn_p20_f"
       },
       {
+        "file": "halfturn_p20_f_markers.json",
+        "name": "halfturn_p20_f_markers"
+      },
+      {
+        "file": "halfturn_p20_markers.json",
+        "name": "halfturn_p20_markers"
+      },
+      {
         "file": "halfturn_p238.json",
         "name": "halfturn_p238"
+      },
+      {
+        "file": "halfturn_p238_markers.json",
+        "name": "halfturn_p238_markers"
       },
       {
         "file": "halfturn_p24.json",
@@ -1267,12 +2359,28 @@
         "name": "halfturn_p242"
       },
       {
+        "file": "halfturn_p242_markers.json",
+        "name": "halfturn_p242_markers"
+      },
+      {
         "file": "halfturn_p24_b.json",
         "name": "halfturn_p24_b"
       },
       {
+        "file": "halfturn_p24_b_markers.json",
+        "name": "halfturn_p24_b_markers"
+      },
+      {
         "file": "halfturn_p24_c.json",
         "name": "halfturn_p24_c"
+      },
+      {
+        "file": "halfturn_p24_c_markers.json",
+        "name": "halfturn_p24_c_markers"
+      },
+      {
+        "file": "halfturn_p24_markers.json",
+        "name": "halfturn_p24_markers"
       },
       {
         "file": "halfturn_p26.json",
@@ -1283,16 +2391,36 @@
         "name": "halfturn_p260"
       },
       {
+        "file": "halfturn_p260_markers.json",
+        "name": "halfturn_p260_markers"
+      },
+      {
         "file": "halfturn_p264.json",
         "name": "halfturn_p264"
+      },
+      {
+        "file": "halfturn_p264_markers.json",
+        "name": "halfturn_p264_markers"
       },
       {
         "file": "halfturn_p266.json",
         "name": "halfturn_p266"
       },
       {
+        "file": "halfturn_p266_markers.json",
+        "name": "halfturn_p266_markers"
+      },
+      {
+        "file": "halfturn_p26_markers.json",
+        "name": "halfturn_p26_markers"
+      },
+      {
         "file": "halfturn_p28.json",
         "name": "halfturn_p28"
+      },
+      {
+        "file": "halfturn_p28_markers.json",
+        "name": "halfturn_p28_markers"
       },
       {
         "file": "halfturn_p30.json",
@@ -1307,12 +2435,28 @@
         "name": "halfturn_p30_b_markers"
       },
       {
+        "file": "halfturn_p30_b_markers_markers.json",
+        "name": "halfturn_p30_b_markers_markers"
+      },
+      {
+        "file": "halfturn_p30_markers.json",
+        "name": "halfturn_p30_markers"
+      },
+      {
         "file": "halfturn_p36.json",
         "name": "halfturn_p36"
       },
       {
+        "file": "halfturn_p36_markers.json",
+        "name": "halfturn_p36_markers"
+      },
+      {
         "file": "halfturn_p38.json",
         "name": "halfturn_p38"
+      },
+      {
+        "file": "halfturn_p38_markers.json",
+        "name": "halfturn_p38_markers"
       },
       {
         "file": "halfturn_p40.json",
@@ -1323,8 +2467,20 @@
         "name": "halfturn_p40_b"
       },
       {
+        "file": "halfturn_p40_b_markers.json",
+        "name": "halfturn_p40_b_markers"
+      },
+      {
+        "file": "halfturn_p40_markers.json",
+        "name": "halfturn_p40_markers"
+      },
+      {
         "file": "halfturn_p418.json",
         "name": "halfturn_p418"
+      },
+      {
+        "file": "halfturn_p418_markers.json",
+        "name": "halfturn_p418_markers"
       },
       {
         "file": "halfturn_p42.json",
@@ -1335,16 +2491,36 @@
         "name": "halfturn_p42_b"
       },
       {
+        "file": "halfturn_p42_b_markers.json",
+        "name": "halfturn_p42_b_markers"
+      },
+      {
         "file": "halfturn_p42_c.json",
         "name": "halfturn_p42_c"
+      },
+      {
+        "file": "halfturn_p42_c_markers.json",
+        "name": "halfturn_p42_c_markers"
+      },
+      {
+        "file": "halfturn_p42_markers.json",
+        "name": "halfturn_p42_markers"
       },
       {
         "file": "halfturn_p44.json",
         "name": "halfturn_p44"
       },
       {
+        "file": "halfturn_p44_markers.json",
+        "name": "halfturn_p44_markers"
+      },
+      {
         "file": "halfturn_p46.json",
         "name": "halfturn_p46"
+      },
+      {
+        "file": "halfturn_p46_markers.json",
+        "name": "halfturn_p46_markers"
       },
       {
         "file": "halfturn_p48.json",
@@ -1355,20 +2531,44 @@
         "name": "halfturn_p48_b"
       },
       {
+        "file": "halfturn_p48_b_markers.json",
+        "name": "halfturn_p48_b_markers"
+      },
+      {
         "file": "halfturn_p48_c.json",
         "name": "halfturn_p48_c"
+      },
+      {
+        "file": "halfturn_p48_c_markers.json",
+        "name": "halfturn_p48_c_markers"
       },
       {
         "file": "halfturn_p48_d.json",
         "name": "halfturn_p48_d"
       },
       {
+        "file": "halfturn_p48_d_markers.json",
+        "name": "halfturn_p48_d_markers"
+      },
+      {
+        "file": "halfturn_p48_markers.json",
+        "name": "halfturn_p48_markers"
+      },
+      {
         "file": "halfturn_p50.json",
         "name": "halfturn_p50"
       },
       {
+        "file": "halfturn_p50_markers.json",
+        "name": "halfturn_p50_markers"
+      },
+      {
         "file": "halfturn_p52.json",
         "name": "halfturn_p52"
+      },
+      {
+        "file": "halfturn_p52_markers.json",
+        "name": "halfturn_p52_markers"
       },
       {
         "file": "halfturn_p54.json",
@@ -1379,32 +2579,68 @@
         "name": "halfturn_p54_b"
       },
       {
+        "file": "halfturn_p54_b_markers.json",
+        "name": "halfturn_p54_b_markers"
+      },
+      {
         "file": "halfturn_p54_c.json",
         "name": "halfturn_p54_c"
+      },
+      {
+        "file": "halfturn_p54_c_markers.json",
+        "name": "halfturn_p54_c_markers"
       },
       {
         "file": "halfturn_p54_d.json",
         "name": "halfturn_p54_d"
       },
       {
+        "file": "halfturn_p54_d_markers.json",
+        "name": "halfturn_p54_d_markers"
+      },
+      {
         "file": "halfturn_p54_e.json",
         "name": "halfturn_p54_e"
+      },
+      {
+        "file": "halfturn_p54_e_markers.json",
+        "name": "halfturn_p54_e_markers"
       },
       {
         "file": "halfturn_p54_f.json",
         "name": "halfturn_p54_f"
       },
       {
+        "file": "halfturn_p54_f_markers.json",
+        "name": "halfturn_p54_f_markers"
+      },
+      {
         "file": "halfturn_p54_g.json",
         "name": "halfturn_p54_g"
+      },
+      {
+        "file": "halfturn_p54_g_markers.json",
+        "name": "halfturn_p54_g_markers"
       },
       {
         "file": "halfturn_p54_h.json",
         "name": "halfturn_p54_h"
       },
       {
+        "file": "halfturn_p54_h_markers.json",
+        "name": "halfturn_p54_h_markers"
+      },
+      {
+        "file": "halfturn_p54_markers.json",
+        "name": "halfturn_p54_markers"
+      },
+      {
         "file": "halfturn_p56.json",
         "name": "halfturn_p56"
+      },
+      {
+        "file": "halfturn_p56_markers.json",
+        "name": "halfturn_p56_markers"
       },
       {
         "file": "halfturn_p60.json",
@@ -1415,20 +2651,44 @@
         "name": "halfturn_p60_b"
       },
       {
+        "file": "halfturn_p60_b_markers.json",
+        "name": "halfturn_p60_b_markers"
+      },
+      {
         "file": "halfturn_p60_c.json",
         "name": "halfturn_p60_c"
+      },
+      {
+        "file": "halfturn_p60_c_markers.json",
+        "name": "halfturn_p60_c_markers"
       },
       {
         "file": "halfturn_p60_d.json",
         "name": "halfturn_p60_d"
       },
       {
+        "file": "halfturn_p60_d_markers.json",
+        "name": "halfturn_p60_d_markers"
+      },
+      {
         "file": "halfturn_p60_e.json",
         "name": "halfturn_p60_e"
       },
       {
+        "file": "halfturn_p60_e_markers.json",
+        "name": "halfturn_p60_e_markers"
+      },
+      {
         "file": "halfturn_p60_f.json",
         "name": "halfturn_p60_f"
+      },
+      {
+        "file": "halfturn_p60_f_markers.json",
+        "name": "halfturn_p60_f_markers"
+      },
+      {
+        "file": "halfturn_p60_markers.json",
+        "name": "halfturn_p60_markers"
       },
       {
         "file": "halfturn_p62.json",
@@ -1439,6 +2699,14 @@
         "name": "halfturn_p62_b"
       },
       {
+        "file": "halfturn_p62_b_markers.json",
+        "name": "halfturn_p62_b_markers"
+      },
+      {
+        "file": "halfturn_p62_markers.json",
+        "name": "halfturn_p62_markers"
+      },
+      {
         "file": "halfturn_p64.json",
         "name": "halfturn_p64"
       },
@@ -1447,16 +2715,36 @@
         "name": "halfturn_p64_b"
       },
       {
+        "file": "halfturn_p64_b_markers.json",
+        "name": "halfturn_p64_b_markers"
+      },
+      {
         "file": "halfturn_p64_c.json",
         "name": "halfturn_p64_c"
+      },
+      {
+        "file": "halfturn_p64_c_markers.json",
+        "name": "halfturn_p64_c_markers"
+      },
+      {
+        "file": "halfturn_p64_markers.json",
+        "name": "halfturn_p64_markers"
       },
       {
         "file": "halfturn_p68.json",
         "name": "halfturn_p68"
       },
       {
+        "file": "halfturn_p68_markers.json",
+        "name": "halfturn_p68_markers"
+      },
+      {
         "file": "halfturn_p70.json",
         "name": "halfturn_p70"
+      },
+      {
+        "file": "halfturn_p70_markers.json",
+        "name": "halfturn_p70_markers"
       },
       {
         "file": "halfturn_p72.json",
@@ -1467,8 +2755,20 @@
         "name": "halfturn_p72_b"
       },
       {
+        "file": "halfturn_p72_b_markers.json",
+        "name": "halfturn_p72_b_markers"
+      },
+      {
         "file": "halfturn_p72_c.json",
         "name": "halfturn_p72_c"
+      },
+      {
+        "file": "halfturn_p72_c_markers.json",
+        "name": "halfturn_p72_c_markers"
+      },
+      {
+        "file": "halfturn_p72_markers.json",
+        "name": "halfturn_p72_markers"
       },
       {
         "file": "halfturn_p74.json",
@@ -1479,8 +2779,20 @@
         "name": "halfturn_p74_b"
       },
       {
+        "file": "halfturn_p74_b_markers.json",
+        "name": "halfturn_p74_b_markers"
+      },
+      {
+        "file": "halfturn_p74_markers.json",
+        "name": "halfturn_p74_markers"
+      },
+      {
         "file": "halfturn_p78.json",
         "name": "halfturn_p78"
+      },
+      {
+        "file": "halfturn_p78_markers.json",
+        "name": "halfturn_p78_markers"
       },
       {
         "file": "halfturn_p80.json",
@@ -1491,6 +2803,14 @@
         "name": "halfturn_p80_b"
       },
       {
+        "file": "halfturn_p80_b_markers.json",
+        "name": "halfturn_p80_b_markers"
+      },
+      {
+        "file": "halfturn_p80_markers.json",
+        "name": "halfturn_p80_markers"
+      },
+      {
         "file": "halfturn_p82.json",
         "name": "halfturn_p82"
       },
@@ -1499,12 +2819,28 @@
         "name": "halfturn_p82_b"
       },
       {
+        "file": "halfturn_p82_b_markers.json",
+        "name": "halfturn_p82_b_markers"
+      },
+      {
         "file": "halfturn_p82_c.json",
         "name": "halfturn_p82_c"
       },
       {
+        "file": "halfturn_p82_c_markers.json",
+        "name": "halfturn_p82_c_markers"
+      },
+      {
         "file": "halfturn_p82_d.json",
         "name": "halfturn_p82_d"
+      },
+      {
+        "file": "halfturn_p82_d_markers.json",
+        "name": "halfturn_p82_d_markers"
+      },
+      {
+        "file": "halfturn_p82_markers.json",
+        "name": "halfturn_p82_markers"
       },
       {
         "file": "halfturn_p86.json",
@@ -1515,12 +2851,28 @@
         "name": "halfturn_p86_b"
       },
       {
+        "file": "halfturn_p86_b_markers.json",
+        "name": "halfturn_p86_b_markers"
+      },
+      {
+        "file": "halfturn_p86_markers.json",
+        "name": "halfturn_p86_markers"
+      },
+      {
         "file": "halfturn_p88.json",
         "name": "halfturn_p88"
       },
       {
         "file": "halfturn_p888.json",
         "name": "halfturn_p888"
+      },
+      {
+        "file": "halfturn_p888_markers.json",
+        "name": "halfturn_p888_markers"
+      },
+      {
+        "file": "halfturn_p88_markers.json",
+        "name": "halfturn_p88_markers"
       },
       {
         "file": "halfturn_p90.json",
@@ -1531,12 +2883,28 @@
         "name": "halfturn_p90_b"
       },
       {
+        "file": "halfturn_p90_b_markers.json",
+        "name": "halfturn_p90_b_markers"
+      },
+      {
         "file": "halfturn_p90_c.json",
         "name": "halfturn_p90_c"
       },
       {
+        "file": "halfturn_p90_c_markers.json",
+        "name": "halfturn_p90_c_markers"
+      },
+      {
+        "file": "halfturn_p90_markers.json",
+        "name": "halfturn_p90_markers"
+      },
+      {
         "file": "halfturn_p96.json",
         "name": "halfturn_p96"
+      },
+      {
+        "file": "halfturn_p96_markers.json",
+        "name": "halfturn_p96_markers"
       },
       {
         "file": "halfturn_p98.json",
@@ -1545,6 +2913,14 @@
       {
         "file": "halfturn_p98_b.json",
         "name": "halfturn_p98_b"
+      },
+      {
+        "file": "halfturn_p98_b_markers.json",
+        "name": "halfturn_p98_b_markers"
+      },
+      {
+        "file": "halfturn_p98_markers.json",
+        "name": "halfturn_p98_markers"
       }
     ]
   },
@@ -1786,8 +3162,20 @@
         "name": "asym_p100_b"
       },
       {
+        "file": "asym_p100_b_markers.json",
+        "name": "asym_p100_b_markers"
+      },
+      {
         "file": "asym_p100_c.json",
         "name": "asym_p100_c"
+      },
+      {
+        "file": "asym_p100_c_markers.json",
+        "name": "asym_p100_c_markers"
+      },
+      {
+        "file": "asym_p100_markers.json",
+        "name": "asym_p100_markers"
       },
       {
         "file": "asym_p112.json",
@@ -1798,8 +3186,20 @@
         "name": "asym_p112_b"
       },
       {
+        "file": "asym_p112_b_markers.json",
+        "name": "asym_p112_b_markers"
+      },
+      {
         "file": "asym_p112_c.json",
         "name": "asym_p112_c"
+      },
+      {
+        "file": "asym_p112_c_markers.json",
+        "name": "asym_p112_c_markers"
+      },
+      {
+        "file": "asym_p112_markers.json",
+        "name": "asym_p112_markers"
       },
       {
         "file": "asym_p120.json",
@@ -1810,8 +3210,20 @@
         "name": "asym_p120_b"
       },
       {
+        "file": "asym_p120_b_markers.json",
+        "name": "asym_p120_b_markers"
+      },
+      {
         "file": "asym_p120_c.json",
         "name": "asym_p120_c"
+      },
+      {
+        "file": "asym_p120_c_markers.json",
+        "name": "asym_p120_c_markers"
+      },
+      {
+        "file": "asym_p120_markers.json",
+        "name": "asym_p120_markers"
       },
       {
         "file": "asym_p126.json",
@@ -1822,6 +3234,14 @@
         "name": "asym_p126_b"
       },
       {
+        "file": "asym_p126_b_markers.json",
+        "name": "asym_p126_b_markers"
+      },
+      {
+        "file": "asym_p126_markers.json",
+        "name": "asym_p126_markers"
+      },
+      {
         "file": "asym_p140.json",
         "name": "asym_p140"
       },
@@ -1830,16 +3250,36 @@
         "name": "asym_p140_b"
       },
       {
+        "file": "asym_p140_b_markers.json",
+        "name": "asym_p140_b_markers"
+      },
+      {
         "file": "asym_p140_c.json",
         "name": "asym_p140_c"
+      },
+      {
+        "file": "asym_p140_c_markers.json",
+        "name": "asym_p140_c_markers"
+      },
+      {
+        "file": "asym_p140_markers.json",
+        "name": "asym_p140_markers"
       },
       {
         "file": "asym_p150.json",
         "name": "asym_p150"
       },
       {
+        "file": "asym_p150_markers.json",
+        "name": "asym_p150_markers"
+      },
+      {
         "file": "asym_p160.json",
         "name": "asym_p160"
+      },
+      {
+        "file": "asym_p160_markers.json",
+        "name": "asym_p160_markers"
       },
       {
         "file": "asym_p162.json",
@@ -1850,12 +3290,28 @@
         "name": "asym_p162_b"
       },
       {
+        "file": "asym_p162_b_markers.json",
+        "name": "asym_p162_b_markers"
+      },
+      {
+        "file": "asym_p162_markers.json",
+        "name": "asym_p162_markers"
+      },
+      {
         "file": "asym_p192.json",
         "name": "asym_p192"
       },
       {
         "file": "asym_p192_b.json",
         "name": "asym_p192_b"
+      },
+      {
+        "file": "asym_p192_b_markers.json",
+        "name": "asym_p192_b_markers"
+      },
+      {
+        "file": "asym_p192_markers.json",
+        "name": "asym_p192_markers"
       },
       {
         "file": "asym_p198.json",
@@ -1866,8 +3322,20 @@
         "name": "asym_p198_b"
       },
       {
+        "file": "asym_p198_b_markers.json",
+        "name": "asym_p198_b_markers"
+      },
+      {
+        "file": "asym_p198_markers.json",
+        "name": "asym_p198_markers"
+      },
+      {
         "file": "asym_p220.json",
         "name": "asym_p220"
+      },
+      {
+        "file": "asym_p220_markers.json",
+        "name": "asym_p220_markers"
       },
       {
         "file": "asym_p24.json",
@@ -1882,40 +3350,88 @@
         "name": "asym_p240_b"
       },
       {
+        "file": "asym_p240_b_markers.json",
+        "name": "asym_p240_b_markers"
+      },
+      {
         "file": "asym_p240_c.json",
         "name": "asym_p240_c"
+      },
+      {
+        "file": "asym_p240_c_markers.json",
+        "name": "asym_p240_c_markers"
       },
       {
         "file": "asym_p240_d.json",
         "name": "asym_p240_d"
       },
       {
+        "file": "asym_p240_d_markers.json",
+        "name": "asym_p240_d_markers"
+      },
+      {
+        "file": "asym_p240_markers.json",
+        "name": "asym_p240_markers"
+      },
+      {
         "file": "asym_p24_b.json",
         "name": "asym_p24_b"
+      },
+      {
+        "file": "asym_p24_b_markers.json",
+        "name": "asym_p24_b_markers"
       },
       {
         "file": "asym_p24_c.json",
         "name": "asym_p24_c"
       },
       {
+        "file": "asym_p24_c_markers.json",
+        "name": "asym_p24_c_markers"
+      },
+      {
         "file": "asym_p24_d.json",
         "name": "asym_p24_d"
+      },
+      {
+        "file": "asym_p24_d_markers.json",
+        "name": "asym_p24_d_markers"
       },
       {
         "file": "asym_p24_e.json",
         "name": "asym_p24_e"
       },
       {
+        "file": "asym_p24_e_markers.json",
+        "name": "asym_p24_e_markers"
+      },
+      {
         "file": "asym_p24_f.json",
         "name": "asym_p24_f"
+      },
+      {
+        "file": "asym_p24_f_markers.json",
+        "name": "asym_p24_f_markers"
+      },
+      {
+        "file": "asym_p24_markers.json",
+        "name": "asym_p24_markers"
       },
       {
         "file": "asym_p264.json",
         "name": "asym_p264"
       },
       {
+        "file": "asym_p264_markers.json",
+        "name": "asym_p264_markers"
+      },
+      {
         "file": "asym_p298.json",
         "name": "asym_p298"
+      },
+      {
+        "file": "asym_p298_markers.json",
+        "name": "asym_p298_markers"
       },
       {
         "file": "asym_p300.json",
@@ -1926,12 +3442,28 @@
         "name": "asym_p300_b"
       },
       {
+        "file": "asym_p300_b_markers.json",
+        "name": "asym_p300_b_markers"
+      },
+      {
+        "file": "asym_p300_markers.json",
+        "name": "asym_p300_markers"
+      },
+      {
         "file": "asym_p312.json",
         "name": "asym_p312"
       },
       {
+        "file": "asym_p312_markers.json",
+        "name": "asym_p312_markers"
+      },
+      {
         "file": "asym_p336.json",
         "name": "asym_p336"
+      },
+      {
+        "file": "asym_p336_markers.json",
+        "name": "asym_p336_markers"
       },
       {
         "file": "asym_p36.json",
@@ -1942,12 +3474,28 @@
         "name": "asym_p36_b"
       },
       {
+        "file": "asym_p36_b_markers.json",
+        "name": "asym_p36_b_markers"
+      },
+      {
         "file": "asym_p36_c.json",
         "name": "asym_p36_c"
       },
       {
+        "file": "asym_p36_c_markers.json",
+        "name": "asym_p36_c_markers"
+      },
+      {
+        "file": "asym_p36_markers.json",
+        "name": "asym_p36_markers"
+      },
+      {
         "file": "asym_p378.json",
         "name": "asym_p378"
+      },
+      {
+        "file": "asym_p378_markers.json",
+        "name": "asym_p378_markers"
       },
       {
         "file": "asym_p40.json",
@@ -1958,8 +3506,20 @@
         "name": "asym_p408"
       },
       {
+        "file": "asym_p408_markers.json",
+        "name": "asym_p408_markers"
+      },
+      {
         "file": "asym_p40_b.json",
         "name": "asym_p40_b"
+      },
+      {
+        "file": "asym_p40_b_markers.json",
+        "name": "asym_p40_b_markers"
+      },
+      {
+        "file": "asym_p40_markers.json",
+        "name": "asym_p40_markers"
       },
       {
         "file": "asym_p42.json",
@@ -1970,16 +3530,36 @@
         "name": "asym_p42_b"
       },
       {
+        "file": "asym_p42_b_markers.json",
+        "name": "asym_p42_b_markers"
+      },
+      {
         "file": "asym_p42_c.json",
         "name": "asym_p42_c"
+      },
+      {
+        "file": "asym_p42_c_markers.json",
+        "name": "asym_p42_c_markers"
       },
       {
         "file": "asym_p42_d.json",
         "name": "asym_p42_d"
       },
       {
+        "file": "asym_p42_d_markers.json",
+        "name": "asym_p42_d_markers"
+      },
+      {
+        "file": "asym_p42_markers.json",
+        "name": "asym_p42_markers"
+      },
+      {
         "file": "asym_p460.json",
         "name": "asym_p460"
+      },
+      {
+        "file": "asym_p460_markers.json",
+        "name": "asym_p460_markers"
       },
       {
         "file": "asym_p48.json",
@@ -1990,12 +3570,28 @@
         "name": "asym_p48_b"
       },
       {
+        "file": "asym_p48_b_markers.json",
+        "name": "asym_p48_b_markers"
+      },
+      {
         "file": "asym_p48_c.json",
         "name": "asym_p48_c"
       },
       {
+        "file": "asym_p48_c_markers.json",
+        "name": "asym_p48_c_markers"
+      },
+      {
         "file": "asym_p48_d.json",
         "name": "asym_p48_d"
+      },
+      {
+        "file": "asym_p48_d_markers.json",
+        "name": "asym_p48_d_markers"
+      },
+      {
+        "file": "asym_p48_markers.json",
+        "name": "asym_p48_markers"
       },
       {
         "file": "asym_p54.json",
@@ -2006,8 +3602,20 @@
         "name": "asym_p540"
       },
       {
+        "file": "asym_p540_markers.json",
+        "name": "asym_p540_markers"
+      },
+      {
         "file": "asym_p54_b.json",
         "name": "asym_p54_b"
+      },
+      {
+        "file": "asym_p54_b_markers.json",
+        "name": "asym_p54_b_markers"
+      },
+      {
+        "file": "asym_p54_markers.json",
+        "name": "asym_p54_markers"
       },
       {
         "file": "asym_p60.json",
@@ -2018,28 +3626,60 @@
         "name": "asym_p60_b"
       },
       {
+        "file": "asym_p60_b_markers.json",
+        "name": "asym_p60_b_markers"
+      },
+      {
         "file": "asym_p60_c.json",
         "name": "asym_p60_c"
+      },
+      {
+        "file": "asym_p60_c_markers.json",
+        "name": "asym_p60_c_markers"
       },
       {
         "file": "asym_p60_d.json",
         "name": "asym_p60_d"
       },
       {
+        "file": "asym_p60_d_markers.json",
+        "name": "asym_p60_d_markers"
+      },
+      {
         "file": "asym_p60_e.json",
         "name": "asym_p60_e"
+      },
+      {
+        "file": "asym_p60_e_markers.json",
+        "name": "asym_p60_e_markers"
       },
       {
         "file": "asym_p60_f.json",
         "name": "asym_p60_f"
       },
       {
+        "file": "asym_p60_f_markers.json",
+        "name": "asym_p60_f_markers"
+      },
+      {
         "file": "asym_p60_g.json",
         "name": "asym_p60_g"
       },
       {
+        "file": "asym_p60_g_markers.json",
+        "name": "asym_p60_g_markers"
+      },
+      {
         "file": "asym_p60_h.json",
         "name": "asym_p60_h"
+      },
+      {
+        "file": "asym_p60_h_markers.json",
+        "name": "asym_p60_h_markers"
+      },
+      {
+        "file": "asym_p60_markers.json",
+        "name": "asym_p60_markers"
       },
       {
         "file": "asym_p64.json",
@@ -2050,8 +3690,20 @@
         "name": "asym_p64_b"
       },
       {
+        "file": "asym_p64_b_markers.json",
+        "name": "asym_p64_b_markers"
+      },
+      {
+        "file": "asym_p64_markers.json",
+        "name": "asym_p64_markers"
+      },
+      {
         "file": "asym_p714.json",
         "name": "asym_p714"
+      },
+      {
+        "file": "asym_p714_markers.json",
+        "name": "asym_p714_markers"
       },
       {
         "file": "asym_p72.json",
@@ -2062,36 +3714,76 @@
         "name": "asym_p72_b"
       },
       {
+        "file": "asym_p72_b_markers.json",
+        "name": "asym_p72_b_markers"
+      },
+      {
         "file": "asym_p72_c.json",
         "name": "asym_p72_c"
+      },
+      {
+        "file": "asym_p72_c_markers.json",
+        "name": "asym_p72_c_markers"
       },
       {
         "file": "asym_p72_d.json",
         "name": "asym_p72_d"
       },
       {
+        "file": "asym_p72_d_markers.json",
+        "name": "asym_p72_d_markers"
+      },
+      {
         "file": "asym_p72_e.json",
         "name": "asym_p72_e"
+      },
+      {
+        "file": "asym_p72_e_markers.json",
+        "name": "asym_p72_e_markers"
       },
       {
         "file": "asym_p72_f.json",
         "name": "asym_p72_f"
       },
       {
+        "file": "asym_p72_f_markers.json",
+        "name": "asym_p72_f_markers"
+      },
+      {
         "file": "asym_p72_g.json",
         "name": "asym_p72_g"
+      },
+      {
+        "file": "asym_p72_g_markers.json",
+        "name": "asym_p72_g_markers"
       },
       {
         "file": "asym_p72_h.json",
         "name": "asym_p72_h"
       },
       {
+        "file": "asym_p72_h_markers.json",
+        "name": "asym_p72_h_markers"
+      },
+      {
         "file": "asym_p72_i.json",
         "name": "asym_p72_i"
       },
       {
+        "file": "asym_p72_i_markers.json",
+        "name": "asym_p72_i_markers"
+      },
+      {
+        "file": "asym_p72_markers.json",
+        "name": "asym_p72_markers"
+      },
+      {
         "file": "asym_p80.json",
         "name": "asym_p80"
+      },
+      {
+        "file": "asym_p80_markers.json",
+        "name": "asym_p80_markers"
       },
       {
         "file": "asym_p84.json",
@@ -2102,6 +3794,14 @@
         "name": "asym_p84_b"
       },
       {
+        "file": "asym_p84_b_markers.json",
+        "name": "asym_p84_b_markers"
+      },
+      {
+        "file": "asym_p84_markers.json",
+        "name": "asym_p84_markers"
+      },
+      {
         "file": "asym_p88.json",
         "name": "asym_p88"
       },
@@ -2110,12 +3810,28 @@
         "name": "asym_p88_b"
       },
       {
+        "file": "asym_p88_b_markers.json",
+        "name": "asym_p88_b_markers"
+      },
+      {
+        "file": "asym_p88_markers.json",
+        "name": "asym_p88_markers"
+      },
+      {
         "file": "asym_p96.json",
         "name": "asym_p96"
       },
       {
         "file": "asym_p96_b.json",
         "name": "asym_p96_b"
+      },
+      {
+        "file": "asym_p96_b_markers.json",
+        "name": "asym_p96_b_markers"
+      },
+      {
+        "file": "asym_p96_markers.json",
+        "name": "asym_p96_markers"
       }
     ]
   },
@@ -2127,20 +3843,40 @@
         "name": "osc3_p1008"
       },
       {
+        "file": "osc3_p1008_markers.json",
+        "name": "osc3_p1008_markers"
+      },
+      {
         "file": "osc3_p112.json",
         "name": "osc3_p112"
+      },
+      {
+        "file": "osc3_p112_markers.json",
+        "name": "osc3_p112_markers"
       },
       {
         "file": "osc3_p1146.json",
         "name": "osc3_p1146"
       },
       {
+        "file": "osc3_p1146_markers.json",
+        "name": "osc3_p1146_markers"
+      },
+      {
         "file": "osc3_p1194.json",
         "name": "osc3_p1194"
       },
       {
+        "file": "osc3_p1194_markers.json",
+        "name": "osc3_p1194_markers"
+      },
+      {
         "file": "osc3_p126.json",
         "name": "osc3_p126"
+      },
+      {
+        "file": "osc3_p126_markers.json",
+        "name": "osc3_p126_markers"
       },
       {
         "file": "osc3_p128.json",
@@ -2151,8 +3887,20 @@
         "name": "osc3_p128_b"
       },
       {
+        "file": "osc3_p128_b_markers.json",
+        "name": "osc3_p128_b_markers"
+      },
+      {
+        "file": "osc3_p128_markers.json",
+        "name": "osc3_p128_markers"
+      },
+      {
         "file": "osc3_p132.json",
         "name": "osc3_p132"
+      },
+      {
+        "file": "osc3_p132_markers.json",
+        "name": "osc3_p132_markers"
       },
       {
         "file": "osc3_p144.json",
@@ -2163,8 +3911,20 @@
         "name": "osc3_p144_b"
       },
       {
+        "file": "osc3_p144_b_markers.json",
+        "name": "osc3_p144_b_markers"
+      },
+      {
+        "file": "osc3_p144_markers.json",
+        "name": "osc3_p144_markers"
+      },
+      {
         "file": "osc3_p148.json",
         "name": "osc3_p148"
+      },
+      {
+        "file": "osc3_p148_markers.json",
+        "name": "osc3_p148_markers"
       },
       {
         "file": "osc3_p152.json",
@@ -2173,6 +3933,14 @@
       {
         "file": "osc3_p152_b.json",
         "name": "osc3_p152_b"
+      },
+      {
+        "file": "osc3_p152_b_markers.json",
+        "name": "osc3_p152_b_markers"
+      },
+      {
+        "file": "osc3_p152_markers.json",
+        "name": "osc3_p152_markers"
       },
       {
         "file": "osc3_p16.json",
@@ -2187,20 +3955,48 @@
         "name": "osc3_p1640"
       },
       {
+        "file": "osc3_p1640_markers.json",
+        "name": "osc3_p1640_markers"
+      },
+      {
+        "file": "osc3_p164_markers.json",
+        "name": "osc3_p164_markers"
+      },
+      {
         "file": "osc3_p16_b.json",
         "name": "osc3_p16_b"
+      },
+      {
+        "file": "osc3_p16_b_markers.json",
+        "name": "osc3_p16_b_markers"
+      },
+      {
+        "file": "osc3_p16_markers.json",
+        "name": "osc3_p16_markers"
       },
       {
         "file": "osc3_p1900.json",
         "name": "osc3_p1900"
       },
       {
+        "file": "osc3_p1900_markers.json",
+        "name": "osc3_p1900_markers"
+      },
+      {
         "file": "osc3_p1916.json",
         "name": "osc3_p1916"
       },
       {
+        "file": "osc3_p1916_markers.json",
+        "name": "osc3_p1916_markers"
+      },
+      {
         "file": "osc3_p196.json",
         "name": "osc3_p196"
+      },
+      {
+        "file": "osc3_p196_markers.json",
+        "name": "osc3_p196_markers"
       },
       {
         "file": "osc3_p20.json",
@@ -2215,48 +4011,104 @@
         "name": "osc3_p2084"
       },
       {
+        "file": "osc3_p2084_markers.json",
+        "name": "osc3_p2084_markers"
+      },
+      {
+        "file": "osc3_p208_markers.json",
+        "name": "osc3_p208_markers"
+      },
+      {
         "file": "osc3_p20_b.json",
         "name": "osc3_p20_b"
+      },
+      {
+        "file": "osc3_p20_b_markers.json",
+        "name": "osc3_p20_b_markers"
       },
       {
         "file": "osc3_p20_c.json",
         "name": "osc3_p20_c"
       },
       {
+        "file": "osc3_p20_c_markers.json",
+        "name": "osc3_p20_c_markers"
+      },
+      {
         "file": "osc3_p20_d.json",
         "name": "osc3_p20_d"
+      },
+      {
+        "file": "osc3_p20_d_markers.json",
+        "name": "osc3_p20_d_markers"
       },
       {
         "file": "osc3_p20_e.json",
         "name": "osc3_p20_e"
       },
       {
+        "file": "osc3_p20_e_markers.json",
+        "name": "osc3_p20_e_markers"
+      },
+      {
         "file": "osc3_p20_f.json",
         "name": "osc3_p20_f"
+      },
+      {
+        "file": "osc3_p20_f_markers.json",
+        "name": "osc3_p20_f_markers"
       },
       {
         "file": "osc3_p20_g.json",
         "name": "osc3_p20_g"
       },
       {
+        "file": "osc3_p20_g_markers.json",
+        "name": "osc3_p20_g_markers"
+      },
+      {
+        "file": "osc3_p20_markers.json",
+        "name": "osc3_p20_markers"
+      },
+      {
         "file": "osc3_p2262.json",
         "name": "osc3_p2262"
+      },
+      {
+        "file": "osc3_p2262_markers.json",
+        "name": "osc3_p2262_markers"
       },
       {
         "file": "osc3_p228.json",
         "name": "osc3_p228"
       },
       {
+        "file": "osc3_p228_markers.json",
+        "name": "osc3_p228_markers"
+      },
+      {
         "file": "osc3_p24.json",
         "name": "osc3_p24"
+      },
+      {
+        "file": "osc3_p24_markers.json",
+        "name": "osc3_p24_markers"
       },
       {
         "file": "osc3_p2640.json",
         "name": "osc3_p2640"
       },
       {
+        "file": "osc3_p2640_markers.json",
+        "name": "osc3_p2640_markers"
+      },
+      {
         "file": "osc3_p274.json",
         "name": "osc3_p274"
+      },
+      {
+        "file": "osc3_p274_markers.json",
+        "name": "osc3_p274_markers"
       },
       {
         "file": "osc3_p32.json",
@@ -2267,8 +4119,20 @@
         "name": "osc3_p320"
       },
       {
+        "file": "osc3_p320_markers.json",
+        "name": "osc3_p320_markers"
+      },
+      {
+        "file": "osc3_p32_markers.json",
+        "name": "osc3_p32_markers"
+      },
+      {
         "file": "osc3_p340.json",
         "name": "osc3_p340"
+      },
+      {
+        "file": "osc3_p340_markers.json",
+        "name": "osc3_p340_markers"
       },
       {
         "file": "osc3_p380.json",
@@ -2279,6 +4143,14 @@
         "name": "osc3_p380_b"
       },
       {
+        "file": "osc3_p380_b_markers.json",
+        "name": "osc3_p380_b_markers"
+      },
+      {
+        "file": "osc3_p380_markers.json",
+        "name": "osc3_p380_markers"
+      },
+      {
         "file": "osc3_p40.json",
         "name": "osc3_p40"
       },
@@ -2287,8 +4159,20 @@
         "name": "osc3_p40_b"
       },
       {
+        "file": "osc3_p40_b_markers.json",
+        "name": "osc3_p40_b_markers"
+      },
+      {
         "file": "osc3_p40_c.json",
         "name": "osc3_p40_c"
+      },
+      {
+        "file": "osc3_p40_c_markers.json",
+        "name": "osc3_p40_c_markers"
+      },
+      {
+        "file": "osc3_p40_markers.json",
+        "name": "osc3_p40_markers"
       },
       {
         "file": "osc3_p42.json",
@@ -2299,12 +4183,28 @@
         "name": "osc3_p422"
       },
       {
+        "file": "osc3_p422_markers.json",
+        "name": "osc3_p422_markers"
+      },
+      {
+        "file": "osc3_p42_markers.json",
+        "name": "osc3_p42_markers"
+      },
+      {
         "file": "osc3_p432.json",
         "name": "osc3_p432"
       },
       {
+        "file": "osc3_p432_markers.json",
+        "name": "osc3_p432_markers"
+      },
+      {
         "file": "osc3_p44.json",
         "name": "osc3_p44"
+      },
+      {
+        "file": "osc3_p44_markers.json",
+        "name": "osc3_p44_markers"
       },
       {
         "file": "osc3_p48.json",
@@ -2315,48 +4215,100 @@
         "name": "osc3_p48_b"
       },
       {
+        "file": "osc3_p48_b_markers.json",
+        "name": "osc3_p48_b_markers"
+      },
+      {
         "file": "osc3_p48_c.json",
         "name": "osc3_p48_c"
+      },
+      {
+        "file": "osc3_p48_c_markers.json",
+        "name": "osc3_p48_c_markers"
       },
       {
         "file": "osc3_p48_d.json",
         "name": "osc3_p48_d"
       },
       {
+        "file": "osc3_p48_d_markers.json",
+        "name": "osc3_p48_d_markers"
+      },
+      {
         "file": "osc3_p48_e.json",
         "name": "osc3_p48_e"
+      },
+      {
+        "file": "osc3_p48_e_markers.json",
+        "name": "osc3_p48_e_markers"
       },
       {
         "file": "osc3_p48_f.json",
         "name": "osc3_p48_f"
       },
       {
+        "file": "osc3_p48_f_markers.json",
+        "name": "osc3_p48_f_markers"
+      },
+      {
         "file": "osc3_p48_g.json",
         "name": "osc3_p48_g"
+      },
+      {
+        "file": "osc3_p48_g_markers.json",
+        "name": "osc3_p48_g_markers"
+      },
+      {
+        "file": "osc3_p48_markers.json",
+        "name": "osc3_p48_markers"
       },
       {
         "file": "osc3_p496.json",
         "name": "osc3_p496"
       },
       {
+        "file": "osc3_p496_markers.json",
+        "name": "osc3_p496_markers"
+      },
+      {
         "file": "osc3_p532.json",
         "name": "osc3_p532"
+      },
+      {
+        "file": "osc3_p532_markers.json",
+        "name": "osc3_p532_markers"
       },
       {
         "file": "osc3_p536.json",
         "name": "osc3_p536"
       },
       {
+        "file": "osc3_p536_markers.json",
+        "name": "osc3_p536_markers"
+      },
+      {
         "file": "osc3_p544.json",
         "name": "osc3_p544"
+      },
+      {
+        "file": "osc3_p544_markers.json",
+        "name": "osc3_p544_markers"
       },
       {
         "file": "osc3_p560.json",
         "name": "osc3_p560"
       },
       {
+        "file": "osc3_p560_markers.json",
+        "name": "osc3_p560_markers"
+      },
+      {
         "file": "osc3_p60.json",
         "name": "osc3_p60"
+      },
+      {
+        "file": "osc3_p60_markers.json",
+        "name": "osc3_p60_markers"
       },
       {
         "file": "osc3_p68.json",
@@ -2367,6 +4319,14 @@
         "name": "osc3_p68_b"
       },
       {
+        "file": "osc3_p68_b_markers.json",
+        "name": "osc3_p68_b_markers"
+      },
+      {
+        "file": "osc3_p68_markers.json",
+        "name": "osc3_p68_markers"
+      },
+      {
         "file": "osc3_p72.json",
         "name": "osc3_p72"
       },
@@ -2375,12 +4335,28 @@
         "name": "osc3_p72_b"
       },
       {
+        "file": "osc3_p72_b_markers.json",
+        "name": "osc3_p72_b_markers"
+      },
+      {
         "file": "osc3_p72_c.json",
         "name": "osc3_p72_c"
       },
       {
+        "file": "osc3_p72_c_markers.json",
+        "name": "osc3_p72_c_markers"
+      },
+      {
+        "file": "osc3_p72_markers.json",
+        "name": "osc3_p72_markers"
+      },
+      {
         "file": "osc3_p788.json",
         "name": "osc3_p788"
+      },
+      {
+        "file": "osc3_p788_markers.json",
+        "name": "osc3_p788_markers"
       },
       {
         "file": "osc3_p8.json",
@@ -2395,8 +4371,20 @@
         "name": "osc3_p80_b"
       },
       {
+        "file": "osc3_p80_b_markers.json",
+        "name": "osc3_p80_b_markers"
+      },
+      {
         "file": "osc3_p80_c.json",
         "name": "osc3_p80_c"
+      },
+      {
+        "file": "osc3_p80_c_markers.json",
+        "name": "osc3_p80_c_markers"
+      },
+      {
+        "file": "osc3_p80_markers.json",
+        "name": "osc3_p80_markers"
       },
       {
         "file": "osc3_p84.json",
@@ -2407,40 +4395,88 @@
         "name": "osc3_p840"
       },
       {
+        "file": "osc3_p840_markers.json",
+        "name": "osc3_p840_markers"
+      },
+      {
         "file": "osc3_p84_b.json",
         "name": "osc3_p84_b"
+      },
+      {
+        "file": "osc3_p84_b_markers.json",
+        "name": "osc3_p84_b_markers"
+      },
+      {
+        "file": "osc3_p84_markers.json",
+        "name": "osc3_p84_markers"
       },
       {
         "file": "osc3_p8_b.json",
         "name": "osc3_p8_b"
       },
       {
+        "file": "osc3_p8_b_markers.json",
+        "name": "osc3_p8_b_markers"
+      },
+      {
         "file": "osc3_p8_c.json",
         "name": "osc3_p8_c"
+      },
+      {
+        "file": "osc3_p8_c_markers.json",
+        "name": "osc3_p8_c_markers"
       },
       {
         "file": "osc3_p8_d.json",
         "name": "osc3_p8_d"
       },
       {
+        "file": "osc3_p8_d_markers.json",
+        "name": "osc3_p8_d_markers"
+      },
+      {
         "file": "osc3_p8_e.json",
         "name": "osc3_p8_e"
+      },
+      {
+        "file": "osc3_p8_e_markers.json",
+        "name": "osc3_p8_e_markers"
       },
       {
         "file": "osc3_p8_f.json",
         "name": "osc3_p8_f"
       },
       {
+        "file": "osc3_p8_f_markers.json",
+        "name": "osc3_p8_f_markers"
+      },
+      {
         "file": "osc3_p8_g.json",
         "name": "osc3_p8_g"
+      },
+      {
+        "file": "osc3_p8_g_markers.json",
+        "name": "osc3_p8_g_markers"
+      },
+      {
+        "file": "osc3_p8_markers.json",
+        "name": "osc3_p8_markers"
       },
       {
         "file": "osc3_p96.json",
         "name": "osc3_p96"
       },
       {
+        "file": "osc3_p96_markers.json",
+        "name": "osc3_p96_markers"
+      },
+      {
         "file": "osc3_p990.json",
         "name": "osc3_p990"
+      },
+      {
+        "file": "osc3_p990_markers.json",
+        "name": "osc3_p990_markers"
       }
     ]
   },
@@ -2452,148 +4488,296 @@
         "name": "3_nearest_plus"
       },
       {
+        "file": "3_nearest_plus_markers.json",
+        "name": "3_nearest_plus_markers"
+      },
+      {
         "file": "Blinker_w_Catccher_p48_5.json",
         "name": "Blinker_w_Catccher_p48_5"
+      },
+      {
+        "file": "Blinker_w_Catccher_p48_5_markers.json",
+        "name": "Blinker_w_Catccher_p48_5_markers"
       },
       {
         "file": "Bloop_p196_2.json",
         "name": "Bloop_p196_2"
       },
       {
+        "file": "Bloop_p196_2_markers.json",
+        "name": "Bloop_p196_2_markers"
+      },
+      {
         "file": "Daggo_w_Catcher_p40_3.json",
         "name": "Daggo_w_Catcher_p40_3"
+      },
+      {
+        "file": "Daggo_w_Catcher_p40_3_markers.json",
+        "name": "Daggo_w_Catcher_p40_3_markers"
       },
       {
         "file": "Daggo_w_Cross_p164_2.json",
         "name": "Daggo_w_Cross_p164_2"
       },
       {
+        "file": "Daggo_w_Cross_p164_2_markers.json",
+        "name": "Daggo_w_Cross_p164_2_markers"
+      },
+      {
         "file": "Daggoo_p64.json",
         "name": "Daggoo_p64"
+      },
+      {
+        "file": "Daggoo_p64_markers.json",
+        "name": "Daggoo_p64_markers"
       },
       {
         "file": "DiagRot_p84_9.json",
         "name": "DiagRot_p84_9"
       },
       {
+        "file": "DiagRot_p84_9_markers.json",
+        "name": "DiagRot_p84_9_markers"
+      },
+      {
         "file": "DiagShake_p18_7.json",
         "name": "DiagShake_p18_7"
+      },
+      {
+        "file": "DiagShake_p18_7_markers.json",
+        "name": "DiagShake_p18_7_markers"
       },
       {
         "file": "DiagShake_p20_3.json",
         "name": "DiagShake_p20_3"
       },
       {
+        "file": "DiagShake_p20_3_markers.json",
+        "name": "DiagShake_p20_3_markers"
+      },
+      {
         "file": "DiagShake_p20_9.json",
         "name": "DiagShake_p20_9"
+      },
+      {
+        "file": "DiagShake_p20_9_markers.json",
+        "name": "DiagShake_p20_9_markers"
       },
       {
         "file": "Flask_p172_10.json",
         "name": "Flask_p172_10"
       },
       {
+        "file": "Flask_p172_10_markers.json",
+        "name": "Flask_p172_10_markers"
+      },
+      {
         "file": "Flask_p324.json",
         "name": "Flask_p324"
+      },
+      {
+        "file": "Flask_p324_markers.json",
+        "name": "Flask_p324_markers"
       },
       {
         "file": "Flask_p88.json",
         "name": "Flask_p88"
       },
       {
+        "file": "Flask_p88_markers.json",
+        "name": "Flask_p88_markers"
+      },
+      {
         "file": "HourGlass_p90.json",
         "name": "HourGlass_p90"
+      },
+      {
+        "file": "HourGlass_p90_markers.json",
+        "name": "HourGlass_p90_markers"
       },
       {
         "file": "Moby_p228.json",
         "name": "Moby_p228"
       },
       {
+        "file": "Moby_p228_markers.json",
+        "name": "Moby_p228_markers"
+      },
+      {
         "file": "NineThirtySix.json",
         "name": "NineThirtySix"
+      },
+      {
+        "file": "NineThirtySix_markers.json",
+        "name": "NineThirtySix_markers"
       },
       {
         "file": "Pip_p100.json",
         "name": "Pip_p100"
       },
       {
+        "file": "Pip_p100_markers.json",
+        "name": "Pip_p100_markers"
+      },
+      {
         "file": "Pivot_p24_1.json",
         "name": "Pivot_p24_1"
+      },
+      {
+        "file": "Pivot_p24_1_markers.json",
+        "name": "Pivot_p24_1_markers"
       },
       {
         "file": "Pivot_p36_1.json",
         "name": "Pivot_p36_1"
       },
       {
+        "file": "Pivot_p36_1_markers.json",
+        "name": "Pivot_p36_1_markers"
+      },
+      {
         "file": "Pump_p154_3.json",
         "name": "Pump_p154_3"
+      },
+      {
+        "file": "Pump_p154_3_markers.json",
+        "name": "Pump_p154_3_markers"
       },
       {
         "file": "Pump_p42_4.json",
         "name": "Pump_p42_4"
       },
       {
+        "file": "Pump_p42_4_markers.json",
+        "name": "Pump_p42_4_markers"
+      },
+      {
         "file": "Queequeg_p170.json",
         "name": "Queequeg_p170"
+      },
+      {
+        "file": "Queequeg_p170_markers.json",
+        "name": "Queequeg_p170_markers"
       },
       {
         "file": "Shake_p22_9.json",
         "name": "Shake_p22_9"
       },
       {
+        "file": "Shake_p22_9_markers.json",
+        "name": "Shake_p22_9_markers"
+      },
+      {
         "file": "Snake_p14.json",
         "name": "Snake_p14"
+      },
+      {
+        "file": "Snake_p14_markers.json",
+        "name": "Snake_p14_markers"
       },
       {
         "file": "Snake_p24.json",
         "name": "Snake_p24"
       },
       {
+        "file": "Snake_p24_markers.json",
+        "name": "Snake_p24_markers"
+      },
+      {
         "file": "Snake_p28.json",
         "name": "Snake_p28"
+      },
+      {
+        "file": "Snake_p28_markers.json",
+        "name": "Snake_p28_markers"
       },
       {
         "file": "Starbuck_p128.json",
         "name": "Starbuck_p128"
       },
       {
+        "file": "Starbuck_p128_markers.json",
+        "name": "Starbuck_p128_markers"
+      },
+      {
         "file": "Stubb_p164.json",
         "name": "Stubb_p164"
+      },
+      {
+        "file": "Stubb_p164_markers.json",
+        "name": "Stubb_p164_markers"
       },
       {
         "file": "Tashtego_p176.json",
         "name": "Tashtego_p176"
       },
       {
+        "file": "Tashtego_p176_markers.json",
+        "name": "Tashtego_p176_markers"
+      },
+      {
         "file": "ThreeSwitch_p100_9.json",
         "name": "ThreeSwitch_p100_9"
+      },
+      {
+        "file": "ThreeSwitch_p100_9_markers.json",
+        "name": "ThreeSwitch_p100_9_markers"
       },
       {
         "file": "Trade_p32_10.json",
         "name": "Trade_p32_10"
       },
       {
+        "file": "Trade_p32_10_markers.json",
+        "name": "Trade_p32_10_markers"
+      },
+      {
         "file": "ZShake_p30_6.json",
         "name": "ZShake_p30_6"
+      },
+      {
+        "file": "ZShake_p30_6_markers.json",
+        "name": "ZShake_p30_6_markers"
       },
       {
         "file": "alien2_p72.json",
         "name": "alien2_p72"
       },
       {
+        "file": "alien2_p72_markers.json",
+        "name": "alien2_p72_markers"
+      },
+      {
         "file": "alien3_p84.json",
         "name": "alien3_p84"
+      },
+      {
+        "file": "alien3_p84_markers.json",
+        "name": "alien3_p84_markers"
       },
       {
         "file": "alien4_p288.json",
         "name": "alien4_p288"
       },
       {
+        "file": "alien4_p288_markers.json",
+        "name": "alien4_p288_markers"
+      },
+      {
         "file": "alien7_p112.json",
         "name": "alien7_p112"
       },
       {
+        "file": "alien7_p112_markers.json",
+        "name": "alien7_p112_markers"
+      },
+      {
         "file": "alien9_p20.json",
         "name": "alien9_p20"
+      },
+      {
+        "file": "alien9_p20_markers.json",
+        "name": "alien9_p20_markers"
       },
       {
         "file": "ampersand.json",
@@ -2604,80 +4788,164 @@
         "name": "ampersand168"
       },
       {
+        "file": "ampersand168_markers.json",
+        "name": "ampersand168_markers"
+      },
+      {
+        "file": "ampersand_markers.json",
+        "name": "ampersand_markers"
+      },
+      {
         "file": "best.json",
         "name": "best"
+      },
+      {
+        "file": "best_markers.json",
+        "name": "best_markers"
       },
       {
         "file": "clean_p30_1.json",
         "name": "clean_p30_1"
       },
       {
+        "file": "clean_p30_1_markers.json",
+        "name": "clean_p30_1_markers"
+      },
+      {
         "file": "clean_p30_4.json",
         "name": "clean_p30_4"
+      },
+      {
+        "file": "clean_p30_4_markers.json",
+        "name": "clean_p30_4_markers"
       },
       {
         "file": "clean_p40_7.json",
         "name": "clean_p40_7"
       },
       {
+        "file": "clean_p40_7_markers.json",
+        "name": "clean_p40_7_markers"
+      },
+      {
         "file": "clean_p60_6.json",
         "name": "clean_p60_6"
+      },
+      {
+        "file": "clean_p60_6_markers.json",
+        "name": "clean_p60_6_markers"
       },
       {
         "file": "cool.json",
         "name": "cool"
       },
       {
+        "file": "cool_markers.json",
+        "name": "cool_markers"
+      },
+      {
         "file": "degen16.json",
         "name": "degen16"
+      },
+      {
+        "file": "degen16_markers.json",
+        "name": "degen16_markers"
       },
       {
         "file": "degen24a.json",
         "name": "degen24a"
       },
       {
+        "file": "degen24a_markers.json",
+        "name": "degen24a_markers"
+      },
+      {
         "file": "degen84a.json",
         "name": "degen84a"
+      },
+      {
+        "file": "degen84a_markers.json",
+        "name": "degen84a_markers"
       },
       {
         "file": "final5_p28_4.json",
         "name": "final5_p28_4"
       },
       {
+        "file": "final5_p28_4_markers.json",
+        "name": "final5_p28_4_markers"
+      },
+      {
         "file": "final5_p30_2.json",
         "name": "final5_p30_2"
+      },
+      {
+        "file": "final5_p30_2_markers.json",
+        "name": "final5_p30_2_markers"
       },
       {
         "file": "final5_p30_6.json",
         "name": "final5_p30_6"
       },
       {
+        "file": "final5_p30_6_markers.json",
+        "name": "final5_p30_6_markers"
+      },
+      {
         "file": "final5_p30_8.json",
         "name": "final5_p30_8"
+      },
+      {
+        "file": "final5_p30_8_markers.json",
+        "name": "final5_p30_8_markers"
       },
       {
         "file": "final5_p40_10.json",
         "name": "final5_p40_10"
       },
       {
+        "file": "final5_p40_10_markers.json",
+        "name": "final5_p40_10_markers"
+      },
+      {
         "file": "final5_p42_3.json",
         "name": "final5_p42_3"
+      },
+      {
+        "file": "final5_p42_3_markers.json",
+        "name": "final5_p42_3_markers"
       },
       {
         "file": "final5_p6_1.json",
         "name": "final5_p6_1"
       },
       {
+        "file": "final5_p6_1_markers.json",
+        "name": "final5_p6_1_markers"
+      },
+      {
         "file": "glider_park.json",
         "name": "glider_park"
+      },
+      {
+        "file": "glider_park_markers.json",
+        "name": "glider_park_markers"
       },
       {
         "file": "good.json",
         "name": "good"
       },
       {
+        "file": "good_markers.json",
+        "name": "good_markers"
+      },
+      {
         "file": "intelligent1_p30.json",
         "name": "intelligent1_p30"
+      },
+      {
+        "file": "intelligent1_p30_markers.json",
+        "name": "intelligent1_p30_markers"
       },
       {
         "file": "lighter.json",
@@ -2688,449 +4956,212 @@
         "name": "lighter_2"
       },
       {
-        "file": "ok.json",
-        "name": "ok"
+        "file": "lighter_2_markers.json",
+        "name": "lighter_2_markers"
       },
       {
-        "file": "p128.json",
-        "name": "p128"
-      },
-      {
-        "file": "p16_triple_cross.json",
-        "name": "p16_triple_cross"
-      },
-      {
-        "file": "p38.json",
-        "name": "p38"
-      },
-      {
-        "file": "p8_1.json",
-        "name": "p8_1"
-      },
-      {
-        "file": "rattle16a.json",
-        "name": "rattle16a"
-      },
-      {
-        "file": "rattle16b.json",
-        "name": "rattle16b"
-      },
-      {
-        "file": "rattle16c.json",
-        "name": "rattle16c"
-      },
-      {
-        "file": "rattle16d.json",
-        "name": "rattle16d"
-      },
-      {
-        "file": "rattle16e.json",
-        "name": "rattle16e"
-      },
-      {
-        "file": "reflector_gallery.json",
-        "name": "reflector_gallery"
-      },
-      {
-        "file": "shuffle_4_p168.json",
-        "name": "shuffle_4_p168"
-      },
-      {
-        "file": "six_shakers.json",
-        "name": "six_shakers"
-      },
-      {
-        "file": "slight_degen.json",
-        "name": "slight_degen"
-      },
-      {
-        "file": "snake.json",
-        "name": "snake"
-      },
-      {
-        "file": "subgroupfiltered_p6.json",
-        "name": "subgroupfiltered_p6"
-      },
-      {
-        "file": "swap16a.json",
-        "name": "swap16a"
-      },
-      {
-        "file": "swap26a.json",
-        "name": "swap26a"
-      },
-      {
-        "file": "tilde30a.json",
-        "name": "tilde30a"
-      },
-      {
-        "file": "tv12a.json",
-        "name": "tv12a"
-      },
-      {
-        "file": "whale3_p154_1.json",
-        "name": "whale3_p154_1"
-      },
-      {
-        "file": "whale3_p154_3.json",
-        "name": "whale3_p154_3"
-      },
-      {
-        "file": "whale_p164_1.json",
-        "name": "whale_p164_1"
-      },
-      {
-        "file": "whale_p164_4.json",
-        "name": "whale_p164_4"
-      },
-      {
-        "file": "whale_p172_5.json",
-        "name": "whale_p172_5"
-      }
-    ]
-  },
-  {
-    "folder": "OscillatorsMarked",
-    "items": [
-      {
-        "file": "3_nearest_plus.json",
-        "name": "3_nearest_plus"
-      },
-      {
-        "file": "Blinker_w_Catccher_p48_5.json",
-        "name": "Blinker_w_Catccher_p48_5"
-      },
-      {
-        "file": "Bloop_p196_2.json",
-        "name": "Bloop_p196_2"
-      },
-      {
-        "file": "Daggo_w_Catcher_p40_3.json",
-        "name": "Daggo_w_Catcher_p40_3"
-      },
-      {
-        "file": "Daggo_w_Cross_p164_2.json",
-        "name": "Daggo_w_Cross_p164_2"
-      },
-      {
-        "file": "Daggoo_p64.json",
-        "name": "Daggoo_p64"
-      },
-      {
-        "file": "DiagRot_p84_9.json",
-        "name": "DiagRot_p84_9"
-      },
-      {
-        "file": "DiagShake_p18_7.json",
-        "name": "DiagShake_p18_7"
-      },
-      {
-        "file": "DiagShake_p20_3.json",
-        "name": "DiagShake_p20_3"
-      },
-      {
-        "file": "DiagShake_p20_9.json",
-        "name": "DiagShake_p20_9"
-      },
-      {
-        "file": "Flask_p172_10.json",
-        "name": "Flask_p172_10"
-      },
-      {
-        "file": "Flask_p324.json",
-        "name": "Flask_p324"
-      },
-      {
-        "file": "Flask_p88.json",
-        "name": "Flask_p88"
-      },
-      {
-        "file": "HourGlass_p90.json",
-        "name": "HourGlass_p90"
-      },
-      {
-        "file": "Moby_p228.json",
-        "name": "Moby_p228"
-      },
-      {
-        "file": "NineThirtySix.json",
-        "name": "NineThirtySix"
-      },
-      {
-        "file": "Pip_p100.json",
-        "name": "Pip_p100"
-      },
-      {
-        "file": "Pivot_p24_1.json",
-        "name": "Pivot_p24_1"
-      },
-      {
-        "file": "Pivot_p36_1.json",
-        "name": "Pivot_p36_1"
-      },
-      {
-        "file": "Pump_p154_3.json",
-        "name": "Pump_p154_3"
-      },
-      {
-        "file": "Pump_p42_4.json",
-        "name": "Pump_p42_4"
-      },
-      {
-        "file": "Queequeg_p170.json",
-        "name": "Queequeg_p170"
-      },
-      {
-        "file": "Shake_p22_9.json",
-        "name": "Shake_p22_9"
-      },
-      {
-        "file": "Snake_p14.json",
-        "name": "Snake_p14"
-      },
-      {
-        "file": "Snake_p24.json",
-        "name": "Snake_p24"
-      },
-      {
-        "file": "Snake_p28.json",
-        "name": "Snake_p28"
-      },
-      {
-        "file": "Starbuck_p128.json",
-        "name": "Starbuck_p128"
-      },
-      {
-        "file": "Stubb_p164.json",
-        "name": "Stubb_p164"
-      },
-      {
-        "file": "Tashtego_p176.json",
-        "name": "Tashtego_p176"
-      },
-      {
-        "file": "ThreeSwitch_p100_9.json",
-        "name": "ThreeSwitch_p100_9"
-      },
-      {
-        "file": "Trade_p32_10.json",
-        "name": "Trade_p32_10"
-      },
-      {
-        "file": "ZShake_p30_6.json",
-        "name": "ZShake_p30_6"
-      },
-      {
-        "file": "alien2_p72.json",
-        "name": "alien2_p72"
-      },
-      {
-        "file": "alien3_p84.json",
-        "name": "alien3_p84"
-      },
-      {
-        "file": "alien4_p288.json",
-        "name": "alien4_p288"
-      },
-      {
-        "file": "alien7_p112.json",
-        "name": "alien7_p112"
-      },
-      {
-        "file": "alien9_p20.json",
-        "name": "alien9_p20"
-      },
-      {
-        "file": "ampersand.json",
-        "name": "ampersand"
-      },
-      {
-        "file": "ampersand168.json",
-        "name": "ampersand168"
-      },
-      {
-        "file": "best.json",
-        "name": "best"
-      },
-      {
-        "file": "clean_p30_1.json",
-        "name": "clean_p30_1"
-      },
-      {
-        "file": "clean_p30_4.json",
-        "name": "clean_p30_4"
-      },
-      {
-        "file": "clean_p40_7.json",
-        "name": "clean_p40_7"
-      },
-      {
-        "file": "clean_p60_6.json",
-        "name": "clean_p60_6"
-      },
-      {
-        "file": "cool.json",
-        "name": "cool"
-      },
-      {
-        "file": "degen16.json",
-        "name": "degen16"
-      },
-      {
-        "file": "degen24a.json",
-        "name": "degen24a"
-      },
-      {
-        "file": "degen84a.json",
-        "name": "degen84a"
-      },
-      {
-        "file": "final5_p28_4.json",
-        "name": "final5_p28_4"
-      },
-      {
-        "file": "final5_p30_2.json",
-        "name": "final5_p30_2"
-      },
-      {
-        "file": "final5_p30_6.json",
-        "name": "final5_p30_6"
-      },
-      {
-        "file": "final5_p30_8.json",
-        "name": "final5_p30_8"
-      },
-      {
-        "file": "final5_p40_10.json",
-        "name": "final5_p40_10"
-      },
-      {
-        "file": "final5_p42_3.json",
-        "name": "final5_p42_3"
-      },
-      {
-        "file": "final5_p6_1.json",
-        "name": "final5_p6_1"
-      },
-      {
-        "file": "glider_park.json",
-        "name": "glider_park"
-      },
-      {
-        "file": "good.json",
-        "name": "good"
-      },
-      {
-        "file": "intelligent1_p30.json",
-        "name": "intelligent1_p30"
-      },
-      {
-        "file": "lighter.json",
-        "name": "lighter"
-      },
-      {
-        "file": "lighter_2.json",
-        "name": "lighter_2"
+        "file": "lighter_markers.json",
+        "name": "lighter_markers"
       },
       {
         "file": "ok.json",
         "name": "ok"
       },
       {
+        "file": "ok_markers.json",
+        "name": "ok_markers"
+      },
+      {
         "file": "p128.json",
         "name": "p128"
+      },
+      {
+        "file": "p128_markers.json",
+        "name": "p128_markers"
       },
       {
         "file": "p16_triple_cross.json",
         "name": "p16_triple_cross"
       },
       {
+        "file": "p16_triple_cross_markers.json",
+        "name": "p16_triple_cross_markers"
+      },
+      {
         "file": "p38.json",
         "name": "p38"
+      },
+      {
+        "file": "p38_markers.json",
+        "name": "p38_markers"
       },
       {
         "file": "p8_1.json",
         "name": "p8_1"
       },
       {
+        "file": "p8_1_markers.json",
+        "name": "p8_1_markers"
+      },
+      {
         "file": "rattle16a.json",
         "name": "rattle16a"
+      },
+      {
+        "file": "rattle16a_markers.json",
+        "name": "rattle16a_markers"
       },
       {
         "file": "rattle16b.json",
         "name": "rattle16b"
       },
       {
+        "file": "rattle16b_markers.json",
+        "name": "rattle16b_markers"
+      },
+      {
         "file": "rattle16c.json",
         "name": "rattle16c"
+      },
+      {
+        "file": "rattle16c_markers.json",
+        "name": "rattle16c_markers"
       },
       {
         "file": "rattle16d.json",
         "name": "rattle16d"
       },
       {
+        "file": "rattle16d_markers.json",
+        "name": "rattle16d_markers"
+      },
+      {
         "file": "rattle16e.json",
         "name": "rattle16e"
+      },
+      {
+        "file": "rattle16e_markers.json",
+        "name": "rattle16e_markers"
       },
       {
         "file": "reflector_gallery.json",
         "name": "reflector_gallery"
       },
       {
+        "file": "reflector_gallery_markers.json",
+        "name": "reflector_gallery_markers"
+      },
+      {
         "file": "shuffle_4_p168.json",
         "name": "shuffle_4_p168"
+      },
+      {
+        "file": "shuffle_4_p168_markers.json",
+        "name": "shuffle_4_p168_markers"
       },
       {
         "file": "six_shakers.json",
         "name": "six_shakers"
       },
       {
+        "file": "six_shakers_markers.json",
+        "name": "six_shakers_markers"
+      },
+      {
         "file": "slight_degen.json",
         "name": "slight_degen"
+      },
+      {
+        "file": "slight_degen_markers.json",
+        "name": "slight_degen_markers"
       },
       {
         "file": "snake.json",
         "name": "snake"
       },
       {
+        "file": "snake_markers.json",
+        "name": "snake_markers"
+      },
+      {
         "file": "subgroupfiltered_p6.json",
         "name": "subgroupfiltered_p6"
+      },
+      {
+        "file": "subgroupfiltered_p6_markers.json",
+        "name": "subgroupfiltered_p6_markers"
       },
       {
         "file": "swap16a.json",
         "name": "swap16a"
       },
       {
+        "file": "swap16a_markers.json",
+        "name": "swap16a_markers"
+      },
+      {
         "file": "swap26a.json",
         "name": "swap26a"
+      },
+      {
+        "file": "swap26a_markers.json",
+        "name": "swap26a_markers"
       },
       {
         "file": "tilde30a.json",
         "name": "tilde30a"
       },
       {
+        "file": "tilde30a_markers.json",
+        "name": "tilde30a_markers"
+      },
+      {
         "file": "tv12a.json",
         "name": "tv12a"
+      },
+      {
+        "file": "tv12a_markers.json",
+        "name": "tv12a_markers"
       },
       {
         "file": "whale3_p154_1.json",
         "name": "whale3_p154_1"
       },
       {
+        "file": "whale3_p154_1_markers.json",
+        "name": "whale3_p154_1_markers"
+      },
+      {
         "file": "whale3_p154_3.json",
         "name": "whale3_p154_3"
+      },
+      {
+        "file": "whale3_p154_3_markers.json",
+        "name": "whale3_p154_3_markers"
       },
       {
         "file": "whale_p164_1.json",
         "name": "whale_p164_1"
       },
       {
+        "file": "whale_p164_1_markers.json",
+        "name": "whale_p164_1_markers"
+      },
+      {
         "file": "whale_p164_4.json",
         "name": "whale_p164_4"
       },
       {
+        "file": "whale_p164_4_markers.json",
+        "name": "whale_p164_4_markers"
+      },
+      {
         "file": "whale_p172_5.json",
         "name": "whale_p172_5"
+      },
+      {
+        "file": "whale_p172_5_markers.json",
+        "name": "whale_p172_5_markers"
       }
     ]
   },
@@ -3142,28 +5173,56 @@
         "name": "16_daggos"
       },
       {
+        "file": "16_daggos_markers.json",
+        "name": "16_daggos_markers"
+      },
+      {
         "file": "16_daggos_ticked.json",
         "name": "16_daggos_ticked"
+      },
+      {
+        "file": "16_daggos_ticked_markers.json",
+        "name": "16_daggos_ticked_markers"
       },
       {
         "file": "32_daggos.json",
         "name": "32_daggos"
       },
       {
+        "file": "32_daggos_markers.json",
+        "name": "32_daggos_markers"
+      },
+      {
         "file": "6_daggoos.json",
         "name": "6_daggoos"
+      },
+      {
+        "file": "6_daggoos_markers.json",
+        "name": "6_daggoos_markers"
       },
       {
         "file": "8_daggoos_watched.json",
         "name": "8_daggoos_watched"
       },
       {
+        "file": "8_daggoos_watched_markers.json",
+        "name": "8_daggoos_watched_markers"
+      },
+      {
         "file": "DoubleX_n4_b0.json",
         "name": "DoubleX_n4_b0"
       },
       {
+        "file": "DoubleX_n4_b0_markers.json",
+        "name": "DoubleX_n4_b0_markers"
+      },
+      {
         "file": "Repeater_n3_b0.json",
         "name": "Repeater_n3_b0"
+      },
+      {
+        "file": "Repeater_n3_b0_markers.json",
+        "name": "Repeater_n3_b0_markers"
       },
       {
         "file": "bobo_lattice_border30_every3.json",
@@ -3186,6 +5245,10 @@
         "name": "bobo_screen"
       },
       {
+        "file": "bobo_screen_markers.json",
+        "name": "bobo_screen_markers"
+      },
+      {
         "file": "daggo_circuit.json",
         "name": "daggo_circuit"
       },
@@ -3194,88 +5257,176 @@
         "name": "daggo_left"
       },
       {
+        "file": "daggo_left_markers.json",
+        "name": "daggo_left_markers"
+      },
+      {
         "file": "dead_pixel.json",
         "name": "dead_pixel"
+      },
+      {
+        "file": "dead_pixel_markers.json",
+        "name": "dead_pixel_markers"
       },
       {
         "file": "fbb_test_big.json",
         "name": "fbb_test_big"
       },
       {
+        "file": "fbb_test_big_markers.json",
+        "name": "fbb_test_big_markers"
+      },
+      {
         "file": "fragile.json",
         "name": "fragile"
+      },
+      {
+        "file": "fragile_markers.json",
+        "name": "fragile_markers"
       },
       {
         "file": "lighter.json",
         "name": "lighter"
       },
       {
+        "file": "lighter_markers.json",
+        "name": "lighter_markers"
+      },
+      {
         "file": "nbb_isolate.json",
         "name": "nbb_isolate"
+      },
+      {
+        "file": "nbb_isolate_markers.json",
+        "name": "nbb_isolate_markers"
       },
       {
         "file": "orbit_4_bobos.json",
         "name": "orbit_4_bobos"
       },
       {
+        "file": "orbit_4_bobos_markers.json",
+        "name": "orbit_4_bobos_markers"
+      },
+      {
         "file": "orbiters.json",
         "name": "orbiters"
+      },
+      {
+        "file": "orbiters_markers.json",
+        "name": "orbiters_markers"
       },
       {
         "file": "osc-circle.json",
         "name": "osc-circle"
       },
       {
+        "file": "osc-circle_markers.json",
+        "name": "osc-circle_markers"
+      },
+      {
         "file": "osc_2n2b_clock.json",
         "name": "osc_2n2b_clock"
+      },
+      {
+        "file": "osc_2n2b_clock_markers.json",
+        "name": "osc_2n2b_clock_markers"
       },
       {
         "file": "osc_n2_b2_p96.json",
         "name": "osc_n2_b2_p96"
       },
       {
+        "file": "osc_n2_b2_p96_markers.json",
+        "name": "osc_n2_b2_p96_markers"
+      },
+      {
         "file": "osc_n4_b0_p12_4.json",
         "name": "osc_n4_b0_p12_4"
+      },
+      {
+        "file": "osc_n4_b0_p12_4_markers.json",
+        "name": "osc_n4_b0_p12_4_markers"
       },
       {
         "file": "osc_n4_b0_p28.json",
         "name": "osc_n4_b0_p28"
       },
       {
+        "file": "osc_n4_b0_p28_markers.json",
+        "name": "osc_n4_b0_p28_markers"
+      },
+      {
         "file": "osc_n4_cool_big.json",
         "name": "osc_n4_cool_big"
+      },
+      {
+        "file": "osc_n4_cool_big_markers.json",
+        "name": "osc_n4_cool_big_markers"
       },
       {
         "file": "osc_n4_diode.json",
         "name": "osc_n4_diode"
       },
       {
+        "file": "osc_n4_diode_markers.json",
+        "name": "osc_n4_diode_markers"
+      },
+      {
         "file": "osc_n4_glasses.json",
         "name": "osc_n4_glasses"
+      },
+      {
+        "file": "osc_n4_glasses_markers.json",
+        "name": "osc_n4_glasses_markers"
       },
       {
         "file": "osc_n4_hourglass.json",
         "name": "osc_n4_hourglass"
       },
       {
+        "file": "osc_n4_hourglass_markers.json",
+        "name": "osc_n4_hourglass_markers"
+      },
+      {
         "file": "osc_n4_rocker.json",
         "name": "osc_n4_rocker"
+      },
+      {
+        "file": "osc_n4_rocker_markers.json",
+        "name": "osc_n4_rocker_markers"
       },
       {
         "file": "osc_n4_wand.json",
         "name": "osc_n4_wand"
       },
       {
+        "file": "osc_n4_wand_markers.json",
+        "name": "osc_n4_wand_markers"
+      },
+      {
         "file": "osc_offsetweb.json",
         "name": "osc_offsetweb"
+      },
+      {
+        "file": "osc_offsetweb_markers.json",
+        "name": "osc_offsetweb_markers"
       },
       {
         "file": "osc_pair.json",
         "name": "osc_pair"
       },
       {
+        "file": "osc_pair_markers.json",
+        "name": "osc_pair_markers"
+      },
+      {
         "file": "osc_tight2osc_in_middle.json",
         "name": "osc_tight2osc_in_middle"
+      },
+      {
+        "file": "osc_tight2osc_in_middle_markers.json",
+        "name": "osc_tight2osc_in_middle_markers"
       },
       {
         "file": "rmok.json",
@@ -3286,16 +5437,32 @@
         "name": "start_and_stop"
       },
       {
+        "file": "start_and_stop_markers.json",
+        "name": "start_and_stop_markers"
+      },
+      {
         "file": "swap.json",
         "name": "swap"
+      },
+      {
+        "file": "swap_markers.json",
+        "name": "swap_markers"
       },
       {
         "file": "tilde30a.json",
         "name": "tilde30a"
       },
       {
+        "file": "tilde30a_markers.json",
+        "name": "tilde30a_markers"
+      },
+      {
         "file": "whale.json",
         "name": "whale"
+      },
+      {
+        "file": "whale_markers.json",
+        "name": "whale_markers"
       }
     ]
   },
@@ -3698,6 +5865,10 @@
       {
         "file": "lazy_river.json",
         "name": "lazy_river"
+      },
+      {
+        "file": "lazy_river_markers.json",
+        "name": "lazy_river_markers"
       }
     ]
   }
