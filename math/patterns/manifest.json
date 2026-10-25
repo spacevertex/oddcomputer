@@ -1303,6 +1303,10 @@
         "name": "halfturn_p30_b"
       },
       {
+        "file": "halfturn_p30_b_markers.json",
+        "name": "halfturn_p30_b_markers"
+      },
+      {
         "file": "halfturn_p36.json",
         "name": "halfturn_p36"
       },
@@ -1543,10 +1547,6 @@
         "name": "halfturn_p98_b"
       }
     ]
-  },
-  {
-    "folder": "NewFinds5",
-    "items": []
   },
   {
     "folder": "Orbiters",
@@ -2790,6 +2790,351 @@
     ]
   },
   {
+    "folder": "OscillatorsMarked",
+    "items": [
+      {
+        "file": "3_nearest_plus.json",
+        "name": "3_nearest_plus"
+      },
+      {
+        "file": "Blinker_w_Catccher_p48_5.json",
+        "name": "Blinker_w_Catccher_p48_5"
+      },
+      {
+        "file": "Bloop_p196_2.json",
+        "name": "Bloop_p196_2"
+      },
+      {
+        "file": "Daggo_w_Catcher_p40_3.json",
+        "name": "Daggo_w_Catcher_p40_3"
+      },
+      {
+        "file": "Daggo_w_Cross_p164_2.json",
+        "name": "Daggo_w_Cross_p164_2"
+      },
+      {
+        "file": "Daggoo_p64.json",
+        "name": "Daggoo_p64"
+      },
+      {
+        "file": "DiagRot_p84_9.json",
+        "name": "DiagRot_p84_9"
+      },
+      {
+        "file": "DiagShake_p18_7.json",
+        "name": "DiagShake_p18_7"
+      },
+      {
+        "file": "DiagShake_p20_3.json",
+        "name": "DiagShake_p20_3"
+      },
+      {
+        "file": "DiagShake_p20_9.json",
+        "name": "DiagShake_p20_9"
+      },
+      {
+        "file": "Flask_p172_10.json",
+        "name": "Flask_p172_10"
+      },
+      {
+        "file": "Flask_p324.json",
+        "name": "Flask_p324"
+      },
+      {
+        "file": "Flask_p88.json",
+        "name": "Flask_p88"
+      },
+      {
+        "file": "HourGlass_p90.json",
+        "name": "HourGlass_p90"
+      },
+      {
+        "file": "Moby_p228.json",
+        "name": "Moby_p228"
+      },
+      {
+        "file": "NineThirtySix.json",
+        "name": "NineThirtySix"
+      },
+      {
+        "file": "Pip_p100.json",
+        "name": "Pip_p100"
+      },
+      {
+        "file": "Pivot_p24_1.json",
+        "name": "Pivot_p24_1"
+      },
+      {
+        "file": "Pivot_p36_1.json",
+        "name": "Pivot_p36_1"
+      },
+      {
+        "file": "Pump_p154_3.json",
+        "name": "Pump_p154_3"
+      },
+      {
+        "file": "Pump_p42_4.json",
+        "name": "Pump_p42_4"
+      },
+      {
+        "file": "Queequeg_p170.json",
+        "name": "Queequeg_p170"
+      },
+      {
+        "file": "Shake_p22_9.json",
+        "name": "Shake_p22_9"
+      },
+      {
+        "file": "Snake_p14.json",
+        "name": "Snake_p14"
+      },
+      {
+        "file": "Snake_p24.json",
+        "name": "Snake_p24"
+      },
+      {
+        "file": "Snake_p28.json",
+        "name": "Snake_p28"
+      },
+      {
+        "file": "Starbuck_p128.json",
+        "name": "Starbuck_p128"
+      },
+      {
+        "file": "Stubb_p164.json",
+        "name": "Stubb_p164"
+      },
+      {
+        "file": "Tashtego_p176.json",
+        "name": "Tashtego_p176"
+      },
+      {
+        "file": "ThreeSwitch_p100_9.json",
+        "name": "ThreeSwitch_p100_9"
+      },
+      {
+        "file": "Trade_p32_10.json",
+        "name": "Trade_p32_10"
+      },
+      {
+        "file": "ZShake_p30_6.json",
+        "name": "ZShake_p30_6"
+      },
+      {
+        "file": "alien2_p72.json",
+        "name": "alien2_p72"
+      },
+      {
+        "file": "alien3_p84.json",
+        "name": "alien3_p84"
+      },
+      {
+        "file": "alien4_p288.json",
+        "name": "alien4_p288"
+      },
+      {
+        "file": "alien7_p112.json",
+        "name": "alien7_p112"
+      },
+      {
+        "file": "alien9_p20.json",
+        "name": "alien9_p20"
+      },
+      {
+        "file": "ampersand.json",
+        "name": "ampersand"
+      },
+      {
+        "file": "ampersand168.json",
+        "name": "ampersand168"
+      },
+      {
+        "file": "best.json",
+        "name": "best"
+      },
+      {
+        "file": "clean_p30_1.json",
+        "name": "clean_p30_1"
+      },
+      {
+        "file": "clean_p30_4.json",
+        "name": "clean_p30_4"
+      },
+      {
+        "file": "clean_p40_7.json",
+        "name": "clean_p40_7"
+      },
+      {
+        "file": "clean_p60_6.json",
+        "name": "clean_p60_6"
+      },
+      {
+        "file": "cool.json",
+        "name": "cool"
+      },
+      {
+        "file": "degen16.json",
+        "name": "degen16"
+      },
+      {
+        "file": "degen24a.json",
+        "name": "degen24a"
+      },
+      {
+        "file": "degen84a.json",
+        "name": "degen84a"
+      },
+      {
+        "file": "final5_p28_4.json",
+        "name": "final5_p28_4"
+      },
+      {
+        "file": "final5_p30_2.json",
+        "name": "final5_p30_2"
+      },
+      {
+        "file": "final5_p30_6.json",
+        "name": "final5_p30_6"
+      },
+      {
+        "file": "final5_p30_8.json",
+        "name": "final5_p30_8"
+      },
+      {
+        "file": "final5_p40_10.json",
+        "name": "final5_p40_10"
+      },
+      {
+        "file": "final5_p42_3.json",
+        "name": "final5_p42_3"
+      },
+      {
+        "file": "final5_p6_1.json",
+        "name": "final5_p6_1"
+      },
+      {
+        "file": "glider_park.json",
+        "name": "glider_park"
+      },
+      {
+        "file": "good.json",
+        "name": "good"
+      },
+      {
+        "file": "intelligent1_p30.json",
+        "name": "intelligent1_p30"
+      },
+      {
+        "file": "lighter.json",
+        "name": "lighter"
+      },
+      {
+        "file": "lighter_2.json",
+        "name": "lighter_2"
+      },
+      {
+        "file": "ok.json",
+        "name": "ok"
+      },
+      {
+        "file": "p128.json",
+        "name": "p128"
+      },
+      {
+        "file": "p16_triple_cross.json",
+        "name": "p16_triple_cross"
+      },
+      {
+        "file": "p38.json",
+        "name": "p38"
+      },
+      {
+        "file": "p8_1.json",
+        "name": "p8_1"
+      },
+      {
+        "file": "rattle16a.json",
+        "name": "rattle16a"
+      },
+      {
+        "file": "rattle16b.json",
+        "name": "rattle16b"
+      },
+      {
+        "file": "rattle16c.json",
+        "name": "rattle16c"
+      },
+      {
+        "file": "rattle16d.json",
+        "name": "rattle16d"
+      },
+      {
+        "file": "rattle16e.json",
+        "name": "rattle16e"
+      },
+      {
+        "file": "reflector_gallery.json",
+        "name": "reflector_gallery"
+      },
+      {
+        "file": "shuffle_4_p168.json",
+        "name": "shuffle_4_p168"
+      },
+      {
+        "file": "six_shakers.json",
+        "name": "six_shakers"
+      },
+      {
+        "file": "slight_degen.json",
+        "name": "slight_degen"
+      },
+      {
+        "file": "snake.json",
+        "name": "snake"
+      },
+      {
+        "file": "subgroupfiltered_p6.json",
+        "name": "subgroupfiltered_p6"
+      },
+      {
+        "file": "swap16a.json",
+        "name": "swap16a"
+      },
+      {
+        "file": "swap26a.json",
+        "name": "swap26a"
+      },
+      {
+        "file": "tilde30a.json",
+        "name": "tilde30a"
+      },
+      {
+        "file": "tv12a.json",
+        "name": "tv12a"
+      },
+      {
+        "file": "whale3_p154_1.json",
+        "name": "whale3_p154_1"
+      },
+      {
+        "file": "whale3_p154_3.json",
+        "name": "whale3_p154_3"
+      },
+      {
+        "file": "whale_p164_1.json",
+        "name": "whale_p164_1"
+      },
+      {
+        "file": "whale_p164_4.json",
+        "name": "whale_p164_4"
+      },
+      {
+        "file": "whale_p172_5.json",
+        "name": "whale_p172_5"
+      }
+    ]
+  },
+  {
     "folder": "Other",
     "items": [
       {
@@ -3353,24 +3698,6 @@
       {
         "file": "lazy_river.json",
         "name": "lazy_river"
-      }
-    ]
-  },
-  {
-    "folder": "temp",
-    "items": [
-      {
-        "folder": "contact_sheets",
-        "items": []
-      },
-      {
-        "folder": "sweep finds",
-        "items": [
-          {
-            "folder": "contact_sheets",
-            "items": []
-          }
-        ]
       }
     ]
   }
