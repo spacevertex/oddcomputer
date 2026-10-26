@@ -156,112 +156,56 @@
         "name": "n5_halfturn_p106"
       },
       {
-        "file": "n5_halfturn_p106_markers.json",
-        "name": "n5_halfturn_p106_markers"
-      },
-      {
         "file": "n5_halfturn_p1182.json",
         "name": "n5_halfturn_p1182"
-      },
-      {
-        "file": "n5_halfturn_p1182_markers.json",
-        "name": "n5_halfturn_p1182_markers"
       },
       {
         "file": "n5_halfturn_p136.json",
         "name": "n5_halfturn_p136"
       },
       {
-        "file": "n5_halfturn_p136_markers.json",
-        "name": "n5_halfturn_p136_markers"
-      },
-      {
         "file": "n5_halfturn_p144.json",
         "name": "n5_halfturn_p144"
-      },
-      {
-        "file": "n5_halfturn_p144_markers.json",
-        "name": "n5_halfturn_p144_markers"
       },
       {
         "file": "n5_halfturn_p166.json",
         "name": "n5_halfturn_p166"
       },
       {
-        "file": "n5_halfturn_p166_markers.json",
-        "name": "n5_halfturn_p166_markers"
-      },
-      {
         "file": "n5_halfturn_p190.json",
         "name": "n5_halfturn_p190"
-      },
-      {
-        "file": "n5_halfturn_p190_markers.json",
-        "name": "n5_halfturn_p190_markers"
       },
       {
         "file": "n5_halfturn_p192.json",
         "name": "n5_halfturn_p192"
       },
       {
-        "file": "n5_halfturn_p192_markers.json",
-        "name": "n5_halfturn_p192_markers"
-      },
-      {
         "file": "n5_halfturn_p206.json",
         "name": "n5_halfturn_p206"
-      },
-      {
-        "file": "n5_halfturn_p206_markers.json",
-        "name": "n5_halfturn_p206_markers"
       },
       {
         "file": "n5_halfturn_p234.json",
         "name": "n5_halfturn_p234"
       },
       {
-        "file": "n5_halfturn_p234_markers.json",
-        "name": "n5_halfturn_p234_markers"
-      },
-      {
         "file": "n5_halfturn_p254.json",
         "name": "n5_halfturn_p254"
-      },
-      {
-        "file": "n5_halfturn_p254_markers.json",
-        "name": "n5_halfturn_p254_markers"
       },
       {
         "file": "n5_halfturn_p322.json",
         "name": "n5_halfturn_p322"
       },
       {
-        "file": "n5_halfturn_p322_markers.json",
-        "name": "n5_halfturn_p322_markers"
-      },
-      {
         "file": "n5_halfturn_p378.json",
         "name": "n5_halfturn_p378"
-      },
-      {
-        "file": "n5_halfturn_p378_markers.json",
-        "name": "n5_halfturn_p378_markers"
       },
       {
         "file": "n5_halfturn_p846.json",
         "name": "n5_halfturn_p846"
       },
       {
-        "file": "n5_halfturn_p846_markers.json",
-        "name": "n5_halfturn_p846_markers"
-      },
-      {
         "file": "n5_halfturn_p952.json",
         "name": "n5_halfturn_p952"
-      },
-      {
-        "file": "n5_halfturn_p952_markers.json",
-        "name": "n5_halfturn_p952_markers"
       }
     ]
   },
@@ -277,28 +221,12 @@
         "name": "n5_halfturn_p100_b"
       },
       {
-        "file": "n5_halfturn_p100_b_markers.json",
-        "name": "n5_halfturn_p100_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p100_markers.json",
-        "name": "n5_halfturn_p100_markers"
-      },
-      {
         "file": "n5_halfturn_p104.json",
         "name": "n5_halfturn_p104"
       },
       {
-        "file": "n5_halfturn_p104_markers.json",
-        "name": "n5_halfturn_p104_markers"
-      },
-      {
         "file": "n5_halfturn_p106.json",
         "name": "n5_halfturn_p106"
-      },
-      {
-        "file": "n5_halfturn_p106_markers.json",
-        "name": "n5_halfturn_p106_markers"
       },
       {
         "file": "n5_halfturn_p110.json",
@@ -309,68 +237,32 @@
         "name": "n5_halfturn_p110_b"
       },
       {
-        "file": "n5_halfturn_p110_b_markers.json",
-        "name": "n5_halfturn_p110_b_markers"
-      },
-      {
         "file": "n5_halfturn_p110_c.json",
         "name": "n5_halfturn_p110_c"
-      },
-      {
-        "file": "n5_halfturn_p110_c_markers.json",
-        "name": "n5_halfturn_p110_c_markers"
       },
       {
         "file": "n5_halfturn_p110_d.json",
         "name": "n5_halfturn_p110_d"
       },
       {
-        "file": "n5_halfturn_p110_d_markers.json",
-        "name": "n5_halfturn_p110_d_markers"
-      },
-      {
         "file": "n5_halfturn_p110_e.json",
         "name": "n5_halfturn_p110_e"
-      },
-      {
-        "file": "n5_halfturn_p110_e_markers.json",
-        "name": "n5_halfturn_p110_e_markers"
       },
       {
         "file": "n5_halfturn_p110_f.json",
         "name": "n5_halfturn_p110_f"
       },
       {
-        "file": "n5_halfturn_p110_f_markers.json",
-        "name": "n5_halfturn_p110_f_markers"
-      },
-      {
-        "file": "n5_halfturn_p110_markers.json",
-        "name": "n5_halfturn_p110_markers"
-      },
-      {
         "file": "n5_halfturn_p114.json",
         "name": "n5_halfturn_p114"
-      },
-      {
-        "file": "n5_halfturn_p114_markers.json",
-        "name": "n5_halfturn_p114_markers"
       },
       {
         "file": "n5_halfturn_p116.json",
         "name": "n5_halfturn_p116"
       },
       {
-        "file": "n5_halfturn_p116_markers.json",
-        "name": "n5_halfturn_p116_markers"
-      },
-      {
         "file": "n5_halfturn_p120.json",
         "name": "n5_halfturn_p120"
-      },
-      {
-        "file": "n5_halfturn_p120_markers.json",
-        "name": "n5_halfturn_p120_markers"
       },
       {
         "file": "n5_halfturn_p124.json",
@@ -381,14 +273,6 @@
         "name": "n5_halfturn_p124_b"
       },
       {
-        "file": "n5_halfturn_p124_b_markers.json",
-        "name": "n5_halfturn_p124_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p124_markers.json",
-        "name": "n5_halfturn_p124_markers"
-      },
-      {
         "file": "n5_halfturn_p126.json",
         "name": "n5_halfturn_p126"
       },
@@ -397,36 +281,16 @@
         "name": "n5_halfturn_p126_b"
       },
       {
-        "file": "n5_halfturn_p126_b_markers.json",
-        "name": "n5_halfturn_p126_b_markers"
-      },
-      {
         "file": "n5_halfturn_p126_c.json",
         "name": "n5_halfturn_p126_c"
-      },
-      {
-        "file": "n5_halfturn_p126_c_markers.json",
-        "name": "n5_halfturn_p126_c_markers"
-      },
-      {
-        "file": "n5_halfturn_p126_markers.json",
-        "name": "n5_halfturn_p126_markers"
       },
       {
         "file": "n5_halfturn_p128.json",
         "name": "n5_halfturn_p128"
       },
       {
-        "file": "n5_halfturn_p128_markers.json",
-        "name": "n5_halfturn_p128_markers"
-      },
-      {
         "file": "n5_halfturn_p142.json",
         "name": "n5_halfturn_p142"
-      },
-      {
-        "file": "n5_halfturn_p142_markers.json",
-        "name": "n5_halfturn_p142_markers"
       },
       {
         "file": "n5_halfturn_p144.json",
@@ -437,44 +301,20 @@
         "name": "n5_halfturn_p144_b"
       },
       {
-        "file": "n5_halfturn_p144_b_markers.json",
-        "name": "n5_halfturn_p144_b_markers"
-      },
-      {
         "file": "n5_halfturn_p144_c.json",
         "name": "n5_halfturn_p144_c"
-      },
-      {
-        "file": "n5_halfturn_p144_c_markers.json",
-        "name": "n5_halfturn_p144_c_markers"
       },
       {
         "file": "n5_halfturn_p144_d.json",
         "name": "n5_halfturn_p144_d"
       },
       {
-        "file": "n5_halfturn_p144_d_markers.json",
-        "name": "n5_halfturn_p144_d_markers"
-      },
-      {
-        "file": "n5_halfturn_p144_markers.json",
-        "name": "n5_halfturn_p144_markers"
-      },
-      {
         "file": "n5_halfturn_p148.json",
         "name": "n5_halfturn_p148"
       },
       {
-        "file": "n5_halfturn_p148_markers.json",
-        "name": "n5_halfturn_p148_markers"
-      },
-      {
         "file": "n5_halfturn_p156.json",
         "name": "n5_halfturn_p156"
-      },
-      {
-        "file": "n5_halfturn_p156_markers.json",
-        "name": "n5_halfturn_p156_markers"
       },
       {
         "file": "n5_halfturn_p172.json",
@@ -485,20 +325,8 @@
         "name": "n5_halfturn_p172_b"
       },
       {
-        "file": "n5_halfturn_p172_b_markers.json",
-        "name": "n5_halfturn_p172_b_markers"
-      },
-      {
         "file": "n5_halfturn_p172_c.json",
         "name": "n5_halfturn_p172_c"
-      },
-      {
-        "file": "n5_halfturn_p172_c_markers.json",
-        "name": "n5_halfturn_p172_c_markers"
-      },
-      {
-        "file": "n5_halfturn_p172_markers.json",
-        "name": "n5_halfturn_p172_markers"
       },
       {
         "file": "n5_halfturn_p18.json",
@@ -509,28 +337,12 @@
         "name": "n5_halfturn_p184"
       },
       {
-        "file": "n5_halfturn_p184_markers.json",
-        "name": "n5_halfturn_p184_markers"
-      },
-      {
         "file": "n5_halfturn_p186.json",
         "name": "n5_halfturn_p186"
       },
       {
-        "file": "n5_halfturn_p186_markers.json",
-        "name": "n5_halfturn_p186_markers"
-      },
-      {
-        "file": "n5_halfturn_p18_markers.json",
-        "name": "n5_halfturn_p18_markers"
-      },
-      {
         "file": "n5_halfturn_p192.json",
         "name": "n5_halfturn_p192"
-      },
-      {
-        "file": "n5_halfturn_p192_markers.json",
-        "name": "n5_halfturn_p192_markers"
       },
       {
         "file": "n5_halfturn_p20.json",
@@ -541,20 +353,8 @@
         "name": "n5_halfturn_p202"
       },
       {
-        "file": "n5_halfturn_p202_markers.json",
-        "name": "n5_halfturn_p202_markers"
-      },
-      {
         "file": "n5_halfturn_p20_b.json",
         "name": "n5_halfturn_p20_b"
-      },
-      {
-        "file": "n5_halfturn_p20_b_markers.json",
-        "name": "n5_halfturn_p20_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p20_markers.json",
-        "name": "n5_halfturn_p20_markers"
       },
       {
         "file": "n5_halfturn_p210.json",
@@ -565,20 +365,8 @@
         "name": "n5_halfturn_p210_b"
       },
       {
-        "file": "n5_halfturn_p210_b_markers.json",
-        "name": "n5_halfturn_p210_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p210_markers.json",
-        "name": "n5_halfturn_p210_markers"
-      },
-      {
         "file": "n5_halfturn_p212.json",
         "name": "n5_halfturn_p212"
-      },
-      {
-        "file": "n5_halfturn_p212_markers.json",
-        "name": "n5_halfturn_p212_markers"
       },
       {
         "file": "n5_halfturn_p228.json",
@@ -589,14 +377,6 @@
         "name": "n5_halfturn_p228_b"
       },
       {
-        "file": "n5_halfturn_p228_b_markers.json",
-        "name": "n5_halfturn_p228_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p228_markers.json",
-        "name": "n5_halfturn_p228_markers"
-      },
-      {
         "file": "n5_halfturn_p24.json",
         "name": "n5_halfturn_p24"
       },
@@ -605,20 +385,8 @@
         "name": "n5_halfturn_p240"
       },
       {
-        "file": "n5_halfturn_p240_markers.json",
-        "name": "n5_halfturn_p240_markers"
-      },
-      {
-        "file": "n5_halfturn_p24_markers.json",
-        "name": "n5_halfturn_p24_markers"
-      },
-      {
         "file": "n5_halfturn_p256.json",
         "name": "n5_halfturn_p256"
-      },
-      {
-        "file": "n5_halfturn_p256_markers.json",
-        "name": "n5_halfturn_p256_markers"
       },
       {
         "file": "n5_halfturn_p26.json",
@@ -629,28 +397,12 @@
         "name": "n5_halfturn_p264"
       },
       {
-        "file": "n5_halfturn_p264_markers.json",
-        "name": "n5_halfturn_p264_markers"
-      },
-      {
-        "file": "n5_halfturn_p26_markers.json",
-        "name": "n5_halfturn_p26_markers"
-      },
-      {
         "file": "n5_halfturn_p28.json",
         "name": "n5_halfturn_p28"
       },
       {
         "file": "n5_halfturn_p288.json",
         "name": "n5_halfturn_p288"
-      },
-      {
-        "file": "n5_halfturn_p288_markers.json",
-        "name": "n5_halfturn_p288_markers"
-      },
-      {
-        "file": "n5_halfturn_p28_markers.json",
-        "name": "n5_halfturn_p28_markers"
       },
       {
         "file": "n5_halfturn_p296.json",
@@ -661,14 +413,6 @@
         "name": "n5_halfturn_p296_b"
       },
       {
-        "file": "n5_halfturn_p296_b_markers.json",
-        "name": "n5_halfturn_p296_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p296_markers.json",
-        "name": "n5_halfturn_p296_markers"
-      },
-      {
         "file": "n5_halfturn_p30.json",
         "name": "n5_halfturn_p30"
       },
@@ -677,44 +421,20 @@
         "name": "n5_halfturn_p30_b"
       },
       {
-        "file": "n5_halfturn_p30_b_markers.json",
-        "name": "n5_halfturn_p30_b_markers"
-      },
-      {
         "file": "n5_halfturn_p30_c.json",
         "name": "n5_halfturn_p30_c"
-      },
-      {
-        "file": "n5_halfturn_p30_c_markers.json",
-        "name": "n5_halfturn_p30_c_markers"
-      },
-      {
-        "file": "n5_halfturn_p30_markers.json",
-        "name": "n5_halfturn_p30_markers"
       },
       {
         "file": "n5_halfturn_p324.json",
         "name": "n5_halfturn_p324"
       },
       {
-        "file": "n5_halfturn_p324_markers.json",
-        "name": "n5_halfturn_p324_markers"
-      },
-      {
         "file": "n5_halfturn_p330.json",
         "name": "n5_halfturn_p330"
       },
       {
-        "file": "n5_halfturn_p330_markers.json",
-        "name": "n5_halfturn_p330_markers"
-      },
-      {
         "file": "n5_halfturn_p34.json",
         "name": "n5_halfturn_p34"
-      },
-      {
-        "file": "n5_halfturn_p34_markers.json",
-        "name": "n5_halfturn_p34_markers"
       },
       {
         "file": "n5_halfturn_p36.json",
@@ -725,60 +445,28 @@
         "name": "n5_halfturn_p360"
       },
       {
-        "file": "n5_halfturn_p360_markers.json",
-        "name": "n5_halfturn_p360_markers"
-      },
-      {
-        "file": "n5_halfturn_p36_markers.json",
-        "name": "n5_halfturn_p36_markers"
-      },
-      {
         "file": "n5_halfturn_p390.json",
         "name": "n5_halfturn_p390"
-      },
-      {
-        "file": "n5_halfturn_p390_markers.json",
-        "name": "n5_halfturn_p390_markers"
       },
       {
         "file": "n5_halfturn_p412.json",
         "name": "n5_halfturn_p412"
       },
       {
-        "file": "n5_halfturn_p412_markers.json",
-        "name": "n5_halfturn_p412_markers"
-      },
-      {
         "file": "n5_halfturn_p42.json",
         "name": "n5_halfturn_p42"
-      },
-      {
-        "file": "n5_halfturn_p42_markers.json",
-        "name": "n5_halfturn_p42_markers"
       },
       {
         "file": "n5_halfturn_p44.json",
         "name": "n5_halfturn_p44"
       },
       {
-        "file": "n5_halfturn_p44_markers.json",
-        "name": "n5_halfturn_p44_markers"
-      },
-      {
         "file": "n5_halfturn_p462.json",
         "name": "n5_halfturn_p462"
       },
       {
-        "file": "n5_halfturn_p462_markers.json",
-        "name": "n5_halfturn_p462_markers"
-      },
-      {
         "file": "n5_halfturn_p466.json",
         "name": "n5_halfturn_p466"
-      },
-      {
-        "file": "n5_halfturn_p466_markers.json",
-        "name": "n5_halfturn_p466_markers"
       },
       {
         "file": "n5_halfturn_p48.json",
@@ -789,28 +477,12 @@
         "name": "n5_halfturn_p48_b"
       },
       {
-        "file": "n5_halfturn_p48_b_markers.json",
-        "name": "n5_halfturn_p48_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p48_markers.json",
-        "name": "n5_halfturn_p48_markers"
-      },
-      {
         "file": "n5_halfturn_p490.json",
         "name": "n5_halfturn_p490"
       },
       {
-        "file": "n5_halfturn_p490_markers.json",
-        "name": "n5_halfturn_p490_markers"
-      },
-      {
         "file": "n5_halfturn_p492.json",
         "name": "n5_halfturn_p492"
-      },
-      {
-        "file": "n5_halfturn_p492_markers.json",
-        "name": "n5_halfturn_p492_markers"
       },
       {
         "file": "n5_halfturn_p50.json",
@@ -821,20 +493,8 @@
         "name": "n5_halfturn_p50_b"
       },
       {
-        "file": "n5_halfturn_p50_b_markers.json",
-        "name": "n5_halfturn_p50_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p50_markers.json",
-        "name": "n5_halfturn_p50_markers"
-      },
-      {
         "file": "n5_halfturn_p52.json",
         "name": "n5_halfturn_p52"
-      },
-      {
-        "file": "n5_halfturn_p52_markers.json",
-        "name": "n5_halfturn_p52_markers"
       },
       {
         "file": "n5_halfturn_p54.json",
@@ -845,36 +505,16 @@
         "name": "n5_halfturn_p54_b"
       },
       {
-        "file": "n5_halfturn_p54_b_markers.json",
-        "name": "n5_halfturn_p54_b_markers"
-      },
-      {
         "file": "n5_halfturn_p54_c.json",
         "name": "n5_halfturn_p54_c"
-      },
-      {
-        "file": "n5_halfturn_p54_c_markers.json",
-        "name": "n5_halfturn_p54_c_markers"
       },
       {
         "file": "n5_halfturn_p54_d.json",
         "name": "n5_halfturn_p54_d"
       },
       {
-        "file": "n5_halfturn_p54_d_markers.json",
-        "name": "n5_halfturn_p54_d_markers"
-      },
-      {
-        "file": "n5_halfturn_p54_markers.json",
-        "name": "n5_halfturn_p54_markers"
-      },
-      {
         "file": "n5_halfturn_p558.json",
         "name": "n5_halfturn_p558"
-      },
-      {
-        "file": "n5_halfturn_p558_markers.json",
-        "name": "n5_halfturn_p558_markers"
       },
       {
         "file": "n5_halfturn_p56.json",
@@ -885,28 +525,12 @@
         "name": "n5_halfturn_p56_b"
       },
       {
-        "file": "n5_halfturn_p56_b_markers.json",
-        "name": "n5_halfturn_p56_b_markers"
-      },
-      {
         "file": "n5_halfturn_p56_c.json",
         "name": "n5_halfturn_p56_c"
       },
       {
-        "file": "n5_halfturn_p56_c_markers.json",
-        "name": "n5_halfturn_p56_c_markers"
-      },
-      {
-        "file": "n5_halfturn_p56_markers.json",
-        "name": "n5_halfturn_p56_markers"
-      },
-      {
         "file": "n5_halfturn_p58.json",
         "name": "n5_halfturn_p58"
-      },
-      {
-        "file": "n5_halfturn_p58_markers.json",
-        "name": "n5_halfturn_p58_markers"
       },
       {
         "file": "n5_halfturn_p60.json",
@@ -917,44 +541,20 @@
         "name": "n5_halfturn_p60_b"
       },
       {
-        "file": "n5_halfturn_p60_b_markers.json",
-        "name": "n5_halfturn_p60_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p60_markers.json",
-        "name": "n5_halfturn_p60_markers"
-      },
-      {
         "file": "n5_halfturn_p612.json",
         "name": "n5_halfturn_p612"
-      },
-      {
-        "file": "n5_halfturn_p612_markers.json",
-        "name": "n5_halfturn_p612_markers"
       },
       {
         "file": "n5_halfturn_p62.json",
         "name": "n5_halfturn_p62"
       },
       {
-        "file": "n5_halfturn_p62_markers.json",
-        "name": "n5_halfturn_p62_markers"
-      },
-      {
         "file": "n5_halfturn_p64.json",
         "name": "n5_halfturn_p64"
       },
       {
-        "file": "n5_halfturn_p64_markers.json",
-        "name": "n5_halfturn_p64_markers"
-      },
-      {
         "file": "n5_halfturn_p66.json",
         "name": "n5_halfturn_p66"
-      },
-      {
-        "file": "n5_halfturn_p66_markers.json",
-        "name": "n5_halfturn_p66_markers"
       },
       {
         "file": "n5_halfturn_p72.json",
@@ -965,92 +565,44 @@
         "name": "n5_halfturn_p72_b"
       },
       {
-        "file": "n5_halfturn_p72_b_markers.json",
-        "name": "n5_halfturn_p72_b_markers"
-      },
-      {
         "file": "n5_halfturn_p72_c.json",
         "name": "n5_halfturn_p72_c"
-      },
-      {
-        "file": "n5_halfturn_p72_c_markers.json",
-        "name": "n5_halfturn_p72_c_markers"
       },
       {
         "file": "n5_halfturn_p72_d.json",
         "name": "n5_halfturn_p72_d"
       },
       {
-        "file": "n5_halfturn_p72_d_markers.json",
-        "name": "n5_halfturn_p72_d_markers"
-      },
-      {
         "file": "n5_halfturn_p72_e.json",
         "name": "n5_halfturn_p72_e"
-      },
-      {
-        "file": "n5_halfturn_p72_e_markers.json",
-        "name": "n5_halfturn_p72_e_markers"
       },
       {
         "file": "n5_halfturn_p72_f.json",
         "name": "n5_halfturn_p72_f"
       },
       {
-        "file": "n5_halfturn_p72_f_markers.json",
-        "name": "n5_halfturn_p72_f_markers"
-      },
-      {
         "file": "n5_halfturn_p72_g.json",
         "name": "n5_halfturn_p72_g"
-      },
-      {
-        "file": "n5_halfturn_p72_g_markers.json",
-        "name": "n5_halfturn_p72_g_markers"
       },
       {
         "file": "n5_halfturn_p72_h.json",
         "name": "n5_halfturn_p72_h"
       },
       {
-        "file": "n5_halfturn_p72_h_markers.json",
-        "name": "n5_halfturn_p72_h_markers"
-      },
-      {
         "file": "n5_halfturn_p72_i.json",
         "name": "n5_halfturn_p72_i"
-      },
-      {
-        "file": "n5_halfturn_p72_i_markers.json",
-        "name": "n5_halfturn_p72_i_markers"
       },
       {
         "file": "n5_halfturn_p72_j.json",
         "name": "n5_halfturn_p72_j"
       },
       {
-        "file": "n5_halfturn_p72_j_markers.json",
-        "name": "n5_halfturn_p72_j_markers"
-      },
-      {
         "file": "n5_halfturn_p72_k.json",
         "name": "n5_halfturn_p72_k"
       },
       {
-        "file": "n5_halfturn_p72_k_markers.json",
-        "name": "n5_halfturn_p72_k_markers"
-      },
-      {
         "file": "n5_halfturn_p72_l.json",
         "name": "n5_halfturn_p72_l"
-      },
-      {
-        "file": "n5_halfturn_p72_l_markers.json",
-        "name": "n5_halfturn_p72_l_markers"
-      },
-      {
-        "file": "n5_halfturn_p72_markers.json",
-        "name": "n5_halfturn_p72_markers"
       },
       {
         "file": "n5_halfturn_p74.json",
@@ -1065,56 +617,24 @@
         "name": "n5_halfturn_p744_b"
       },
       {
-        "file": "n5_halfturn_p744_b_markers.json",
-        "name": "n5_halfturn_p744_b_markers"
-      },
-      {
         "file": "n5_halfturn_p744_c.json",
         "name": "n5_halfturn_p744_c"
-      },
-      {
-        "file": "n5_halfturn_p744_c_markers.json",
-        "name": "n5_halfturn_p744_c_markers"
       },
       {
         "file": "n5_halfturn_p744_d.json",
         "name": "n5_halfturn_p744_d"
       },
       {
-        "file": "n5_halfturn_p744_d_markers.json",
-        "name": "n5_halfturn_p744_d_markers"
-      },
-      {
-        "file": "n5_halfturn_p744_markers.json",
-        "name": "n5_halfturn_p744_markers"
-      },
-      {
-        "file": "n5_halfturn_p74_markers.json",
-        "name": "n5_halfturn_p74_markers"
-      },
-      {
         "file": "n5_halfturn_p78.json",
         "name": "n5_halfturn_p78"
-      },
-      {
-        "file": "n5_halfturn_p78_markers.json",
-        "name": "n5_halfturn_p78_markers"
       },
       {
         "file": "n5_halfturn_p804.json",
         "name": "n5_halfturn_p804"
       },
       {
-        "file": "n5_halfturn_p804_markers.json",
-        "name": "n5_halfturn_p804_markers"
-      },
-      {
         "file": "n5_halfturn_p82.json",
         "name": "n5_halfturn_p82"
-      },
-      {
-        "file": "n5_halfturn_p82_markers.json",
-        "name": "n5_halfturn_p82_markers"
       },
       {
         "file": "n5_halfturn_p84.json",
@@ -1125,20 +645,8 @@
         "name": "n5_halfturn_p84_b"
       },
       {
-        "file": "n5_halfturn_p84_b_markers.json",
-        "name": "n5_halfturn_p84_b_markers"
-      },
-      {
         "file": "n5_halfturn_p84_c.json",
         "name": "n5_halfturn_p84_c"
-      },
-      {
-        "file": "n5_halfturn_p84_c_markers.json",
-        "name": "n5_halfturn_p84_c_markers"
-      },
-      {
-        "file": "n5_halfturn_p84_markers.json",
-        "name": "n5_halfturn_p84_markers"
       },
       {
         "file": "n5_halfturn_p88.json",
@@ -1149,14 +657,6 @@
         "name": "n5_halfturn_p88_b"
       },
       {
-        "file": "n5_halfturn_p88_b_markers.json",
-        "name": "n5_halfturn_p88_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p88_markers.json",
-        "name": "n5_halfturn_p88_markers"
-      },
-      {
         "file": "n5_halfturn_p90.json",
         "name": "n5_halfturn_p90"
       },
@@ -1165,36 +665,16 @@
         "name": "n5_halfturn_p90_b"
       },
       {
-        "file": "n5_halfturn_p90_b_markers.json",
-        "name": "n5_halfturn_p90_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p90_markers.json",
-        "name": "n5_halfturn_p90_markers"
-      },
-      {
         "file": "n5_halfturn_p92.json",
         "name": "n5_halfturn_p92"
-      },
-      {
-        "file": "n5_halfturn_p92_markers.json",
-        "name": "n5_halfturn_p92_markers"
       },
       {
         "file": "n5_halfturn_p94.json",
         "name": "n5_halfturn_p94"
       },
       {
-        "file": "n5_halfturn_p94_markers.json",
-        "name": "n5_halfturn_p94_markers"
-      },
-      {
         "file": "n5_halfturn_p972.json",
         "name": "n5_halfturn_p972"
-      },
-      {
-        "file": "n5_halfturn_p972_markers.json",
-        "name": "n5_halfturn_p972_markers"
       },
       {
         "file": "n5_halfturn_p98.json",
@@ -1203,14 +683,6 @@
       {
         "file": "n5_halfturn_p98_b.json",
         "name": "n5_halfturn_p98_b"
-      },
-      {
-        "file": "n5_halfturn_p98_b_markers.json",
-        "name": "n5_halfturn_p98_b_markers"
-      },
-      {
-        "file": "n5_halfturn_p98_markers.json",
-        "name": "n5_halfturn_p98_markers"
       }
     ]
   },
