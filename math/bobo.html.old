@@ -44,7 +44,7 @@
     border:1px solid var(--panel-line);
     border-radius:4px;
     padding:12px 14px;
-    max-width:260px;
+    max-width:320px;
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
     color: var(--text-dim);
@@ -60,8 +60,9 @@
     margin-bottom:6px;
   }
   #watch-panel .title.found{ color:#8bf3c9; }
-  #watch-panel .row-buttons{ display:flex; gap:8px; margin-top:10px; }
-  #watch-panel .btn{ font-size:11px; padding:6px 10px; flex:1; }
+  #watch-panel .row-buttons{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  #watch-panel .btn.open{ border-color:#8bf3c9; color:#8bf3c9; }
+  #watch-panel .btn{ font-size:11px; padding:6px 10px; flex:1; white-space:nowrap; }
 
   #context-menu{
     position:absolute;
@@ -829,6 +830,7 @@
   function cancelWatch(){
     watch = null;
     updateWatchPanel();
+    draw(); // clear the watch rings now, even while paused (the canvas only repaints on a step otherwise)
   }
 
   function clusterHash(sortedIdx){
@@ -863,6 +865,11 @@
     });
     watch.history.push(tiedRecord);
     watch.ticksWatched++;
+    // keep the Watching panel's counts live (just the two numbers, so the
+    // Cancel button underneath is never rebuilt)
+    const cEl = document.getElementById('watch-cluster'), tEl = document.getElementById('watch-ticks');
+    if (cEl) cEl.textContent = watch.cluster.size;
+    if (tEl) tEl.textContent = watch.ticksWatched;
   }
 
   function finishWatch(cycleStart, cycleEnd, sortedIdx){
@@ -889,6 +896,8 @@
       boboIndices: [...usedBobos],
       nearest: nearestOut,
       bobo: boboOut,
+      markerObjs: [],     // markers generated from the panel's Add markers
+      markerMode: null,   // 'edges' | 'all' once added
     };
     updateWatchPanel();
   }
@@ -904,31 +913,120 @@
     if (watch.active){
       panel.innerHTML = `
         <div class="title">Watching\u2026</div>
-        <div>cluster size: ${watch.cluster.size}</div>
-        <div>ticks watched: ${watch.ticksWatched}</div>
+        <div>cluster size: <span id="watch-cluster">${watch.cluster.size}</span></div>
+        <div>ticks watched: <span id="watch-ticks">${watch.ticksWatched}</span></div>
         <div class="row-buttons"><button class="btn" id="btn-watch-cancel">Cancel</button></div>
       `;
       document.getElementById('btn-watch-cancel').addEventListener('click', cancelWatch);
     } else if (watch.result){
       const r = watch.result;
+      const markerLine = r.markerMode
+        ? `<div>markers: ${r.markerObjs.length ? r.markerObjs.length : 'no stops found'} (${r.markerMode === 'edges' ? 'edges' : 'all stops'})</div>`
+        : '';
+      const choiceRow = watch.markerChoice ? `
+        <div class="row-buttons">
+          <button class="btn${r.markerMode==='edges'?' primary':''}" id="btn-watch-mk-edges" title="Stops on the edge of the figure's bounding box">Edges</button>
+          <button class="btn${r.markerMode==='all'?' primary':''}" id="btn-watch-mk-all" title="Every spot where a particle stops">All stops</button>
+        </div>` : '';
       panel.innerHTML = `
         <div class="title found">Oscillator found</div>
         <div>period: ${r.period} ticks</div>
         <div>particles: ${r.nearest.length}</div>
         <div>bobos retained: ${r.bobo.length}</div>
+        ${markerLine}
         <div class="row-buttons">
           <button class="btn primary" id="btn-watch-save">Save oscillator</button>
+          <button class="btn${watch.markerChoice?' open':''}" id="btn-watch-markers">Add markers</button>
           <button class="btn" id="btn-watch-dismiss">Dismiss</button>
         </div>
+        ${choiceRow}
       `;
       document.getElementById('btn-watch-save').addEventListener('click', ()=>{
         const defaultName = `osc_n${r.nearest.length}_b${r.bobo.length}_p${r.period}`;
         openSaveDialog(defaultName, (name)=>{
-          saveJSON({ version: 1, type: 'oscillator', period: r.period, nearest: r.nearest, bobo: r.bobo }, name);
+          const out = { version: 1, type: 'oscillator', period: r.period, nearest: r.nearest, bobo: r.bobo };
+          // only the markers generated for this oscillator; hand-placed ones
+          // elsewhere on the field never ride along (main Save includes those)
+          const mk = r.markerObjs.filter(m => particles.includes(m)).map(m => ({ x: m.x, y: m.y }));
+          if (mk.length) out.marker = mk;
+          saveJSON(out, name);
         });
       });
+      document.getElementById('btn-watch-markers').addEventListener('click', ()=>{
+        watch.markerChoice = !watch.markerChoice;
+        updateWatchPanel();
+      });
+      const e1 = document.getElementById('btn-watch-mk-edges');
+      if (e1) e1.addEventListener('click', ()=> addWatchMarkers('edges'));
+      const e2 = document.getElementById('btn-watch-mk-all');
+      if (e2) e2.addEventListener('click', ()=> addWatchMarkers('all'));
       document.getElementById('btn-watch-dismiss').addEventListener('click', cancelWatch);
     }
+  }
+
+  // ---------- markers for a found oscillator ----------
+  // Same rule as add_stop_markers.py: run a private copy of the found
+  // oscillator (its cluster plus the bobos it uses, from the repeating
+  // state) for one period, collect every spot where a particle has
+  // velocity 0,0, and either keep them all or only those touching the
+  // figure's bounding box. The live field is never stepped. The figure
+  // repeats in place, so it doesn't matter how far the field has run
+  // since the oscillator was found.
+  function oscillatorStops(r, mode){
+    const arr = r.nearest.map(p => ({ type:'nearest', x:p.x, y:p.y, vx:p.vx, vy:p.vy }))
+      .concat(r.bobo.map(p => ({ type:'bobo', x:p.x, y:p.y, vx:0, vy:0 })));
+    const n = r.nearest.length;
+    const stops = new Map();
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let t = 0; t < r.period; t++){
+      for (let i = 0; i < n; i++){
+        const p = arr[i];
+        if (p.x < minX) minX = p.x; if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y; if (p.y > maxY) maxY = p.y;
+        if (p.vx === 0 && p.vy === 0) stops.set(p.x + ',' + p.y, { x:p.x, y:p.y });
+      }
+      stepArrayOnce(arr);
+    }
+    let pts = [...stops.values()];
+    if (mode === 'edges') pts = pts.filter(p => p.x === minX || p.x === maxX || p.y === minY || p.y === maxY);
+    return pts;
+  }
+
+  function addWatchMarkers(mode){
+    if (!watch || !watch.result) return;
+    const r = watch.result;
+    // choosing again replaces the earlier set. Generated markers are always
+    // appended after everything the watch indexes, so removing them never
+    // shifts the cluster or bobo indices it highlights.
+    removeWatchMarkers();
+    r.markerObjs = [];
+    r.createdMarkers = new Set(); // the ones this panel added (vs hand-placed ones it reuses)
+    oscillatorStops(r, mode).forEach(p => {
+      // a marker already sitting here (placed by hand) is reused, not stacked
+      const existing = particles.find(q => q.type === 'marker' && q.x === p.x && q.y === p.y);
+      if (existing){ r.markerObjs.push(existing); return; }
+      const m = { type:'marker', x:p.x, y:p.y, vx:0, vy:0 };
+      particles.push(m); trails.push(null);
+      r.markerObjs.push(m); r.createdMarkers.add(m);
+    });
+    r.markerMode = mode;
+    watch.markerChoice = false;
+    showMarkers = true;
+    updateWatchPanel();
+    draw();
+  }
+
+  // takes back the markers this panel created (hand-placed ones it reused stay)
+  function removeWatchMarkers(){
+    const r = watch && watch.result;
+    if (!r || !r.markerObjs) return;
+    if (r.createdMarkers) for (const m of r.createdMarkers){
+      const i = particles.indexOf(m);
+      if (i >= 0){ particles.splice(i, 1); trails.splice(i, 1); }
+    }
+    r.markerObjs = [];
+    r.createdMarkers = new Set();
+    r.markerMode = null;
   }
 
   function saveJSON(obj, filename){
@@ -1482,6 +1580,28 @@
 
   // click any particle to open a small menu (Watch for nearest, Delete for either)
   function deleteParticle(i){
+    if (particles[i] && particles[i].type === 'marker' && watch){
+      // markers aren't part of any watched cluster, so the watch can survive:
+      // just shift its stored indices past the gap, and drop the marker from
+      // a found oscillator's generated set if it was one of them
+      const gone = particles[i];
+      particles.splice(i, 1); trails.splice(i, 1);
+      const fix = j => j > i ? j - 1 : j;
+      if (watch.active){
+        watch.cluster = new Set([...watch.cluster].map(fix));
+        watch.history = watch.history.map(rec => { const o = {}; Object.keys(rec).forEach(k => { o[fix(+k)] = rec[k].map(fix); }); return o; });
+        watch.seenHashes = new Map(); // keys embed indices; safest to restart cycle detection
+      } else if (watch.result){
+        const r = watch.result;
+        r.clusterIndices = r.clusterIndices.map(fix);
+        r.boboIndices = r.boboIndices.map(fix);
+        r.markerObjs = r.markerObjs.filter(m => m !== gone);
+        if (r.createdMarkers) r.createdMarkers.delete(gone);
+      }
+      updateWatchPanel();
+      draw();
+      return;
+    }
     particles.splice(i, 1);
     trails.splice(i, 1);
     // any stored indices in an active/found watch are now unsafe (splice
