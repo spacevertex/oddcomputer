@@ -2782,10 +2782,6 @@
         "name": "big_circle_p308"
       },
       {
-        "file": "clover_p396.json",
-        "name": "clover_p396"
-      },
-      {
         "file": "colossal_circle_p1456.json",
         "name": "colossal_circle_p1456"
       },
@@ -2808,6 +2804,10 @@
       {
         "file": "looped_diamond_p264.json",
         "name": "looped_diamond_p264"
+      },
+      {
+        "file": "m_r90_p111_t92_a.json",
+        "name": "m_r90_p111_t92_a"
       },
       {
         "file": "octagon_p56.json",
@@ -2882,28 +2882,12 @@
         "name": "orbiter_p3400"
       },
       {
-        "file": "orbiter_p36.json",
-        "name": "orbiter_p36"
-      },
-      {
-        "file": "orbiter_p368.json",
-        "name": "orbiter_p368"
-      },
-      {
-        "file": "orbiter_p376.json",
-        "name": "orbiter_p376"
-      },
-      {
         "file": "orbiter_p376_b.json",
         "name": "orbiter_p376_b"
       },
       {
         "file": "orbiter_p384.json",
         "name": "orbiter_p384"
-      },
-      {
-        "file": "orbiter_p44.json",
-        "name": "orbiter_p44"
       },
       {
         "file": "orbiter_p464.json",
@@ -2956,6 +2940,22 @@
       {
         "file": "orbiter_p976.json",
         "name": "orbiter_p976"
+      },
+      {
+        "file": "r90_111_t74.json",
+        "name": "r90_111_t74"
+      },
+      {
+        "file": "r90_p111_t11_a.json",
+        "name": "r90_p111_t11_a"
+      },
+      {
+        "file": "r90_p111_t9_a.json",
+        "name": "r90_p111_t9_a"
+      },
+      {
+        "file": "r90_p3_t99_clover.json",
+        "name": "r90_p3_t99_clover"
       },
       {
         "file": "rounded_square_p192.json",
@@ -3028,20 +3028,20 @@
     "folder": "Orbiters5",
     "items": [
       {
-        "file": "n5_orbiter_p36.json",
-        "name": "n5_orbiter_p36"
+        "file": "m_r90_p11111_t10.json",
+        "name": "m_r90_p11111_t10"
       },
       {
-        "file": "n5_orbiter_p40.json",
-        "name": "n5_orbiter_p40"
+        "file": "r90_p11111_t21.json",
+        "name": "r90_p11111_t21"
       },
       {
-        "file": "n5_orbiter_p68.json",
-        "name": "n5_orbiter_p68"
+        "file": "r90_p11111_t9.json",
+        "name": "r90_p11111_t9"
       },
       {
-        "file": "n5_orbiter_p84.json",
-        "name": "n5_orbiter_p84"
+        "file": "r90_p221_t17.json",
+        "name": "r90_p221_t17"
       }
     ]
   },
@@ -3057,20 +3057,8 @@
         "name": "asym_p100_b"
       },
       {
-        "file": "asym_p100_b_markers.json",
-        "name": "asym_p100_b_markers"
-      },
-      {
         "file": "asym_p100_c.json",
         "name": "asym_p100_c"
-      },
-      {
-        "file": "asym_p100_c_markers.json",
-        "name": "asym_p100_c_markers"
-      },
-      {
-        "file": "asym_p100_markers.json",
-        "name": "asym_p100_markers"
       },
       {
         "file": "asym_p112.json",
@@ -3081,20 +3069,8 @@
         "name": "asym_p112_b"
       },
       {
-        "file": "asym_p112_b_markers.json",
-        "name": "asym_p112_b_markers"
-      },
-      {
         "file": "asym_p112_c.json",
         "name": "asym_p112_c"
-      },
-      {
-        "file": "asym_p112_c_markers.json",
-        "name": "asym_p112_c_markers"
-      },
-      {
-        "file": "asym_p112_markers.json",
-        "name": "asym_p112_markers"
       },
       {
         "file": "asym_p120.json",
@@ -3105,20 +3081,8 @@
         "name": "asym_p120_b"
       },
       {
-        "file": "asym_p120_b_markers.json",
-        "name": "asym_p120_b_markers"
-      },
-      {
         "file": "asym_p120_c.json",
         "name": "asym_p120_c"
-      },
-      {
-        "file": "asym_p120_c_markers.json",
-        "name": "asym_p120_c_markers"
-      },
-      {
-        "file": "asym_p120_markers.json",
-        "name": "asym_p120_markers"
       },
       {
         "file": "asym_p126.json",
@@ -3129,14 +3093,6 @@
         "name": "asym_p126_b"
       },
       {
-        "file": "asym_p126_b_markers.json",
-        "name": "asym_p126_b_markers"
-      },
-      {
-        "file": "asym_p126_markers.json",
-        "name": "asym_p126_markers"
-      },
-      {
         "file": "asym_p140.json",
         "name": "asym_p140"
       },
@@ -3145,36 +3101,16 @@
         "name": "asym_p140_b"
       },
       {
-        "file": "asym_p140_b_markers.json",
-        "name": "asym_p140_b_markers"
-      },
-      {
         "file": "asym_p140_c.json",
         "name": "asym_p140_c"
-      },
-      {
-        "file": "asym_p140_c_markers.json",
-        "name": "asym_p140_c_markers"
-      },
-      {
-        "file": "asym_p140_markers.json",
-        "name": "asym_p140_markers"
       },
       {
         "file": "asym_p150.json",
         "name": "asym_p150"
       },
       {
-        "file": "asym_p150_markers.json",
-        "name": "asym_p150_markers"
-      },
-      {
         "file": "asym_p160.json",
         "name": "asym_p160"
-      },
-      {
-        "file": "asym_p160_markers.json",
-        "name": "asym_p160_markers"
       },
       {
         "file": "asym_p162.json",
@@ -3185,28 +3121,12 @@
         "name": "asym_p162_b"
       },
       {
-        "file": "asym_p162_b_markers.json",
-        "name": "asym_p162_b_markers"
-      },
-      {
-        "file": "asym_p162_markers.json",
-        "name": "asym_p162_markers"
-      },
-      {
         "file": "asym_p192.json",
         "name": "asym_p192"
       },
       {
         "file": "asym_p192_b.json",
         "name": "asym_p192_b"
-      },
-      {
-        "file": "asym_p192_b_markers.json",
-        "name": "asym_p192_b_markers"
-      },
-      {
-        "file": "asym_p192_markers.json",
-        "name": "asym_p192_markers"
       },
       {
         "file": "asym_p198.json",
@@ -3217,116 +3137,52 @@
         "name": "asym_p198_b"
       },
       {
-        "file": "asym_p198_b_markers.json",
-        "name": "asym_p198_b_markers"
-      },
-      {
-        "file": "asym_p198_markers.json",
-        "name": "asym_p198_markers"
-      },
-      {
         "file": "asym_p220.json",
         "name": "asym_p220"
-      },
-      {
-        "file": "asym_p220_markers.json",
-        "name": "asym_p220_markers"
       },
       {
         "file": "asym_p24.json",
         "name": "asym_p24"
       },
       {
-        "file": "asym_p240.json",
-        "name": "asym_p240"
-      },
-      {
         "file": "asym_p240_b.json",
         "name": "asym_p240_b"
-      },
-      {
-        "file": "asym_p240_b_markers.json",
-        "name": "asym_p240_b_markers"
       },
       {
         "file": "asym_p240_c.json",
         "name": "asym_p240_c"
       },
       {
-        "file": "asym_p240_c_markers.json",
-        "name": "asym_p240_c_markers"
-      },
-      {
         "file": "asym_p240_d.json",
         "name": "asym_p240_d"
-      },
-      {
-        "file": "asym_p240_d_markers.json",
-        "name": "asym_p240_d_markers"
-      },
-      {
-        "file": "asym_p240_markers.json",
-        "name": "asym_p240_markers"
       },
       {
         "file": "asym_p24_b.json",
         "name": "asym_p24_b"
       },
       {
-        "file": "asym_p24_b_markers.json",
-        "name": "asym_p24_b_markers"
-      },
-      {
         "file": "asym_p24_c.json",
         "name": "asym_p24_c"
-      },
-      {
-        "file": "asym_p24_c_markers.json",
-        "name": "asym_p24_c_markers"
       },
       {
         "file": "asym_p24_d.json",
         "name": "asym_p24_d"
       },
       {
-        "file": "asym_p24_d_markers.json",
-        "name": "asym_p24_d_markers"
-      },
-      {
         "file": "asym_p24_e.json",
         "name": "asym_p24_e"
-      },
-      {
-        "file": "asym_p24_e_markers.json",
-        "name": "asym_p24_e_markers"
       },
       {
         "file": "asym_p24_f.json",
         "name": "asym_p24_f"
       },
       {
-        "file": "asym_p24_f_markers.json",
-        "name": "asym_p24_f_markers"
-      },
-      {
-        "file": "asym_p24_markers.json",
-        "name": "asym_p24_markers"
-      },
-      {
         "file": "asym_p264.json",
         "name": "asym_p264"
       },
       {
-        "file": "asym_p264_markers.json",
-        "name": "asym_p264_markers"
-      },
-      {
         "file": "asym_p298.json",
         "name": "asym_p298"
-      },
-      {
-        "file": "asym_p298_markers.json",
-        "name": "asym_p298_markers"
       },
       {
         "file": "asym_p300.json",
@@ -3337,28 +3193,12 @@
         "name": "asym_p300_b"
       },
       {
-        "file": "asym_p300_b_markers.json",
-        "name": "asym_p300_b_markers"
-      },
-      {
-        "file": "asym_p300_markers.json",
-        "name": "asym_p300_markers"
-      },
-      {
         "file": "asym_p312.json",
         "name": "asym_p312"
       },
       {
-        "file": "asym_p312_markers.json",
-        "name": "asym_p312_markers"
-      },
-      {
         "file": "asym_p336.json",
         "name": "asym_p336"
-      },
-      {
-        "file": "asym_p336_markers.json",
-        "name": "asym_p336_markers"
       },
       {
         "file": "asym_p36.json",
@@ -3369,28 +3209,12 @@
         "name": "asym_p36_b"
       },
       {
-        "file": "asym_p36_b_markers.json",
-        "name": "asym_p36_b_markers"
-      },
-      {
         "file": "asym_p36_c.json",
         "name": "asym_p36_c"
       },
       {
-        "file": "asym_p36_c_markers.json",
-        "name": "asym_p36_c_markers"
-      },
-      {
-        "file": "asym_p36_markers.json",
-        "name": "asym_p36_markers"
-      },
-      {
         "file": "asym_p378.json",
         "name": "asym_p378"
-      },
-      {
-        "file": "asym_p378_markers.json",
-        "name": "asym_p378_markers"
       },
       {
         "file": "asym_p40.json",
@@ -3401,20 +3225,8 @@
         "name": "asym_p408"
       },
       {
-        "file": "asym_p408_markers.json",
-        "name": "asym_p408_markers"
-      },
-      {
         "file": "asym_p40_b.json",
         "name": "asym_p40_b"
-      },
-      {
-        "file": "asym_p40_b_markers.json",
-        "name": "asym_p40_b_markers"
-      },
-      {
-        "file": "asym_p40_markers.json",
-        "name": "asym_p40_markers"
       },
       {
         "file": "asym_p42.json",
@@ -3425,36 +3237,16 @@
         "name": "asym_p42_b"
       },
       {
-        "file": "asym_p42_b_markers.json",
-        "name": "asym_p42_b_markers"
-      },
-      {
         "file": "asym_p42_c.json",
         "name": "asym_p42_c"
-      },
-      {
-        "file": "asym_p42_c_markers.json",
-        "name": "asym_p42_c_markers"
       },
       {
         "file": "asym_p42_d.json",
         "name": "asym_p42_d"
       },
       {
-        "file": "asym_p42_d_markers.json",
-        "name": "asym_p42_d_markers"
-      },
-      {
-        "file": "asym_p42_markers.json",
-        "name": "asym_p42_markers"
-      },
-      {
         "file": "asym_p460.json",
         "name": "asym_p460"
-      },
-      {
-        "file": "asym_p460_markers.json",
-        "name": "asym_p460_markers"
       },
       {
         "file": "asym_p48.json",
@@ -3465,28 +3257,12 @@
         "name": "asym_p48_b"
       },
       {
-        "file": "asym_p48_b_markers.json",
-        "name": "asym_p48_b_markers"
-      },
-      {
         "file": "asym_p48_c.json",
         "name": "asym_p48_c"
       },
       {
-        "file": "asym_p48_c_markers.json",
-        "name": "asym_p48_c_markers"
-      },
-      {
         "file": "asym_p48_d.json",
         "name": "asym_p48_d"
-      },
-      {
-        "file": "asym_p48_d_markers.json",
-        "name": "asym_p48_d_markers"
-      },
-      {
-        "file": "asym_p48_markers.json",
-        "name": "asym_p48_markers"
       },
       {
         "file": "asym_p54.json",
@@ -3497,20 +3273,8 @@
         "name": "asym_p540"
       },
       {
-        "file": "asym_p540_markers.json",
-        "name": "asym_p540_markers"
-      },
-      {
         "file": "asym_p54_b.json",
         "name": "asym_p54_b"
-      },
-      {
-        "file": "asym_p54_b_markers.json",
-        "name": "asym_p54_b_markers"
-      },
-      {
-        "file": "asym_p54_markers.json",
-        "name": "asym_p54_markers"
       },
       {
         "file": "asym_p60.json",
@@ -3521,60 +3285,28 @@
         "name": "asym_p60_b"
       },
       {
-        "file": "asym_p60_b_markers.json",
-        "name": "asym_p60_b_markers"
-      },
-      {
         "file": "asym_p60_c.json",
         "name": "asym_p60_c"
-      },
-      {
-        "file": "asym_p60_c_markers.json",
-        "name": "asym_p60_c_markers"
       },
       {
         "file": "asym_p60_d.json",
         "name": "asym_p60_d"
       },
       {
-        "file": "asym_p60_d_markers.json",
-        "name": "asym_p60_d_markers"
-      },
-      {
         "file": "asym_p60_e.json",
         "name": "asym_p60_e"
-      },
-      {
-        "file": "asym_p60_e_markers.json",
-        "name": "asym_p60_e_markers"
       },
       {
         "file": "asym_p60_f.json",
         "name": "asym_p60_f"
       },
       {
-        "file": "asym_p60_f_markers.json",
-        "name": "asym_p60_f_markers"
-      },
-      {
         "file": "asym_p60_g.json",
         "name": "asym_p60_g"
       },
       {
-        "file": "asym_p60_g_markers.json",
-        "name": "asym_p60_g_markers"
-      },
-      {
         "file": "asym_p60_h.json",
         "name": "asym_p60_h"
-      },
-      {
-        "file": "asym_p60_h_markers.json",
-        "name": "asym_p60_h_markers"
-      },
-      {
-        "file": "asym_p60_markers.json",
-        "name": "asym_p60_markers"
       },
       {
         "file": "asym_p64.json",
@@ -3585,22 +3317,6 @@
         "name": "asym_p64_b"
       },
       {
-        "file": "asym_p64_b_markers.json",
-        "name": "asym_p64_b_markers"
-      },
-      {
-        "file": "asym_p64_markers.json",
-        "name": "asym_p64_markers"
-      },
-      {
-        "file": "asym_p714.json",
-        "name": "asym_p714"
-      },
-      {
-        "file": "asym_p714_markers.json",
-        "name": "asym_p714_markers"
-      },
-      {
         "file": "asym_p72.json",
         "name": "asym_p72"
       },
@@ -3609,76 +3325,32 @@
         "name": "asym_p72_b"
       },
       {
-        "file": "asym_p72_b_markers.json",
-        "name": "asym_p72_b_markers"
-      },
-      {
         "file": "asym_p72_c.json",
         "name": "asym_p72_c"
-      },
-      {
-        "file": "asym_p72_c_markers.json",
-        "name": "asym_p72_c_markers"
       },
       {
         "file": "asym_p72_d.json",
         "name": "asym_p72_d"
       },
       {
-        "file": "asym_p72_d_markers.json",
-        "name": "asym_p72_d_markers"
-      },
-      {
         "file": "asym_p72_e.json",
         "name": "asym_p72_e"
-      },
-      {
-        "file": "asym_p72_e_markers.json",
-        "name": "asym_p72_e_markers"
       },
       {
         "file": "asym_p72_f.json",
         "name": "asym_p72_f"
       },
       {
-        "file": "asym_p72_f_markers.json",
-        "name": "asym_p72_f_markers"
-      },
-      {
-        "file": "asym_p72_g.json",
-        "name": "asym_p72_g"
-      },
-      {
-        "file": "asym_p72_g_markers.json",
-        "name": "asym_p72_g_markers"
-      },
-      {
         "file": "asym_p72_h.json",
         "name": "asym_p72_h"
-      },
-      {
-        "file": "asym_p72_h_markers.json",
-        "name": "asym_p72_h_markers"
       },
       {
         "file": "asym_p72_i.json",
         "name": "asym_p72_i"
       },
       {
-        "file": "asym_p72_i_markers.json",
-        "name": "asym_p72_i_markers"
-      },
-      {
-        "file": "asym_p72_markers.json",
-        "name": "asym_p72_markers"
-      },
-      {
         "file": "asym_p80.json",
         "name": "asym_p80"
-      },
-      {
-        "file": "asym_p80_markers.json",
-        "name": "asym_p80_markers"
       },
       {
         "file": "asym_p84.json",
@@ -3689,28 +3361,12 @@
         "name": "asym_p84_b"
       },
       {
-        "file": "asym_p84_b_markers.json",
-        "name": "asym_p84_b_markers"
-      },
-      {
-        "file": "asym_p84_markers.json",
-        "name": "asym_p84_markers"
-      },
-      {
         "file": "asym_p88.json",
         "name": "asym_p88"
       },
       {
         "file": "asym_p88_b.json",
         "name": "asym_p88_b"
-      },
-      {
-        "file": "asym_p88_b_markers.json",
-        "name": "asym_p88_b_markers"
-      },
-      {
-        "file": "asym_p88_markers.json",
-        "name": "asym_p88_markers"
       },
       {
         "file": "asym_p96.json",
@@ -3721,12 +3377,16 @@
         "name": "asym_p96_b"
       },
       {
-        "file": "asym_p96_b_markers.json",
-        "name": "asym_p96_b_markers"
+        "file": "r0_p111_t714.json",
+        "name": "r0_p111_t714"
       },
       {
-        "file": "asym_p96_markers.json",
-        "name": "asym_p96_markers"
+        "file": "r0_p111_t72.json",
+        "name": "r0_p111_t72"
+      },
+      {
+        "file": "r0_p3_t240.json",
+        "name": "r0_p3_t240"
       }
     ]
   },
