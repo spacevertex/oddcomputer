@@ -3407,6 +3407,18 @@
     "folder": "Osc4_asymmetric_large",
     "items": [
       {
+        "file": "m_r0_p111_t25.json",
+        "name": "m_r0_p111_t25"
+      },
+      {
+        "file": "m_r0_p111_t85.json",
+        "name": "m_r0_p111_t85"
+      },
+      {
+        "file": "m_r0_p21_t60.json",
+        "name": "m_r0_p21_t60"
+      },
+      {
         "file": "n4_asym_p100.json",
         "name": "n4_asym_p100"
       },
@@ -3471,10 +3483,6 @@
         "name": "n4_asym_p100_p"
       },
       {
-        "file": "n4_asym_p102.json",
-        "name": "n4_asym_p102"
-      },
-      {
         "file": "n4_asym_p108.json",
         "name": "n4_asym_p108"
       },
@@ -3497,10 +3505,6 @@
       {
         "file": "n4_asym_p108_e.json",
         "name": "n4_asym_p108_e"
-      },
-      {
-        "file": "n4_asym_p108_f.json",
-        "name": "n4_asym_p108_f"
       },
       {
         "file": "n4_asym_p108_g.json",
@@ -3567,10 +3571,6 @@
         "name": "n4_asym_p120_g"
       },
       {
-        "file": "n4_asym_p120_h.json",
-        "name": "n4_asym_p120_h"
-      },
-      {
         "file": "n4_asym_p120_i.json",
         "name": "n4_asym_p120_i"
       },
@@ -3625,10 +3625,6 @@
       {
         "file": "n4_asym_p120_v.json",
         "name": "n4_asym_p120_v"
-      },
-      {
-        "file": "n4_asym_p1254.json",
-        "name": "n4_asym_p1254"
       },
       {
         "file": "n4_asym_p126.json",
@@ -3775,10 +3771,6 @@
         "name": "n4_asym_p1584"
       },
       {
-        "file": "n4_asym_p160.json",
-        "name": "n4_asym_p160"
-      },
-      {
         "file": "n4_asym_p160_b.json",
         "name": "n4_asym_p160_b"
       },
@@ -3871,14 +3863,6 @@
         "name": "n4_asym_p170"
       },
       {
-        "file": "n4_asym_p172.json",
-        "name": "n4_asym_p172"
-      },
-      {
-        "file": "n4_asym_p176.json",
-        "name": "n4_asym_p176"
-      },
-      {
         "file": "n4_asym_p176_b.json",
         "name": "n4_asym_p176_b"
       },
@@ -3967,10 +3951,6 @@
         "name": "n4_asym_p204"
       },
       {
-        "file": "n4_asym_p208.json",
-        "name": "n4_asym_p208"
-      },
-      {
         "file": "n4_asym_p208_b.json",
         "name": "n4_asym_p208_b"
       },
@@ -4007,10 +3987,6 @@
         "name": "n4_asym_p222"
       },
       {
-        "file": "n4_asym_p224.json",
-        "name": "n4_asym_p224"
-      },
-      {
         "file": "n4_asym_p224_b.json",
         "name": "n4_asym_p224_b"
       },
@@ -4029,14 +4005,6 @@
       {
         "file": "n4_asym_p228_b.json",
         "name": "n4_asym_p228_b"
-      },
-      {
-        "file": "n4_asym_p236.json",
-        "name": "n4_asym_p236"
-      },
-      {
-        "file": "n4_asym_p240.json",
-        "name": "n4_asym_p240"
       },
       {
         "file": "n4_asym_p240_b.json",
@@ -4061,10 +4029,6 @@
       {
         "file": "n4_asym_p2440.json",
         "name": "n4_asym_p2440"
-      },
-      {
-        "file": "n4_asym_p250.json",
-        "name": "n4_asym_p250"
       },
       {
         "file": "n4_asym_p252.json",
@@ -4247,10 +4211,6 @@
         "name": "n4_asym_p32_k"
       },
       {
-        "file": "n4_asym_p330.json",
-        "name": "n4_asym_p330"
-      },
-      {
         "file": "n4_asym_p330_b.json",
         "name": "n4_asym_p330_b"
       },
@@ -4377,10 +4337,6 @@
       {
         "file": "n4_asym_p384_g.json",
         "name": "n4_asym_p384_g"
-      },
-      {
-        "file": "n4_asym_p392.json",
-        "name": "n4_asym_p392"
       },
       {
         "file": "n4_asym_p408.json",
@@ -4865,6 +4821,50 @@
       {
         "file": "n4_asym_p96_g.json",
         "name": "n4_asym_p96_g"
+      },
+      {
+        "file": "r0_p1111_t1254.json",
+        "name": "r0_p1111_t1254"
+      },
+      {
+        "file": "r0_p1111_t160.json",
+        "name": "r0_p1111_t160"
+      },
+      {
+        "file": "r0_p1111_t224.json",
+        "name": "r0_p1111_t224"
+      },
+      {
+        "file": "r0_p1111_t236.json",
+        "name": "r0_p1111_t236"
+      },
+      {
+        "file": "r0_p1111_t392.json",
+        "name": "r0_p1111_t392"
+      },
+      {
+        "file": "r0_p111_t108.json",
+        "name": "r0_p111_t108"
+      },
+      {
+        "file": "r0_p211_t102.json",
+        "name": "r0_p211_t102"
+      },
+      {
+        "file": "r0_p211_t208.json",
+        "name": "r0_p211_t208"
+      },
+      {
+        "file": "r0_p211_t240.json",
+        "name": "r0_p211_t240"
+      },
+      {
+        "file": "r180_p111_t165.json",
+        "name": "r180_p111_t165"
+      },
+      {
+        "file": "r180_p3_t88.json",
+        "name": "r180_p3_t88"
       }
     ]
   },
