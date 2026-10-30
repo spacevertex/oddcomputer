@@ -370,6 +370,38 @@
     z-index:3;
   }
   .btn.primary:hover{ background: rgba(139,243,201,0.08); }
+  /* help: the ? button (or / and ?) shows the keycap hints plus this panel
+     of features that have no console button */
+  #help-panel{
+    position:absolute; left:14px; top:14px;
+    width:min(420px, calc(100% - 28px));
+    max-height:calc(100% - 28px);
+    overflow-y:auto;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    padding:14px 16px 10px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    font-size:12px; color: var(--text);
+    display:none;
+    z-index:8;
+  }
+  body.show-keys #help-panel{ display:block; }
+  #help-panel .help-title{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:600; margin-bottom:4px; }
+  #help-panel .help-title span{ font-family:'IBM Plex Mono', monospace; font-weight:400; font-size:10.5px; color: var(--text-dim); }
+  #help-panel h4{ margin:12px 0 5px; font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; color:#8bf3c9; font-weight:600; }
+  #help-panel .row{ display:grid; grid-template-columns:96px 1fr; gap:10px; padding:3px 0; line-height:1.45; }
+  #help-panel .keys{ display:flex; flex-wrap:wrap; gap:3px; align-content:flex-start; }
+  #help-panel kbd{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; line-height:1.2;
+    padding:2px 5px; min-width:16px; text-align:center;
+    background:#0f1815; border:1px solid #8bf3c9; border-radius:3px; color:#8bf3c9;
+  }
+  #help-panel .act{ font-family:'Space Grotesk', sans-serif; font-size:11px; color: var(--text-dim); padding-top:1px; }
+  #help-panel .keys .keys{ display:contents; }
+  #help-panel .note{ color: var(--text-dim); }
+  #btn-help{ padding:8px 11px; }
+
   /* trail length other than 500: a small dot in the Trails button's
      top-right corner, in the label's own colour (green on, grey off) */
   #btn-trails-toggle.trail-custom::before{
@@ -463,6 +495,33 @@
   <div id="coord-indicator"></div>
   <button id="btn-unzoom" style="display:none;">Default view</button>
   <div id="trail-note"></div>
+  <div id="help-panel" role="dialog" aria-label="Advanced features">
+    <div class="help-title">Advanced features <span>? or / to close</span></div>
+    <h4>Placing a pattern (Load or Zoo)</h4>
+      <div class="row"><span class="keys"><span class="keys"><kbd>i</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span></span><div>Move the pattern one step up, left, down, right. Hold Shift to move 10.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>o</kbd></span></span><div>Rotate 90°.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>u</kbd></span></span><div>Mirror.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>;</kbd></span></span><div>Pre-roll: step the unplaced pattern on its own, one tick per press, to set its timing.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>p</kbd></span></span><div>Preview: run as if the pattern were placed, against the live field. Press again to replay; moving or any other key ends it.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>Enter</kbd></span><span class="keys"><span class="act">or click</span></span></span><div>Place it. <kbd>Esc</kbd> cancels.</div></div>
+    <h4>Adding one particle (+Nearest, +Bobo, marker)</h4>
+      <div class="row"><span class="keys"><span class="keys"><kbd>i</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span></span><div>Move it, as above. It starts at the middle of the view.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>Enter</kbd></span><span class="keys"><span class="act">or click</span></span></span><div>Place it. A nearest takes two: first its position, then where its velocity points (shown as an offset).</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>p</kbd></span></span><div>Preview it against the field. A nearest runs at rest until its velocity is set.</div></div>
+    <h4>Markers</h4>
+      <div class="row"><span class="keys"><span class="keys"><kbd>m</kbd></span></span><div>Add a marker: a faint X for reference. It never moves, never counts as anyone's nearest, and is saved with the field.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
+    <h4>View</h4>
+      <div class="row"><span class="keys"><span class="keys"><kbd>h</kbd></span></span><div>Home: back to 0,0, keeping the zoom level.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: Wide, Default or Close, centred where you clicked.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Zoom, Delete.</div></div>
+    <h4>Trails</h4>
+      <div class="row"><span class="keys"><span class="keys"><kbd>-</kbd><kbd>_</kbd></span></span><div>Shorter trails.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>=</kbd><kbd>+</kbd></span></span><div>Longer trails: 10 to 5000 ticks. A dot on Trails means the length isn't 500.</div></div>
+    <h4>Watch</h4>
+      <div class="row"><span class="keys"><span class="act">Add markers</span></span><div>Once an oscillator is found: mark its Edges (stops on the outside of the figure) or All stops. Save oscillator includes them.</div></div>
+  </div>
 </div>
 
 <div id="console">
@@ -482,6 +541,7 @@
     <button class="btn" id="btn-reset" data-key="X">Random</button>
     <button class="btn" id="btn-random-settings" title="Random settings" aria-label="Random settings" aria-expanded="false">▴</button>
   </div>
+  <button class="btn" id="btn-help" data-key="?" title="Shortcuts and advanced features" aria-label="Help">?</button>
   <input type="file" id="file-load" accept=".json" style="display:none;">
 </div>
 
@@ -2735,6 +2795,18 @@
     draw();
   });
 
+  // ---------- help ----------
+  // the ? button and the / or ? keys do the same thing: keycap hints on the
+  // console buttons plus the advanced-features panel. Esc also closes it.
+  function toggleHelp(open){
+    const on = document.body.classList.toggle('show-keys', open);
+    document.getElementById('btn-help').classList.toggle('primary', on);
+  }
+  document.getElementById('btn-help').addEventListener('click', (e)=>{ toggleHelp(); e.currentTarget.blur(); });
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && !placementActive && !addActive && document.body.classList.contains('show-keys')) toggleHelp(false);
+  });
+
   // ---------- trail length ----------
   const trailNoteEl = document.getElementById('trail-note');
   let trailNoteTimer = null;
@@ -2782,7 +2854,7 @@
     if (saveDialogEl.classList.contains('visible') || presetsDialogEl.classList.contains('visible')) return;
     if (e.key === '/' || e.key === '?'){
       e.preventDefault(); // also keeps Firefox's '/' quick-find from opening
-      document.body.classList.toggle('show-keys');
+      toggleHelp();
       return;
     }
     // keys with no console button: h = home (camera to 0,0, same zoom),
@@ -2791,7 +2863,7 @@
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
     if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
-    if (k === ','){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
+    if (k === ',' || k === '<'){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
     if (k === '=' || k === '+'){ e.preventDefault(); stepTrailLength(1); return; }
     const id = SHORTCUTS[e.key.toLowerCase()];

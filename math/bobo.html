@@ -513,6 +513,7 @@
       <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
     <h4>View</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>h</kbd></span></span><div>Home: back to 0,0, keeping the zoom level.</div></div>
+      <div class="row"><span class="keys"><kbd>3</kbd><kbd>#</kbd></span><div>Next zoom level: Wide, Default, Close, then back to Wide. The view stays centred where it is.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: Wide, Default or Close, centred where you clicked.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Zoom, Delete.</div></div>
@@ -647,6 +648,7 @@
   let showMarkers = true;
   const MARKER_COLOR = '#dfe8e2';
   const MARKER_ALPHA = 0.35;
+  const SELECT_COLOR = '#7fb8ff'; // ring around the particle whose menu is open
   // camera center in world units, shared by both zoom levels. Zooming in
   // (context menu) jumps it to the clicked particle — a static snapshot,
   // not tracked. Dragging the canvas pans it at either zoom level.
@@ -804,6 +806,15 @@
     if (lastNewView) setZoom(lastNewView.zoomLevel, lastNewView.camX, lastNewView.camY);
     if (placementActive || addActive) updatePlacementIndicator(); // re-anchor the coord label (also draws)
     else draw();
+  }
+
+  // 3 (or #): step through the zoom levels Wide -> Default -> Close -> Wide,
+  // keeping the view's centre where it is
+  function cycleZoom(){
+    const order = ['wide', 'default', 'close'];
+    hideContextMenu();
+    setZoom(order[(order.indexOf(zoomLevel) + 1) % order.length]);
+    if (placementActive || addActive) updatePlacementIndicator();
   }
 
   // h: send the camera home to 0,0 without touching the field or the zoom level
@@ -1379,6 +1390,20 @@
       }
     }
 
+    // selection ring for the particle whose menu is open: same size and
+    // shape as the watch rings (circle for a nearest, square otherwise)
+    if (selectedParticle && particles.includes(selectedParticle) && !previewActive){
+      const p = selectedParticle;
+      const {sx, sy} = worldToScreen(p.x, p.y);
+      ctx.strokeStyle = SELECT_COLOR;
+      ctx.lineWidth = 1.6;
+      if (p.type === 'nearest'){
+        ctx.beginPath(); ctx.arc(sx, sy, 9 * dotScale(), 0, Math.PI*2); ctx.stroke();
+      } else {
+        ctx.strokeRect(sx-7*dotScale(), sy-7*dotScale(), 14*dotScale(), 14*dotScale());
+      }
+    }
+
     // pending-pattern ghost preview: bounding box + translucent particles,
     // shown at whatever the current candidate center is (set by mouse or
     // by ijkl), never the real particle field. Suppressed while an actual
@@ -1672,12 +1697,18 @@
   }
 
   const contextMenuEl = document.getElementById('context-menu');
+  // the particle whose menu is open gets a ring (light blue, distinct from
+  // the green "watching" and orange "found" rings) until the menu closes
+  let selectedParticle = null;
   function hideContextMenu(){
     contextMenuEl.classList.remove('visible');
     contextMenuEl.innerHTML = '';
+    if (selectedParticle){ selectedParticle = null; draw(); }
   }
   function showContextMenu(index, sx, sy){
     const p = particles[index];
+    selectedParticle = p; // the object, not the index, so it stays right if the field changes
+    draw();               // show the ring now, even while paused
     let html = '';
     if (p.type === 'nearest'){
       html += `<button id="ctx-watch">Watch</button>`;
@@ -2535,7 +2566,7 @@
     // bigger than the card, so it's simply skipped.
     const screenPx = SCREEN_SPAN * scale;
     if (screenPx < S * 0.92){
-      g.strokeStyle = '#2c4238';
+      g.strokeStyle = '#4f7a66'; // dashed default-view square: brighter so it reads on big orbits
       g.lineWidth = 2;
       g.setLineDash([6, 5]);
       g.strokeRect(S/2 - screenPx/2, S/2 - screenPx/2, screenPx, screenPx);
@@ -2862,6 +2893,7 @@
     // = shorter / longer trails
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
+    if (k === '3' || k === '#'){ e.preventDefault(); cycleZoom(); return; }
     if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ',' || k === '<'){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
