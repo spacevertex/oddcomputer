@@ -3170,14 +3170,6 @@
         "name": "osc3_p132"
       },
       {
-        "file": "osc3_p144.json",
-        "name": "osc3_p144"
-      },
-      {
-        "file": "osc3_p144_b.json",
-        "name": "osc3_p144_b"
-      },
-      {
         "file": "osc3_p148.json",
         "name": "osc3_p148"
       },
@@ -3236,10 +3228,6 @@
       {
         "file": "osc3_p20_c.json",
         "name": "osc3_p20_c"
-      },
-      {
-        "file": "osc3_p20_d.json",
-        "name": "osc3_p20_d"
       },
       {
         "file": "osc3_p20_e.json",
@@ -3330,24 +3318,12 @@
         "name": "osc3_p48_b"
       },
       {
-        "file": "osc3_p48_c.json",
-        "name": "osc3_p48_c"
-      },
-      {
-        "file": "osc3_p48_d.json",
-        "name": "osc3_p48_d"
-      },
-      {
         "file": "osc3_p48_e.json",
         "name": "osc3_p48_e"
       },
       {
         "file": "osc3_p48_f.json",
         "name": "osc3_p48_f"
-      },
-      {
-        "file": "osc3_p48_g.json",
-        "name": "osc3_p48_g"
       },
       {
         "file": "osc3_p496.json",
@@ -3386,14 +3362,6 @@
         "name": "osc3_p72"
       },
       {
-        "file": "osc3_p72_b.json",
-        "name": "osc3_p72_b"
-      },
-      {
-        "file": "osc3_p72_c.json",
-        "name": "osc3_p72_c"
-      },
-      {
         "file": "osc3_p788.json",
         "name": "osc3_p788"
       },
@@ -3410,28 +3378,12 @@
         "name": "osc3_p80_b"
       },
       {
-        "file": "osc3_p80_c.json",
-        "name": "osc3_p80_c"
-      },
-      {
-        "file": "osc3_p84.json",
-        "name": "osc3_p84"
-      },
-      {
         "file": "osc3_p840.json",
         "name": "osc3_p840"
       },
       {
-        "file": "osc3_p84_b.json",
-        "name": "osc3_p84_b"
-      },
-      {
         "file": "osc3_p8_b.json",
         "name": "osc3_p8_b"
-      },
-      {
-        "file": "osc3_p8_c.json",
-        "name": "osc3_p8_c"
       },
       {
         "file": "osc3_p8_d.json",
@@ -3440,14 +3392,6 @@
       {
         "file": "osc3_p8_e.json",
         "name": "osc3_p8_e"
-      },
-      {
-        "file": "osc3_p8_f.json",
-        "name": "osc3_p8_f"
-      },
-      {
-        "file": "osc3_p8_g.json",
-        "name": "osc3_p8_g"
       },
       {
         "file": "osc3_p96.json",
@@ -5057,10 +5001,6 @@
         "name": "n4_osc_p376"
       },
       {
-        "file": "n4_osc_p378.json",
-        "name": "n4_osc_p378"
-      },
-      {
         "file": "n4_osc_p44.json",
         "name": "n4_osc_p44"
       },
@@ -5073,20 +5013,12 @@
         "name": "n4_osc_p48"
       },
       {
-        "file": "n4_osc_p516.json",
-        "name": "n4_osc_p516"
-      },
-      {
         "file": "n4_osc_p52.json",
         "name": "n4_osc_p52"
       },
       {
         "file": "n4_osc_p556.json",
         "name": "n4_osc_p556"
-      },
-      {
-        "file": "n4_osc_p984.json",
-        "name": "n4_osc_p984"
       }
     ]
   },
@@ -5443,56 +5375,28 @@
         "name": "16_daggos"
       },
       {
-        "file": "16_daggos_markers.json",
-        "name": "16_daggos_markers"
-      },
-      {
         "file": "16_daggos_ticked.json",
         "name": "16_daggos_ticked"
-      },
-      {
-        "file": "16_daggos_ticked_markers.json",
-        "name": "16_daggos_ticked_markers"
       },
       {
         "file": "32_daggos.json",
         "name": "32_daggos"
       },
       {
-        "file": "32_daggos_markers.json",
-        "name": "32_daggos_markers"
-      },
-      {
         "file": "6_daggoos.json",
         "name": "6_daggoos"
-      },
-      {
-        "file": "6_daggoos_markers.json",
-        "name": "6_daggoos_markers"
       },
       {
         "file": "8_daggoos_watched.json",
         "name": "8_daggoos_watched"
       },
       {
-        "file": "8_daggoos_watched_markers.json",
-        "name": "8_daggoos_watched_markers"
-      },
-      {
         "file": "DoubleX_n4_b0.json",
         "name": "DoubleX_n4_b0"
       },
       {
-        "file": "DoubleX_n4_b0_markers.json",
-        "name": "DoubleX_n4_b0_markers"
-      },
-      {
         "file": "Repeater_n3_b0.json",
         "name": "Repeater_n3_b0"
-      },
-      {
-        "file": "Repeater_n3_b0_markers.json",
-        "name": "Repeater_n3_b0_markers"
       },
       {
         "file": "bobo_lattice_border30_every3.json",
@@ -5515,10 +5419,6 @@
         "name": "bobo_screen"
       },
       {
-        "file": "bobo_screen_markers.json",
-        "name": "bobo_screen_markers"
-      },
-      {
         "file": "daggo_circuit.json",
         "name": "daggo_circuit"
       },
@@ -5527,176 +5427,88 @@
         "name": "daggo_left"
       },
       {
-        "file": "daggo_left_markers.json",
-        "name": "daggo_left_markers"
-      },
-      {
         "file": "dead_pixel.json",
         "name": "dead_pixel"
-      },
-      {
-        "file": "dead_pixel_markers.json",
-        "name": "dead_pixel_markers"
       },
       {
         "file": "fbb_test_big.json",
         "name": "fbb_test_big"
       },
       {
-        "file": "fbb_test_big_markers.json",
-        "name": "fbb_test_big_markers"
-      },
-      {
         "file": "fragile.json",
         "name": "fragile"
-      },
-      {
-        "file": "fragile_markers.json",
-        "name": "fragile_markers"
       },
       {
         "file": "lighter.json",
         "name": "lighter"
       },
       {
-        "file": "lighter_markers.json",
-        "name": "lighter_markers"
-      },
-      {
         "file": "nbb_isolate.json",
         "name": "nbb_isolate"
-      },
-      {
-        "file": "nbb_isolate_markers.json",
-        "name": "nbb_isolate_markers"
       },
       {
         "file": "orbit_4_bobos.json",
         "name": "orbit_4_bobos"
       },
       {
-        "file": "orbit_4_bobos_markers.json",
-        "name": "orbit_4_bobos_markers"
-      },
-      {
         "file": "orbiters.json",
         "name": "orbiters"
-      },
-      {
-        "file": "orbiters_markers.json",
-        "name": "orbiters_markers"
       },
       {
         "file": "osc-circle.json",
         "name": "osc-circle"
       },
       {
-        "file": "osc-circle_markers.json",
-        "name": "osc-circle_markers"
-      },
-      {
         "file": "osc_2n2b_clock.json",
         "name": "osc_2n2b_clock"
-      },
-      {
-        "file": "osc_2n2b_clock_markers.json",
-        "name": "osc_2n2b_clock_markers"
       },
       {
         "file": "osc_n2_b2_p96.json",
         "name": "osc_n2_b2_p96"
       },
       {
-        "file": "osc_n2_b2_p96_markers.json",
-        "name": "osc_n2_b2_p96_markers"
-      },
-      {
         "file": "osc_n4_b0_p12_4.json",
         "name": "osc_n4_b0_p12_4"
-      },
-      {
-        "file": "osc_n4_b0_p12_4_markers.json",
-        "name": "osc_n4_b0_p12_4_markers"
       },
       {
         "file": "osc_n4_b0_p28.json",
         "name": "osc_n4_b0_p28"
       },
       {
-        "file": "osc_n4_b0_p28_markers.json",
-        "name": "osc_n4_b0_p28_markers"
-      },
-      {
         "file": "osc_n4_cool_big.json",
         "name": "osc_n4_cool_big"
-      },
-      {
-        "file": "osc_n4_cool_big_markers.json",
-        "name": "osc_n4_cool_big_markers"
       },
       {
         "file": "osc_n4_diode.json",
         "name": "osc_n4_diode"
       },
       {
-        "file": "osc_n4_diode_markers.json",
-        "name": "osc_n4_diode_markers"
-      },
-      {
         "file": "osc_n4_glasses.json",
         "name": "osc_n4_glasses"
-      },
-      {
-        "file": "osc_n4_glasses_markers.json",
-        "name": "osc_n4_glasses_markers"
       },
       {
         "file": "osc_n4_hourglass.json",
         "name": "osc_n4_hourglass"
       },
       {
-        "file": "osc_n4_hourglass_markers.json",
-        "name": "osc_n4_hourglass_markers"
-      },
-      {
         "file": "osc_n4_rocker.json",
         "name": "osc_n4_rocker"
-      },
-      {
-        "file": "osc_n4_rocker_markers.json",
-        "name": "osc_n4_rocker_markers"
       },
       {
         "file": "osc_n4_wand.json",
         "name": "osc_n4_wand"
       },
       {
-        "file": "osc_n4_wand_markers.json",
-        "name": "osc_n4_wand_markers"
-      },
-      {
         "file": "osc_offsetweb.json",
         "name": "osc_offsetweb"
-      },
-      {
-        "file": "osc_offsetweb_markers.json",
-        "name": "osc_offsetweb_markers"
       },
       {
         "file": "osc_pair.json",
         "name": "osc_pair"
       },
       {
-        "file": "osc_pair_markers.json",
-        "name": "osc_pair_markers"
-      },
-      {
         "file": "osc_tight2osc_in_middle.json",
         "name": "osc_tight2osc_in_middle"
-      },
-      {
-        "file": "osc_tight2osc_in_middle_markers.json",
-        "name": "osc_tight2osc_in_middle_markers"
       },
       {
         "file": "rmok.json",
@@ -5707,32 +5519,16 @@
         "name": "start_and_stop"
       },
       {
-        "file": "start_and_stop_markers.json",
-        "name": "start_and_stop_markers"
-      },
-      {
         "file": "swap.json",
         "name": "swap"
-      },
-      {
-        "file": "swap_markers.json",
-        "name": "swap_markers"
       },
       {
         "file": "tilde30a.json",
         "name": "tilde30a"
       },
       {
-        "file": "tilde30a_markers.json",
-        "name": "tilde30a_markers"
-      },
-      {
         "file": "whale.json",
         "name": "whale"
-      },
-      {
-        "file": "whale_markers.json",
-        "name": "whale_markers"
       }
     ]
   },
