@@ -3142,40 +3142,20 @@
         "name": "osc3_p1008"
       },
       {
-        "file": "osc3_p1008_markers.json",
-        "name": "osc3_p1008_markers"
-      },
-      {
         "file": "osc3_p112.json",
         "name": "osc3_p112"
-      },
-      {
-        "file": "osc3_p112_markers.json",
-        "name": "osc3_p112_markers"
       },
       {
         "file": "osc3_p1146.json",
         "name": "osc3_p1146"
       },
       {
-        "file": "osc3_p1146_markers.json",
-        "name": "osc3_p1146_markers"
-      },
-      {
         "file": "osc3_p1194.json",
         "name": "osc3_p1194"
       },
       {
-        "file": "osc3_p1194_markers.json",
-        "name": "osc3_p1194_markers"
-      },
-      {
         "file": "osc3_p126.json",
         "name": "osc3_p126"
-      },
-      {
-        "file": "osc3_p126_markers.json",
-        "name": "osc3_p126_markers"
       },
       {
         "file": "osc3_p128.json",
@@ -3186,20 +3166,8 @@
         "name": "osc3_p128_b"
       },
       {
-        "file": "osc3_p128_b_markers.json",
-        "name": "osc3_p128_b_markers"
-      },
-      {
-        "file": "osc3_p128_markers.json",
-        "name": "osc3_p128_markers"
-      },
-      {
         "file": "osc3_p132.json",
         "name": "osc3_p132"
-      },
-      {
-        "file": "osc3_p132_markers.json",
-        "name": "osc3_p132_markers"
       },
       {
         "file": "osc3_p144.json",
@@ -3210,20 +3178,8 @@
         "name": "osc3_p144_b"
       },
       {
-        "file": "osc3_p144_b_markers.json",
-        "name": "osc3_p144_b_markers"
-      },
-      {
-        "file": "osc3_p144_markers.json",
-        "name": "osc3_p144_markers"
-      },
-      {
         "file": "osc3_p148.json",
         "name": "osc3_p148"
-      },
-      {
-        "file": "osc3_p148_markers.json",
-        "name": "osc3_p148_markers"
       },
       {
         "file": "osc3_p152.json",
@@ -3232,14 +3188,6 @@
       {
         "file": "osc3_p152_b.json",
         "name": "osc3_p152_b"
-      },
-      {
-        "file": "osc3_p152_b_markers.json",
-        "name": "osc3_p152_b_markers"
-      },
-      {
-        "file": "osc3_p152_markers.json",
-        "name": "osc3_p152_markers"
       },
       {
         "file": "osc3_p16.json",
@@ -3254,48 +3202,20 @@
         "name": "osc3_p1640"
       },
       {
-        "file": "osc3_p1640_markers.json",
-        "name": "osc3_p1640_markers"
-      },
-      {
-        "file": "osc3_p164_markers.json",
-        "name": "osc3_p164_markers"
-      },
-      {
         "file": "osc3_p16_b.json",
         "name": "osc3_p16_b"
-      },
-      {
-        "file": "osc3_p16_b_markers.json",
-        "name": "osc3_p16_b_markers"
-      },
-      {
-        "file": "osc3_p16_markers.json",
-        "name": "osc3_p16_markers"
       },
       {
         "file": "osc3_p1900.json",
         "name": "osc3_p1900"
       },
       {
-        "file": "osc3_p1900_markers.json",
-        "name": "osc3_p1900_markers"
-      },
-      {
         "file": "osc3_p1916.json",
         "name": "osc3_p1916"
       },
       {
-        "file": "osc3_p1916_markers.json",
-        "name": "osc3_p1916_markers"
-      },
-      {
         "file": "osc3_p196.json",
         "name": "osc3_p196"
-      },
-      {
-        "file": "osc3_p196_markers.json",
-        "name": "osc3_p196_markers"
       },
       {
         "file": "osc3_p20.json",
@@ -3310,104 +3230,48 @@
         "name": "osc3_p2084"
       },
       {
-        "file": "osc3_p2084_markers.json",
-        "name": "osc3_p2084_markers"
-      },
-      {
-        "file": "osc3_p208_markers.json",
-        "name": "osc3_p208_markers"
-      },
-      {
         "file": "osc3_p20_b.json",
         "name": "osc3_p20_b"
-      },
-      {
-        "file": "osc3_p20_b_markers.json",
-        "name": "osc3_p20_b_markers"
       },
       {
         "file": "osc3_p20_c.json",
         "name": "osc3_p20_c"
       },
       {
-        "file": "osc3_p20_c_markers.json",
-        "name": "osc3_p20_c_markers"
-      },
-      {
         "file": "osc3_p20_d.json",
         "name": "osc3_p20_d"
-      },
-      {
-        "file": "osc3_p20_d_markers.json",
-        "name": "osc3_p20_d_markers"
       },
       {
         "file": "osc3_p20_e.json",
         "name": "osc3_p20_e"
       },
       {
-        "file": "osc3_p20_e_markers.json",
-        "name": "osc3_p20_e_markers"
-      },
-      {
         "file": "osc3_p20_f.json",
         "name": "osc3_p20_f"
-      },
-      {
-        "file": "osc3_p20_f_markers.json",
-        "name": "osc3_p20_f_markers"
       },
       {
         "file": "osc3_p20_g.json",
         "name": "osc3_p20_g"
       },
       {
-        "file": "osc3_p20_g_markers.json",
-        "name": "osc3_p20_g_markers"
-      },
-      {
-        "file": "osc3_p20_markers.json",
-        "name": "osc3_p20_markers"
-      },
-      {
         "file": "osc3_p2262.json",
         "name": "osc3_p2262"
-      },
-      {
-        "file": "osc3_p2262_markers.json",
-        "name": "osc3_p2262_markers"
       },
       {
         "file": "osc3_p228.json",
         "name": "osc3_p228"
       },
       {
-        "file": "osc3_p228_markers.json",
-        "name": "osc3_p228_markers"
-      },
-      {
         "file": "osc3_p24.json",
         "name": "osc3_p24"
-      },
-      {
-        "file": "osc3_p24_markers.json",
-        "name": "osc3_p24_markers"
       },
       {
         "file": "osc3_p2640.json",
         "name": "osc3_p2640"
       },
       {
-        "file": "osc3_p2640_markers.json",
-        "name": "osc3_p2640_markers"
-      },
-      {
         "file": "osc3_p274.json",
         "name": "osc3_p274"
-      },
-      {
-        "file": "osc3_p274_markers.json",
-        "name": "osc3_p274_markers"
       },
       {
         "file": "osc3_p32.json",
@@ -3418,20 +3282,8 @@
         "name": "osc3_p320"
       },
       {
-        "file": "osc3_p320_markers.json",
-        "name": "osc3_p320_markers"
-      },
-      {
-        "file": "osc3_p32_markers.json",
-        "name": "osc3_p32_markers"
-      },
-      {
         "file": "osc3_p340.json",
         "name": "osc3_p340"
-      },
-      {
-        "file": "osc3_p340_markers.json",
-        "name": "osc3_p340_markers"
       },
       {
         "file": "osc3_p380.json",
@@ -3442,14 +3294,6 @@
         "name": "osc3_p380_b"
       },
       {
-        "file": "osc3_p380_b_markers.json",
-        "name": "osc3_p380_b_markers"
-      },
-      {
-        "file": "osc3_p380_markers.json",
-        "name": "osc3_p380_markers"
-      },
-      {
         "file": "osc3_p40.json",
         "name": "osc3_p40"
       },
@@ -3458,20 +3302,8 @@
         "name": "osc3_p40_b"
       },
       {
-        "file": "osc3_p40_b_markers.json",
-        "name": "osc3_p40_b_markers"
-      },
-      {
         "file": "osc3_p40_c.json",
         "name": "osc3_p40_c"
-      },
-      {
-        "file": "osc3_p40_c_markers.json",
-        "name": "osc3_p40_c_markers"
-      },
-      {
-        "file": "osc3_p40_markers.json",
-        "name": "osc3_p40_markers"
       },
       {
         "file": "osc3_p42.json",
@@ -3482,28 +3314,12 @@
         "name": "osc3_p422"
       },
       {
-        "file": "osc3_p422_markers.json",
-        "name": "osc3_p422_markers"
-      },
-      {
-        "file": "osc3_p42_markers.json",
-        "name": "osc3_p42_markers"
-      },
-      {
         "file": "osc3_p432.json",
         "name": "osc3_p432"
       },
       {
-        "file": "osc3_p432_markers.json",
-        "name": "osc3_p432_markers"
-      },
-      {
         "file": "osc3_p44.json",
         "name": "osc3_p44"
-      },
-      {
-        "file": "osc3_p44_markers.json",
-        "name": "osc3_p44_markers"
       },
       {
         "file": "osc3_p48.json",
@@ -3514,100 +3330,48 @@
         "name": "osc3_p48_b"
       },
       {
-        "file": "osc3_p48_b_markers.json",
-        "name": "osc3_p48_b_markers"
-      },
-      {
         "file": "osc3_p48_c.json",
         "name": "osc3_p48_c"
-      },
-      {
-        "file": "osc3_p48_c_markers.json",
-        "name": "osc3_p48_c_markers"
       },
       {
         "file": "osc3_p48_d.json",
         "name": "osc3_p48_d"
       },
       {
-        "file": "osc3_p48_d_markers.json",
-        "name": "osc3_p48_d_markers"
-      },
-      {
         "file": "osc3_p48_e.json",
         "name": "osc3_p48_e"
-      },
-      {
-        "file": "osc3_p48_e_markers.json",
-        "name": "osc3_p48_e_markers"
       },
       {
         "file": "osc3_p48_f.json",
         "name": "osc3_p48_f"
       },
       {
-        "file": "osc3_p48_f_markers.json",
-        "name": "osc3_p48_f_markers"
-      },
-      {
         "file": "osc3_p48_g.json",
         "name": "osc3_p48_g"
-      },
-      {
-        "file": "osc3_p48_g_markers.json",
-        "name": "osc3_p48_g_markers"
-      },
-      {
-        "file": "osc3_p48_markers.json",
-        "name": "osc3_p48_markers"
       },
       {
         "file": "osc3_p496.json",
         "name": "osc3_p496"
       },
       {
-        "file": "osc3_p496_markers.json",
-        "name": "osc3_p496_markers"
-      },
-      {
         "file": "osc3_p532.json",
         "name": "osc3_p532"
-      },
-      {
-        "file": "osc3_p532_markers.json",
-        "name": "osc3_p532_markers"
       },
       {
         "file": "osc3_p536.json",
         "name": "osc3_p536"
       },
       {
-        "file": "osc3_p536_markers.json",
-        "name": "osc3_p536_markers"
-      },
-      {
         "file": "osc3_p544.json",
         "name": "osc3_p544"
-      },
-      {
-        "file": "osc3_p544_markers.json",
-        "name": "osc3_p544_markers"
       },
       {
         "file": "osc3_p560.json",
         "name": "osc3_p560"
       },
       {
-        "file": "osc3_p560_markers.json",
-        "name": "osc3_p560_markers"
-      },
-      {
         "file": "osc3_p60.json",
         "name": "osc3_p60"
-      },
-      {
-        "file": "osc3_p60_markers.json",
-        "name": "osc3_p60_markers"
       },
       {
         "file": "osc3_p68.json",
@@ -3618,14 +3382,6 @@
         "name": "osc3_p68_b"
       },
       {
-        "file": "osc3_p68_b_markers.json",
-        "name": "osc3_p68_b_markers"
-      },
-      {
-        "file": "osc3_p68_markers.json",
-        "name": "osc3_p68_markers"
-      },
-      {
         "file": "osc3_p72.json",
         "name": "osc3_p72"
       },
@@ -3634,28 +3390,12 @@
         "name": "osc3_p72_b"
       },
       {
-        "file": "osc3_p72_b_markers.json",
-        "name": "osc3_p72_b_markers"
-      },
-      {
         "file": "osc3_p72_c.json",
         "name": "osc3_p72_c"
       },
       {
-        "file": "osc3_p72_c_markers.json",
-        "name": "osc3_p72_c_markers"
-      },
-      {
-        "file": "osc3_p72_markers.json",
-        "name": "osc3_p72_markers"
-      },
-      {
         "file": "osc3_p788.json",
         "name": "osc3_p788"
-      },
-      {
-        "file": "osc3_p788_markers.json",
-        "name": "osc3_p788_markers"
       },
       {
         "file": "osc3_p8.json",
@@ -3670,20 +3410,8 @@
         "name": "osc3_p80_b"
       },
       {
-        "file": "osc3_p80_b_markers.json",
-        "name": "osc3_p80_b_markers"
-      },
-      {
         "file": "osc3_p80_c.json",
         "name": "osc3_p80_c"
-      },
-      {
-        "file": "osc3_p80_c_markers.json",
-        "name": "osc3_p80_c_markers"
-      },
-      {
-        "file": "osc3_p80_markers.json",
-        "name": "osc3_p80_markers"
       },
       {
         "file": "osc3_p84.json",
@@ -3694,88 +3422,40 @@
         "name": "osc3_p840"
       },
       {
-        "file": "osc3_p840_markers.json",
-        "name": "osc3_p840_markers"
-      },
-      {
         "file": "osc3_p84_b.json",
         "name": "osc3_p84_b"
-      },
-      {
-        "file": "osc3_p84_b_markers.json",
-        "name": "osc3_p84_b_markers"
-      },
-      {
-        "file": "osc3_p84_markers.json",
-        "name": "osc3_p84_markers"
       },
       {
         "file": "osc3_p8_b.json",
         "name": "osc3_p8_b"
       },
       {
-        "file": "osc3_p8_b_markers.json",
-        "name": "osc3_p8_b_markers"
-      },
-      {
         "file": "osc3_p8_c.json",
         "name": "osc3_p8_c"
-      },
-      {
-        "file": "osc3_p8_c_markers.json",
-        "name": "osc3_p8_c_markers"
       },
       {
         "file": "osc3_p8_d.json",
         "name": "osc3_p8_d"
       },
       {
-        "file": "osc3_p8_d_markers.json",
-        "name": "osc3_p8_d_markers"
-      },
-      {
         "file": "osc3_p8_e.json",
         "name": "osc3_p8_e"
-      },
-      {
-        "file": "osc3_p8_e_markers.json",
-        "name": "osc3_p8_e_markers"
       },
       {
         "file": "osc3_p8_f.json",
         "name": "osc3_p8_f"
       },
       {
-        "file": "osc3_p8_f_markers.json",
-        "name": "osc3_p8_f_markers"
-      },
-      {
         "file": "osc3_p8_g.json",
         "name": "osc3_p8_g"
-      },
-      {
-        "file": "osc3_p8_g_markers.json",
-        "name": "osc3_p8_g_markers"
-      },
-      {
-        "file": "osc3_p8_markers.json",
-        "name": "osc3_p8_markers"
       },
       {
         "file": "osc3_p96.json",
         "name": "osc3_p96"
       },
       {
-        "file": "osc3_p96_markers.json",
-        "name": "osc3_p96_markers"
-      },
-      {
         "file": "osc3_p990.json",
         "name": "osc3_p990"
-      },
-      {
-        "file": "osc3_p990_markers.json",
-        "name": "osc3_p990_markers"
       }
     ]
   },
