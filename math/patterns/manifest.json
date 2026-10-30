@@ -3049,148 +3049,12 @@
     "folder": "Osc3_asymmetric",
     "items": [
       {
-        "file": "asym_p100.json",
-        "name": "asym_p100"
-      },
-      {
-        "file": "asym_p100_b.json",
-        "name": "asym_p100_b"
-      },
-      {
-        "file": "asym_p100_c.json",
-        "name": "asym_p100_c"
-      },
-      {
-        "file": "asym_p112.json",
-        "name": "asym_p112"
-      },
-      {
-        "file": "asym_p112_b.json",
-        "name": "asym_p112_b"
-      },
-      {
-        "file": "asym_p112_c.json",
-        "name": "asym_p112_c"
-      },
-      {
-        "file": "asym_p120.json",
-        "name": "asym_p120"
-      },
-      {
-        "file": "asym_p120_b.json",
-        "name": "asym_p120_b"
-      },
-      {
-        "file": "asym_p120_c.json",
-        "name": "asym_p120_c"
-      },
-      {
-        "file": "asym_p126.json",
-        "name": "asym_p126"
-      },
-      {
-        "file": "asym_p126_b.json",
-        "name": "asym_p126_b"
-      },
-      {
-        "file": "asym_p140.json",
-        "name": "asym_p140"
-      },
-      {
-        "file": "asym_p140_b.json",
-        "name": "asym_p140_b"
-      },
-      {
-        "file": "asym_p140_c.json",
-        "name": "asym_p140_c"
-      },
-      {
         "file": "asym_p150.json",
         "name": "asym_p150"
       },
       {
-        "file": "asym_p160.json",
-        "name": "asym_p160"
-      },
-      {
-        "file": "asym_p162.json",
-        "name": "asym_p162"
-      },
-      {
-        "file": "asym_p162_b.json",
-        "name": "asym_p162_b"
-      },
-      {
-        "file": "asym_p192.json",
-        "name": "asym_p192"
-      },
-      {
-        "file": "asym_p192_b.json",
-        "name": "asym_p192_b"
-      },
-      {
-        "file": "asym_p198.json",
-        "name": "asym_p198"
-      },
-      {
-        "file": "asym_p198_b.json",
-        "name": "asym_p198_b"
-      },
-      {
-        "file": "asym_p220.json",
-        "name": "asym_p220"
-      },
-      {
-        "file": "asym_p24.json",
-        "name": "asym_p24"
-      },
-      {
         "file": "asym_p240_b.json",
         "name": "asym_p240_b"
-      },
-      {
-        "file": "asym_p240_c.json",
-        "name": "asym_p240_c"
-      },
-      {
-        "file": "asym_p240_d.json",
-        "name": "asym_p240_d"
-      },
-      {
-        "file": "asym_p24_b.json",
-        "name": "asym_p24_b"
-      },
-      {
-        "file": "asym_p24_c.json",
-        "name": "asym_p24_c"
-      },
-      {
-        "file": "asym_p24_d.json",
-        "name": "asym_p24_d"
-      },
-      {
-        "file": "asym_p24_e.json",
-        "name": "asym_p24_e"
-      },
-      {
-        "file": "asym_p24_f.json",
-        "name": "asym_p24_f"
-      },
-      {
-        "file": "asym_p264.json",
-        "name": "asym_p264"
-      },
-      {
-        "file": "asym_p298.json",
-        "name": "asym_p298"
-      },
-      {
-        "file": "asym_p300.json",
-        "name": "asym_p300"
-      },
-      {
-        "file": "asym_p300_b.json",
-        "name": "asym_p300_b"
       },
       {
         "file": "asym_p312.json",
@@ -3201,32 +3065,8 @@
         "name": "asym_p336"
       },
       {
-        "file": "asym_p36.json",
-        "name": "asym_p36"
-      },
-      {
-        "file": "asym_p36_b.json",
-        "name": "asym_p36_b"
-      },
-      {
-        "file": "asym_p36_c.json",
-        "name": "asym_p36_c"
-      },
-      {
-        "file": "asym_p378.json",
-        "name": "asym_p378"
-      },
-      {
         "file": "asym_p40.json",
         "name": "asym_p40"
-      },
-      {
-        "file": "asym_p408.json",
-        "name": "asym_p408"
-      },
-      {
-        "file": "asym_p40_b.json",
-        "name": "asym_p40_b"
       },
       {
         "file": "asym_p42.json",
@@ -3245,20 +3085,12 @@
         "name": "asym_p42_d"
       },
       {
-        "file": "asym_p460.json",
-        "name": "asym_p460"
-      },
-      {
         "file": "asym_p48.json",
         "name": "asym_p48"
       },
       {
         "file": "asym_p48_b.json",
         "name": "asym_p48_b"
-      },
-      {
-        "file": "asym_p48_c.json",
-        "name": "asym_p48_c"
       },
       {
         "file": "asym_p48_d.json",
@@ -3269,112 +3101,16 @@
         "name": "asym_p54"
       },
       {
-        "file": "asym_p540.json",
-        "name": "asym_p540"
-      },
-      {
         "file": "asym_p54_b.json",
         "name": "asym_p54_b"
-      },
-      {
-        "file": "asym_p60.json",
-        "name": "asym_p60"
-      },
-      {
-        "file": "asym_p60_b.json",
-        "name": "asym_p60_b"
-      },
-      {
-        "file": "asym_p60_c.json",
-        "name": "asym_p60_c"
-      },
-      {
-        "file": "asym_p60_d.json",
-        "name": "asym_p60_d"
-      },
-      {
-        "file": "asym_p60_e.json",
-        "name": "asym_p60_e"
-      },
-      {
-        "file": "asym_p60_f.json",
-        "name": "asym_p60_f"
-      },
-      {
-        "file": "asym_p60_g.json",
-        "name": "asym_p60_g"
-      },
-      {
-        "file": "asym_p60_h.json",
-        "name": "asym_p60_h"
-      },
-      {
-        "file": "asym_p64.json",
-        "name": "asym_p64"
-      },
-      {
-        "file": "asym_p64_b.json",
-        "name": "asym_p64_b"
-      },
-      {
-        "file": "asym_p72.json",
-        "name": "asym_p72"
-      },
-      {
-        "file": "asym_p72_b.json",
-        "name": "asym_p72_b"
-      },
-      {
-        "file": "asym_p72_c.json",
-        "name": "asym_p72_c"
-      },
-      {
-        "file": "asym_p72_d.json",
-        "name": "asym_p72_d"
-      },
-      {
-        "file": "asym_p72_e.json",
-        "name": "asym_p72_e"
-      },
-      {
-        "file": "asym_p72_f.json",
-        "name": "asym_p72_f"
-      },
-      {
-        "file": "asym_p72_h.json",
-        "name": "asym_p72_h"
-      },
-      {
-        "file": "asym_p72_i.json",
-        "name": "asym_p72_i"
       },
       {
         "file": "asym_p80.json",
         "name": "asym_p80"
       },
       {
-        "file": "asym_p84.json",
-        "name": "asym_p84"
-      },
-      {
-        "file": "asym_p84_b.json",
-        "name": "asym_p84_b"
-      },
-      {
         "file": "asym_p88.json",
         "name": "asym_p88"
-      },
-      {
-        "file": "asym_p88_b.json",
-        "name": "asym_p88_b"
-      },
-      {
-        "file": "asym_p96.json",
-        "name": "asym_p96"
-      },
-      {
-        "file": "asym_p96_b.json",
-        "name": "asym_p96_b"
       },
       {
         "file": "r0_p111_t714.json",
@@ -3383,6 +3119,14 @@
       {
         "file": "r0_p111_t72.json",
         "name": "r0_p111_t72"
+      },
+      {
+        "file": "r0_p21_t36_dblorbit.json",
+        "name": "r0_p21_t36_dblorbit"
+      },
+      {
+        "file": "r0_p21_t36_hyperbol.json",
+        "name": "r0_p21_t36_hyperbol"
       },
       {
         "file": "r0_p3_t240.json",
