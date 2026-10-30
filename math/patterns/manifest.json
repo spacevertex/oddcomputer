@@ -401,10 +401,6 @@
     "folder": "HalfTurn4_small",
     "items": [
       {
-        "file": "n4_halfturn_p100.json",
-        "name": "n4_halfturn_p100"
-      },
-      {
         "file": "n4_halfturn_p102.json",
         "name": "n4_halfturn_p102"
       },
@@ -421,20 +417,12 @@
         "name": "n4_halfturn_p106_b"
       },
       {
-        "file": "n4_halfturn_p1080.json",
-        "name": "n4_halfturn_p1080"
-      },
-      {
         "file": "n4_halfturn_p110.json",
         "name": "n4_halfturn_p110"
       },
       {
         "file": "n4_halfturn_p110_b.json",
         "name": "n4_halfturn_p110_b"
-      },
-      {
-        "file": "n4_halfturn_p1120.json",
-        "name": "n4_halfturn_p1120"
       },
       {
         "file": "n4_halfturn_p114.json",
@@ -445,52 +433,8 @@
         "name": "n4_halfturn_p118"
       },
       {
-        "file": "n4_halfturn_p120.json",
-        "name": "n4_halfturn_p120"
-      },
-      {
         "file": "n4_halfturn_p122.json",
         "name": "n4_halfturn_p122"
-      },
-      {
-        "file": "n4_halfturn_p126.json",
-        "name": "n4_halfturn_p126"
-      },
-      {
-        "file": "n4_halfturn_p126_b.json",
-        "name": "n4_halfturn_p126_b"
-      },
-      {
-        "file": "n4_halfturn_p126_c.json",
-        "name": "n4_halfturn_p126_c"
-      },
-      {
-        "file": "n4_halfturn_p126_d.json",
-        "name": "n4_halfturn_p126_d"
-      },
-      {
-        "file": "n4_halfturn_p126_e.json",
-        "name": "n4_halfturn_p126_e"
-      },
-      {
-        "file": "n4_halfturn_p126_f.json",
-        "name": "n4_halfturn_p126_f"
-      },
-      {
-        "file": "n4_halfturn_p126_g.json",
-        "name": "n4_halfturn_p126_g"
-      },
-      {
-        "file": "n4_halfturn_p126_h.json",
-        "name": "n4_halfturn_p126_h"
-      },
-      {
-        "file": "n4_halfturn_p126_i.json",
-        "name": "n4_halfturn_p126_i"
-      },
-      {
-        "file": "n4_halfturn_p126_j.json",
-        "name": "n4_halfturn_p126_j"
       },
       {
         "file": "n4_halfturn_p132.json",
@@ -509,10 +453,6 @@
         "name": "n4_halfturn_p142_b"
       },
       {
-        "file": "n4_halfturn_p148.json",
-        "name": "n4_halfturn_p148"
-      },
-      {
         "file": "n4_halfturn_p148_b.json",
         "name": "n4_halfturn_p148_b"
       },
@@ -525,10 +465,6 @@
         "name": "n4_halfturn_p150_b"
       },
       {
-        "file": "n4_halfturn_p154.json",
-        "name": "n4_halfturn_p154"
-      },
-      {
         "file": "n4_halfturn_p154_b.json",
         "name": "n4_halfturn_p154_b"
       },
@@ -539,14 +475,6 @@
       {
         "file": "n4_halfturn_p160_b.json",
         "name": "n4_halfturn_p160_b"
-      },
-      {
-        "file": "n4_halfturn_p160_c.json",
-        "name": "n4_halfturn_p160_c"
-      },
-      {
-        "file": "n4_halfturn_p162.json",
-        "name": "n4_halfturn_p162"
       },
       {
         "file": "n4_halfturn_p162_b.json",
@@ -573,36 +501,12 @@
         "name": "n4_halfturn_p174"
       },
       {
-        "file": "n4_halfturn_p176.json",
-        "name": "n4_halfturn_p176"
-      },
-      {
-        "file": "n4_halfturn_p18.json",
-        "name": "n4_halfturn_p18"
-      },
-      {
-        "file": "n4_halfturn_p180.json",
-        "name": "n4_halfturn_p180"
-      },
-      {
         "file": "n4_halfturn_p182.json",
         "name": "n4_halfturn_p182"
       },
       {
         "file": "n4_halfturn_p182_b.json",
         "name": "n4_halfturn_p182_b"
-      },
-      {
-        "file": "n4_halfturn_p1880.json",
-        "name": "n4_halfturn_p1880"
-      },
-      {
-        "file": "n4_halfturn_p18_b.json",
-        "name": "n4_halfturn_p18_b"
-      },
-      {
-        "file": "n4_halfturn_p18_c.json",
-        "name": "n4_halfturn_p18_c"
       },
       {
         "file": "n4_halfturn_p192.json",
@@ -621,10 +525,6 @@
         "name": "n4_halfturn_p20"
       },
       {
-        "file": "n4_halfturn_p200.json",
-        "name": "n4_halfturn_p200"
-      },
-      {
         "file": "n4_halfturn_p206.json",
         "name": "n4_halfturn_p206"
       },
@@ -641,24 +541,8 @@
         "name": "n4_halfturn_p20_d"
       },
       {
-        "file": "n4_halfturn_p20_e.json",
-        "name": "n4_halfturn_p20_e"
-      },
-      {
-        "file": "n4_halfturn_p20_f.json",
-        "name": "n4_halfturn_p20_f"
-      },
-      {
-        "file": "n4_halfturn_p20_g.json",
-        "name": "n4_halfturn_p20_g"
-      },
-      {
         "file": "n4_halfturn_p20_h.json",
         "name": "n4_halfturn_p20_h"
-      },
-      {
-        "file": "n4_halfturn_p20_i.json",
-        "name": "n4_halfturn_p20_i"
       },
       {
         "file": "n4_halfturn_p20_j.json",
@@ -677,44 +561,12 @@
         "name": "n4_halfturn_p212"
       },
       {
-        "file": "n4_halfturn_p22.json",
-        "name": "n4_halfturn_p22"
-      },
-      {
-        "file": "n4_halfturn_p228.json",
-        "name": "n4_halfturn_p228"
-      },
-      {
-        "file": "n4_halfturn_p22_b.json",
-        "name": "n4_halfturn_p22_b"
-      },
-      {
-        "file": "n4_halfturn_p22_c.json",
-        "name": "n4_halfturn_p22_c"
-      },
-      {
         "file": "n4_halfturn_p230.json",
         "name": "n4_halfturn_p230"
       },
       {
-        "file": "n4_halfturn_p234.json",
-        "name": "n4_halfturn_p234"
-      },
-      {
         "file": "n4_halfturn_p236.json",
         "name": "n4_halfturn_p236"
-      },
-      {
-        "file": "n4_halfturn_p24.json",
-        "name": "n4_halfturn_p24"
-      },
-      {
-        "file": "n4_halfturn_p24_b.json",
-        "name": "n4_halfturn_p24_b"
-      },
-      {
-        "file": "n4_halfturn_p24_c.json",
-        "name": "n4_halfturn_p24_c"
       },
       {
         "file": "n4_halfturn_p24_d.json",
@@ -727,14 +579,6 @@
       {
         "file": "n4_halfturn_p252_b.json",
         "name": "n4_halfturn_p252_b"
-      },
-      {
-        "file": "n4_halfturn_p252_c.json",
-        "name": "n4_halfturn_p252_c"
-      },
-      {
-        "file": "n4_halfturn_p256.json",
-        "name": "n4_halfturn_p256"
       },
       {
         "file": "n4_halfturn_p258.json",
@@ -753,16 +597,8 @@
         "name": "n4_halfturn_p270"
       },
       {
-        "file": "n4_halfturn_p270_b.json",
-        "name": "n4_halfturn_p270_b"
-      },
-      {
         "file": "n4_halfturn_p272.json",
         "name": "n4_halfturn_p272"
-      },
-      {
-        "file": "n4_halfturn_p272_b.json",
-        "name": "n4_halfturn_p272_b"
       },
       {
         "file": "n4_halfturn_p28.json",
@@ -771,10 +607,6 @@
       {
         "file": "n4_halfturn_p286.json",
         "name": "n4_halfturn_p286"
-      },
-      {
-        "file": "n4_halfturn_p2880.json",
-        "name": "n4_halfturn_p2880"
       },
       {
         "file": "n4_halfturn_p28_b.json",
@@ -787,14 +619,6 @@
       {
         "file": "n4_halfturn_p28_d.json",
         "name": "n4_halfturn_p28_d"
-      },
-      {
-        "file": "n4_halfturn_p28_e.json",
-        "name": "n4_halfturn_p28_e"
-      },
-      {
-        "file": "n4_halfturn_p28_f.json",
-        "name": "n4_halfturn_p28_f"
       },
       {
         "file": "n4_halfturn_p28_g.json",
@@ -4045,6 +3869,10 @@
       {
         "file": "n4_asym_p76.json",
         "name": "n4_asym_p76"
+      },
+      {
+        "file": "n4_halfturn_p272_b.json",
+        "name": "n4_halfturn_p272_b"
       },
       {
         "file": "nbb_isolate.json",
