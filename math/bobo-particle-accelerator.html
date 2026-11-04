@@ -23,15 +23,35 @@
   <h1>Bobo Vector Automaton</h1>
   <p class="lede">Deterministic particle motion simulator.</p>
   <a class="launch" href="bobo.html">Launch the 2D editor →</a>
-  <p>Also try the <a href="bobo_3d.html">Orthographic 3D Viewer</a>, the far superior <a href="bobo_3d_isometric.html">Isometric 3D Viewer</a>, or the <a href="bobo_4d_demo.html">4D demo</a>, which shows all four 3D shadows of a 4D system simultaneously.</p>
-
-  <p>It has more in common with Conway's Life than it does with a gravity sim. Particles are only influenced by the closest particle to them at the beginning of each turn. All positions, velocities, and accelerations are at all times integer values.</p>
-
+  <h2>About the universe</h2>
+<ul>
+  <li>Each tick, a particle accelerates by at most 1 on each axis, toward its closest neighbor</li>
+  <li>A particle is affected only by its closest neighbor; nothing farther away matters</li>
+  <li>Particles can occupy the same coordinates without colliding</li>
+  <li>There are only integers: each particle has attributes x, y, vx and vy</li>
+  <li>All interactions are resolved simultaneously</li>
+  <li>Tied closest neighbors vote on each axis and the majority wins; an even split means no acceleration on that axis</li>
+</ul>  
   <h2>Two particle types</h2>
   <ul>
-    <li><strong>nearest</strong>: receives an acceleration of -1, 0, or 1 in each of the x and y directions each turn, depending on its closest neighbor.</li>
+    <li><strong>nearest</strong>: receives an acceleration of EXACTLY -1, 0, or 1 in each of the x and y directions each turn, depending ONLY on its closest neighbor.</li>
     <li><strong>bobo</strong>: does not move, only influences passing 'nearest' particles.</li>
   </ul>
+  <h2>Similarities to Conway's Life</h2>
+  <ul>
+    <li>Deterministic, no rounding, no random interactions</li>
+    <li>Naturally occuring oscillators, gliders</li>
+    <li>Opportunities for finding and engineering more complex structures</li>  
+    <li>Rules are very simple, behavior is complex</li>
+  </ul>
+  <h2>Differences from Conway's Life</h2>
+  <ul>
+    <li>Nothing is born or dies during run, population is constant</li>
+    <li>Rules are reversible, so previous conditions can be determined from current state</li>
+  </ul>
+<h2>Higher Dimensions</h2> 
+  <p>Also try the <a href="bobo_3d.html">Orthographic 3D Viewer</a>, the far superior <a href="bobo_3d_isometric.html">Isometric 3D Viewer</a>, or the <a href="bobo_4d_demo.html">4D demo</a>, which shows all four 3D shadows of a 4D system simultaneously.</p>
+
 </main>
 
 <footer class="site-footer">
