@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="favicon.ico">
 <meta charset="UTF-8">
+<link rel="icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bobo Vector Automaton</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -636,7 +636,13 @@
   const TRAIL_PRESETS = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
   // trail thickness: \\ cycles the original width, double and triple, named
   // after mechanical-pencil leads for fun. Starts thin on every page load.
-  const TRAIL_LEADS = [ { name: '0.3mm', factor: 1 }, { name: '0.5mm', factor: 2 }, { name: '0.7mm', factor: 3 } ];
+  // width is proportional to the lead size (0.3mm = the original width,
+  // 0.9mm = 3x); each size also has a bold step with more solid trails
+  const TRAIL_ALPHA = 0.3, TRAIL_ALPHA_BOLD = 0.6;
+  const TRAIL_LEADS = [0.3, 0.5, 0.7, 0.9].flatMap(mm => [
+    { name: mm.toFixed(1) + 'mm',        factor: mm / 0.3, alpha: TRAIL_ALPHA },
+    { name: mm.toFixed(1) + 'mm bold',   factor: mm / 0.3, alpha: TRAIL_ALPHA_BOLD },
+  ]);
   let trailLeadIndex = 0;
   const TRAIL_DEFAULT_INDEX = 5; // 500
   const TRAIL_KEEP_MIN = 2000;
@@ -1359,7 +1365,7 @@
       // The last point is always drawn so the trail still meets its particle.
       const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
       const PAD = 4, MIN_STEP = zoomLevel === 'wide' ? 1.5 : 0.5;
-      ctx.globalAlpha = 0.3;
+      ctx.globalAlpha = TRAIL_LEADS[trailLeadIndex].alpha;
       ctx.lineWidth = (zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2) * TRAIL_LEADS[trailLeadIndex].factor; // heavier up close, lighter far out; \\ picks the lead
       for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
