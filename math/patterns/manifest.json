@@ -2131,6 +2131,10 @@
         "name": "octagon_p56"
       },
       {
+        "file": "orbiter_n3_t76.json",
+        "name": "orbiter_n3_t76"
+      },
+      {
         "file": "orbiter_p1016.json",
         "name": "orbiter_p1016"
       },
@@ -3420,6 +3424,75 @@
       {
         "file": "lazy_river_markers.json",
         "name": "lazy_river_markers"
+      }
+    ]
+  },
+  {
+    "folder": "bitFlip",
+    "items": [
+      {
+        "file": "bit2_flip_escape_left.json",
+        "name": "bit2_flip_escape_left"
+      },
+      {
+        "file": "bit2_flip_escape_left_fast.json",
+        "name": "bit2_flip_escape_left_fast"
+      },
+      {
+        "file": "bit2_flip_escape_right.json",
+        "name": "bit2_flip_escape_right"
+      },
+      {
+        "file": "bit2_toggle_p118_long1.json",
+        "name": "bit2_toggle_p118_long1"
+      },
+      {
+        "file": "bit2_toggle_p138_wide.json",
+        "name": "bit2_toggle_p138_wide"
+      },
+      {
+        "file": "bit2_toggle_p176_wider.json",
+        "name": "bit2_toggle_p176_wider"
+      },
+      {
+        "file": "bit2_toggle_p28.json",
+        "name": "bit2_toggle_p28"
+      },
+      {
+        "file": "bit3_flip_leaves_orbiter_p30.json",
+        "name": "bit3_flip_leaves_orbiter_p30"
+      },
+      {
+        "file": "bit3_flip_leaves_orbiter_p36.json",
+        "name": "bit3_flip_leaves_orbiter_p36"
+      },
+      {
+        "file": "bit3_flip_leaves_orbiter_p60_wide.json",
+        "name": "bit3_flip_leaves_orbiter_p60_wide"
+      },
+      {
+        "file": "bit3_toggle_p134_hold1.json",
+        "name": "bit3_toggle_p134_hold1"
+      },
+      {
+        "file": "bit3_toggle_p26_fastest.json",
+        "name": "bit3_toggle_p26_fastest"
+      },
+      {
+        "file": "bit3_toggle_p292_wide.json",
+        "name": "bit3_toggle_p292_wide"
+      },
+      {
+        "file": "bit3_toggle_p38_long_arm.json",
+        "name": "bit3_toggle_p38_long_arm"
+      },
+      {
+        "file": "bit3_toggle_p64_one_arm.json",
+        "name": "bit3_toggle_p64_one_arm"
+      },
+      {
+        "file": "bit3_toggle_p82_flipper_plus_pair.json",
+        "name": "bit3_toggle_p82_flipper_plus_pair"
       }
     ]
   },

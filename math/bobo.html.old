@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="favicon.ico">
 <meta charset="UTF-8">
+<link rel="icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nearest + Bobo</title>
+<title>Bobo Vector Automaton</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -509,6 +509,7 @@
       <div class="row"><span class="keys"><span class="keys"><kbd>i</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span></span><div>Move it, as above. It starts at the middle of the view.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>Enter</kbd></span><span class="keys"><span class="act">or click</span></span></span><div>Place it. A nearest takes two: first its position, then where its velocity points (shown as an offset).</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>p</kbd></span></span><div>Preview it against the field. A nearest runs at rest until its velocity is set.</div></div>
+      <div class="row"><span class="keys"><kbd>y</kbd></span><div>While setting a nearest's velocity: switch to moving its position with that velocity held, and back. Handy for previewing one velocity from different spots.</div></div>
     <h4>Markers</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>m</kbd></span></span><div>Add a marker: a faint X for reference. It never moves, never counts as anyone's nearest, and is saved with the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
@@ -633,6 +634,16 @@
   // of history even when fewer are shown, so lengthening up to that much
   // shows the extra history at once instead of waiting for it to grow.
   const TRAIL_PRESETS = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
+  // trail thickness: \\ cycles the original width, double and triple, named
+  // after mechanical-pencil leads for fun. Starts thin on every page load.
+  // width is proportional to the lead size (0.3mm = the original width,
+  // 0.9mm = 3x); each size also has a bold step with more solid trails
+  const TRAIL_ALPHA = 0.3, TRAIL_ALPHA_BOLD = 0.6;
+  const TRAIL_LEADS = [0.3, 0.5, 0.7, 0.9].flatMap(mm => [
+    { name: mm.toFixed(1) + 'mm',        factor: mm / 0.3, alpha: TRAIL_ALPHA },
+    { name: mm.toFixed(1) + 'mm bold',   factor: mm / 0.3, alpha: TRAIL_ALPHA_BOLD },
+  ]);
+  let trailLeadIndex = 0;
   const TRAIL_DEFAULT_INDEX = 5; // 500
   const TRAIL_KEEP_MIN = 2000;
   let trailIndex = TRAIL_DEFAULT_INDEX;
@@ -697,9 +708,92 @@
   // making them look almost identical.
   let colorCounter = 0;
   function colorFor(){
-    const hue = (150 + colorCounter * 137.508) % 360;
-    colorCounter++;
-    return `hsl(${hue}, 65%, 62%)`;
+    return paletteColor(colorCounter++);
+  }
+
+  // ---------- colourways ----------
+  // ] steps through the colourways (back to default after the last), [
+  // remixes the current one: same family of colours, dealt out differently.
+  // Both recolour everything already on the field. The default with no
+  // remix is exactly the original sequence (hue 150, then golden-angle
+  // steps), so a fresh page looks as it always has. Clear and Random keep
+  // the colourway; a page reload returns to the default. Zoo thumbnails
+  // always use the default colours (they have their own copy of it).
+  const GOLDEN = 0.6180339887;
+  const frac = v => v - Math.floor(v);
+  // single-hue and ranged themes: a hue window plus lightness/saturation
+  // spreads, walked with golden-ratio steps so neighbours in the sequence
+  // stay as far apart as the window allows
+  const COLORWAYS = [
+    { name: 'default' },
+    { name: 'warm',   hue: [-25, 68],  sat: [62, 82], light: [52, 66] },   // reds through into yellow
+    { name: 'cool',   hue: [135, 285], sat: [50, 72], light: [52, 68] },   // greens through to violet
+    { name: 'blue',   hue: [198, 232], sat: [55, 85], light: [38, 78] },
+    { name: 'red',    hue: [348, 372], sat: [58, 84], light: [40, 72] },
+    { name: 'green',  hue: [100, 150], sat: [45, 75], light: [38, 74] },
+    { name: 'orange', hue: [18, 40],   sat: [72, 92], light: [44, 72] },
+  ];
+  let colorwayIndex = 0;
+  // [ deals the current colourway's colours out to different particles: a
+  // random shuffle of which particle gets which entry in the sequence. The
+  // set of colours stays the same (so they stay as distinct as before), but
+  // particles that matched no longer do, so the figure reads differently.
+  // null = the original order.
+  let paletteOrder = null;
+  function paletteIndex(k){ return (paletteOrder && k < paletteOrder.length) ? paletteOrder[k] : k; }
+  function paletteColor(k){
+    const cw = COLORWAYS[colorwayIndex];
+    const j = paletteIndex(k);
+    if (!cw.hue){
+      const hue = (150 + j * 137.508) % 360;
+      return `hsl(${hue}, 65%, 62%)`;
+    }
+    const f = frac(j * GOLDEN);               // spreads the main step across the window
+    const g = frac(j * 0.7548776662);         // a second, independent spread
+    const ranged = cw.hue[1] - cw.hue[0] > 60; // warm / cool: hue carries the variety
+    const hue = ((ranged ? cw.hue[0] + f * (cw.hue[1] - cw.hue[0]) : cw.hue[0] + g * (cw.hue[1] - cw.hue[0])) % 360 + 360) % 360;
+    const light = ranged ? cw.light[0] + g * (cw.light[1] - cw.light[0]) : cw.light[0] + f * (cw.light[1] - cw.light[0]);
+    const sat = cw.sat[0] + frac(j * 0.5698402910) * (cw.sat[1] - cw.sat[0]);
+    return `hsl(${hue.toFixed(1)}, ${sat.toFixed(0)}%, ${light.toFixed(0)}%)`;
+  }
+  // recolour every nearest on the field (and the live part of a running
+  // preview) in field order, then let new particles continue the sequence
+  function applyPalette(){
+    glowSpriteCache.clear(); // old colours' glow sprites aren't needed any more
+    let k = 0;
+    particles.forEach((p, i) => {
+      if (p.type !== 'nearest') return;
+      p.color = paletteColor(k++);
+      if (previewActive && previewArr && i < previewLiveCount && previewArr[i]) previewArr[i].color = p.color;
+    });
+    colorCounter = k;
+  }
+  function stepColorway(){
+    colorwayIndex = (colorwayIndex + 1) % COLORWAYS.length;
+    paletteOrder = null;
+    applyPalette();
+    showNote(COLORWAYS[colorwayIndex].name);
+    draw();
+  }
+  function remixPalette(){
+    // shuffle the sequence positions of everything on the field (and some
+    // spare, so the next few particles added join the new deal too); a fresh
+    // shuffle that happens to leave every particle where it was is redone
+    const count = particles.filter(p => p.type === 'nearest').length;
+    const n = Math.max(count, 32);
+    const prev = paletteOrder;
+    let order;
+    do {
+      // shuffle only the positions the field already uses, so exactly the
+      // same colours stay on screen; the spare positions keep their order
+      order = [...Array(n).keys()];
+      const m = Math.max(count, 1);
+      for (let i = m - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    } while (count > 1 && order.slice(0, count).every((v, i) => v === (prev && i < prev.length ? prev[i] : i)));
+    paletteOrder = order;
+    applyPalette();
+    showNote('remix');
+    draw();
   }
 
   // pre-renders a small radial-gradient "glow" once per color and reuses
@@ -801,6 +895,7 @@
     updateWatchPanel();
     hideContextMenu();
     particles = lastNewSnapshot.map(p => ({...p}));
+    applyPalette(); // the snapshot holds the colours current at Quicksave; show it in today's colourway
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     updateHud();
@@ -1270,8 +1365,8 @@
       // The last point is always drawn so the trail still meets its particle.
       const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
       const PAD = 4, MIN_STEP = zoomLevel === 'wide' ? 1.5 : 0.5;
-      ctx.globalAlpha = 0.3;
-      ctx.lineWidth = zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2; // heavier up close, lighter far out
+      ctx.globalAlpha = TRAIL_LEADS[trailLeadIndex].alpha;
+      ctx.lineWidth = (zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2) * TRAIL_LEADS[trailLeadIndex].factor; // heavier up close, lighter far out; \\ picks the lead
       for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
         if (!t || t.length < 2) continue;
@@ -1493,8 +1588,9 @@
         ctx.arc(sx, sy, 5, 0, Math.PI*2);
         ctx.fill();
       } else {
-        const start = worldToScreen(addX, addY);
-        const end = worldToScreen(placementCenterX, placementCenterY);
+        const p = addPos(), v = addVel();
+        const start = worldToScreen(p.x, p.y);
+        const end = worldToScreen(p.x + v.vx, p.y + v.vy);
         ctx.fillStyle = '#8bf3c9';
         ctx.beginPath();
         ctx.arc(start.sx, start.sy, 5, 0, Math.PI*2);
@@ -1802,7 +1898,8 @@
     if (addKind === 'bobo') return [{ type:'bobo', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
     if (addKind === 'marker') return [{ type:'marker', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
     if (addPhase === 0) return [{ type:'nearest', x:placementCenterX, y:placementCenterY, vx:0, vy:0 }];
-    return [{ type:'nearest', x:addX, y:addY, vx:placementCenterX - addX, vy:placementCenterY - addY }];
+    const p = addPos(), v = addVel();
+    return [{ type:'nearest', x:p.x, y:p.y, vx:v.vx, vy:v.vy }];
   }
 
   function startPreview(){
@@ -1921,6 +2018,30 @@
   let addKind = 'nearest'; // 'nearest' or 'bobo'
   let addPhase = 0; // 0 = choosing position, 1 = choosing velocity endpoint (nearest only)
   let addX = 0, addY = 0; // confirmed position, once phase advances to 1
+  // y (during phase 1) swaps what ijkl and the mouse move: the velocity
+  // endpoint (normal) or the position, with the velocity held fixed. In
+  // position mode placementCenter is the position and addHeldVX/VY the
+  // velocity; in velocity mode placementCenter is the endpoint.
+  let addEditPos = false;
+  let addHeldVX = 0, addHeldVY = 0;
+  function addPos(){ return addEditPos ? { x: placementCenterX, y: placementCenterY } : { x: addX, y: addY }; }
+  function addVel(){ return addEditPos ? { vx: addHeldVX, vy: addHeldVY } : { vx: placementCenterX - addX, vy: placementCenterY - addY }; }
+  function toggleAddEdit(){
+    if (previewActive) revertPreview();
+    if (!addEditPos){
+      addHeldVX = placementCenterX - addX; addHeldVY = placementCenterY - addY;
+      placementCenterX = addX; placementCenterY = addY;
+      addEditPos = true;
+      setStickyNote('position');
+    } else {
+      addX = placementCenterX; addY = placementCenterY;
+      placementCenterX = addX + addHeldVX; placementCenterY = addY + addHeldVY;
+      addEditPos = false;
+      setStickyNote('velocity');
+    }
+    updatePlacementUI();
+    updatePlacementIndicator();
+  }
 
   function updatePlacementUI(){
     const banner = document.getElementById('placement-banner');
@@ -1953,7 +2074,9 @@
       } else {
         banner.innerHTML = addPhase === 0
           ? 'Click, or ijkl + Enter, to place new particle &middot; p to preview it starting at rest <span class="hint">(Esc to cancel)</span>'
-          : 'Click, or ijkl + Enter, to set its velocity &middot; p to preview <span class="hint">(Esc to cancel)</span>';
+          : addEditPos
+            ? 'p to preview. mouse/ijkl move. Click/Enter to place. y toggle to velocity <span class="hint">(Esc to cancel)</span>'
+            : 'p to preview. mouse/ijkl move. Click/Enter to place. y toggle to position <span class="hint">(Esc to cancel)</span>';
       }
     } else {
       banner.classList.remove('visible');
@@ -1974,6 +2097,8 @@
     addActive = true;
     addKind = kind;
     addPhase = 0;
+    addEditPos = false;
+    setStickyNote(kind === 'nearest' ? 'position' : null);
     if (kind === 'marker') showMarkers = true; // never place one you can't see
     // start at the middle of the current view (not the origin), so the
     // candidate is on screen and ijkl moves something you can see
@@ -2006,15 +2131,21 @@
     if (addPhase === 0){
       addX = x; addY = y;
       addPhase = 1;
+      setStickyNote('velocity');
       updatePlacementUI();
       updatePlacementIndicator();
     } else {
-      const vx = x - addX;
-      const vy = y - addY;
-      particles.push({ type:'nearest', x:addX, y:addY, vx, vy, color: colorFor() });
-      trails.push([{x:addX, y:addY}]);
+      // velocity mode: (x,y) is the velocity endpoint; position mode: (x,y)
+      // is where it goes, with the held velocity
+      const px = addEditPos ? x : addX, py = addEditPos ? y : addY;
+      const vx = addEditPos ? addHeldVX : x - addX;
+      const vy = addEditPos ? addHeldVY : y - addY;
+      particles.push({ type:'nearest', x:px, y:py, vx, vy, color: colorFor() });
+      trails.push([{x:px, y:py}]);
       addActive = false;
       addPhase = 0;
+      addEditPos = false;
+      setStickyNote(null);
       updatePlacementUI();
       updateHud();
       draw();
@@ -2023,8 +2154,10 @@
 
   function cancelAdd(){
     revertPreview();
+    if (addActive && addKind === 'nearest') setStickyNote(null);
     addActive = false;
     addPhase = 0;
+    addEditPos = false;
     updatePlacementUI();
     draw();
   }
@@ -2132,7 +2265,7 @@
   function updatePlacementIndicator(){
     const indicator = document.getElementById('coord-indicator');
     const {sx, sy} = worldToScreen(placementCenterX, placementCenterY);
-    if (addActive && addKind === 'nearest' && addPhase === 1){
+    if (addActive && addKind === 'nearest' && addPhase === 1 && !addEditPos){
       // this stage is choosing a velocity, not a position — show it as
       // the (dx, dy) offset from the fixed point, not absolute coordinates
       const dx = placementCenterX - addX;
@@ -2194,7 +2327,11 @@
       return;
     }
     // keyboard fine-tuning fades the mouse cursor (mouse movement restores it)
-    if (['i','j','k','l','o','u',';','p'].includes(key)) canvas.classList.add('cursor-faded');
+    if (['i','j','k','l','o','u',';','p','y'].includes(key)) canvas.classList.add('cursor-faded');
+    if (key === 'y'){
+      if (addActive && addKind === 'nearest' && addPhase === 1){ e.preventDefault(); toggleAddEdit(); }
+      return;
+    }
     if (key === 'p'){
       e.preventDefault();
       if (placementActive){
@@ -2845,11 +2982,29 @@
   function stepTrailLength(dir){
     trailIndex = Math.max(0, Math.min(TRAIL_PRESETS.length - 1, trailIndex + dir));
     document.getElementById('btn-trails-toggle').classList.toggle('trail-custom', trailIndex !== TRAIL_DEFAULT_INDEX);
-    trailNoteEl.textContent = trailLen() + ' tick trails';
+    showNote(trailLen() + ' tick trails');
+    draw();
+  }
+  // brief note at the bottom of the field, fading after a second
+  // (trail length and colourway changes share it)
+  // A sticky note ("position" / "velocity" while placing a nearest) stays up
+  // until it's cleared; a passing note shown meanwhile (trail length, a
+  // colourway) takes over for a second and then hands back to it.
+  let stickyNote = null;
+  function showNote(text){
+    trailNoteEl.textContent = text;
     trailNoteEl.classList.add('visible');
     clearTimeout(trailNoteTimer);
-    trailNoteTimer = setTimeout(()=> trailNoteEl.classList.remove('visible'), 1000);
-    draw();
+    trailNoteTimer = setTimeout(()=>{
+      if (stickyNote) trailNoteEl.textContent = stickyNote;
+      else trailNoteEl.classList.remove('visible');
+    }, 1000);
+  }
+  function setStickyNote(text){
+    stickyNote = text;
+    clearTimeout(trailNoteTimer);
+    if (text){ trailNoteEl.textContent = text; trailNoteEl.classList.add('visible'); }
+    else trailNoteEl.classList.remove('visible');
   }
 
   // ---------- global keyboard shortcuts ----------
@@ -2895,6 +3050,9 @@
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
     if (k === '3' || k === '#'){ e.preventDefault(); cycleZoom(); return; }
+    if (e.key === ']'){ e.preventDefault(); stepColorway(); return; }
+    if (e.key === '['){ e.preventDefault(); remixPalette(); return; }
+    if (e.key === '\\'){ e.preventDefault(); trailLeadIndex = (trailLeadIndex + 1) % TRAIL_LEADS.length; showNote(TRAIL_LEADS[trailLeadIndex].name); draw(); return; }
     if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ',' || k === '<'){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
