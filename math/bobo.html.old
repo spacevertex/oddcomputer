@@ -734,13 +734,16 @@
     { name: 'orange', hue: [18, 40],   sat: [72, 92], light: [44, 72] },
   ];
   let colorwayIndex = 0;
-  // [ deals the current colourway's colours out to different particles: a
-  // random shuffle of which particle gets which entry in the sequence. The
-  // set of colours stays the same (so they stay as distinct as before), but
-  // particles that matched no longer do, so the figure reads differently.
-  // null = the original order.
-  let paletteOrder = null;
-  function paletteIndex(k){ return (paletteOrder && k < paletteOrder.length) ? paletteOrder[k] : k; }
+  // [ deals a fresh hand from the current colourway: the field's particles
+  // take a run of entries from a random place in the colourway's sequence
+  // (paletteOffset), dealt out in a random order (paletteOrder). The
+  // sequences are golden-ratio walks, so any run of consecutive entries is
+  // as evenly spread across the colourway as the first one, wherever it
+  // starts: the colours stay distinct, but they are new colours from
+  // anywhere in the colourway, not the same few swapped around.
+  // offset 0 and null order = the original deal.
+  let paletteOrder = null, paletteOffset = 0;
+  function paletteIndex(k){ return paletteOffset + ((paletteOrder && k < paletteOrder.length) ? paletteOrder[k] : k); }
   function paletteColor(k){
     const cw = COLORWAYS[colorwayIndex];
     const j = paletteIndex(k);
@@ -770,26 +773,22 @@
   }
   function stepColorway(){
     colorwayIndex = (colorwayIndex + 1) % COLORWAYS.length;
-    paletteOrder = null;
+    paletteOrder = null; paletteOffset = 0;
     applyPalette();
     showNote(COLORWAYS[colorwayIndex].name);
     draw();
   }
   function remixPalette(){
-    // shuffle the sequence positions of everything on the field (and some
-    // spare, so the next few particles added join the new deal too); a fresh
-    // shuffle that happens to leave every particle where it was is redone
+    // a new starting point anywhere in the colourway's sequence, then a
+    // shuffle of who gets which of those colours (plus some spare entries,
+    // so the next few particles added continue the same hand)
     const count = particles.filter(p => p.type === 'nearest').length;
     const n = Math.max(count, 32);
-    const prev = paletteOrder;
-    let order;
-    do {
-      // shuffle only the positions the field already uses, so exactly the
-      // same colours stay on screen; the spare positions keep their order
-      order = [...Array(n).keys()];
-      const m = Math.max(count, 1);
-      for (let i = m - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-    } while (count > 1 && order.slice(0, count).every((v, i) => v === (prev && i < prev.length ? prev[i] : i)));
+    let off;
+    do { off = 1 + Math.floor(Math.random() * 9999); } while (off === paletteOffset);
+    paletteOffset = off;
+    const order = [...Array(n).keys()];
+    for (let i = Math.max(count, 1) - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
     paletteOrder = order;
     applyPalette();
     showNote('remix');

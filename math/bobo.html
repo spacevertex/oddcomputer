@@ -306,20 +306,6 @@
   }
   #coord-indicator.visible{ display:block; }
 
-  #btn-unzoom{
-    position:absolute; top:14px; left:14px;
-    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
-    border:1px solid var(--panel-line);
-    border-radius:4px;
-    color: var(--text);
-    font-family:'Space Grotesk', sans-serif;
-    font-size:12px;
-    padding:8px 14px;
-    cursor:pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    z-index:6;
-  }
-  #btn-unzoom:hover{ border-color:#4c6a5c; color:#8bf3c9; }
 
   #console{
     flex:0 0 auto;
@@ -429,6 +415,11 @@
     z-index:7;
   }
   #trail-note.visible{ opacity:1; transition:none; }
+  /* zoom banner: level name centred over a box drawn at the grid square's
+     on-screen size, with its size in world units beside it */
+  #trail-note .zoom-note{ display:flex; flex-direction:column; align-items:center; gap:5px; }
+  #trail-note .zoom-scale{ display:flex; align-items:center; gap:8px; }
+  #trail-note .zoom-box{ border:1px solid #8bf3c9; box-sizing:border-box; flex:0 0 auto; }
 
   .speed-wrap{ display:flex; align-items:center; gap:8px; margin-left:4px; }
   .speed-wrap label{ font-size:11px; color: var(--text-dim); white-space:nowrap; }
@@ -494,7 +485,6 @@
   <div id="context-menu"></div>
   <div id="placement-banner"></div>
   <div id="coord-indicator"></div>
-  <button id="btn-unzoom" style="display:none;">Default view</button>
   <div id="trail-note"></div>
   <div id="help-panel" role="dialog" aria-label="Advanced features">
     <div class="help-title">Advanced features <span>? or / to close</span></div>
@@ -515,7 +505,7 @@
       <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
     <h4>View</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>h</kbd></span></span><div>Home: back to 0,0, keeping the zoom level.</div></div>
-      <div class="row"><span class="keys"><kbd>3</kbd><kbd>#</kbd></span><div>Next zoom level: Wide, Default, Close, then back to Wide. The view stays centred where it is.</div></div>
+      <div class="row"><span class="keys"><kbd>3</kbd><kbd>#</kbd></span><div>Next zoom level: Ultrawide, Superwide, Wide, Default, Close, then back to Ultrawide. The view stays centred where it is.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: Wide, Default or Close, centred where you clicked.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Zoom, Delete.</div></div>
@@ -616,16 +606,26 @@
   let VEL_MIN = -4, VEL_MAX = 4;              // initial speed range (symmetric, slider-driven)
 
   let CELL; // px per world unit, normal view
-  let ZOOM_CELL; // px per world unit, close view (30 units visible across the screen)
-  let WIDE_CELL; // px per world unit, wide view (1300 units visible across the screen)
-  // three zoom levels; 'zoomed' stays as shorthand for the close view
-  let zoomLevel = 'default';       // 'wide' | 'default' | 'close'
+  // zoom levels: world units visible across the screen's short side, and
+  // the grid spacing drawn at that level. superwide and ultrawide are only
+  // reached with the 3 / # key, not from the view menu.
+  const ZOOM_LEVELS = {
+    close:     { label: 'close',     span: 30,    grid: 1 },
+    default:   { label: 'default',   span: 200,   grid: 10 },
+    wide:      { label: 'wide',      span: 1300,  grid: 50 },
+    superwide: { label: 'superwide', span: 8500,  grid: 250 },
+    ultrawide: { label: 'ultrawide', span: 55000, grid: 2500 },
+  };
+  // 'zoomed' stays as shorthand for the close view
+  let zoomLevel = 'default';       // a key of ZOOM_LEVELS
   let zoomed = false;
-  // drawn sizes shrink in the wide view so dense fields stay readable;
+  // the wide levels: smaller dots, thinner trails
+  function isWideView(){ return zoomLevel === 'wide' || zoomLevel === 'superwide' || zoomLevel === 'ultrawide'; }
+  // drawn sizes shrink in the wide views so dense fields stay readable;
   // click hit-testing (14px) is deliberately left at the normal size, so
   // the tiny wide-view dots are still as easy to click as before
-  function dotScale(){ return zoomLevel === 'wide' ? 0.5 : 1; }
-  function viewCell(){ return zoomLevel === 'close' ? ZOOM_CELL : zoomLevel === 'wide' ? WIDE_CELL : CELL; }
+  function dotScale(){ return isWideView() ? 0.5 : 1; }
+  function viewCell(){ return zoomLevel === 'default' ? CELL : Math.min(W, H) / ZOOM_LEVELS[zoomLevel].span; }
   let showTrails = true;
   let showVectors = false;
   // trail length: - / _ steps down this list, = / + steps up. Starts at 500
@@ -671,8 +671,6 @@
   function computeCell(){
     const span = WORLD_MAX - WORLD_MIN; // 200
     CELL = Math.min(W, H) / span;
-    ZOOM_CELL = Math.min(W, H) / 30;
-    WIDE_CELL = Math.min(W, H) / 1300;
   }
 
   // level: 'wide' | 'default' | 'close' (true/false still accepted: close / default).
@@ -681,12 +679,12 @@
   function setZoom(level, cx, cy){
     if (level === true) level = 'close';
     if (level === false) level = 'default';
+    if (!ZOOM_LEVELS[level]) level = 'default';
     zoomLevel = level;
     zoomed = (level === 'close');
     if (cx !== undefined){ camX = cx; camY = cy; }
-    const btn = document.getElementById('btn-unzoom');
-    btn.style.display = level === 'default' ? 'none' : 'block';
     draw();
+    showZoomNote();
   }
 
   function resize(){
@@ -903,10 +901,11 @@
     else draw();
   }
 
-  // 3 (or #): step through the zoom levels Wide -> Default -> Close -> Wide,
+  // 3 (or #): step through the zoom levels
+  // Ultrawide -> Superwide -> Wide -> Default -> Close -> Ultrawide,
   // keeping the view's centre where it is
   function cycleZoom(){
-    const order = ['wide', 'default', 'close'];
+    const order = ['ultrawide', 'superwide', 'wide', 'default', 'close'];
     hideContextMenu();
     setZoom(order[(order.indexOf(zoomLevel) + 1) % order.length]);
     if (placementActive || addActive) updatePlacementIndicator();
@@ -1314,7 +1313,7 @@
     // the height, since scale is set by the smaller dimension) still get
     // full-width coverage instead of gridlines stopping partway across.
     // (every 50 in the wide view, so it stays a grid rather than a haze)
-    const gridStep = zoomLevel === 'close' ? 1 : zoomLevel === 'wide' ? 50 : 10;
+    const gridStep = ZOOM_LEVELS[zoomLevel].grid;
     const activeCell = viewCell();
     const halfWorldW = (W/2) / activeCell;
     const halfWorldH = (H/2) / activeCell;
@@ -1363,9 +1362,9 @@
       //    skipped (in the wide view many consecutive points share a pixel).
       // The last point is always drawn so the trail still meets its particle.
       const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
-      const PAD = 4, MIN_STEP = zoomLevel === 'wide' ? 1.5 : 0.5;
+      const PAD = 4, MIN_STEP = isWideView() ? 1.5 : 0.5;
       ctx.globalAlpha = TRAIL_LEADS[trailLeadIndex].alpha;
-      ctx.lineWidth = (zoomLevel === 'close' ? 2 : zoomLevel === 'wide' ? 1 : 1.2) * TRAIL_LEADS[trailLeadIndex].factor; // heavier up close, lighter far out; \\ picks the lead
+      ctx.lineWidth = (zoomLevel === 'close' ? 2 : isWideView() ? 1 : 1.2) * TRAIL_LEADS[trailLeadIndex].factor; // heavier up close, lighter far out; \\ picks the lead
       for (let i = 0; i < drawArr.length; i++){
         const t = drawTrails[i];
         if (!t || t.length < 2) continue;
@@ -2944,7 +2943,6 @@
   document.getElementById('btn-add-nearest').addEventListener('click', ()=> beginAdd('nearest'));
   document.getElementById('btn-add-bobo').addEventListener('click', ()=> beginAdd('bobo'));
 
-  document.getElementById('btn-unzoom').addEventListener('click', ()=> setZoom('default'));
 
   document.getElementById('btn-trails-toggle').addEventListener('click', ()=>{
     showTrails = !showTrails;
@@ -2990,14 +2988,22 @@
   // until it's cleared; a passing note shown meanwhile (trail length, a
   // colourway) takes over for a second and then hands back to it.
   let stickyNote = null;
-  function showNote(text){
-    trailNoteEl.textContent = text;
+  function showNote(text, html){
+    if (html) trailNoteEl.innerHTML = text; else trailNoteEl.textContent = text;
     trailNoteEl.classList.add('visible');
     clearTimeout(trailNoteTimer);
     trailNoteTimer = setTimeout(()=>{
       if (stickyNote) trailNoteEl.textContent = stickyNote;
       else trailNoteEl.classList.remove('visible');
     }, 1000);
+  }
+  // zoom banner: the level's name over a box the size of one grid square
+  // as drawn right now (the text stays one size), e.g. [] 50x50
+  function showZoomNote(){
+    const z = ZOOM_LEVELS[zoomLevel];
+    const px = Math.max(3, Math.round(z.grid * viewCell()));
+    showNote(`<div class="zoom-note"><div>${z.label}</div><div class="zoom-scale">` +
+      `<span class="zoom-box" style="width:${px}px;height:${px}px"></span><span>${z.grid}x${z.grid}</span></div></div>`, true);
   }
   function setStickyNote(text){
     stickyNote = text;
