@@ -391,13 +391,18 @@
 
   /* trail length other than 500: a small dot in the Trails button's
      top-right corner, in the label's own colour (green on, grey off) */
-  #btn-trails-toggle.trail-custom::before{
+  #btn-trails-toggle.trail-custom::before, #btn-quicksave.led::before, #btn-redo.led::before{
     content:'';
     position:absolute; top:4px; right:4px;
     width:4px; height:4px; border-radius:50%;
     background: currentColor;
     pointer-events:none;
   }
+
+  /* save lights: green dot on Quicksave (field is what's saved) and
+     Recall (something is saved), whatever the label colour */
+  #btn-quicksave.led::before, #btn-redo.led::before{ background:#8bf3c9; }
+  #btn-quicksave, #btn-redo{ position:relative; }
 
   /* brief note when the trail length changes; fades after a second */
   #trail-note{
@@ -861,9 +866,7 @@
 
   function reset(){
     revertPreview(); // Roll replaces the live particles array; a running preview's snapshot would otherwise go stale under it
-    spawn();
-    lastNewSnapshot = particles.map(p => ({...p}));
-    lastNewView = null;
+    spawn(); // Random no longer quicksaves: Recall keeps whatever was last quicksaved
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     watch = null;
@@ -879,8 +882,52 @@
   // placement (e.g. while pre-rolling the next component of a daisy chain).
   // Trails aren't stored; Recall restarts them fresh, same as after Roll.
   function quicksave(){
+    // pause first, so the saved moment stays on screen and the light can
+    // run its full blink (a running field would put it straight out)
+    if (playing){ playing = false; playBtn.textContent = 'Play'; }
     lastNewSnapshot = particles.map(p => ({...p}));
     lastNewView = { camX, camY, zoomLevel };
+    savedSig = fieldSig();
+    startSaveBlink();
+  }
+
+  // ---------- save lights ----------
+  // Quicksave's light: the field (particles and view) is exactly what was
+  // quicksaved. It goes out at the first change — a tick, an edit, a pan or
+  // a zoom — and comes back if the field returns to that state (Recall).
+  // Recall's light: something has been quicksaved. A quicksave blinks
+  // Quicksave's light three times while Recall's goes dark (any older save
+  // is gone); on the fourth beat both are lit.
+  let savedSig = null;       // signature of the quicksaved field + view
+  let saveBlink = null;      // { timer } while the blink is running
+  const SAVE_BEAT = 160;     // ms per half-blink
+  function fieldSig(){
+    let s = camX + ',' + camY + ',' + zoomLevel;
+    for (const p of particles) s += '|' + p.type + ',' + p.x + ',' + p.y + ',' + p.vx + ',' + p.vy;
+    return s;
+  }
+  function startSaveBlink(){
+    const qs = document.getElementById('btn-quicksave');
+    if (saveBlink) clearInterval(saveBlink.timer);
+    let n = 0;
+    saveBlink = { timer: setInterval(()=>{
+      n++;
+      if (n < 6){ qs.classList.toggle('led', n % 2 === 0); return; } // off, on, off, on, off
+      clearInterval(saveBlink.timer); saveBlink = null; updateSaveLights(); // fourth beat: both lit
+    }, SAVE_BEAT) };
+    qs.classList.add('led');                                      // first blink on now
+    document.getElementById('btn-redo').classList.remove('led');   // the old save is gone: dark until the fourth beat
+  }
+  function updateSaveLights(){
+    if (saveBlink){
+      // a change mid-blink cuts it short
+      if (fieldSig() !== savedSig){ clearInterval(saveBlink.timer); saveBlink = null; }
+      else return;
+    }
+    // dark while the sim plays (an oscillator passing back through its
+    // saved state would flash it every period); stepping still shows it
+    document.getElementById('btn-quicksave').classList.toggle('led', !playing && savedSig !== null && fieldSig() === savedSig);
+    document.getElementById('btn-redo').classList.toggle('led', lastNewSnapshot !== null);
   }
 
   function redo(){
@@ -1303,6 +1350,7 @@
   }
 
   function draw(){
+    updateSaveLights();
     ctx.fillStyle = '#0c1210';
     ctx.fillRect(0,0,W,H);
 
@@ -1656,6 +1704,7 @@
     playing = !playing;
     playBtn.textContent = playing ? 'Stop' : 'Play';
     last = performance.now();
+    updateSaveLights();
   });
   document.getElementById('btn-step').addEventListener('click', ()=>{
     if (playing){
