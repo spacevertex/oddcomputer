@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "name": "Spaceship-5 (period 68, translates -68,0 -- pure horizontal)",
+  "period": 68,
+  "translation": {
+    "dx": -68,
+    "dy": 0
+  },
+  "nearest": [
+    {
+      "x": -1,
+      "y": -2,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 0,
+      "y": -1,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "vx": 1,
+      "vy": 3
+    },
+    {
+      "x": -2,
+      "y": -1,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": -1,
+      "y": 0,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "bobo": []
+}
