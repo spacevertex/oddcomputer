@@ -402,6 +402,7 @@
   /* save lights: green dot on Quicksave (field is what's saved) and
      Recall (something is saved), whatever the label colour */
   #btn-quicksave.led::before, #btn-redo.led::before{ background:#8bf3c9; }
+  #btn-trails-toggle.trail-max::before{ background:#f2a24a; } /* orange: 20000 tick trails */
   #btn-quicksave, #btn-redo{ position:relative; }
 
   /* brief note when the trail length changes; fades after a second */
@@ -510,13 +511,14 @@
       <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
     <h4>View</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>h</kbd></span></span><div>Home: back to 0,0, keeping the zoom level.</div></div>
-      <div class="row"><span class="keys"><kbd>3</kbd><kbd>#</kbd></span><div>Next zoom level: Ultrawide, Superwide, Wide, Default, Close, then back to Ultrawide. The view stays centred where it is.</div></div>
+      <div class="row"><span class="keys"><kbd>9</kbd><kbd>0</kbd></span><div>Zoom out / zoom in one level (Close, Default, Wide, Superwide, Ultrawide). Stops at either end. The view stays centred where it is.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
-      <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: Wide, Default or Close, centred where you clicked.</div></div>
-      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Zoom, Delete.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: any zoom level, centred where you clicked.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Center, Delete.</div></div>
     <h4>Trails</h4>
-      <div class="row"><span class="keys"><span class="keys"><kbd>-</kbd><kbd>_</kbd></span></span><div>Shorter trails.</div></div>
-      <div class="row"><span class="keys"><span class="keys"><kbd>=</kbd><kbd>+</kbd></span></span><div>Longer trails: 10 to 5000 ticks. A dot on Trails means the length isn't 500.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>-</kbd></span></span><div>Shorter trails.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>=</kbd></span></span><div>Longer trails: 10 to 5000 ticks. A dot on Trails means the length isn't 500.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><kbd>+</kbd></span></span><div>20000 tick trails (orange dot), for up to 30 nearests. <kbd>-</kbd> or <kbd>=</kbd> goes back to 5000.</div></div>
     <h4>Watch</h4>
       <div class="row"><span class="keys"><span class="act">Add markers</span></span><div>Once an oscillator is found: mark its Edges (stops on the outside of the figure) or All stops. Save oscillator includes them.</div></div>
   </div>
@@ -612,8 +614,7 @@
 
   let CELL; // px per world unit, normal view
   // zoom levels: world units visible across the screen's short side, and
-  // the grid spacing drawn at that level. superwide and ultrawide are only
-  // reached with the 3 / # key, not from the view menu.
+  // the grid spacing drawn at that level
   const ZOOM_LEVELS = {
     close:     { label: 'close',     span: 30,    grid: 1 },
     default:   { label: 'default',   span: 200,   grid: 10 },
@@ -652,7 +653,13 @@
   const TRAIL_DEFAULT_INDEX = 5; // 500
   const TRAIL_KEEP_MIN = 2000;
   let trailIndex = TRAIL_DEFAULT_INDEX;
-  function trailLen(){ return TRAIL_PRESETS[trailIndex]; }
+  // + (shift =) jumps to the extra-long setting, outside the - / = steps;
+  // - or = from there goes back to 5000. It's only allowed with up to
+  // TRAIL_MAX_NEAREST nearests on the field: + is refused above that, and
+  // if the field grows past it, trails drop back to 5000 with a note.
+  const TRAIL_MAX = 20000, TRAIL_MAX_NEAREST = 30;
+  let trailMax = false;
+  function trailLen(){ return trailMax ? TRAIL_MAX : TRAIL_PRESETS[trailIndex]; }
   function trailKeep(){ return Math.max(TRAIL_KEEP_MIN, trailLen()); }
   function pushTrailPoint(t, x, y){
     t.push({x, y});
@@ -666,11 +673,10 @@
   const MARKER_COLOR = '#dfe8e2';
   const MARKER_ALPHA = 0.35;
   const SELECT_COLOR = '#7fb8ff'; // ring around the particle whose menu is open
-  // camera center in world units, shared by both zoom levels. Zooming in
-  // (context menu) jumps it to the clicked particle — a static snapshot,
-  // not tracked. Dragging the canvas pans it at either zoom level.
-  // Unzoom keeps it, so the wide view stays centered wherever you've
-  // panned to; only Clear sends it back to 0,0.
+  // camera center in world units, shared by all zoom levels. Center
+  // (particle menu) jumps it to the clicked particle — a static snapshot,
+  // not tracked. Dragging the canvas pans it at any zoom level, and
+  // changing zoom keeps it; Clear and h send it back to 0,0.
   let camX = 0, camY = 0;
 
   function computeCell(){
@@ -948,13 +954,13 @@
     else draw();
   }
 
-  // 3 (or #): step through the zoom levels
-  // Ultrawide -> Superwide -> Wide -> Default -> Close -> Ultrawide,
-  // keeping the view's centre where it is
-  function cycleZoom(){
-    const order = ['ultrawide', 'superwide', 'wide', 'default', 'close'];
+  // 9 zooms out one level, 0 zooms in, keeping the view's centre where it
+  // is. No wrap-around: at Close or Ultrawide the key just shows the banner.
+  const ZOOM_ORDER = ['ultrawide', 'superwide', 'wide', 'default', 'close'];
+  function stepZoom(dir){
     hideContextMenu();
-    setZoom(order[(order.indexOf(zoomLevel) + 1) % order.length]);
+    const i = Math.max(0, Math.min(ZOOM_ORDER.length - 1, ZOOM_ORDER.indexOf(zoomLevel) + dir));
+    setZoom(ZOOM_ORDER[i]);
     if (placementActive || addActive) updatePlacementIndicator();
   }
 
@@ -1351,6 +1357,7 @@
 
   function draw(){
     updateSaveLights();
+    checkTrailMax();
     ctx.fillStyle = '#0c1210';
     ctx.fillRect(0,0,W,H);
 
@@ -1857,7 +1864,7 @@
     if (p.type === 'nearest'){
       html += `<button id="ctx-watch">Watch</button>`;
     }
-    html += `<button id="ctx-zoom">Zoom</button>`;
+    html += `<button id="ctx-center">Center</button>`;
     html += `<button id="ctx-delete" class="danger">Delete</button>`;
     contextMenuEl.innerHTML = html;
 
@@ -1875,10 +1882,13 @@
         startWatch(index);
       });
     }
-    document.getElementById('ctx-zoom').addEventListener('click', (e)=>{
+    // Center: move the camera onto the particle, keeping the zoom level
+    document.getElementById('ctx-center').addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
-      setZoom('close', particles[index].x, particles[index].y);
+      camX = particles[index].x; camY = particles[index].y;
+      if (placementActive || addActive) updatePlacementIndicator();
+      else draw();
     });
     document.getElementById('ctx-delete').addEventListener('click', (e)=>{
       e.stopPropagation();
@@ -1888,16 +1898,16 @@
   }
 
   // ---------- view menu (click on empty field) ----------
-  // Clicking anywhere that isn't a particle offers the three zoom levels,
+  // Clicking anywhere that isn't a particle offers the zoom levels,
   // current one highlighted. Whichever you pick — including the current
   // one — the view re-centres on the exact spot you clicked.
-  const VIEW_LEVELS = [['wide','Wide'],['default','Default'],['close','Close']];
+  const VIEW_LEVELS = [['close','Close'],['default','Default'],['wide','Wide'],['superwide','Superwide'],['ultrawide','Ultrawide']];
   function showViewMenu(sx, sy){
     const w = screenToWorld(sx, sy);
     contextMenuEl.innerHTML = '<div class="menu-title">View</div>' + VIEW_LEVELS.map(([lv,label])=>
       `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('');
     contextMenuEl.style.left = Math.min(sx + 10, W - 110) + 'px';
-    contextMenuEl.style.top = Math.min(sy + 10, H - 120) + 'px';
+    contextMenuEl.style.top = Math.min(sy + 10, H - 190) + 'px';
     contextMenuEl.classList.add('visible');
     contextMenuEl.querySelectorAll('button[data-level]').forEach(b=> b.addEventListener('click', (e)=>{
       e.stopPropagation();
@@ -3026,11 +3036,38 @@
   const trailNoteEl = document.getElementById('trail-note');
   let trailNoteTimer = null;
   function stepTrailLength(dir){
-    trailIndex = Math.max(0, Math.min(TRAIL_PRESETS.length - 1, trailIndex + dir));
-    document.getElementById('btn-trails-toggle').classList.toggle('trail-custom', trailIndex !== TRAIL_DEFAULT_INDEX);
+    if (trailMax){ trailMax = false; trailIndex = TRAIL_PRESETS.length - 1; } // - or = from 20000: back to 5000
+    else trailIndex = Math.max(0, Math.min(TRAIL_PRESETS.length - 1, trailIndex + dir));
+    updateTrailDot();
     showNote(trailLen() + ' tick trails');
     draw();
+  }  function updateTrailDot(){
+    const b = document.getElementById('btn-trails-toggle');
+    b.classList.toggle('trail-custom', trailMax || trailIndex !== TRAIL_DEFAULT_INDEX);
+    b.classList.toggle('trail-max', trailMax);
   }
+  function nearestCount(){ let n = 0; for (const p of particles) if (p.type === 'nearest') n++; return n; }
+  function setTrailMax(){
+    const n = nearestCount();
+    if (n > TRAIL_MAX_NEAREST){
+      showNote(`${TRAIL_MAX} tick trails: ${TRAIL_MAX_NEAREST} nearests at most (${n} on the field)`);
+      return;
+    }
+    trailMax = true;
+    updateTrailDot();
+    showNote(TRAIL_MAX + ' tick trails');
+    draw();
+  }
+  // called on every draw: the field grew past the limit while at 20000
+  function checkTrailMax(){
+    if (!trailMax) return;
+    const n = nearestCount();
+    if (n <= TRAIL_MAX_NEAREST) return;
+    trailMax = false; trailIndex = TRAIL_PRESETS.length - 1;
+    updateTrailDot();
+    showNote(`over ${TRAIL_MAX_NEAREST} nearests (${n}): trails back to 5000`);
+  }
+
   // brief note at the bottom of the field, fading after a second
   // (trail length and colourway changes share it)
   // A sticky note ("position" / "velocity" while placing a nearest) stays up
@@ -3103,14 +3140,16 @@
     // = shorter / longer trails
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
-    if (k === '3' || k === '#'){ e.preventDefault(); cycleZoom(); return; }
+    if (k === '9'){ e.preventDefault(); stepZoom(-1); return; }  // out
+    if (k === '0'){ e.preventDefault(); stepZoom(1); return; }   // in
     if (e.key === ']'){ e.preventDefault(); stepColorway(); return; }
     if (e.key === '['){ e.preventDefault(); remixPalette(); return; }
     if (e.key === '\\'){ e.preventDefault(); trailLeadIndex = (trailLeadIndex + 1) % TRAIL_LEADS.length; showNote(TRAIL_LEADS[trailLeadIndex].name); draw(); return; }
     if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ',' || k === '<'){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
     if (k === '-' || k === '_'){ e.preventDefault(); stepTrailLength(-1); return; }
-    if (k === '=' || k === '+'){ e.preventDefault(); stepTrailLength(1); return; }
+    if (e.key === '+'){ e.preventDefault(); setTrailMax(); return; }
+    if (k === '='){ e.preventDefault(); stepTrailLength(1); return; }
     const id = SHORTCUTS[e.key.toLowerCase()];
     if (!id) return;
     e.preventDefault();
