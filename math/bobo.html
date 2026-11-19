@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="../images/favicon.ico">
+<link rel="icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bobo Vector Automaton</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -389,8 +389,9 @@
   #help-panel .note{ color: var(--text-dim); }
   #btn-help{ padding:8px 11px; }
 
-  /* trail length other than 500: a small dot in the Trails button's
-     top-right corner, in the label's own colour (green on, grey off) */
+  /* a small dot in a button's top-right corner. Trails: the length isn't
+     500, in the label's own colour (green on, grey off). Quicksave and
+     Recall: the save lights, coloured just below. */
   #btn-trails-toggle.trail-custom::before, #btn-quicksave.led::before, #btn-redo.led::before{
     content:'';
     position:absolute; top:4px; right:4px;
@@ -514,12 +515,13 @@
       <div class="row"><span class="keys"><kbd>9</kbd><kbd>0</kbd></span><div>Zoom out / zoom in one level (Close, Default, Wide, Superwide, Ultrawide). Stops at either end. The view stays centred where it is.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: any zoom level, centred where you clicked.</div></div>
-      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Center, Delete.</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Center, View, Delete. View picks a zoom level and centres on the particle. If several particles share the spot, Delete asks which one (nearests show their velocity when there's more than one).</div></div>
     <h4>Trails</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>-</kbd></span></span><div>Shorter trails.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>=</kbd></span></span><div>Longer trails: 10 to 5000 ticks. A dot on Trails means the length isn't 500.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>+</kbd></span></span><div>20000 tick trails (orange dot), for up to 30 nearests. <kbd>-</kbd> or <kbd>=</kbd> goes back to 5000.</div></div>
     <h4>Watch</h4>
+      <div class="row"><span class="keys"><span class="act">Isolate</span></span><div>Pause and keep only what the watch has touched: while watching, the watched nearests and the bobos they've used (for gliders and other things that don't repeat in place); once an oscillator is found, just the oscillator. Revert brings the rest back; Keep makes it stick.</div></div>
       <div class="row"><span class="keys"><span class="act">Add markers</span></span><div>Once an oscillator is found: mark its Edges (stops on the outside of the figure) or All stops. Save oscillator includes them.</div></div>
   </div>
 </div>
@@ -634,22 +636,36 @@
   function viewCell(){ return zoomLevel === 'default' ? CELL : Math.min(W, H) / ZOOM_LEVELS[zoomLevel].span; }
   let showTrails = true;
   let showVectors = false;
-  // trail length: - / _ steps down this list, = / + steps up. Starts at 500
-  // on every page load; only those keys change it (Clear and the Trails
-  // toggle leave it alone). Each trail keeps at least TRAIL_KEEP_MIN points
+  // trail length: - (or _) steps down this list, = steps up; + is the
+  // separate 20000 setting below. Starts at 500 on every page load; only
+  // those keys change it (Clear and the Trails toggle leave it alone). Each trail keeps at least TRAIL_KEEP_MIN points
   // of history even when fewer are shown, so lengthening up to that much
   // shows the extra history at once instead of waiting for it to grow.
   const TRAIL_PRESETS = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
-  // trail thickness: \\ cycles the original width, double and triple, named
-  // after mechanical-pencil leads for fun. Starts thin on every page load.
-  // width is proportional to the lead size (0.3mm = the original width,
-  // 0.9mm = 3x); each size also has a bold step with more solid trails
+  // trail thickness: \\ cycles eight steps named after mechanical-pencil
+  // leads for fun: 0.3, 0.5, 0.7 and 0.9mm, each followed by its bold
+  // version. Width is proportional to the lead size (0.3mm = the original
+  // width, 0.9mm = 3x); bold keeps the width and makes the trail more
+  // solid. Starts at 0.3mm on every page load.
   const TRAIL_ALPHA = 0.3, TRAIL_ALPHA_BOLD = 0.6;
   const TRAIL_LEADS = [0.3, 0.5, 0.7, 0.9].flatMap(mm => [
     { name: mm.toFixed(1) + 'mm',        factor: mm / 0.3, alpha: TRAIL_ALPHA },
     { name: mm.toFixed(1) + 'mm bold',   factor: mm / 0.3, alpha: TRAIL_ALPHA_BOLD },
   ]);
   let trailLeadIndex = 0;
+  // | (shift \\) cycles the grid's weight: default -> bold -> faint ->
+  // default. The axes step up with the grid so they still stand out.
+  // Starts at default on every page load.
+  const GRID_STYLES = [
+    { name: 'default grid', line: '#223530', lineW: 1.25, axis: '#314e43', axisW: 1.8 },
+    { name: 'bold grid',    line: '#2c463c', lineW: 1.5,  axis: '#3f6455', axisW: 2.2 },
+    { name: 'faint grid',   line: '#182420', lineW: 1,    axis: '#233830', axisW: 1.5 },
+  ];
+  let gridStyleIndex = 0;
+  // * toggles the bobo highlight off: every bobo is drawn in its plain
+  // colour, as if none were in use. Not in the help panel. Starts with the
+  // highlight on every page load. Affects the field only, not Zoo thumbnails.
+  let boboHighlight = true;
   const TRAIL_DEFAULT_INDEX = 5; // 500
   const TRAIL_KEEP_MIN = 2000;
   let trailIndex = TRAIL_DEFAULT_INDEX;
@@ -684,18 +700,20 @@
     CELL = Math.min(W, H) / span;
   }
 
-  // level: 'wide' | 'default' | 'close' (true/false still accepted: close / default).
+  // level: a key of ZOOM_LEVELS (true/false still accepted: close / default).
   // A centre, when given, moves the camera there; without one the view
-  // keeps its current centre.
-  function setZoom(level, cx, cy){
+  // keeps its current centre. Shows the zoom banner, unless quietIfSame is
+  // set and the level didn't change (Recall restoring the same zoom).
+  function setZoom(level, cx, cy, quietIfSame){
     if (level === true) level = 'close';
     if (level === false) level = 'default';
     if (!ZOOM_LEVELS[level]) level = 'default';
+    const changed = level !== zoomLevel;
     zoomLevel = level;
     zoomed = (level === 'close');
     if (cx !== undefined){ camX = cx; camY = cy; }
     draw();
-    showZoomNote();
+    if (changed || !quietIfSame) showZoomNote();
   }
 
   function resize(){
@@ -861,17 +879,17 @@
     }
   }
 
-  // snapshot of the exact particle state right after the last 'Roll' press,
-  // so 'Recall' can bring back conditions that led somewhere interesting
-  // before a nuisance particle (or a deletion) disrupted it.
+  // snapshot of the exact particle state at the last Quicksave, so Recall
+  // can bring back conditions that led somewhere interesting before a
+  // nuisance particle (or a deletion) disrupted it. Only Quicksave writes
+  // it; null until the first one (Recall then does nothing).
   let lastNewSnapshot = null;
   // camera at the moment of the last Quicksave ({camX, camY, zoomLevel}),
-  // restored by Recall. Random leaves it null: Recall after Random brings
-  // back the particles but leaves the view wherever it is.
+  // restored by Recall along with the particles.
   let lastNewView = null;
 
   function reset(){
-    revertPreview(); // Roll replaces the live particles array; a running preview's snapshot would otherwise go stale under it
+    revertPreview(); // Random replaces the live particles array; a running preview's snapshot would otherwise go stale under it
     spawn(); // Random no longer quicksaves: Recall keeps whatever was last quicksaved
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
@@ -882,11 +900,11 @@
     draw();
   }
 
-  // quicksave: overwrites the same snapshot Roll writes, so Recall brings
-  // back this exact moment instead. Always captures the REAL field — never
+  // quicksave: stores this exact moment (particles and view) for Recall,
+  // replacing any earlier quicksave. Always captures the REAL field — never
   // a running preview or the pending ghost — so it's safe to press mid-
   // placement (e.g. while pre-rolling the next component of a daisy chain).
-  // Trails aren't stored; Recall restarts them fresh, same as after Roll.
+  // Trails aren't stored; Recall restarts them fresh, same as after Random.
   function quicksave(){
     // pause first, so the saved moment stays on screen and the light can
     // run its full blink (a running field would put it straight out)
@@ -949,7 +967,7 @@
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
     updateHud();
-    if (lastNewView) setZoom(lastNewView.zoomLevel, lastNewView.camX, lastNewView.camY);
+    if (lastNewView) setZoom(lastNewView.zoomLevel, lastNewView.camX, lastNewView.camY, true);
     if (placementActive || addActive) updatePlacementIndicator(); // re-anchor the coord label (also draws)
     else draw();
   }
@@ -1051,6 +1069,70 @@
     draw(); // clear the watch rings now, even while paused (the canvas only repaints on a step otherwise)
   }
 
+  // ---------- isolate ----------
+  // Isolate pauses the sim and removes everything the watch hasn't touched.
+  // While still watching, what stays is the watched cluster's nearests plus
+  // every bobo that was ever one of their tied-nearest neighbours during
+  // the watch; markers go too. Once an oscillator is found, what stays is
+  // the oscillator itself, as Save oscillator would write it (with any
+  // markers Add markers made).
+  // For studying things that never repeat in place, like a glider loose in
+  // a random field. Revert puts the field back exactly as it was at the
+  // moment of Isolate; Keep leaves only the isolated particles. Either one
+  // ends the watch.
+  function isolateWatch(){
+    if (!watch || !(watch.active || watch.result)) return;
+    if (playing){ playing = false; playBtn.textContent = 'Play'; }
+    let keepIdx;
+    if (watch.result){
+      // a found oscillator: exactly what Save oscillator would write (its
+      // nearests, the bobos it uses, and any markers Add markers made)
+      const r = watch.result;
+      keepIdx = new Set([...r.clusterIndices, ...r.boboIndices]);
+      r.markerObjs.forEach(m => { const i = particles.indexOf(m); if (i >= 0) keepIdx.add(i); });
+    } else {
+      keepIdx = new Set(watch.cluster);
+      for (const rec of watch.history){
+        Object.keys(rec).forEach(k => rec[k].forEach(j => {
+          if (particles[j] && particles[j].type === 'bobo') keepIdx.add(j);
+        }));
+      }
+    }
+    // the whole field as it is now, by value, so Revert restores this moment
+    // even if the isolated particles are stepped in the meantime
+    const snapshot = {
+      particles: particles.map(p => ({...p})),
+      trails: trails.map(t => t ? t.map(q => ({...q})) : t),
+    };
+    const kept = [], keptTrails = [];
+    particles.forEach((p, i) => { if (keepIdx.has(i)){ kept.push(p); keptTrails.push(trails[i]); } });
+    const removed = particles.length - kept.length;
+    particles = kept; trails = keptTrails;
+    hideContextMenu();
+    watch = {
+      active: false, result: null,
+      isolated: {
+        snapshot, removed,
+        nearests: kept.filter(p => p.type === 'nearest').length,
+        bobos: kept.filter(p => p.type === 'bobo').length,
+      },
+    };
+    updateWatchPanel();
+    draw();
+  }
+  function revertIsolate(){
+    if (!watch || !watch.isolated) return;
+    if (playing){ playing = false; playBtn.textContent = 'Play'; }
+    particles = watch.isolated.snapshot.particles;
+    trails = watch.isolated.snapshot.trails;
+    hideContextMenu();
+    cancelWatch();
+  }
+  function keepIsolate(){
+    if (!watch || !watch.isolated) return;
+    cancelWatch();
+  }
+
   function clusterHash(sortedIdx){
     return sortedIdx.map(i=>{
       const p = particles[i];
@@ -1133,9 +1215,27 @@
         <div class="title">Watching\u2026</div>
         <div>cluster size: <span id="watch-cluster">${watch.cluster.size}</span></div>
         <div>ticks watched: <span id="watch-ticks">${watch.ticksWatched}</span></div>
-        <div class="row-buttons"><button class="btn" id="btn-watch-cancel">Cancel</button></div>
+        <div class="row-buttons">
+          <button class="btn" id="btn-watch-isolate" title="Pause and keep only what the watch has touched">Isolate</button>
+          <button class="btn" id="btn-watch-cancel">Dismiss</button>
+        </div>
       `;
+      document.getElementById('btn-watch-isolate').addEventListener('click', isolateWatch);
       document.getElementById('btn-watch-cancel').addEventListener('click', cancelWatch);
+    } else if (watch.isolated){
+      const iso = watch.isolated;
+      panel.innerHTML = `
+        <div class="title">Isolated</div>
+        <div>nearests: ${iso.nearests}</div>
+        <div>bobos: ${iso.bobos}</div>
+        <div>removed: ${iso.removed}</div>
+        <div class="row-buttons">
+          <button class="btn" id="btn-watch-revert" title="Bring the removed particles back">Revert</button>
+          <button class="btn primary" id="btn-watch-keep" title="Leave only the isolated particles">Keep</button>
+        </div>
+      `;
+      document.getElementById('btn-watch-revert').addEventListener('click', revertIsolate);
+      document.getElementById('btn-watch-keep').addEventListener('click', keepIsolate);
     } else if (watch.result){
       const r = watch.result;
       const markerLine = r.markerMode
@@ -1155,10 +1255,12 @@
         <div class="row-buttons">
           <button class="btn primary" id="btn-watch-save">Save oscillator</button>
           <button class="btn${watch.markerChoice?' open':''}" id="btn-watch-markers">Add markers</button>
+          <button class="btn" id="btn-watch-isolate" title="Pause and keep only this oscillator">Isolate</button>
           <button class="btn" id="btn-watch-dismiss">Dismiss</button>
         </div>
         ${choiceRow}
       `;
+      document.getElementById('btn-watch-isolate').addEventListener('click', isolateWatch);
       document.getElementById('btn-watch-save').addEventListener('click', ()=>{
         const defaultName = `osc_n${r.nearest.length}_b${r.bobo.length}_p${r.period}`;
         openSaveDialog(defaultName, (name)=>{
@@ -1361,13 +1463,14 @@
     ctx.fillStyle = '#0c1210';
     ctx.fillRect(0,0,W,H);
 
-    // grid: every 10 world units normally, every 1 unit when zoomed
-    // (so individual lattice points are visible). Extent is computed from
+    // grid: spacing set per zoom level in ZOOM_LEVELS (every 1 unit in the
+    // close view, so individual lattice points are visible; 10 by default;
+    // coarser at each wider level, so it stays a grid rather than a haze).
+    // Extent is computed from
     // whatever's actually visible on screen right now — not a fixed
     // +-100 — so wide monitors (where the visible world width can exceed
     // the height, since scale is set by the smaller dimension) still get
     // full-width coverage instead of gridlines stopping partway across.
-    // (every 50 in the wide view, so it stays a grid rather than a haze)
     const gridStep = ZOOM_LEVELS[zoomLevel].grid;
     const activeCell = viewCell();
     const halfWorldW = (W/2) / activeCell;
@@ -1376,8 +1479,9 @@
     const gxEnd = Math.ceil((camX + halfWorldW) / gridStep) * gridStep;
     const gyStart = Math.floor((camY - halfWorldH) / gridStep) * gridStep;
     const gyEnd = Math.ceil((camY + halfWorldH) / gridStep) * gridStep;
-    ctx.strokeStyle = '#182420';
-    ctx.lineWidth = 1;
+    const gs = GRID_STYLES[gridStyleIndex];
+    ctx.strokeStyle = gs.line;
+    ctx.lineWidth = gs.lineW;
     ctx.beginPath();
     for (let gx = gxStart; gx <= gxEnd; gx += gridStep){
       const {sx} = worldToScreen(gx, 0);
@@ -1390,8 +1494,8 @@
     ctx.stroke();
 
     // axes
-    ctx.strokeStyle = '#233830';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = gs.axis;
+    ctx.lineWidth = gs.axisW;
     ctx.beginPath();
     const origin = worldToScreen(0,0);
     ctx.moveTo(origin.sx+0.5, 0); ctx.lineTo(origin.sx+0.5, H);
@@ -1414,7 +1518,11 @@
       //  - world->screen is inlined (no object per point),
       //  - a trail that lies entirely off screen is skipped,
       //  - points that would move the pen less than half a pixel are
-      //    skipped (in the wide view many consecutive points share a pixel).
+      //    skipped (in the wide view many consecutive points share a pixel),
+      //  - a segment whose two ends are both off the same side of the
+      //    screen is skipped. One that could cross the view is still drawn,
+      //    however long: a fast particle can jump the whole close view in
+      //    a single tick.
       // The last point is always drawn so the trail still meets its particle.
       const cell = viewCell(), ox = W/2 - camX*cell, oy = H/2 + camY*cell;
       const PAD = 4, MIN_STEP = isWideView() ? 1.5 : 0.5;
@@ -1432,7 +1540,8 @@
         ctx.strokeStyle = colorForDraw(i);
         ctx.beginPath();
         let lx = ox + t[first].x*cell, ly = oy - t[first].y*cell;
-        const off = (x, y) => x < -PAD || x > W + PAD || y < -PAD || y > H + PAD;
+        // which sides of the screen a point is beyond: 1 left, 2 right, 4 top, 8 bottom
+        const off = (x, y) => (x < -PAD ? 1 : x > W + PAD ? 2 : 0) | (y < -PAD ? 4 : y > H + PAD ? 8 : 0);
         let lOff = off(lx, ly);
         ctx.moveTo(lx, ly);
         const last = t.length - 1;
@@ -1440,8 +1549,8 @@
           const sx = ox + t[k].x*cell, sy = oy - t[k].y*cell;
           if (k !== last && Math.abs(sx - lx) + Math.abs(sy - ly) < MIN_STEP) continue;
           const sOff = off(sx, sy);
-          // a segment with both ends off screen can't be seen (steps are short), so lift the pen
-          if (lOff && sOff) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+          // both ends beyond the same edge: it can't touch the screen, so lift the pen
+          if (lOff & sOff) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
           lx = sx; ly = sy; lOff = sOff;
         }
         ctx.stroke();
@@ -1486,7 +1595,7 @@
     // bobo particles: static squares, no glow. Slightly brighter grey when
     // currently serving as a (tied-)nearest neighbor for some particle,
     // computed fresh from the positions actually being drawn this frame.
-    const activeBobosNow = computeActiveBobosIn(drawArr);
+    const activeBobosNow = boboHighlight ? computeActiveBobosIn(drawArr) : new Set();
     drawArr.forEach((p,i)=>{
       if (p.type !== 'bobo') return;
       const {sx, sy} = worldToScreen(p.x, p.y);
@@ -1865,6 +1974,7 @@
       html += `<button id="ctx-watch">Watch</button>`;
     }
     html += `<button id="ctx-center">Center</button>`;
+    html += `<button id="ctx-view">View</button>`;
     html += `<button id="ctx-delete" class="danger">Delete</button>`;
     contextMenuEl.innerHTML = html;
 
@@ -1880,6 +1990,7 @@
         e.stopPropagation();
         hideContextMenu();
         startWatch(index);
+        draw(); // show the watching ring now, even while paused
       });
     }
     // Center: move the camera onto the particle, keeping the zoom level
@@ -1890,11 +2001,51 @@
       if (placementActive || addActive) updatePlacementIndicator();
       else draw();
     });
+    // View: the same zoom choices as clicking the field, then centre on this
+    // particle at the chosen level (the current level just centres, like Center)
+    document.getElementById('ctx-view').addEventListener('click', (e)=>{
+      e.stopPropagation();
+      showViewMenu(sx, sy, p);
+    });
     document.getElementById('ctx-delete').addEventListener('click', (e)=>{
       e.stopPropagation();
+      // more than one particle on this exact spot: ask which one goes
+      const stack = stackAt(particles[index]);
+      if (stack.length > 1){ showDeleteStackMenu(stack, menuX, menuY); return; }
       hideContextMenu();
       deleteParticle(index);
     });
+  }
+
+  // ---------- delete from a stack ----------
+  // Everything sitting on exactly the same lattice point as p (p included),
+  // listed bobos first, then nearests, then markers (markers only while
+  // they're shown). Particle objects, not indices, so the list stays right
+  // even if the sim keeps running while the menu is open.
+  function stackAt(p){
+    const order = { bobo: 0, nearest: 1, marker: 2 };
+    return particles
+      .filter(q => q.x === p.x && q.y === p.y && (q.type !== 'marker' || showMarkers))
+      .sort((a, b) => order[a.type] - order[b.type]);
+  }
+  // A small menu with one entry per particle in the stack. With two or more
+  // nearests in it, each nearest shows its velocity so they can be told
+  // apart (identical velocities means identical particles, so either is fine).
+  function showDeleteStackMenu(stack, menuX, menuY){
+    const nNearest = stack.filter(q => q.type === 'nearest').length;
+    contextMenuEl.innerHTML = '<div class="menu-title">Delete</div>' + stack.map((q, i) => {
+      const label = (q.type === 'nearest' && nNearest > 1) ? `nearest (${q.vx}, ${q.vy})` : q.type;
+      return `<button data-k="${i}" class="danger">${label}</button>`;
+    }).join('');
+    contextMenuEl.style.left = menuX + 'px';
+    contextMenuEl.style.top = Math.min(menuY, H - 30 - 26 * stack.length) + 'px';
+    contextMenuEl.querySelectorAll('button[data-k]').forEach(b => b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const q = stack[+b.dataset.k];
+      hideContextMenu();
+      const i = particles.indexOf(q);
+      if (i >= 0) deleteParticle(i);
+    }));
   }
 
   // ---------- view menu (click on empty field) ----------
@@ -1902,7 +2053,10 @@
   // current one highlighted. Whichever you pick — including the current
   // one — the view re-centres on the exact spot you clicked.
   const VIEW_LEVELS = [['close','Close'],['default','Default'],['wide','Wide'],['superwide','Superwide'],['ultrawide','Ultrawide']];
-  function showViewMenu(sx, sy){
+  // With a particle (from its menu's View), the choice centres on that
+  // particle instead of the clicked spot, and choosing the level you're
+  // already at just centres, without the zoom banner.
+  function showViewMenu(sx, sy, particle){
     const w = screenToWorld(sx, sy);
     contextMenuEl.innerHTML = '<div class="menu-title">View</div>' + VIEW_LEVELS.map(([lv,label])=>
       `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('');
@@ -1912,7 +2066,10 @@
     contextMenuEl.querySelectorAll('button[data-level]').forEach(b=> b.addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
-      setZoom(b.dataset.level, w.x, w.y);
+      if (particle){
+        setZoom(b.dataset.level, particle.x, particle.y, true);
+        if (placementActive || addActive) updatePlacementIndicator();
+      } else setZoom(b.dataset.level, w.x, w.y);
     }));
   }
 
@@ -2447,7 +2604,7 @@
 
   // ---------- camera panning ----------
   // Drag anywhere on the canvas (left button, or a touch) to pan, at
-  // either zoom level, running or stopped. A press only becomes a pan once
+  // any zoom level, running or stopped. A press only becomes a pan once
   // it travels PAN_THRESHOLD px, so ordinary clicks still open the context
   // menu / commit a placement / place a particle. A completed pan swallows
   // the click that follows its release.
@@ -3136,14 +3293,18 @@
       return;
     }
     // keys with no console button: h = home (camera to 0,0, same zoom),
-    // m = place a marker, comma = show/hide markers, - and = (also _ and +)
-    // = shorter / longer trails
+    // 9 / 0 = zoom out / in, ] and [ = colourways, \\ = trail thickness,
+    // | = grid weight (default, bold, faint), * = bobo highlight on / off,
+    // m = place a marker, comma = show/hide markers, - (also _) and = =
+    // shorter / longer trails, + = 20000 tick trails
     const k = e.key.toLowerCase();
     if (k === 'h'){ e.preventDefault(); goHome(); return; }
     if (k === '9'){ e.preventDefault(); stepZoom(-1); return; }  // out
     if (k === '0'){ e.preventDefault(); stepZoom(1); return; }   // in
     if (e.key === ']'){ e.preventDefault(); stepColorway(); return; }
     if (e.key === '['){ e.preventDefault(); remixPalette(); return; }
+    if (e.key === '*'){ e.preventDefault(); boboHighlight = !boboHighlight; showNote(boboHighlight ? 'default bobo' : 'unlit bobo'); draw(); return; }
+    if (e.key === '|'){ e.preventDefault(); gridStyleIndex = (gridStyleIndex + 1) % GRID_STYLES.length; showNote(GRID_STYLES[gridStyleIndex].name); draw(); return; }
     if (e.key === '\\'){ e.preventDefault(); trailLeadIndex = (trailLeadIndex + 1) % TRAIL_LEADS.length; showNote(TRAIL_LEADS[trailLeadIndex].name); draw(); return; }
     if (k === 'm'){ e.preventDefault(); beginAdd('marker'); return; }
     if (k === ',' || k === '<'){ e.preventDefault(); showMarkers = !showMarkers; hideContextMenu(); draw(); return; }
