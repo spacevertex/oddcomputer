@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "name": "Spaceship-7 (period 62, translates +62,-62)",
+  "period": 62,
+  "translation": {
+    "dx": 62,
+    "dy": -62
+  },
+  "nearest": [
+    {
+      "x": 1,
+      "y": 3,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": -3,
+      "y": -2,
+      "vx": 2,
+      "vy": -2
+    },
+    {
+      "x": -3,
+      "y": -1,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 0,
+      "y": -1,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 1,
+      "y": -2,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "bobo": []
+}

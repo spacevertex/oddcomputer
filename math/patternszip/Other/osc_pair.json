@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "period": 12,
+  "nearest": [
+    {
+      "x": -20,
+      "y": -3,
+      "vx": 0,
+      "vy": -2
+    },
+    {
+      "x": -19,
+      "y": -5,
+      "vx": 0,
+      "vy": 2
+    }
+  ],
+  "bobo": []
+}

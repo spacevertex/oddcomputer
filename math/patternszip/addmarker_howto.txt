@@ -1,0 +1,6 @@
+python3 add_stop_markers.py star_p224.json             # writes star_p224_markers.json
+python3 add_stop_markers.py star_p224.json -o out.json
+python3 add_stop_markers.py star_p224.json -i          # in place
+python3 add_stop_markers.py *.json                     # several at once
+python3 add_stop_markers.py star_p224.json -i --all    # in place, and all stops, default is bounding box stops
+

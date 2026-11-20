@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "type": "oscillator",
+  "name": "Spaceship-2 (period 420, translates +210,+210)",
+  "period": 420,
+  "translation": {
+    "dx": 210,
+    "dy": 210
+  },
+  "nearest": [
+    {
+      "x": 0,
+      "y": -3,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "vx": 1,
+      "vy": 0
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "bobo": []
+}
