@@ -515,7 +515,7 @@
       <div class="row"><span class="keys"><kbd>9</kbd><kbd>0</kbd></span><div>Zoom out / zoom in one level (Close, Default, Wide, Superwide, Ultrawide). Stops at either end. The view stays centred where it is.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">drag</span></span></span><div>Pan the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><span class="act">click field</span></span></span><div>View menu: any zoom level, centred where you clicked.</div></div>
-      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (nearest only), Center, View, Delete. View picks a zoom level and centres on the particle. If several particles share the spot, Delete asks which one (nearests show their velocity when there's more than one).</div></div>
+      <div class="row"><span class="keys"><span class="keys"><span class="act">click particle</span></span></span><div>Particle menu: Watch (when the spot holds a nearest), Center, View, Delete. View picks a zoom level and centres on the particle. If several particles share the spot, Delete asks which one (nearests show their velocity when there's more than one).</div></div>
     <h4>Trails</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>-</kbd></span></span><div>Shorter trails.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>=</kbd></span></span><div>Longer trails: 10 to 5000 ticks. A dot on Trails means the length isn't 500.</div></div>
@@ -1970,7 +1970,10 @@
     selectedParticle = p; // the object, not the index, so it stays right if the field changes
     draw();               // show the ring now, even while paused
     let html = '';
-    if (p.type === 'nearest'){
+    // Watch is offered whenever the spot holds a nearest, even if the click
+    // landed on a bobo or marker sharing that spot
+    const watchable = p.type === 'nearest' ? [p] : stackAt(p).filter(q => q.type === 'nearest');
+    if (watchable.length){
       html += `<button id="ctx-watch">Watch</button>`;
     }
     html += `<button id="ctx-center">Center</button>`;
@@ -1986,11 +1989,24 @@
 
     const watchBtn = document.getElementById('ctx-watch');
     if (watchBtn){
+      const watchIt = (q) => {
+        hideContextMenu();
+        const i = particles.indexOf(q);
+        if (i < 0) return;
+        startWatch(i);
+        draw(); // show the watching ring now, even while paused
+      };
       watchBtn.addEventListener('click', (e)=>{
         e.stopPropagation();
-        hideContextMenu();
-        startWatch(index);
-        draw(); // show the watching ring now, even while paused
+        if (watchable.length === 1){ watchIt(watchable[0]); return; }
+        // several nearests under a bobo or marker: pick one, told apart by velocity
+        contextMenuEl.innerHTML = '<div class="menu-title">Watch</div>' + watchable.map((q, i) =>
+          `<button data-k="${i}">nearest (${q.vx}, ${q.vy})</button>`).join('');
+        contextMenuEl.style.top = Math.min(menuY, H - 30 - 26 * watchable.length) + 'px';
+        contextMenuEl.querySelectorAll('button[data-k]').forEach(b => b.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          watchIt(watchable[+b.dataset.k]);
+        }));
       });
     }
     // Center: move the camera onto the particle, keeping the zoom level
