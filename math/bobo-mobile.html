@@ -104,6 +104,7 @@
   }
   #context-menu button.current{ color:#8bf3c9; background: rgba(139,243,201,0.08); }
   #context-menu button.current::after{ content:' ●'; font-size:8px; vertical-align:2px; }
+  #context-menu .menu-sep{ height:1px; background: var(--panel-line); margin:3px 8px; }
   #context-menu button.danger:hover{ background: rgba(232,163,61,0.12); color:#e8a33d; }
 
   #save-dialog{
@@ -510,26 +511,45 @@
   .btn{ min-height:40px; }
   #save-dialog input{ font-size:16px; -webkit-user-select:text; user-select:text; } /* under 16px, iOS zooms the page on focus */
 
-  /* console: one row; the main buttons scroll sideways, ⋯ and ? stay pinned */
+  /* console: one row that fits without scrolling; the rest lives in the
+     +, disk and palette menus */
   #console{
     flex-wrap:nowrap;
-    padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-    gap:8px;
+    padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+    gap:5px;
   }
-  #console .console-scroll{
-    flex:1 1 auto; min-width:0;
-    display:flex; align-items:center; gap:8px;
-    overflow-x:auto; overflow-y:hidden;
-    scrollbar-width:none;
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
-            mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent);
-    padding-right:20px;
+  #console > .btn{ flex:1 1 auto; min-width:0; padding:8px 4px; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #console > .btn.icon-btn{ flex:0 0 38px; padding:0; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  #console .icon-btn svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linejoin:round; stroke-linecap:round; }
+  #console .icon-btn svg .dot{ fill:currentColor; stroke:none; }
+  #console .icon-btn.open{ border-color:#8bf3c9; color:#8bf3c9; }
+  /* phones: measured so all nine fit unclipped from 375px up (iPhone SE/mini) */
+  @media (max-width: 439px){
+    #console{ gap:4px; padding-left:6px; padding-right:6px; }
+    #console > .btn{ font-size:11.5px; padding:8px 3px; }
+    #console > .btn.icon-btn{ flex-basis:32px; }
+    #console .icon-btn svg{ width:17px; height:17px; }
   }
-  #console .console-scroll::-webkit-scrollbar{ display:none; }
-  #console .console-scroll > *{ flex:0 0 auto; }
-  #console .console-pinned{ display:flex; gap:8px; flex:0 0 auto; }
-  #btn-more{ padding:8px 12px; font-size:15px; line-height:1; }
-  #btn-more.open{ border-color:#8bf3c9; color:#8bf3c9; }
+  @media (max-width: 359px){ #console{ gap:3px; padding-left:4px; padding-right:4px; } #console > .btn{ font-size:10px; padding:8px 2px; } #console > .btn.icon-btn{ flex-basis:28px; } }
+  @media (min-width: 600px){ #console{ gap:8px; padding-left:16px; padding-right:16px; } #console > .btn{ flex:0 0 auto; padding:8px 14px; } #console > .btn.icon-btn{ flex-basis:42px; } }
+
+  /* the + and disk menus: small columns that open above their button */
+  .pop-menu{
+    position:fixed; display:none;
+    flex-direction:column; gap:6px;
+    min-width:150px;
+    background: linear-gradient(180deg, #14201b 0%, #0f1815 100%);
+    border:1px solid var(--panel-line);
+    border-radius:6px;
+    padding:8px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    z-index:15;
+  }
+  .pop-menu.visible{ display:flex; }
+  .pop-menu > .btn{ text-align:left; font-size:13px; padding:10px 14px; }
+  .pop-menu .split-btn > .btn:first-child{ flex:1; text-align:left; font-size:13px; padding:10px 14px; }
+  #random-settings{ z-index:16; } /* opens over the disk menu it belongs to */
+
   /* no keycap hints on the buttons in the mobile version */
   body.show-keys #console .btn[data-key]::after{ display:none; }
 
@@ -597,7 +617,6 @@
   }
   #tools-sheet .row{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; }
   #tools-sheet .row.three{ grid-template-columns:repeat(3, 1fr); }
-  #tools-sheet .row.two{ grid-template-columns:repeat(2, 1fr); }
   #tools-sheet .btn{ padding:6px 4px; font-size:12px; position:relative; }
 
   /* phones: three thumbnail columns in the Zoo instead of two */
@@ -625,7 +644,7 @@
   @media (hover: none){
     .btn:hover{ border-color: var(--panel-line); color: var(--text-dim); }
     .btn.primary:hover{ border-color:#8bf3c9; color:#8bf3c9; background:transparent; }
-    .split-btn .btn.open:hover, #btn-more.open:hover{ border-color:#8bf3c9; color:#8bf3c9; }
+    .split-btn .btn.open:hover, #console .icon-btn.open:hover{ border-color:#8bf3c9; color:#8bf3c9; }
     .btn:active{ background: rgba(139,243,201,0.1); }
     #context-menu button:hover{ background:none; color: var(--text); }
     #context-menu button.current:hover{ color:#8bf3c9; background: rgba(139,243,201,0.08); }
@@ -649,10 +668,8 @@
     <div class="help-title">How to use <button class="btn close-btn" id="help-close">Close</button></div>
     <h4>Moving around</h4>
       <div class="row"><span class="keys"><span class="act">drag</span></span><div>Pan the field.</div></div>
-      <div class="row"><span class="keys"><span class="act">tap field</span></span><div>View menu: any zoom level, centred where you tapped.</div></div>
+      <div class="row"><span class="keys"><span class="act">tap field</span></span><div>View menu: any zoom level, centred where you tapped, or Home (back to 0,0 at the same zoom).</div></div>
       <div class="row"><span class="keys"><span class="act">tap particle</span></span><div>Particle menu: Watch (nearest only), Center, View, Delete. If several particles share the spot, Delete asks which one.</div></div>
-      <div class="row"><span class="keys"><span class="act">Random</span></span><div>A new random field, with the view back at 0,0. ▴ beside it sets the counts and bounds.</div></div>
-      <div class="row"><span class="keys"><span class="act">⋯ View</span></span><div>Zoom out, zoom in, and Home (back to 0,0 at the same zoom).</div></div>
     <h4>Placing a pattern (Zoo or Load)</h4>
       <div class="row"><span class="keys"><span class="act">tap field</span></span><div>Move the pattern there. Nothing is placed until you press Place.</div></div>
       <div class="row"><span class="keys"><span class="act">arrows</span></span><div>Nudge one step; hold to repeat. Tap ×10 in the middle to move 10 at a time (lit while on).</div></div>
@@ -660,47 +677,53 @@
       <div class="row"><span class="keys"><span class="act">Pre-roll</span></span><div>Step the unplaced pattern on its own, one tick per tap, to set its timing.</div></div>
       <div class="row"><span class="keys"><span class="act">Preview</span></span><div>Run as if placed, against the live field. Replay reruns it; moving the pattern ends it.</div></div>
       <div class="row"><span class="keys"><span class="act">Place · Cancel</span></span><div>Commit it, or give up.</div></div>
-    <h4>Adding one particle</h4>
+    <h4>Adding one particle (+ menu)</h4>
       <div class="row"><span class="keys"><span class="act">+Nearest</span></span><div>Two steps: position it and press Set position, then aim its velocity (shown as an offset) and press Place.</div></div>
       <div class="row"><span class="keys"><span class="act">Velocity · Position</span></span><div>While aiming, this button switches between moving the velocity and moving the position with that velocity held.</div></div>
-      <div class="row"><span class="keys"><span class="act">+Bobo · Marker</span></span><div>One step. Marker is in ⋯: a faint X for reference that never moves and is saved with the field.</div></div>
-    <h4>⋯ Tools</h4>
+      <div class="row"><span class="keys"><span class="act">+Bobo · +Marker</span></span><div>One step. A marker is a faint X for reference that never moves and is saved with the field.</div></div>
+    <h4>Appearance (palette menu)</h4>
       <div class="row"><span class="keys"><span class="act">Trails</span></span><div>Trails turns them on and off. Shorter / Longer (10 to 5000 ticks), and Lead (thickness). A dot on Trails means the length isn't 500.</div></div>
-      <div class="row"><span class="keys"><span class="act">Look</span></span><div>Colourway, Remix (same colourway, new deal), Grid weight.</div></div>
-      <div class="row"><span class="keys"><span class="act">Markers</span></span><div>Add one, or show/hide them all.</div></div>
+      <div class="row"><span class="keys"><span class="act">Look</span></span><div>Vectors on or off, Markers shown or hidden, Grid weight, Colourway, Remix (same colourway, new deal).</div></div>
     <h4>Watch</h4>
       <div class="row"><span class="keys"><span class="act">Isolate</span></span><div>Pause and keep only what the watch has touched; once an oscillator is found, just the oscillator. Revert brings the rest back; Keep makes it stick.</div></div>
       <div class="row"><span class="keys"><span class="act">Add markers</span></span><div>Once an oscillator is found: mark its Edges or All stops. Save oscillator includes them.</div></div>
-    <h4>Files</h4>
+    <h4>Disk menu</h4>
       <div class="row"><span class="keys"><span class="act">Save</span></span><div>On iPhone and iPad this opens the share sheet: choose Save to Files.</div></div>
       <div class="row"><span class="keys"><span class="act">Load</span></span><div>Opens Files to pick a .json pattern.</div></div>
+      <div class="row"><span class="keys"><span class="act">Zoo</span></span><div>Browse the known patterns and place one.</div></div>
+      <div class="row"><span class="keys"><span class="act">Random</span></span><div>A new random field, with the view back at 0,0. ▴ beside it sets the counts and bounds.</div></div>
   </div>
 </div>
 
 <div id="console">
-  <!-- most-used first: on a phone the row scrolls sideways -->
-  <div class="console-scroll">
-    <button class="btn primary" id="btn-play" data-key="space">Play</button>
-    <button class="btn" id="btn-step" data-key="&gt;">Step</button>
-    <button class="btn" id="btn-presets" data-key="Z">Zoo</button>
-    <div class="split-btn">
-      <button class="btn" id="btn-reset" data-key="X">Random</button>
-      <button class="btn" id="btn-random-settings" title="Random settings" aria-label="Random settings" aria-expanded="false">▴</button>
-    </div>
-    <button class="btn" id="btn-add-nearest" data-key="N">+Nearest</button>
-    <button class="btn" id="btn-add-bobo" data-key="B">+Bobo</button>
-    <button class="btn" id="btn-vectors-toggle" data-key="V">Vectors</button>
-    <button class="btn" id="btn-quicksave" data-key="Q">Quicksave</button>
-    <button class="btn" id="btn-redo" data-key="R">Recall</button>
-    <button class="btn" id="btn-save-full" data-key="S">Save</button>
-    <button class="btn" id="btn-load" data-key="D">Load</button>
-    <button class="btn" id="btn-clear" data-key="C">Clear</button>
-  </div>
-  <div class="console-pinned">
-    <button class="btn" id="btn-more" title="More tools" aria-label="More tools" aria-expanded="false">⋯</button>
-    <button class="btn" id="btn-help" data-key="?" title="How to use" aria-label="Help">?</button>
-  </div>
+  <button class="btn primary" id="btn-play" data-key="space">Play</button>
+  <button class="btn" id="btn-step" data-key="&gt;">Step</button>
+  <button class="btn" id="btn-quicksave" data-key="Q">Quicksave</button>
+  <button class="btn" id="btn-redo" data-key="R">Recall</button>
+  <button class="btn" id="btn-clear" data-key="C">Clear</button>
+  <button class="btn icon-btn" id="btn-add-menu" title="Add" aria-label="Add" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg></button>
+  <button class="btn icon-btn" id="btn-file-menu" title="Files and fields" aria-label="Files and fields" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 3.5h10.5l2.5 2.5v10.5h-13z"/><path d="M6.5 3.5v4h6v-4"/><path d="M10.5 4.6v1.8"/><rect x="6" y="11" width="8" height="5.5"/></svg></button>
+  <button class="btn icon-btn" id="btn-more" title="Appearance" aria-label="Appearance" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.5a7.5 7.5 0 1 0 0 15c1.1 0 1.6-.7 1.6-1.4 0-.5-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.9.7-1.5 1.5-1.5h1.6a3.8 3.8 0 0 0 3.8-3.8C17.5 5.4 14.2 2.5 10 2.5z"/><circle class="dot" cx="6.2" cy="9.3" r="1.1"/><circle class="dot" cx="8.2" cy="5.9" r="1.1"/><circle class="dot" cx="12" cy="5.6" r="1.1"/><circle class="dot" cx="14.6" cy="8.4" r="1.1"/></svg></button>
+  <button class="btn icon-btn" id="btn-help" data-key="?" title="How to use" aria-label="Help">?</button>
   <input type="file" id="file-load" accept=".json,application/json" style="display:none;">
+</div>
+
+<!-- + menu -->
+<div id="add-menu" class="pop-menu" role="menu" aria-label="Add">
+  <button class="btn" id="btn-add-nearest" data-key="N">+Nearest</button>
+  <button class="btn" id="btn-add-bobo" data-key="B">+Bobo</button>
+  <button class="btn" id="btn-add-marker" data-key="M">+Marker</button>
+</div>
+
+<!-- disk menu: files and whole fields -->
+<div id="file-menu" class="pop-menu" role="menu" aria-label="Files and fields">
+  <button class="btn" id="btn-save-full" data-key="S">Save</button>
+  <button class="btn" id="btn-load" data-key="D">Load</button>
+  <button class="btn" id="btn-presets" data-key="Z">Zoo</button>
+  <div class="split-btn">
+    <button class="btn" id="btn-reset" data-key="X">Random</button>
+    <button class="btn" id="btn-random-settings" title="Random settings" aria-label="Random settings" aria-expanded="false">▴</button>
+  </div>
 </div>
 
 <!-- shown instead of the console while a pattern or particle is being placed -->
@@ -718,19 +741,12 @@
     <button class="btn" id="tb-preroll">Pre-roll</button>
     <button class="btn" id="tb-editmode" title="What the arrows and taps move">Velocity</button>
     <button class="btn" id="tb-preview">Preview</button>
-    <button class="btn" id="tb-quicksave">Quicksave</button>
     <button class="btn" id="tb-cancel">Cancel</button>
     <button class="btn primary" id="tb-place">Place</button>
   </div>
 </div>
 
-<div id="tools-sheet" role="dialog" aria-label="More tools">
-  <div class="group-title">View</div>
-  <div class="row three">
-    <button class="btn" data-tool="zoom-out">Zoom out</button>
-    <button class="btn" data-tool="zoom-in">Zoom in</button>
-    <button class="btn" data-tool="home">Home</button>
-  </div>
+<div id="tools-sheet" role="dialog" aria-label="Appearance">
   <div class="group-title">Trails</div>
   <div class="row">
     <button class="btn primary" id="btn-trails-toggle" data-key="T">Trails</button>
@@ -740,14 +756,11 @@
   </div>
   <div class="group-title">Look</div>
   <div class="row three">
+    <button class="btn" id="btn-vectors-toggle" data-key="V">Vectors</button>
+    <button class="btn primary" id="btn-markers-toggle" data-tool="marker-toggle">Markers</button>
+    <button class="btn" data-tool="grid">Grid</button>
     <button class="btn" data-tool="colourway">Colourway</button>
     <button class="btn" data-tool="remix">Remix</button>
-    <button class="btn" data-tool="grid">Grid</button>
-  </div>
-  <div class="group-title">Markers</div>
-  <div class="row two">
-    <button class="btn" data-tool="marker-add">Add marker</button>
-    <button class="btn" data-tool="marker-toggle">Show / hide</button>
   </div>
 </div>
 
@@ -1684,6 +1697,7 @@
 
   function draw(){
     updateSaveLights();
+    syncMarkersBtn();
     checkTrailMax();
     ctx.fillStyle = '#0c1210';
     ctx.fillRect(0,0,W,H);
@@ -2075,7 +2089,11 @@
     // right-align with the gear, but never run off either screen edge
     const left = Math.max(margin, Math.min(r.right - w, window.innerWidth - w - margin));
     randomSettingsEl.style.left = left + 'px';
-    randomSettingsEl.style.bottom = (window.innerHeight - r.top + margin) + 'px';
+    // mobile: the gear sits in the disk menu, so open above the whole menu
+    // rather than over Save, Load and Zoo
+    const fm = document.getElementById('file-menu');
+    const top = (fm && fm.classList.contains('visible')) ? fm.getBoundingClientRect().top : r.top;
+    randomSettingsEl.style.bottom = (window.innerHeight - top + margin) + 'px';
   }
   function setRandomSettingsOpen(open){
     randomSettingsEl.classList.toggle('visible', open);
@@ -2295,11 +2313,14 @@
   function showViewMenu(sx, sy, particle){
     const w = screenToWorld(sx, sy);
     contextMenuEl.innerHTML = '<div class="menu-title">View</div>' + VIEW_LEVELS.map(([lv,label])=>
-      `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('');
+      `<button data-level="${lv}" class="${lv===zoomLevel?'current':''}">${label}</button>`).join('')
+      + (particle ? '' : '<div class="menu-sep"></div><button data-home="1">Home</button>'); // mobile: Home lives here
     contextMenuEl.style.left = Math.min(sx + 10, W - 110) + 'px';
     contextMenuEl.style.top = Math.min(sy + 10, H - 190) + 'px';
     contextMenuEl.classList.add('visible');
     clampMenu();
+    const homeBtn = contextMenuEl.querySelector('button[data-home]');
+    if (homeBtn) homeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); hideContextMenu(); goHome(); });
     contextMenuEl.querySelectorAll('button[data-level]').forEach(b=> b.addEventListener('click', (e)=>{
       e.stopPropagation();
       hideContextMenu();
@@ -3667,7 +3688,6 @@
     show('tb-preroll', placementActive);
     show('tb-editmode', nearestAim);
     show('tb-preview', placementActive || (addActive && addKind !== 'marker'));
-    show('tb-quicksave', placementActive);
     document.getElementById('tb-editmode').textContent = addEditPos ? 'Position' : 'Velocity';
     document.getElementById('tb-preview').textContent = previewActive ? 'Replay' : 'Preview';
     document.getElementById('tb-place').textContent =
@@ -3701,7 +3721,6 @@
     'tb-preroll': () => sendKey(';'),
     'tb-editmode': () => sendKey('y'),
     'tb-preview': () => sendKey('p'),
-    'tb-quicksave': () => quicksave(),
     'tb-cancel': () => sendKey('Escape'),
     'tb-place': () => sendKey('Enter'),
   };
@@ -3710,43 +3729,64 @@
     b.addEventListener('click', () => { fn(); b.blur(); });
   });
 
-  // ---------- ⋯ tools sheet ----------
-  // Non-modal like Random settings: stays open so you can tap Longer or
-  // Zoom out several times. Closes on ⋯, Esc, or a tap anywhere else.
+  // ---------- console menus: +, disk and palette ----------
+  // Each opens above its button; only one is open at a time. The palette
+  // (appearance) menu and the disk menu stay open while you use them, so
+  // Longer or Random can be tapped repeatedly; the + menu and the disk
+  // menu's Save, Load and Zoo close it. A tap anywhere else, the button
+  // again, or Esc closes it. Random settings belongs to the disk menu.
   const toolsSheetEl = document.getElementById('tools-sheet');
-  const moreBtn = document.getElementById('btn-more');
-  function positionToolsSheet(){
-    const r = moreBtn.getBoundingClientRect();
-    const margin = 8, w = toolsSheetEl.offsetWidth;
-    toolsSheetEl.style.left = Math.max(margin, Math.min(r.right - w, window.innerWidth - w - margin)) + 'px';
-    toolsSheetEl.style.bottom = (window.innerHeight - r.top + margin) + 'px';
+  const MENUS = [
+    { btn: document.getElementById('btn-add-menu'),  el: document.getElementById('add-menu') },
+    { btn: document.getElementById('btn-file-menu'), el: document.getElementById('file-menu') },
+    { btn: document.getElementById('btn-more'),      el: toolsSheetEl },
+  ];
+  function positionMenu(m){
+    const r = m.btn.getBoundingClientRect();
+    const margin = 8, w = m.el.offsetWidth;
+    m.el.style.left = Math.max(margin, Math.min(r.right - w, window.innerWidth - w - margin)) + 'px';
+    m.el.style.bottom = (window.innerHeight - r.top + margin) + 'px';
   }
-  function setToolsOpen(open){
-    toolsSheetEl.classList.toggle('visible', open);
-    moreBtn.classList.toggle('open', open);
-    moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (open){ setRandomSettingsOpen(false); positionToolsSheet(); }
+  function setMenuOpen(m, open){
+    m.el.classList.toggle('visible', open);
+    m.btn.classList.toggle('open', open);
+    m.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) positionMenu(m);
+    else if (m.el.id === 'file-menu') setRandomSettingsOpen(false);
   }
-  moreBtn.addEventListener('click', () => { setToolsOpen(!toolsSheetEl.classList.contains('visible')); moreBtn.blur(); });
-  randomSettingsBtn.addEventListener('click', () => setToolsOpen(false));
+  function closeMenus(except){ MENUS.forEach(m => { if (m !== except && m.el.classList.contains('visible')) setMenuOpen(m, false); }); }
+  MENUS.forEach(m => m.btn.addEventListener('click', () => {
+    const open = !m.el.classList.contains('visible');
+    closeMenus(m);
+    setMenuOpen(m, open);
+    m.btn.blur();
+  }));
   window.addEventListener('click', (e) => {
-    if (!toolsSheetEl.classList.contains('visible')) return;
-    if (toolsSheetEl.contains(e.target) || moreBtn.contains(e.target)) return;
-    setToolsOpen(false);
+    MENUS.forEach(m => {
+      if (!m.el.classList.contains('visible')) return;
+      if (m.el.contains(e.target) || m.btn.contains(e.target)) return;
+      if (m.el.id === 'file-menu' && randomSettingsEl.contains(e.target)) return;
+      setMenuOpen(m, false);
+    });
   });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setToolsOpen(false); });
-  window.addEventListener('resize', () => { if (toolsSheetEl.classList.contains('visible')) positionToolsSheet(); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenus(); });
+  window.addEventListener('resize', () => MENUS.forEach(m => { if (m.el.classList.contains('visible')) positionMenu(m); }));
+  // these leave the menu behind once tapped
+  ['btn-add-nearest', 'btn-add-bobo', 'btn-add-marker', 'btn-save-full', 'btn-load', 'btn-presets']
+    .forEach(id => document.getElementById(id).addEventListener('click', () => closeMenus()));
+  document.getElementById('btn-add-marker').addEventListener('click', () => beginAdd('marker'));
+  // Markers lights up while markers are shown, whatever changed it
+  function syncMarkersBtn(){
+    const b = document.getElementById('btn-markers-toggle');
+    if (b) b.classList.toggle('primary', showMarkers);
+  }
   const TOOLS = {
-    'zoom-out': () => stepZoom(-1),
-    'zoom-in': () => stepZoom(1),
-    'home': () => goHome(),
     'trail-shorter': () => stepTrailLength(-1),
     'trail-longer': () => stepTrailLength(1),
     'trail-lead': () => { trailLeadIndex = (trailLeadIndex + 1) % TRAIL_LEADS.length; showNote(TRAIL_LEADS[trailLeadIndex].name); draw(); },
     'colourway': () => stepColorway(),
     'remix': () => remixPalette(),
     'grid': () => { gridStyleIndex = (gridStyleIndex + 1) % GRID_STYLES.length; showNote(GRID_STYLES[gridStyleIndex].name); draw(); },
-    'marker-add': () => { setToolsOpen(false); beginAdd('marker'); },
     'marker-toggle': () => { showMarkers = !showMarkers; hideContextMenu(); showNote(showMarkers ? 'markers shown' : 'markers hidden'); draw(); },
   };
   toolsSheetEl.querySelectorAll('[data-tool]').forEach(b => b.addEventListener('click', () => { TOOLS[b.dataset.tool](); b.blur(); }));
