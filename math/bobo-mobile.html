@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" href="favicon.ico">
-<!-- mobile: no pinch-zoom of the page itself (the canvas handles pinch),
+<!-- mobile: no pinch-zoom of the page itself,
      edge-to-edge under the notch, and home-screen web-app settings -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -416,8 +416,9 @@
 
   /* brief note when the trail length changes; fades after a second */
   #trail-note{
-    position:absolute; left:50%; bottom:18px;
+    position:absolute; left:50%; top:14px;   /* mobile: top centre, like the other banners */
     transform:translateX(-50%);
+    max-width:calc(100% - 28px); text-align:center;
     background: rgba(12,18,16,0.9);
     border:1px solid var(--panel-line);
     border-radius:4px;
@@ -529,10 +530,8 @@
   #console .console-pinned{ display:flex; gap:8px; flex:0 0 auto; }
   #btn-more{ padding:8px 12px; font-size:15px; line-height:1; }
   #btn-more.open{ border-color:#8bf3c9; color:#8bf3c9; }
-  /* keycap hints only make sense with a hardware keyboard */
+  /* no keycap hints on the buttons in the mobile version */
   body.show-keys #console .btn[data-key]::after{ display:none; }
-  body.show-keys.has-kbd #console .btn[data-key]::after{ display:block; }
-  body.show-keys.has-kbd #console .console-scroll{ padding-top:12px; margin-top:-12px; }
 
   /* placement toolbar: replaces the console while placing a pattern or particle */
   #touch-bar{
@@ -547,17 +546,24 @@
   body.placing #console{ display:none; }
   #touch-bar .dpad{
     display:grid;
-    grid-template-columns:repeat(3, 42px);
-    grid-template-rows:repeat(2, 42px);
+    grid-template-columns:repeat(3, 40px);
+    grid-template-rows:repeat(3, 40px);
     gap:4px; flex:0 0 auto;
   }
   #touch-bar .dpad .btn{ padding:0; min-height:0; font-size:15px; color: var(--text); }
   #touch-bar #tb-up{ grid-column:2; grid-row:1; }
   #touch-bar #tb-left{ grid-column:1; grid-row:2; }
-  #touch-bar #tb-down{ grid-column:2; grid-row:2; }
+  #touch-bar #tb-x10{ grid-column:2; grid-row:2; }
   #touch-bar #tb-right{ grid-column:3; grid-row:2; }
-  #touch-bar #tb-x10{ grid-column:1; grid-row:1; font-size:12px; color: var(--text-dim); }
-  #touch-bar #tb-x10.primary{ color:#8bf3c9; }
+  #touch-bar #tb-down{ grid-column:2; grid-row:3; }
+  /* the four arrows are one drawn triangle, turned, so they match exactly */
+  #touch-bar .arrow svg{ width:12px; height:12px; display:block; margin:auto; fill: var(--text); }
+  #touch-bar #tb-left svg{ transform:rotate(-90deg); }
+  #touch-bar #tb-right svg{ transform:rotate(90deg); }
+  #touch-bar #tb-down svg{ transform:rotate(180deg); }
+  /* x10: unlit until pressed, lit while engaged */
+  #touch-bar #tb-x10{ font-size:12px; color: var(--text-dim); border-color: var(--panel-line); background:transparent; }
+  #touch-bar #tb-x10.on{ color:#8bf3c9; border-color:#8bf3c9; background: rgba(139,243,201,0.08); }
   #touch-bar .dpad .btn:active{ background: rgba(139,243,201,0.12); }
   #touch-bar .tb-actions{
     flex:1 1 auto; min-width:0;
@@ -592,7 +598,7 @@
   #tools-sheet .row{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; }
   #tools-sheet .row.three{ grid-template-columns:repeat(3, 1fr); }
   #tools-sheet .row.two{ grid-template-columns:repeat(2, 1fr); }
-  #tools-sheet .btn{ padding:6px 4px; font-size:12px; }
+  #tools-sheet .btn{ padding:6px 4px; font-size:12px; position:relative; }
 
   /* phones: three thumbnail columns in the Zoo instead of two */
   @media (max-width: 480px){
@@ -643,13 +649,13 @@
     <div class="help-title">How to use <button class="btn close-btn" id="help-close">Close</button></div>
     <h4>Moving around</h4>
       <div class="row"><span class="keys"><span class="act">drag</span></span><div>Pan the field.</div></div>
-      <div class="row"><span class="keys"><span class="act">pinch</span></span><div>Zoom out or in one level (Close, Default, Wide, Superwide, Ultrawide). Two fingers also pan.</div></div>
       <div class="row"><span class="keys"><span class="act">tap field</span></span><div>View menu: any zoom level, centred where you tapped.</div></div>
       <div class="row"><span class="keys"><span class="act">tap particle</span></span><div>Particle menu: Watch (nearest only), Center, View, Delete. If several particles share the spot, Delete asks which one.</div></div>
+      <div class="row"><span class="keys"><span class="act">Random</span></span><div>A new random field, with the view back at 0,0. ▴ beside it sets the counts and bounds.</div></div>
       <div class="row"><span class="keys"><span class="act">⋯ View</span></span><div>Zoom out, zoom in, and Home (back to 0,0 at the same zoom).</div></div>
     <h4>Placing a pattern (Zoo or Load)</h4>
       <div class="row"><span class="keys"><span class="act">tap field</span></span><div>Move the pattern there. Nothing is placed until you press Place.</div></div>
-      <div class="row"><span class="keys"><span class="act">arrows</span></span><div>Nudge one step; hold to repeat. ×10 makes each step 10.</div></div>
+      <div class="row"><span class="keys"><span class="act">arrows</span></span><div>Nudge one step; hold to repeat. Tap ×10 in the middle to move 10 at a time (lit while on).</div></div>
       <div class="row"><span class="keys"><span class="act">Rotate · Mirror</span></span><div>Turn 90° or flip it.</div></div>
       <div class="row"><span class="keys"><span class="act">Pre-roll</span></span><div>Step the unplaced pattern on its own, one tick per tap, to set its timing.</div></div>
       <div class="row"><span class="keys"><span class="act">Preview</span></span><div>Run as if placed, against the live field. Replay reruns it; moving the pattern ends it.</div></div>
@@ -659,8 +665,8 @@
       <div class="row"><span class="keys"><span class="act">Velocity · Position</span></span><div>While aiming, this button switches between moving the velocity and moving the position with that velocity held.</div></div>
       <div class="row"><span class="keys"><span class="act">+Bobo · Marker</span></span><div>One step. Marker is in ⋯: a faint X for reference that never moves and is saved with the field.</div></div>
     <h4>⋯ Tools</h4>
-      <div class="row"><span class="keys"><span class="act">Trails</span></span><div>Shorter / Longer (10 to 5000 ticks), 20000 (up to 30 nearests), and Lead (thickness). A dot on Trails means the length isn't 500.</div></div>
-      <div class="row"><span class="keys"><span class="act">Look</span></span><div>Colourway, Remix (same colourway, new deal), Grid weight, Bobo light.</div></div>
+      <div class="row"><span class="keys"><span class="act">Trails</span></span><div>Trails turns them on and off. Shorter / Longer (10 to 5000 ticks), and Lead (thickness). A dot on Trails means the length isn't 500.</div></div>
+      <div class="row"><span class="keys"><span class="act">Look</span></span><div>Colourway, Remix (same colourway, new deal), Grid weight.</div></div>
       <div class="row"><span class="keys"><span class="act">Markers</span></span><div>Add one, or show/hide them all.</div></div>
     <h4>Watch</h4>
       <div class="row"><span class="keys"><span class="act">Isolate</span></span><div>Pause and keep only what the watch has touched; once an oscillator is found, just the oscillator. Revert brings the rest back; Keep makes it stick.</div></div>
@@ -668,8 +674,6 @@
     <h4>Files</h4>
       <div class="row"><span class="keys"><span class="act">Save</span></span><div>On iPhone and iPad this opens the share sheet: choose Save to Files.</div></div>
       <div class="row"><span class="keys"><span class="act">Load</span></span><div>Opens Files to pick a .json pattern.</div></div>
-    <h4>With a keyboard</h4>
-      <div class="row"><span class="keys"><kbd>?</kbd></span><div>All the desktop shortcuts work here too (ijkl, o, u, ;, p, Enter, Esc, y, h, 9, 0, m and the rest). Their keys show on the buttons while this panel is open.</div></div>
   </div>
 </div>
 
@@ -685,7 +689,6 @@
     </div>
     <button class="btn" id="btn-add-nearest" data-key="N">+Nearest</button>
     <button class="btn" id="btn-add-bobo" data-key="B">+Bobo</button>
-    <button class="btn primary" id="btn-trails-toggle" data-key="T">Trails</button>
     <button class="btn" id="btn-vectors-toggle" data-key="V">Vectors</button>
     <button class="btn" id="btn-quicksave" data-key="Q">Quicksave</button>
     <button class="btn" id="btn-redo" data-key="R">Recall</button>
@@ -703,11 +706,11 @@
 <!-- shown instead of the console while a pattern or particle is being placed -->
 <div id="touch-bar">
   <div class="dpad">
-    <button class="btn" id="tb-x10" title="Steps of 10">×10</button>
-    <button class="btn" id="tb-up" aria-label="Up">▲</button>
-    <button class="btn" id="tb-left" aria-label="Left">◀</button>
-    <button class="btn" id="tb-down" aria-label="Down">▼</button>
-    <button class="btn" id="tb-right" aria-label="Right">▶</button>
+    <button class="btn arrow" id="tb-up" aria-label="Up"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5 L11 10.5 L1 10.5 Z"/></svg></button>
+    <button class="btn arrow" id="tb-left" aria-label="Left"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5 L11 10.5 L1 10.5 Z"/></svg></button>
+    <button class="btn" id="tb-x10" title="Steps of 10" aria-pressed="false">×10</button>
+    <button class="btn arrow" id="tb-right" aria-label="Right"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5 L11 10.5 L1 10.5 Z"/></svg></button>
+    <button class="btn arrow" id="tb-down" aria-label="Down"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5 L11 10.5 L1 10.5 Z"/></svg></button>
   </div>
   <div class="tb-actions">
     <button class="btn" id="tb-rotate">Rotate</button>
@@ -730,17 +733,16 @@
   </div>
   <div class="group-title">Trails</div>
   <div class="row">
+    <button class="btn primary" id="btn-trails-toggle" data-key="T">Trails</button>
     <button class="btn" data-tool="trail-shorter">Shorter</button>
     <button class="btn" data-tool="trail-longer">Longer</button>
-    <button class="btn" data-tool="trail-max">20000</button>
     <button class="btn" data-tool="trail-lead">Lead</button>
   </div>
   <div class="group-title">Look</div>
-  <div class="row">
+  <div class="row three">
     <button class="btn" data-tool="colourway">Colourway</button>
     <button class="btn" data-tool="remix">Remix</button>
     <button class="btn" data-tool="grid">Grid</button>
-    <button class="btn" data-tool="bobo-light">Bobo light</button>
   </div>
   <div class="group-title">Markers</div>
   <div class="row two">
@@ -1095,6 +1097,7 @@
     spawn(); // Random no longer quicksaves: Recall keeps whatever was last quicksaved
     trails = particles.map(p => p.type === 'nearest' ? [{x:p.x, y:p.y}] : null);
     tick = 0;
+    camX = 0; camY = 0; // mobile: Random also goes home (same zoom), where the new field is
     watch = null;
     updateWatchPanel();
     if (typeof hideContextMenu === 'function') hideContextMenu();
@@ -2502,7 +2505,7 @@
       stepBtn.disabled = true;
       playBtnEl.disabled = true;
       // short wording: these sit across the top of a phone screen. The
-      // keyboard keys still work; they're listed in the help panel.
+      // keyboard keys still work, unlisted.
       if (placementActive && previewFrozen){
         banner.innerHTML = 'Preview hit its safety limit &middot; Replay, move it, or Place';
       } else if (placementActive && previewActive){
@@ -2534,6 +2537,7 @@
       document.getElementById('coord-indicator').classList.remove('visible');
     }
     updateTouchBar();
+    positionNote(); // the banner's height may have changed
   }
 
   function beginAdd(kind){
@@ -2866,29 +2870,14 @@
     setTimeout(()=>{ suppressNextClick = false; }, 0); // in case no click follows
   }
 
-  // ---------- pinch to zoom (touch) ----------
-  // Two fingers: spreading or pinching past PINCH_STEP steps one zoom level,
-  // keeping the spot between the fingers where it is; moving both fingers
-  // together pans. Zoom levels are far apart (about 6x), so it steps rather
-  // than gliding.
-  const PINCH_STEP = 1.6;
+  // ---------- two fingers (touch) ----------
+  // Two fingers pan together and never count as a tap. No pinch zoom on
+  // mobile: zoom is in the View menu (tap the field) and in ⋯.
   const touchPts = new Map();   // pointerId -> {x, y} for fingers on the canvas
   let pinch = null;             // { dist, midX, midY } while two fingers are down
   function pinchGeom(){
     const [a, b] = [...touchPts.values()];
     return { dist: Math.hypot(a.x - b.x, a.y - b.y), midX: (a.x + b.x)/2, midY: (a.y + b.y)/2 };
-  }
-  function cellFor(level){ return level === 'default' ? CELL : Math.min(W, H) / ZOOM_LEVELS[level].span; }
-  // one zoom step that keeps the world point under (sx, sy) in place
-  function zoomAbout(dir, sx, sy){
-    const i0 = ZOOM_ORDER.indexOf(zoomLevel);
-    const i = Math.max(0, Math.min(ZOOM_ORDER.length - 1, i0 + dir));
-    if (i === i0){ showZoomNote(); return; }
-    const w = screenToWorld(sx, sy);
-    const c = cellFor(ZOOM_ORDER[i]);
-    hideContextMenu();
-    setZoom(ZOOM_ORDER[i], w.x - (sx - W/2) / c, w.y - (H/2 - sy) / c);
-    if (placementActive || addActive) updatePlacementIndicator();
   }
   function canvasXY(e){ const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
 
@@ -2918,8 +2907,6 @@
       camX -= (g.midX - pinch.midX) / cell;
       camY += (g.midY - pinch.midY) / cell;
       pinch.midX = g.midX; pinch.midY = g.midY;
-      if (g.dist > pinch.dist * PINCH_STEP){ zoomAbout(1, g.midX, g.midY); pinch.dist = g.dist; }
-      else if (g.dist < pinch.dist / PINCH_STEP){ zoomAbout(-1, g.midX, g.midY); pinch.dist = g.dist; }
       if (placementActive || addActive) updatePlacementIndicator();
       else draw();
       return;
@@ -3554,7 +3541,13 @@
   // until it's cleared; a passing note shown meanwhile (trail length, a
   // colourway) takes over for a second and then hands back to it.
   let stickyNote = null;
+  // sits at the top centre; while the placement banner is up, just below it
+  function positionNote(){
+    const b = document.getElementById('placement-banner');
+    document.getElementById('trail-note').style.top = b.classList.contains('visible') ? (b.offsetTop + b.offsetHeight + 8) + 'px' : '14px';
+  }
   function showNote(text, html){
+    positionNote();
     if (html) trailNoteEl.innerHTML = text; else trailNoteEl.textContent = text;
     trailNoteEl.classList.add('visible');
     clearTimeout(trailNoteTimer);
@@ -3574,6 +3567,7 @@
   function setStickyNote(text){
     stickyNote = text;
     clearTimeout(trailNoteTimer);
+    positionNote();
     if (text){ trailNoteEl.textContent = text; trailNoteEl.classList.add('visible'); }
     else trailNoteEl.classList.remove('visible');
   }
@@ -3654,10 +3648,18 @@
     window.dispatchEvent(new KeyboardEvent('keydown', { key, shiftKey: !!shift, bubbles: true }));
   }
   let tbStep10 = false;
+  function setStep10(on){
+    tbStep10 = on;
+    const b = document.getElementById('tb-x10');
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
   function updateTouchBar(){
     const active = placementActive || addActive;
+    const wasActive = document.body.classList.contains('placing');
     document.body.classList.toggle('placing', active);
     if (!active) return;
+    if (!wasActive) setStep10(false); // every new placement starts at single steps
     const show = (id, on) => { document.getElementById(id).hidden = !on; };
     const nearestAim = addActive && addKind === 'nearest' && addPhase === 1;
     show('tb-rotate', placementActive);
@@ -3690,8 +3692,8 @@
     b.addEventListener('click', (e) => { if (e.detail === 0) once(); });
   });
   document.getElementById('tb-x10').addEventListener('click', (e) => {
-    tbStep10 = !tbStep10;
-    e.currentTarget.classList.toggle('primary', tbStep10);
+    setStep10(!tbStep10);
+    e.currentTarget.blur();
   });
   const tbActions = {
     'tb-rotate': () => sendKey('o'),
@@ -3740,12 +3742,10 @@
     'home': () => goHome(),
     'trail-shorter': () => stepTrailLength(-1),
     'trail-longer': () => stepTrailLength(1),
-    'trail-max': () => setTrailMax(),
     'trail-lead': () => { trailLeadIndex = (trailLeadIndex + 1) % TRAIL_LEADS.length; showNote(TRAIL_LEADS[trailLeadIndex].name); draw(); },
     'colourway': () => stepColorway(),
     'remix': () => remixPalette(),
     'grid': () => { gridStyleIndex = (gridStyleIndex + 1) % GRID_STYLES.length; showNote(GRID_STYLES[gridStyleIndex].name); draw(); },
-    'bobo-light': () => { boboHighlight = !boboHighlight; showNote(boboHighlight ? 'default bobo' : 'unlit bobo'); draw(); },
     'marker-add': () => { setToolsOpen(false); beginAdd('marker'); },
     'marker-toggle': () => { showMarkers = !showMarkers; hideContextMenu(); showNote(showMarkers ? 'markers shown' : 'markers hidden'); draw(); },
   };
@@ -3753,23 +3753,6 @@
 
   // ---------- help ----------
   document.getElementById('help-close').addEventListener('click', () => toggleHelp(false));
-  // a real keypress means there's a keyboard: let the help show keycaps
-  window.addEventListener('keydown', (e) => { if (e.isTrusted) document.body.classList.add('has-kbd'); }, { capture: true });
-
-  // ---------- trackpad / mouse wheel zoom (iPad trackpad, desktop) ----------
-  let wheelAcc = 0, wheelTimer = null;
-  canvas.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    lastPointerType = 'mouse';
-    wheelAcc += e.deltaY * (e.ctrlKey ? 4 : 1); // trackpad pinch arrives as ctrl+wheel with small deltas
-    clearTimeout(wheelTimer);
-    wheelTimer = setTimeout(() => { wheelAcc = 0; }, 250);
-    if (Math.abs(wheelAcc) >= 120){
-      const { x, y } = canvasXY(e);
-      zoomAbout(wheelAcc < 0 ? 1 : -1, x, y);
-      wheelAcc = 0;
-    }
-  }, { passive: false });
 
   // the field resizes when the console swaps for the placement toolbar (no
   // window resize happens then), and on rotation: keep the canvas matched
