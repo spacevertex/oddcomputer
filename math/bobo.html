@@ -506,7 +506,7 @@
       <div class="row"><span class="keys"><span class="keys"><kbd>i</kbd><kbd>j</kbd><kbd>k</kbd><kbd>l</kbd></span></span><div>Move it, as above. It starts at the middle of the view.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>Enter</kbd></span><span class="keys"><span class="act">or click</span></span></span><div>Place it. A nearest takes two: first its position, then where its velocity points (shown as an offset).</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>p</kbd></span></span><div>Preview it against the field. A nearest runs at rest until its velocity is set.</div></div>
-      <div class="row"><span class="keys"><kbd>y</kbd></span><div>While setting a nearest's velocity: switch to moving its position with that velocity held, and back. Handy for previewing one velocity from different spots.</div></div>
+      <div class="row"><span class="keys"><kbd>y</kbd></span><div>While adding a nearest: switch between moving its position and its velocity (the other stays held). Works from the start; the first press fixes the position and starts the velocity at rest. Handy for previewing one velocity from different spots.</div></div>
     <h4>Markers</h4>
       <div class="row"><span class="keys"><span class="keys"><kbd>m</kbd></span></span><div>Add a marker: a faint X for reference. It never moves, never counts as anyone's nearest, and is saved with the field.</div></div>
       <div class="row"><span class="keys"><span class="keys"><kbd>,</kbd><kbd>&lt;</kbd></span></span><div>Show or hide markers.</div></div>
@@ -2248,7 +2248,8 @@
   let addKind = 'nearest'; // 'nearest' or 'bobo'
   let addPhase = 0; // 0 = choosing position, 1 = choosing velocity endpoint (nearest only)
   let addX = 0, addY = 0; // confirmed position, once phase advances to 1
-  // y (during phase 1) swaps what ijkl and the mouse move: the velocity
+  // y swaps what ijkl and the mouse move (in phase 0 it first fixes the
+  // position and moves to phase 1, like Enter): the velocity
   // endpoint (normal) or the position, with the velocity held fixed. In
   // position mode placementCenter is the position and addHeldVX/VY the
   // velocity; in velocity mode placementCenter is the endpoint.
@@ -2303,7 +2304,7 @@
         banner.innerHTML = 'Click, or ijkl + Enter, to place a marker <span class="hint">(Esc to cancel, comma shows/hides markers)</span>';
       } else {
         banner.innerHTML = addPhase === 0
-          ? 'Click, or ijkl + Enter, to place new particle &middot; p to preview it starting at rest <span class="hint">(Esc to cancel)</span>'
+          ? 'Click, or ijkl + Enter, to place new particle &middot; p to preview it starting at rest &middot; y toggle to velocity <span class="hint">(Esc to cancel)</span>'
           : addEditPos
             ? 'p to preview. mouse/ijkl move. Click/Enter to place. y toggle to velocity <span class="hint">(Esc to cancel)</span>'
             : 'p to preview. mouse/ijkl move. Click/Enter to place. y toggle to position <span class="hint">(Esc to cancel)</span>';
@@ -2559,7 +2560,14 @@
     // keyboard fine-tuning fades the mouse cursor (mouse movement restores it)
     if (['i','j','k','l','o','u',';','p','y'].includes(key)) canvas.classList.add('cursor-faded');
     if (key === 'y'){
-      if (addActive && addKind === 'nearest' && addPhase === 1){ e.preventDefault(); toggleAddEdit(); }
+      if (addActive && addKind === 'nearest'){
+        e.preventDefault();
+        // from the very first step: fix the position where the candidate
+        // is now and switch to the velocity, starting at rest (the same
+        // thing Enter does there); after that, y swaps back and forth
+        if (addPhase === 0){ revertPreview(); advanceAdd(placementCenterX, placementCenterY); }
+        else toggleAddEdit();
+      }
       return;
     }
     if (key === 'p'){
